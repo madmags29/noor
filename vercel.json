@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "npm run build:shared && cd noor-web && npm run build",
+  "outputDirectory": "noor-web/.next",
+  "cleanUrls": true
+}

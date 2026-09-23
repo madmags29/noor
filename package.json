@@ -10,6 +10,9 @@
     "noor-admin"
   ],
   "scripts": {
+    "build": "npm run build:shared && cd noor-web && npm run build",
+    "start": "cd noor-web && npm run start",
+    "dev": "cd noor-web && npm run dev",
     "dev:api": "cd noor-api && npm run dev",
     "dev:web": "cd noor-web && npm run dev",
     "dev:admin": "cd noor-admin && npm run dev",

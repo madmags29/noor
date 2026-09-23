@@ -108,6 +108,28 @@ noor/
 
 ---
 
+## ⚡ Deploying to Vercel
+
+Noor is 100% Vercel-ready with zero additional configuration needed.
+
+### Option A: Import Entire Monorepo (Automatic)
+1. In the Vercel Dashboard, click **New Project** and import `madmags29/noor`.
+2. Leave the **Root Directory** as `./` (or select `noor-web`).
+3. Vercel will automatically read `vercel.json`, build `@noor/shared`, and deploy `noor-web`.
+4. (Optional) Add your `OPENAI_API_KEY` under Environment Variables.
+5. Click **Deploy**.
+
+### Option B: Deploy via Vercel CLI
+```bash
+# From the root directory:
+vercel
+
+# Or deploy specifically noor-web:
+cd noor-web && vercel --prod
+```
+
+---
+
 ## 🔒 Security & Privacy
 
 - All user location lookups are performed client-side or through privacy-preserving geolocation headers.
