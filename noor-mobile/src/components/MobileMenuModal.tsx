@@ -14,6 +14,7 @@ import { MuslimLogo } from './MuslimLogo';
 import { MobileUser } from './AuthModal';
 import { THEME } from '../theme';
 import { useLanguage } from '../context/LanguageContext';
+import { useSplash } from '../context/SplashContext';
 
 interface MobileMenuModalProps {
   visible: boolean;
@@ -38,6 +39,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
 }) => {
   const router = useRouter();
   const { t, currentLanguageInfo } = useLanguage();
+  const { replaySplash } = useSplash();
 
   const navigateTo = (route: string) => {
     onClose();
@@ -45,6 +47,17 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
   };
 
   const MENU_ITEMS = [
+    {
+      id: 'splash',
+      label: 'Animated Splash Screen',
+      icon: 'sparkles-outline',
+      color: '#f59e0b',
+      badge: 'Cinema',
+      action: () => {
+        onClose();
+        replaySplash();
+      },
+    },
     {
       id: 'language',
       label: `${t('language')}: ${currentLanguageInfo.nativeName}`,
@@ -56,6 +69,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
         onOpenLanguage();
       },
     },
+
     {
       id: 'home',
       label: t('home'),

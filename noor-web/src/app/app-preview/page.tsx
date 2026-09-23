@@ -126,7 +126,8 @@ type ScreenType =
   | 'dashboard'
   | 'names'
   | 'giving'
-  | 'qibla';
+  | 'qibla'
+  | 'splash';
 
 export default function AppPreviewPage() {
   const [activeScreen, setActiveScreen] = useState<ScreenType>('home');
@@ -138,6 +139,21 @@ export default function AppPreviewPage() {
   const [showAiModal, setShowAiModal] = useState(false);
   const [qadaCounts, setQadaCounts] = useState({ Fajr: 0, Dhuhr: 0, Asr: 1, Maghrib: 0, Isha: 2 });
   const [prayerChecks, setPrayerChecks] = useState({ Fajr: true, Dhuhr: true, Asr: true, Maghrib: false, Isha: false });
+
+  // Animated Splash Screen Simulation States
+  const [splashKey, setSplashKey] = useState<number>(0);
+  const [splashLoop, setSplashLoop] = useState<boolean>(true);
+  const [splashAutoDismiss, setSplashAutoDismiss] = useState<boolean>(false);
+
+  // Auto-dismiss splash screen after entrance if auto-dismiss enabled
+  useEffect(() => {
+    if (activeScreen === 'splash' && splashAutoDismiss) {
+      const timer = setTimeout(() => {
+        setActiveScreen('home');
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeScreen, splashKey, splashAutoDismiss]);
 
   // Interactive In-Simulator OpenAI Chat
   const [simulatedAiInput, setSimulatedAiInput] = useState('');
@@ -348,6 +364,7 @@ export default function AppPreviewPage() {
             </span>
             <div className="flex flex-wrap gap-2 text-xs">
               {[
+                { id: 'splash', label: '🎬 Splash Cinema', color: 'bg-amber-500/20 text-amber-300' },
                 { id: 'home', label: '🕌 Home', color: 'bg-emerald-500/20' },
                 { id: 'prayers', label: '⏱️ Prayers', color: 'bg-emerald-500/20' },
                 { id: 'quran', label: '📖 Quran (114)', color: 'bg-emerald-500/20' },
@@ -362,7 +379,10 @@ export default function AppPreviewPage() {
               ].map(s => (
                 <button
                   key={s.id}
-                  onClick={() => setActiveScreen(s.id as ScreenType)}
+                  onClick={() => {
+                    setActiveScreen(s.id as ScreenType);
+                    if (s.id === 'splash') setSplashKey(k => k + 1);
+                  }}
                   className={`px-3 py-1.5 rounded-xl font-bold transition-all border ${
                     activeScreen === s.id
                       ? 'bg-amber-500 text-emerald-950 border-amber-400 font-black shadow-lg scale-105'
@@ -460,10 +480,22 @@ export default function AppPreviewPage() {
 
         {/* Right Column: iPhone 16 Pro Interactive Hardware Frame */}
         <div className="lg:col-span-5 flex flex-col items-center sticky top-24">
-          <span className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" />
-            Live Device Interactive Sandbox
-          </span>
+          <div className="flex items-center justify-between w-[340px] sm:w-[370px] mb-3 px-1">
+            <span className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              Live Device Sandbox
+            </span>
+            <button
+              onClick={() => {
+                setActiveScreen('splash');
+                setSplashKey(k => k + 1);
+              }}
+              className="text-[10px] text-amber-300 hover:text-white bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 px-2.5 py-1 rounded-full font-bold flex items-center gap-1 transition-all shadow-sm"
+              title="Play Animated Splash Cinema Screen"
+            >
+              <span>🎬 Splash Cinema</span>
+            </button>
+          </div>
 
           {/* iPhone 16 Pro Bezel */}
           <div className="relative w-[340px] sm:w-[370px] h-[740px] rounded-[3.5rem] bg-gradient-to-b from-zinc-800 via-zinc-900 to-black p-3.5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] border-4 border-zinc-700/60 ring-1 ring-white/20">
@@ -474,9 +506,132 @@ export default function AppPreviewPage() {
             </div>
 
             {/* Screen Content Container */}
-            <div className="w-full h-full rounded-[2.8rem] bg-[#02130e] overflow-hidden flex flex-col justify-between pt-10 pb-3 px-3.5 relative">
-              {/* Inside Screen: Dynamic View based on activeScreen */}
-              <div className="flex-1 overflow-y-auto pt-2 space-y-3.5 text-xs no-scrollbar">
+            <div className={`w-full h-full rounded-[2.8rem] bg-[#02130e] overflow-hidden flex flex-col justify-between relative ${activeScreen === 'splash' ? 'p-0' : 'pt-10 pb-3 px-3.5'}`}>
+              {/* 0. ANIMATED SPLASH SCREEN (AUTHENTIC NOOR-E-ILAHI APP DESIGN) */}
+              {activeScreen === 'splash' ? (
+                <div key={splashKey} className="w-full h-full bg-gradient-to-b from-[#02130e] via-[#031c15] to-[#010b08] overflow-hidden flex flex-col justify-between select-none relative p-6 animate-in fade-in duration-500">
+                  {/* Subtle Background Arabesque Watermarks */}
+                  <div className="absolute -top-6 -left-6 text-emerald-500/[0.03] text-8xl pointer-events-none font-serif select-none">
+                    ۞
+                  </div>
+                  <div className="absolute -bottom-6 -right-6 text-amber-500/[0.03] text-8xl pointer-events-none font-serif select-none">
+                    ۞
+                  </div>
+
+                  {/* Ambient Golden & Emerald Radial Glow */}
+                  <div className="absolute top-[28%] left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-amber-500/20 via-emerald-500/15 to-transparent blur-3xl animate-soft-glow pointer-events-none" />
+
+                  {/* Top Status Bar & Controls */}
+                  <div className="relative z-10 pt-4 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[7.5px] font-black tracking-wider text-emerald-300 uppercase">NOOR ECOSYSTEM</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => setSplashLoop(!splashLoop)}
+                        className={`px-2 py-0.5 rounded-full border text-[7.5px] font-bold tracking-wider uppercase transition-all backdrop-blur-md ${
+                          splashLoop
+                            ? 'bg-amber-500 text-emerald-950 border-amber-400 font-black'
+                            : 'bg-black/40 text-white/70 border-white/20 hover:text-white'
+                        }`}
+                        title="Toggle Loop Mode"
+                      >
+                        {splashLoop ? 'Loop: ON' : 'Loop: OFF'}
+                      </button>
+                      <button
+                        onClick={() => setActiveScreen('home')}
+                        className="px-2 py-0.5 rounded-full bg-black/40 hover:bg-black/60 text-white/80 hover:text-white border border-white/20 text-[7.5px] font-bold tracking-widest uppercase transition-all backdrop-blur-md"
+                      >
+                        Skip ✕
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Center Content: Bismillah + Sacred Noor Emblem + Brand Typography */}
+                  <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center my-auto">
+                    {/* Bismillah Calligraphy */}
+                    <div className="mb-4 animate-in fade-in slide-in-from-top-2 duration-700">
+                      <div className="text-amber-200 font-serif text-lg font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]">
+                        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                      </div>
+                      <div className="text-[8px] text-emerald-300/70 tracking-wider mt-0.5 font-medium">
+                        In the Name of Allah, the Most Gracious, the Most Merciful
+                      </div>
+                    </div>
+
+                    {/* Official Sacred Noor Emblem */}
+                    <div className="relative my-2 transform transition-transform hover:scale-105 duration-300 animate-in zoom-in-90 duration-700">
+                      <MuslimLogo size={84} showText={false} animate={true} />
+                    </div>
+
+                    {/* Brand Title Row */}
+                    <div className="mt-4 flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2 duration-700">
+                      <span className="text-xl font-black tracking-wide text-white drop-shadow-md">
+                        Noor-e-ilahi
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
+                        نُورِ اِلٰہی
+                      </span>
+                    </div>
+
+                    {/* Slogan */}
+                    <p className="text-[10px] font-semibold text-emerald-300/90 mt-1 tracking-wider">
+                      Your Deen. Your Daily Companion.
+                    </p>
+
+                    {/* Feature Pillars Bar */}
+                    <div className="mt-4 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/20 text-[7.5px] text-emerald-200/80 font-bold tracking-wider">
+                      <span>🕌 SALAAH</span>
+                      <span className="text-amber-400">•</span>
+                      <span>📖 QURAN</span>
+                      <span className="text-amber-400">•</span>
+                      <span>🏛️ ZIYARAT</span>
+                      <span className="text-amber-400">•</span>
+                      <span>🧭 QIBLA</span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Section: Progress Bar, Status & Action Buttons */}
+                  <div className="relative z-10 flex flex-col items-center text-center pb-2">
+                    {/* Animated Progress Track */}
+                    <div className="w-48 h-1 rounded-full bg-white/10 overflow-hidden mb-2">
+                      <div className="h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full animate-pulse transition-all duration-300" style={{ width: '85%' }} />
+                    </div>
+
+                    <div className="text-[7.5px] text-emerald-300/80 font-bold tracking-widest uppercase">
+                      SYNCHRONIZING PRAYER TIMES & MECCA AZIMUTH...
+                    </div>
+                    <div className="text-[7px] text-white/40 tracking-wider mt-0.5">
+                      NOOR-E-ILAHI v1.0.0 • GLOBAL ISLAMIC ECOSYSTEM
+                    </div>
+
+                    {/* Control Buttons */}
+                    <div className="mt-3 flex items-center gap-2">
+                      <button
+                        onClick={() => setSplashKey(k => k + 1)}
+                        className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[8.5px] font-bold flex items-center gap-1 backdrop-blur-md transition-all shadow"
+                        title="Replay Entrance Animation"
+                      >
+                        <span>▶ Replay</span>
+                      </button>
+                      <button
+                        onClick={() => setActiveScreen('home')}
+                        className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[8.5px] font-bold flex items-center gap-1 backdrop-blur-md transition-all shadow"
+                      >
+                        <span>Enter App ➔</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* iOS Home Indicator Bar */}
+                  <div className="relative z-10 w-24 h-1 bg-white/40 rounded-full mx-auto" />
+                </div>
+              ) : (
+                <>
+                  {/* Inside Screen: Dynamic View based on activeScreen */}
+                  <div className="flex-1 overflow-y-auto pt-2 space-y-3.5 text-xs no-scrollbar">
                 {/* 1. HOME SCREEN */}
                 {activeScreen === 'home' && (
                   <div className="space-y-3.5 animate-in fade-in">
@@ -1442,6 +1597,7 @@ export default function AppPreviewPage() {
                       {/* Menu Links */}
                       <div className="space-y-1 text-left">
                         {[
+                          { id: 'splash', label: 'Animated Splash Screen (Cinema Intro)', emoji: '🎬' },
                           { id: 'home', label: t('home') || 'Home Dashboard', emoji: '🕌' },
                           { id: 'prayers', label: t('prayers') || 'Prayer Times & Timetable', emoji: '⏱️' },
                           { id: 'adhan_action', label: t('adhanVoice') || 'Adhan Voices (Audio)', emoji: '🔊' },
@@ -1757,7 +1913,9 @@ export default function AppPreviewPage() {
 
               {/* iOS Home Indicator Bar */}
               <div className="w-24 h-1 bg-white/40 rounded-full mx-auto mt-2" />
-            </div>
+            </>
+          )}
+        </div>
           </div>
         </div>
       </main>
