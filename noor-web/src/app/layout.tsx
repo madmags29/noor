@@ -111,7 +111,10 @@ export const viewport = {
 };
 
 
+import Script from 'next/script';
 import { LanguageProvider } from '../context/LanguageContext';
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-6VEVYV7DX2';
 
 export default function RootLayout({
   children,
@@ -129,6 +132,26 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-screen bg-[#02120d] text-[#f3f4f6] antialiased flex flex-col selection:bg-amber-500 selection:text-black"
       >
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '${GA_MEASUREMENT_ID}', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+
         <LanguageProvider>
           {children}
         </LanguageProvider>
