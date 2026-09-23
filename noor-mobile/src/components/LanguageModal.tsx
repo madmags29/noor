@@ -23,7 +23,7 @@ interface LanguageModalProps {
 }
 
 export const LanguageModal: React.FC<LanguageModalProps> = ({ visible, onClose }) => {
-  const { language, setLanguage, currentLanguageInfo, detectedLocation } = useLanguage();
+  const { t, language, setLanguage, currentLanguageInfo, detectedLocation } = useLanguage();
 
   const handleSelect = async (code: SupportedLanguage) => {
     try {
@@ -40,8 +40,8 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({ visible, onClose }
           {/* Header */}
           <View style={styles.header}>
             <View>
-              <Text style={styles.title}>Native Language • मातृभाषा</Text>
-              <Text style={styles.subtitle}>Auto-detected based on state & country</Text>
+              <Text style={styles.title}>{t('selectLanguage')} • {currentLanguageInfo.nativeName}</Text>
+              <Text style={styles.subtitle}>{t('autoDetectedNotice')}</Text>
             </View>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
               <Ionicons name="close" size={20} color={THEME.colors.textMuted} />

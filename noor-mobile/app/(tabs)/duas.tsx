@@ -13,6 +13,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
+import { useLanguage } from '../../src/context/LanguageContext';
 
 interface DhikrItem {
   arabic: string;
@@ -139,6 +140,7 @@ const AUTHENTIC_DUAS: DuaItem[] = [
 ];
 
 export default function DuasScreen() {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'Tasbih' | 'Duas'>('Tasbih');
   const [count, setCount] = useState(0);
   const [target, setTarget] = useState(33);
@@ -201,8 +203,8 @@ export default function DuasScreen() {
         {/* Top Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>Dhikr & Supplications</Text>
-            <Text style={styles.subtitle}>أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ • Tranquility of the Heart</Text>
+            <Text style={styles.title}>{t('duas')}</Text>
+            <Text style={styles.subtitle}>أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ • {t('supplicationsTitle')}</Text>
           </View>
           <View style={styles.tabToggle}>
             <TouchableOpacity
@@ -229,7 +231,7 @@ export default function DuasScreen() {
                 color={activeTab === 'Duas' ? '#02120d' : '#6ee7b7'}
               />
               <Text style={[styles.tabBtnText, activeTab === 'Duas' && styles.tabBtnTextActive]}>
-                Duas
+                {t('duas')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -296,7 +298,7 @@ export default function DuasScreen() {
 
                 <View style={styles.tapInstruction}>
                   <Ionicons name="hand-right-outline" size={14} color="#f59e0b" />
-                  <Text style={styles.tapHint}>TAP ANYWHERE TO COUNT</Text>
+                  <Text style={styles.tapHint}>{t('tapToCount')}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -304,7 +306,7 @@ export default function DuasScreen() {
             {/* Target Selectors & Settings */}
             <View style={styles.controlSection}>
               <View style={styles.targetsRow}>
-                <Text style={styles.sectionLabel}>Target:</Text>
+                <Text style={styles.sectionLabel}>{t('targetLabel')}:</Text>
                 {[33, 99, 100, 1000].map(t => (
                   <TouchableOpacity
                     key={t}
@@ -346,7 +348,7 @@ export default function DuasScreen() {
                   onPress={handleReset}
                 >
                   <Ionicons name="refresh-outline" size={16} color="#f87171" />
-                  <Text style={styles.resetBtnText}>Reset</Text>
+                  <Text style={styles.resetBtnText}>{t('resetCounter')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -364,17 +366,29 @@ export default function DuasScreen() {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.duaCategoryRow}
             >
-              {['All', 'Morning & Evening', 'Protection', 'Relief', 'Forgiveness'].map(cat => (
-                <TouchableOpacity
-                  key={cat}
-                  style={[styles.duaCatPill, duaCategory === cat && styles.duaCatPillActive]}
-                  onPress={() => setDuaCategory(cat)}
-                >
-                  <Text style={[styles.duaCatPillText, duaCategory === cat && styles.duaCatPillTextActive]}>
-                    {cat}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+              {['All', 'Morning & Evening', 'Protection', 'Relief', 'Forgiveness'].map(cat => {
+                const label =
+                  cat === 'All'
+                    ? t('catAll')
+                    : cat === 'Morning & Evening'
+                    ? t('catMorning')
+                    : cat === 'Protection'
+                    ? t('catProtection')
+                    : cat === 'Relief'
+                    ? t('catHardship')
+                    : t('catForgiveness');
+                return (
+                  <TouchableOpacity
+                    key={cat}
+                    style={[styles.duaCatPill, duaCategory === cat && styles.duaCatPillActive]}
+                    onPress={() => setDuaCategory(cat)}
+                  >
+                    <Text style={[styles.duaCatPillText, duaCategory === cat && styles.duaCatPillTextActive]}>
+                      {label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </ScrollView>
 
             {/* Duas List */}

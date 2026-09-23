@@ -15,9 +15,11 @@ import { useRouter } from 'expo-router';
 import { NAMES_OF_ALLAH, NameOfAllah } from '../src/data/namesOfAllahData';
 import { FloatingAiButton } from '../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../src/components/AiAssistantModal';
+import { useLanguage } from '../src/context/LanguageContext';
 
 export default function NamesOfAllahScreen() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedName, setSelectedName] = useState<NameOfAllah | null>(null);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -47,8 +49,8 @@ export default function NamesOfAllahScreen() {
             <Ionicons name="arrow-back" size={20} color="#ffffff" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.headerTitle}>Asma-ul-Husna</Text>
-            <Text style={styles.headerSub}>The 99 Beautiful Names of Allah</Text>
+            <Text style={styles.headerTitle}>{t('namesOfAllah')}</Text>
+            <Text style={styles.headerSub}>{t('asmaDesc')}</Text>
           </View>
           <View style={styles.countBadge}>
             <Ionicons name="sparkles" size={12} color="#f59e0b" />
@@ -67,7 +69,7 @@ export default function NamesOfAllahScreen() {
         <View style={styles.searchBar}>
           <Ionicons name="search-outline" size={18} color="#10b981" />
           <TextInput
-            placeholder="Search by name, meaning, or number..."
+            placeholder={t('searchNames')}
             placeholderTextColor="rgba(110, 231, 183, 0.45)"
             value={searchQuery}
             onChangeText={setSearchQuery}

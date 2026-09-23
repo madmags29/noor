@@ -37,7 +37,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
   onOpenLanguage,
 }) => {
   const router = useRouter();
-  const { currentLanguageInfo } = useLanguage();
+  const { t, currentLanguageInfo } = useLanguage();
 
   const navigateTo = (route: string) => {
     onClose();
@@ -47,7 +47,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
   const MENU_ITEMS = [
     {
       id: 'language',
-      label: `Language: ${currentLanguageInfo.nativeName}`,
+      label: `${t('language')}: ${currentLanguageInfo.nativeName}`,
       icon: 'globe-outline',
       color: '#34d399',
       badge: `${currentLanguageInfo.flag} Change`,
@@ -58,21 +58,21 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
     },
     {
       id: 'home',
-      label: 'Home Dashboard',
+      label: t('home'),
       icon: 'home-outline',
       color: '#6ee7b7',
       action: () => navigateTo('/'),
     },
     {
       id: 'prayer',
-      label: 'Prayer Times & Timetable',
+      label: t('prayers'),
       icon: 'time-outline',
       color: '#f59e0b',
       action: () => navigateTo('/prayer'),
     },
     {
       id: 'adhan',
-      label: 'Adhan Voices (Call to Prayer)',
+      label: t('adhanVoice'),
       icon: 'volume-high-outline',
       color: '#f59e0b',
       badge: 'Audio',
@@ -83,15 +83,15 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
     },
     {
       id: 'quran',
-      label: 'Holy Quran (114 Surahs)',
+      label: t('quran'),
       icon: 'book-outline',
       color: '#34d399',
-      badge: 'Arabic & Tajweed',
+      badge: '114 Surahs',
       action: () => navigateTo('/quran'),
     },
     {
       id: 'ziyarat',
-      label: 'Ziyarat & Dargahs Directory',
+      label: t('ziyarat'),
       icon: 'business-outline',
       color: '#f59e0b',
       badge: '35+ Sanctuaries',
@@ -99,7 +99,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
     },
     {
       id: 'duas',
-      label: 'Digital Tasbih & Adhkar',
+      label: t('duas'),
       icon: 'heart-outline',
       color: '#6ee7b7',
       badge: 'Hisn al-Muslim',
@@ -107,45 +107,45 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
     },
     {
       id: 'media',
-      label: '4K Sacred Media & Videos',
+      label: t('media'),
       icon: 'images-outline',
       color: '#38bdf8',
-      badge: 'Cinematography',
+      badge: '4K',
       action: () => navigateTo('/media'),
     },
     {
       id: 'calendar',
-      label: 'Hijri Calendar (1448 AH)',
+      label: t('calendar'),
       icon: 'calendar-outline',
       color: '#a78bfa',
-      badge: 'Lunar Months',
+      badge: '1448 AH',
       action: () => navigateTo('/calendar'),
     },
     {
       id: 'dashboard',
-      label: 'Spiritual Deen Tracker',
+      label: t('dashboard'),
       icon: 'analytics-outline',
       color: '#34d399',
-      badge: 'Prayer Streaks',
+      badge: 'Tracker',
       action: () => navigateTo('/dashboard'),
     },
     {
       id: 'names',
-      label: '99 Names of Allah (Asma-ul-Husna)',
+      label: t('namesOfAllah'),
       icon: 'sparkles-outline',
       color: '#fbbf24',
       action: () => navigateTo('/names-of-allah'),
     },
     {
       id: 'giving',
-      label: 'Sadaqah & Charitable Causes',
+      label: t('giving'),
       icon: 'gift-outline',
       color: '#6ee7b7',
       action: () => navigateTo('/giving'),
     },
     {
       id: 'qibla',
-      label: 'Qibla Compass & Kaaba Bearing',
+      label: t('qibla'),
       icon: 'compass-outline',
       color: '#f59e0b',
       action: () => {
@@ -155,7 +155,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
     },
     {
       id: 'location',
-      label: 'Change City & Coordinates',
+      label: t('selectLocation'),
       icon: 'location-outline',
       color: '#6ee7b7',
       action: () => {
@@ -209,18 +209,18 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
                   <Ionicons name="person" size={20} color="#031712" />
                 </View>
                 <View style={styles.loginPromptText}>
-                  <Text style={styles.loginTitle}>Sign In / Join NOOR</Text>
-                  <Text style={styles.loginSub}>Google Sign-In • Sync Across Devices</Text>
+                  <Text style={styles.loginTitle}>{t('login')}</Text>
+                  <Text style={styles.loginSub}>{t('continueGoogle')}</Text>
                 </View>
                 <View style={styles.loginActionPill}>
-                  <Text style={styles.loginActionText}>Log In</Text>
+                  <Text style={styles.loginActionText}>{t('login')}</Text>
                 </View>
               </View>
             )}
           </TouchableOpacity>
 
           {/* Navigation Section */}
-          <Text style={styles.sectionHeader}>EXPLORE PLATFORM</Text>
+          <Text style={styles.sectionHeader}>{t('explore').toUpperCase()}</Text>
           <View style={styles.menuList}>
             {MENU_ITEMS.map(item => (
               <TouchableOpacity

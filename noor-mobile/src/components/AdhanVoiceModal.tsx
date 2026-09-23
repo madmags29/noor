@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { THEME } from '../theme';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface AdhanVoice {
   id: string;
@@ -119,6 +120,7 @@ export const AdhanVoiceModal: React.FC<AdhanVoiceModalProps> = ({
   activeAdhanId,
   onSelectAdhan,
 }) => {
+  const { t } = useLanguage();
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [currentUrl, setCurrentUrl] = useState<string>(ADHAN_VOICES[0].audioUrl);
 
@@ -154,7 +156,7 @@ export const AdhanVoiceModal: React.FC<AdhanVoiceModalProps> = ({
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.headerTitle}>Adhan Voices (Call to Prayer)</Text>
+            <Text style={styles.headerTitle}>{t('adhanVoice') || 'Adhan Voices'} ({t('callToPrayer') || 'Call to Prayer'})</Text>
             <Text style={styles.headerSub}>Authentic Mu'adhin recitations from the Islamic world</Text>
           </View>
           <TouchableOpacity onPress={handleStopAndClose} style={styles.closeBtn}>

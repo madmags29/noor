@@ -13,9 +13,11 @@ import { useRouter } from 'expo-router';
 import { HIJRI_MONTHS, HOLY_EVENTS, HijriMonth, HolyEvent } from '../src/data/calendarData';
 import { FloatingAiButton } from '../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../src/components/AiAssistantModal';
+import { useLanguage } from '../src/context/LanguageContext';
 
 export default function CalendarScreen() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'Months' | 'HolyEvents'>('Months');
   const [selectedMonth, setSelectedMonth] = useState<HijriMonth | null>(null);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -33,8 +35,8 @@ export default function CalendarScreen() {
             <Ionicons name="arrow-back" size={20} color="#ffffff" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.headerTitle}>Islamic Hijri Calendar</Text>
-            <Text style={styles.headerSub}>1448 AH • 12 Sacred Lunar Months</Text>
+            <Text style={styles.headerTitle}>{t('calendar')}</Text>
+            <Text style={styles.headerSub}>1448 AH • {t('sacredLunarMonths')}</Text>
           </View>
           <View style={styles.currentMonthBadge}>
             <Ionicons name="moon" size={12} color="#f59e0b" />
@@ -54,7 +56,7 @@ export default function CalendarScreen() {
               color={activeTab === 'Months' ? '#02120d' : '#6ee7b7'}
             />
             <Text style={[styles.tabBtnText, activeTab === 'Months' && styles.tabBtnTextActive]}>
-              12 Lunar Months
+              {t('sacredLunarMonths')}
             </Text>
           </TouchableOpacity>
 
@@ -68,7 +70,7 @@ export default function CalendarScreen() {
               color={activeTab === 'HolyEvents' ? '#02120d' : '#6ee7b7'}
             />
             <Text style={[styles.tabBtnText, activeTab === 'HolyEvents' && styles.tabBtnTextActive]}>
-              Holy Observances
+              {t('holyObservances')}
             </Text>
           </TouchableOpacity>
         </View>

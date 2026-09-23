@@ -13,6 +13,7 @@ import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { FloatingAiButton } from '../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../src/components/AiAssistantModal';
+import { useLanguage } from '../src/context/LanguageContext';
 
 interface PrayerLog {
   id: string;
@@ -24,6 +25,7 @@ interface PrayerLog {
 
 export default function DashboardScreen() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [prayers, setPrayers] = useState<PrayerLog[]>([
     { id: 'fajr', name: 'Fajr', arabic: 'الفجر', time: '05:08 AM', completed: true },
     { id: 'dhuhr', name: 'Dhuhr', arabic: 'الظهر', time: '12:28 PM', completed: true },
@@ -61,8 +63,8 @@ export default function DashboardScreen() {
             <Ionicons name="arrow-back" size={20} color="#ffffff" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.headerTitle}>Spiritual Deen Dashboard</Text>
-            <Text style={styles.headerSub}>Daily Worship Progress & Deeds Log</Text>
+            <Text style={styles.headerTitle}>{t('dashboard')}</Text>
+            <Text style={styles.headerSub}>{t('spiritualDeenTracker')}</Text>
           </View>
           <View style={styles.streakBadge}>
             <Ionicons name="flame" size={14} color="#f59e0b" />
@@ -109,7 +111,7 @@ export default function DashboardScreen() {
           {/* Daily 5 Salaah Tracker */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Daily 5 Canonical Prayers</Text>
+              <Text style={styles.sectionTitle}>{t('dailySalaahChecklist')}</Text>
               <Text style={styles.sectionSub}>Tap to check off each prayer in its time</Text>
             </View>
 
@@ -128,7 +130,7 @@ export default function DashboardScreen() {
                       )}
                     </View>
                     <View>
-                      <Text style={styles.prayerName}>{prayer.name}</Text>
+                      <Text style={styles.prayerName}>{t(prayer.id) || prayer.name}</Text>
                       <Text style={styles.prayerTime}>{prayer.time}</Text>
                     </View>
                   </View>

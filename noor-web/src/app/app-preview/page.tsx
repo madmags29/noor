@@ -148,7 +148,7 @@ export default function AppPreviewPage() {
   const [simulatedActiveVideo, setSimulatedActiveVideo] = useState<{ title: string; url: string; duration: string; loc: string } | null>(null);
 
   // Simulator Navigation Drawer, Auth, Language & Adhan Voice States
-  const { language, setLanguage, currentLanguageInfo, detectedLocation } = useLanguage();
+  const { t, language, setLanguage, currentLanguageInfo, detectedLocation } = useLanguage();
   const [simulatedLangModalOpen, setSimulatedLangModalOpen] = useState(false);
   const [simulatedMenuOpen, setSimulatedMenuOpen] = useState(false);
   const [simulatedAuthOpen, setSimulatedAuthOpen] = useState(false);
@@ -480,14 +480,14 @@ export default function AppPreviewPage() {
                     <div className="liquid-glass-gold rounded-2xl p-3 border border-amber-500/40 space-y-2">
                       <div className="flex items-baseline justify-between">
                         <div>
-                          <span className="text-[8px] font-black text-amber-400 uppercase tracking-widest">NEXT SALAAH</span>
-                          <div className="text-sm font-bold text-white">Asr • صلاة العصر</div>
+                          <span className="text-[8px] font-black text-amber-400 uppercase tracking-widest">{t('upcomingSalaah') || 'NEXT SALAAH'}</span>
+                          <div className="text-sm font-bold text-white">{t('asr')} • صلاة العصر</div>
                         </div>
                         <span className="text-base font-black font-mono text-amber-300">04:18 PM</span>
                       </div>
 
                       <div className="text-center bg-black/40 py-1 rounded-lg text-amber-300 font-mono font-bold text-[9px]">
-                        00h 42m remaining until Adhan
+                        00h 42m {t('remainingUntilAdhan') || 'remaining until Adhan'}
                       </div>
 
                       {/* Adhan Voice Controller Bar */}
@@ -497,13 +497,13 @@ export default function AppPreviewPage() {
                           className="flex items-center gap-1 text-left flex-1 truncate pr-1"
                         >
                           <Volume2 className="w-3 h-3 text-amber-400 shrink-0" />
-                          <span className="text-white truncate font-medium">Adhan: {simulatedActiveAdhan.name}</span>
+                          <span className="text-white truncate font-medium">{t('adhanVoice') || 'Adhan'}: {simulatedActiveAdhan.name}</span>
                         </button>
                         <button
                           onClick={() => setSimulatedAdhanOpen(true)}
                           className="px-1.5 py-0.5 rounded bg-amber-500 text-emerald-950 font-black text-[8px] shrink-0"
                         >
-                          Voices 🔊
+                          {t('adhanVoice') || 'Voices'} 🔊
                         </button>
                       </div>
                     </div>
@@ -511,7 +511,7 @@ export default function AppPreviewPage() {
                     {/* 10-Item Quick Essentials Grid */}
                     <div>
                       <div className="text-[10px] font-bold text-emerald-300/80 uppercase tracking-wider mb-2">
-                        Sacred Deen Essentials
+                        {t('quickEssentials') || 'Sacred Deen Essentials'}
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         <button
@@ -519,8 +519,8 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">⏱️</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">Prayer Times</div>
-                          <span className="text-[9px] text-emerald-300/60">Fajr - Isha</span>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('prayers') || 'Prayer Times'}</div>
+                          <span className="text-[9px] text-emerald-300/60">{t('prayerTimetable') || 'Fajr - Isha'}</span>
                         </button>
 
                         <button
@@ -528,8 +528,8 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">📖</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">Noble Quran</div>
-                          <span className="text-[9px] text-emerald-300/60">114 Surahs</span>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('quran') || 'Noble Quran'}</div>
+                          <span className="text-[9px] text-emerald-300/60">114 {t('surahsCatalog') || 'Surahs'}</span>
                         </button>
 
                         <button
@@ -537,8 +537,8 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-amber-500/40 text-left hover:border-amber-400 transition-colors"
                         >
                           <span className="text-sm">🏛️</span>
-                          <div className="font-bold text-amber-300 text-[11px] mt-0.5">Ziyarat & Dargahs</div>
-                          <span className="text-[9px] text-emerald-300/60">35+ Sanctuaries</span>
+                          <div className="font-bold text-amber-300 text-[11px] mt-0.5">{t('ziyarat') || 'Ziyarat & Dargahs'}</div>
+                          <span className="text-[9px] text-emerald-300/60">35+ {t('searchSanctuaries') || 'Sanctuaries'}</span>
                         </button>
 
                         <button
@@ -546,7 +546,7 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">📿</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">Digital Tasbih</div>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('duas') || 'Digital Tasbih'}</div>
                           <span className="text-[9px] text-emerald-300/60">Haptic Dhikr</span>
                         </button>
 
@@ -555,8 +555,8 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">📅</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">Hijri Calendar</div>
-                          <span className="text-[9px] text-emerald-300/60">12 Lunar Months</span>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('calendar') || 'Hijri Calendar'}</div>
+                          <span className="text-[9px] text-emerald-300/60">{t('sacredLunarMonths') || '12 Lunar Months'}</span>
                         </button>
 
                         <button
@@ -564,7 +564,7 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">🖼️</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">Islamic Media</div>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('mediaGallery') || 'Islamic Media'}</div>
                           <span className="text-[9px] text-emerald-300/60">4K Wallpapers</span>
                         </button>
 
@@ -573,8 +573,8 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">📊</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">Deen Tracker</div>
-                          <span className="text-[9px] text-emerald-300/60">Daily Worship Log</span>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('spiritualDeenTracker') || 'Deen Tracker'}</div>
+                          <span className="text-[9px] text-emerald-300/60">{t('dailySalaahChecklist') || 'Daily Worship Log'}</span>
                         </button>
 
                         <button
@@ -582,7 +582,7 @@ export default function AppPreviewPage() {
                           className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 text-left hover:border-amber-400/40 transition-colors"
                         >
                           <span className="text-sm">✨</span>
-                          <div className="font-bold text-white text-[11px] mt-0.5">99 Names</div>
+                          <div className="font-bold text-white text-[11px] mt-0.5">{t('asmaUlHusna') || '99 Names'}</div>
                           <span className="text-[9px] text-emerald-300/60">Asma-ul-Husna</span>
                         </button>
                       </div>
@@ -605,16 +605,16 @@ export default function AppPreviewPage() {
                 {activeScreen === 'prayers' && (
                   <div className="space-y-2.5 animate-in fade-in">
                     <div className="flex items-center justify-between">
-                      <div className="font-bold text-white text-sm">Prayer Times Timetable</div>
+                      <div className="font-bold text-white text-sm">{t('prayerTimetable') || 'Prayer Times Timetable'}</div>
                       <span className="text-[10px] text-amber-300 font-mono font-bold">MWL • Standard</span>
                     </div>
                     {[
-                      { name: 'Fajr', time: '05:08 AM', ar: 'الفجر' },
-                      { name: 'Sunrise', time: '06:32 AM', ar: 'الشروق' },
-                      { name: 'Dhuhr', time: '12:28 PM', ar: 'الظهر' },
-                      { name: 'Asr', time: '03:49 PM', ar: 'العصر', active: true },
-                      { name: 'Maghrib', time: '06:19 PM', ar: 'المغرب' },
-                      { name: 'Isha', time: '07:34 PM', ar: 'العشاء' },
+                      { id: 'fajr', name: t('fajr') || 'Fajr', time: '05:08 AM', ar: 'الفجر' },
+                      { id: 'sunrise', name: t('sunrise') || 'Sunrise', time: '06:32 AM', ar: 'الشروق' },
+                      { id: 'dhuhr', name: t('dhuhr') || 'Dhuhr', time: '12:28 PM', ar: 'الظهر' },
+                      { id: 'asr', name: t('asr') || 'Asr', time: '03:49 PM', ar: 'العصر', active: true },
+                      { id: 'maghrib', name: t('maghrib') || 'Maghrib', time: '06:19 PM', ar: 'المغرب' },
+                      { id: 'isha', name: t('isha') || 'Isha', time: '07:34 PM', ar: 'العشاء' },
                     ].map((p, idx) => (
                       <div
                         key={idx}
@@ -632,11 +632,11 @@ export default function AppPreviewPage() {
 
                     {/* Qada Counter Mini Box */}
                     <div className="p-2.5 rounded-xl bg-[#04281e] border border-emerald-800/40 mt-2">
-                      <span className="text-[9px] font-bold text-amber-300 block mb-1">Qada Missed Prayers Log:</span>
+                      <span className="text-[9px] font-bold text-amber-300 block mb-1">{t('dailyQadaLogger') || 'Qada Missed Prayers Log'}:</span>
                       <div className="flex items-center justify-between text-[10px]">
                         {(['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const).map(pr => (
                           <div key={pr} className="flex flex-col items-center">
-                            <span className="text-white font-bold">{pr}</span>
+                            <span className="text-white font-bold">{t(pr.toLowerCase()) || pr}</span>
                             <div className="flex items-center gap-1 mt-0.5">
                               <button onClick={() => decrementQada(pr)} className="text-emerald-400 text-xs">-</button>
                               <span className="font-mono text-amber-300 font-bold">{qadaCounts[pr]}</span>
@@ -653,7 +653,7 @@ export default function AppPreviewPage() {
                 {activeScreen === 'quran' && (
                   <div className="space-y-2 animate-in fade-in">
                     <div className="flex items-center justify-between">
-                      <div className="font-bold text-white text-sm">The Noble Qur'an (114 Surahs)</div>
+                      <div className="font-bold text-white text-sm">{t('holyQuran') || 'The Noble Qur\'an'} (114 {t('surahsCatalog') || 'Surahs'})</div>
                       <span className="text-[9px] text-amber-300 font-bold bg-amber-500/20 px-2 py-0.5 rounded">Alafasy</span>
                     </div>
                     {[
@@ -673,7 +673,7 @@ export default function AppPreviewPage() {
                           </span>
                           <div>
                             <span className="font-bold text-white block text-xs">{s.name}</span>
-                            <span className="text-[8px] text-emerald-300/60">{s.type} • {s.ayahs} Ayahs</span>
+                            <span className="text-[8px] text-emerald-300/60">{s.type} • {s.ayahs} {t('verses') || 'Ayahs'}</span>
                           </div>
                         </div>
                         <span className="arabic-text text-sm text-amber-200">{s.ar}</span>
@@ -682,12 +682,12 @@ export default function AppPreviewPage() {
                   </div>
                 )}
 
-                {/* 4. ZIYARAT SCREEN (NEW) */}
+                {/* 4. ZIYARAT SCREEN */}
                 {activeScreen === 'ziyarat' && (
                   <div className="space-y-2.5 animate-in fade-in">
                     <div className="flex items-center justify-between">
-                      <div className="font-bold text-white text-sm">Ziyarat & Dargahs Directory</div>
-                      <span className="text-[9px] text-amber-300 font-bold bg-amber-500/20 px-2 py-0.5 rounded">35+ Sanctuaries</span>
+                      <div className="font-bold text-white text-sm">{t('ziyarat') || 'Ziyarat & Dargahs Directory'}</div>
+                      <span className="text-[9px] text-amber-300 font-bold bg-amber-500/20 px-2 py-0.5 rounded">35+ {t('searchSanctuaries') || 'Sanctuaries'}</span>
                     </div>
 
                     {/* Country Filter Bar */}
@@ -747,7 +747,7 @@ export default function AppPreviewPage() {
                 {/* 5. TASBIH & DUAS SCREEN */}
                 {activeScreen === 'tasbih' && (
                   <div className="space-y-3 animate-in fade-in text-center">
-                    <div className="font-bold text-white text-sm">Digital Tasbih & Dhikr</div>
+                    <div className="font-bold text-white text-sm">{t('duas') || 'Digital Tasbih & Dhikr'}</div>
                     <p className="arabic-text text-xl font-bold text-amber-200">سُبْحَانَ اللَّهِ</p>
                     <span className="text-[10px] text-emerald-300/80">SubhanAllah • Glory be to Allah</span>
 
@@ -757,27 +757,27 @@ export default function AppPreviewPage() {
                       className="w-32 h-32 rounded-full bg-gradient-to-br from-amber-500/30 to-emerald-800/40 border-2 border-amber-400 mx-auto flex flex-col items-center justify-center active:scale-95 transition-transform shadow-lg shadow-amber-500/20"
                     >
                       <span className="text-3xl font-black text-amber-300 font-mono">{mobileCount}</span>
-                      <span className="text-[8px] text-emerald-200 font-bold mt-0.5">TAP TO COUNT</span>
+                      <span className="text-[8px] text-emerald-200 font-bold mt-0.5">{t('counter') || 'TAP TO COUNT'}</span>
                     </button>
 
                     {/* Target Selector */}
                     <div className="flex items-center justify-center gap-2 text-[10px]">
-                      {[33, 100, 1000].map(t => (
+                      {[33, 100, 1000].map(trg => (
                         <button
-                          key={t}
-                          onClick={() => { setTasbihTarget(t); setMobileCount(0); }}
+                          key={trg}
+                          onClick={() => { setTasbihTarget(trg); setMobileCount(0); }}
                           className={`px-3 py-1 rounded-lg font-bold ${
-                            tasbihTarget === t ? 'bg-amber-500 text-emerald-950 font-black' : 'bg-[#031a14] text-emerald-300'
+                            tasbihTarget === trg ? 'bg-amber-500 text-emerald-950 font-black' : 'bg-[#031a14] text-emerald-300'
                           }`}
                         >
-                          {t}x Target
+                          {trg}x {t('target') || 'Target'}
                         </button>
                       ))}
                       <button
                         onClick={() => setMobileCount(0)}
                         className="text-[10px] text-red-300 font-bold bg-red-500/10 px-2.5 py-1 rounded-lg"
                       >
-                        Reset
+                        {t('resetQada') || 'Reset'}
                       </button>
                     </div>
 
@@ -791,10 +791,10 @@ export default function AppPreviewPage() {
                   </div>
                 )}
 
-                {/* 6. CALENDAR SCREEN (NEW) */}
+                {/* 6. CALENDAR SCREEN */}
                 {activeScreen === 'calendar' && (
                   <div className="space-y-2 animate-in fade-in">
-                    <div className="font-bold text-white text-sm">Islamic Hijri Months (1448 AH)</div>
+                    <div className="font-bold text-white text-sm">{t('calendar') || 'Islamic Hijri Months (1448 AH)'}</div>
                     {[
                       { idx: 1, en: 'Muharram', ar: 'المُحَرَّم', sacred: true },
                       { idx: 3, en: 'Rabi al-Awwal', ar: 'رَبِيع الأَوَّل', sacred: false },
@@ -815,8 +815,8 @@ export default function AppPreviewPage() {
                           </span>
                           <div>
                             <span className="font-bold text-white block text-xs">{m.en}</span>
-                            {m.sacred && <span className="text-[7px] text-emerald-400 font-bold">Sacred Month</span>}
-                            {m.holy && <span className="text-[7px] text-amber-400 font-bold">Holiest Month</span>}
+                            {m.sacred && <span className="text-[7px] text-emerald-400 font-bold">{t('sacredLunarMonths') || 'Sacred Month'}</span>}
+                            {m.holy && <span className="text-[7px] text-amber-400 font-bold">{t('holyObservances') || 'Holiest Month'}</span>}
                           </div>
                         </div>
                         <span className="arabic-text text-sm text-amber-200">{m.ar}</span>
@@ -830,7 +830,7 @@ export default function AppPreviewPage() {
                   <div className="space-y-2.5 animate-in fade-in">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-bold text-white text-sm">Islamic Visual Gallery</div>
+                        <div className="font-bold text-white text-sm">{t('mediaGallery') || 'Islamic Visual Gallery'}</div>
                         <span className="text-[9px] text-emerald-300/70">4K Cinematography & Sacred Photography</span>
                       </div>
                       <span className="text-[9px] text-amber-300 font-bold bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30">
@@ -1017,14 +1017,14 @@ export default function AppPreviewPage() {
                   </div>
                 )}
 
-                {/* 8. DEEN TRACKER DASHBOARD (NEW) */}
+                {/* 8. DEEN TRACKER DASHBOARD */}
                 {activeScreen === 'dashboard' && (
                   <div className="space-y-2.5 animate-in fade-in">
-                    <div className="font-bold text-white text-sm">Spiritual Deen Tracker</div>
+                    <div className="font-bold text-white text-sm">{t('spiritualDeenTracker') || 'Spiritual Deen Tracker'}</div>
                     {/* Score */}
                     <div className="p-3 rounded-xl bg-[#04281e] border border-amber-500/30 flex items-center justify-between">
                       <div>
-                        <span className="text-white font-bold block text-xs">Today's Prayer Score</span>
+                        <span className="text-white font-bold block text-xs">{t('dailySalaahChecklist') || 'Today\'s Prayer Score'}</span>
                         <span className="text-[9px] text-emerald-300/70">14-Day Worship Streak</span>
                       </div>
                       <span className="text-lg font-black text-amber-300 font-mono">60%</span>
@@ -1045,7 +1045,7 @@ export default function AppPreviewPage() {
                               <Square className="w-4 h-4 text-emerald-400/40" />
                             )}
                             <span className={`text-xs font-bold ${prayerChecks[pr] ? 'text-emerald-300' : 'text-white'}`}>
-                              {pr} Prayer
+                              {t(pr.toLowerCase()) || pr}
                             </span>
                           </div>
                           <span className="text-[9px] text-amber-300/80">Completed</span>
@@ -1055,10 +1055,10 @@ export default function AppPreviewPage() {
                   </div>
                 )}
 
-                {/* 9. 99 NAMES OF ALLAH (NEW) */}
+                {/* 9. 99 NAMES OF ALLAH */}
                 {activeScreen === 'names' && (
                   <div className="space-y-2 animate-in fade-in">
-                    <div className="font-bold text-white text-sm">Asma-ul-Husna (99 Divine Names)</div>
+                    <div className="font-bold text-white text-sm">{t('asmaUlHusna') || 'Asma-ul-Husna (99 Divine Names)'}</div>
                     {[
                       { num: 1, ar: 'الرَّحْمَٰنُ', en: 'Ar-Rahman', meaning: 'The Entirely Merciful' },
                       { num: 2, ar: 'الرَّحِيمُ', en: 'Ar-Raheem', meaning: 'The Especially Merciful' },
@@ -1083,10 +1083,10 @@ export default function AppPreviewPage() {
                   </div>
                 )}
 
-                {/* 10. SADAQAH GIVING (NEW) */}
+                {/* 10. SADAQAH GIVING */}
                 {activeScreen === 'giving' && (
                   <div className="space-y-2.5 animate-in fade-in">
-                    <div className="font-bold text-white text-sm">Sadaqah Jariyah</div>
+                    <div className="font-bold text-white text-sm">{t('sadaqahJariyah') || 'Sadaqah Jariyah'}</div>
                     <div className="p-2.5 rounded-xl bg-[#04281e] border border-amber-500/30 text-center">
                       <span className="text-[9px] text-amber-300 block font-italic">"Charity does not decrease wealth"</span>
                       <span className="text-[8px] text-emerald-300/60">— Sahih Muslim 2588</span>
@@ -1102,7 +1102,7 @@ export default function AppPreviewPage() {
                         <div className="w-full h-1.5 bg-black/40 rounded-full mt-1.5 overflow-hidden">
                           <div className="h-full bg-emerald-400 rounded-full" style={{ width: '74%' }} />
                         </div>
-                        <span className="text-[8px] text-emerald-300/70 mt-1 block">Goal: {c.target}</span>
+                        <span className="text-[8px] text-emerald-300/70 mt-1 block">{t('target') || 'Goal'}: {c.target}</span>
                       </div>
                     ))}
                   </div>
@@ -1111,7 +1111,7 @@ export default function AppPreviewPage() {
                 {/* 11. QIBLA SCREEN */}
                 {activeScreen === 'qibla' && (
                   <div className="space-y-3 animate-in fade-in text-center">
-                    <div className="font-bold text-white text-sm">Spherical Qibla Compass</div>
+                    <div className="font-bold text-white text-sm">{t('qibla') || 'Spherical Qibla Compass'}</div>
                     <div className="text-2xl font-black font-mono text-amber-300">118.4° N</div>
                     <span className="text-[9px] text-emerald-300/70 block">6,782 km to Holy Kaaba</span>
 
@@ -1258,18 +1258,18 @@ export default function AppPreviewPage() {
                       {/* Menu Links */}
                       <div className="space-y-1 text-left">
                         {[
-                          { id: 'home', label: 'Home Dashboard', emoji: '🕌' },
-                          { id: 'prayers', label: 'Prayer Times & Timetable', emoji: '⏱️' },
-                          { id: 'adhan_action', label: 'Adhan Voices (Audio)', emoji: '🔊' },
-                          { id: 'quran', label: 'Holy Quran (114 Surahs)', emoji: '📖' },
-                          { id: 'ziyarat', label: 'Ziyarat & Dargahs (35+)', emoji: '🏛️' },
-                          { id: 'tasbih', label: 'Digital Tasbih & Adhkar', emoji: '📿' },
-                          { id: 'media', label: '4K Sacred Media & Videos', emoji: '🖼️' },
-                          { id: 'calendar', label: 'Hijri Calendar (1448 AH)', emoji: '📅' },
-                          { id: 'dashboard', label: 'Spiritual Deen Tracker', emoji: '📊' },
-                          { id: 'names', label: '99 Names of Allah', emoji: '✨' },
-                          { id: 'giving', label: 'Sadaqah & Giving', emoji: '💚' },
-                          { id: 'qibla', label: 'Qibla Compass Bearing', emoji: '🧭' },
+                          { id: 'home', label: t('home') || 'Home Dashboard', emoji: '🕌' },
+                          { id: 'prayers', label: t('prayers') || 'Prayer Times & Timetable', emoji: '⏱️' },
+                          { id: 'adhan_action', label: t('adhanVoice') || 'Adhan Voices (Audio)', emoji: '🔊' },
+                          { id: 'quran', label: t('quran') || 'Holy Quran (114 Surahs)', emoji: '📖' },
+                          { id: 'ziyarat', label: t('ziyarat') || 'Ziyarat & Dargahs (35+)', emoji: '🏛️' },
+                          { id: 'tasbih', label: t('duas') || 'Digital Tasbih & Adhkar', emoji: '📿' },
+                          { id: 'media', label: t('mediaGallery') || '4K Sacred Media & Videos', emoji: '🖼️' },
+                          { id: 'calendar', label: t('calendar') || 'Hijri Calendar (1448 AH)', emoji: '📅' },
+                          { id: 'dashboard', label: t('spiritualDeenTracker') || 'Spiritual Deen Tracker', emoji: '📊' },
+                          { id: 'names', label: t('asmaUlHusna') || '99 Names of Allah', emoji: '✨' },
+                          { id: 'giving', label: t('sadaqahJariyah') || 'Sadaqah & Giving', emoji: '💚' },
+                          { id: 'qibla', label: t('qibla') || 'Qibla Compass Bearing', emoji: '🧭' },
                         ].map(item => (
                           <button
                             key={item.id}
@@ -1552,11 +1552,11 @@ export default function AppPreviewPage() {
               {/* Bottom 5-Pillar Navigation Bar Inside Device */}
               <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[8px] text-emerald-300/70 font-semibold px-1 bg-black/50 rounded-2xl py-1.5 mt-1">
                 {[
-                  { id: 'home', label: 'Home', emoji: '🕌' },
-                  { id: 'prayers', label: 'Prayers', emoji: '⏱️' },
-                  { id: 'quran', label: 'Quran', emoji: '📖' },
-                  { id: 'ziyarat', label: 'Ziyarat', emoji: '🏛️' },
-                  { id: 'tasbih', label: 'Duas', emoji: '📿' },
+                  { id: 'home', label: t('home') || 'Home', emoji: '🕌' },
+                  { id: 'prayers', label: t('prayers') || 'Prayers', emoji: '⏱️' },
+                  { id: 'quran', label: t('quran') || 'Quran', emoji: '📖' },
+                  { id: 'ziyarat', label: t('ziyarat') || 'Ziyarat', emoji: '🏛️' },
+                  { id: 'tasbih', label: t('duas') || 'Duas', emoji: '📿' },
                 ].map(tab => (
                   <button
                     key={tab.id}

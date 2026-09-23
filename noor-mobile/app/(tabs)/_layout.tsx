@@ -3,8 +3,11 @@ import { Tabs } from 'expo-router';
 import { View, StyleSheet } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { THEME } from '../../src/theme';
+import { useLanguage } from '../../src/context/LanguageContext';
 
 export default function TabLayout() {
+  const { t } = useLanguage();
+
   return (
     <Tabs
       screenOptions={{
@@ -18,7 +21,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: t('home'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
@@ -31,7 +34,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="prayer"
         options={{
-          title: 'Prayers',
+          title: t('prayers'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'time' : 'time-outline'}
@@ -44,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="quran"
         options={{
-          title: 'Quran',
+          title: t('quran'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'book' : 'book-outline'}
@@ -57,7 +60,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="ziyarat"
         options={{
-          title: 'Ziyarat',
+          title: t('ziyarat'),
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name={focused ? 'mosque' : 'mosque'}
@@ -70,7 +73,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="duas"
         options={{
-          title: 'Duas',
+          title: t('duas'),
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name={focused ? 'hands-pray' : 'hands-pray'}

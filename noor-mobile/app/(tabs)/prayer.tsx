@@ -14,6 +14,7 @@ import { POPULAR_CITIES, MobileCity, LocationPickerModal } from '../../src/compo
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
 import { AdhanVoiceModal, ADHAN_VOICES, AdhanVoice } from '../../src/components/AdhanVoiceModal';
+import { useLanguage } from '../../src/context/LanguageContext';
 
 interface PrayerItem {
   id: string;
@@ -33,6 +34,7 @@ const METHODS = [
 ];
 
 export default function PrayerScreen() {
+  const { t } = useLanguage();
   const [currentCity, setCurrentCity] = useState<MobileCity>(POPULAR_CITIES[0]); // Makkah
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showMethodModal, setShowMethodModal] = useState(false);
@@ -79,8 +81,8 @@ export default function PrayerScreen() {
         {/* Top Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.pageTitle}>Daily Prayer Timetable</Text>
-            <Text style={styles.pageSub}>Astronomical calculation • 14 Ramadan 1448 AH</Text>
+            <Text style={styles.pageTitle}>{t('dailyPrayerTimes')}</Text>
+            <Text style={styles.pageSub}>{t('precisionCalculationFor')} {currentCity.city}</Text>
           </View>
 
           {/* Location Picker */}
@@ -99,8 +101,8 @@ export default function PrayerScreen() {
         <View style={styles.nextPrayerCard}>
           <View style={styles.nextTopRow}>
             <View>
-              <Text style={styles.nextSubText}>NEXT PRAYER</Text>
-              <Text style={styles.nextNameText}>Asr • صلاة العصر</Text>
+              <Text style={styles.nextSubText}>{t('nextPrayer')}</Text>
+              <Text style={styles.nextNameText}>{t('asr')} • صلاة العصر</Text>
             </View>
             <Text style={styles.nextTimeText}>04:18 PM</Text>
           </View>
@@ -118,10 +120,10 @@ export default function PrayerScreen() {
             />
             <View style={{ flex: 1 }}>
               <Text style={styles.adhanAudioText}>
-                Adhan Call: {activeAdhan.name}
+                {t('adhanVoice')}: {activeAdhan.name}
               </Text>
               <Text style={{ color: 'rgba(110, 231, 183, 0.7)', fontSize: 10, marginTop: 1 }}>
-                {activeAdhan.city} • Tap to listen or switch voice
+                {activeAdhan.city} • {t('listenAdhan')}
               </Text>
             </View>
             <Ionicons name="play-circle" size={20} color="#f59e0b" />
@@ -137,7 +139,7 @@ export default function PrayerScreen() {
           <View style={styles.methodLeft}>
             <MaterialCommunityIcons name="compass-rose" size={18} color={THEME.colors.goldPrimary} />
             <View>
-              <Text style={styles.methodLabel}>CALCULATION CONVENTION</Text>
+              <Text style={styles.methodLabel}>{t('calculationMethod')}</Text>
               <Text style={styles.methodName}>{selectedMethod.name}</Text>
               <Text style={styles.methodDesc}>{selectedMethod.desc}</Text>
             </View>
@@ -146,7 +148,7 @@ export default function PrayerScreen() {
         </TouchableOpacity>
 
         {/* 6 Prayers Timetable */}
-        <Text style={styles.sectionTitle}>Daily Salaah Schedule</Text>
+        <Text style={styles.sectionTitle}>{t('dailyPrayerTimes')}</Text>
         <View style={styles.prayersList}>
           {prayers.map((p) => {
             const isNext = p.isNext;
@@ -166,11 +168,11 @@ export default function PrayerScreen() {
                   <View>
                     <View style={styles.nameBadgeRow}>
                       <Text style={[styles.prayerName, isNext && styles.prayerNameNext]}>
-                        {p.name}
+                        {t(p.id) || p.name}
                       </Text>
                       {isNext && (
                         <View style={styles.nextBadge}>
-                          <Text style={styles.nextBadgeText}>NEXT</Text>
+                          <Text style={styles.nextBadgeText}>{t('currentBadge')}</Text>
                         </View>
                       )}
                     </View>
@@ -190,10 +192,10 @@ export default function PrayerScreen() {
         </View>
 
         {/* Qada Salaah Tracker */}
-        <Text style={styles.sectionTitle}>Qada Tracker (Missed Prayers)</Text>
+        <Text style={styles.sectionTitle}>{t('qadaTracker')}</Text>
         <View style={styles.qadaCard}>
           <Text style={styles.qadaIntro}>
-            Track and fulfill any missed obligatory prayers to maintain your spiritual ledger.
+            {t('logMissedPrayers')}
           </Text>
 
           {['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map((name) => (

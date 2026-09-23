@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { FloatingAiButton } from '../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../src/components/AiAssistantModal';
+import { useLanguage } from '../src/context/LanguageContext';
 
 interface CauseItem {
   id: string;
@@ -70,6 +71,7 @@ const CAUSES: CauseItem[] = [
 
 export default function GivingScreen() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [selectedAmount, setSelectedAmount] = useState<number>(25);
   const [selectedCause, setSelectedCause] = useState<string>('c1');
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -95,8 +97,8 @@ export default function GivingScreen() {
             <Ionicons name="arrow-back" size={20} color="#ffffff" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.headerTitle}>Sadaqah Jariyah</Text>
-            <Text style={styles.headerSub}>Enduring Islamic Charitable Giving</Text>
+            <Text style={styles.headerTitle}>{t('sadaqahJariyah') || 'Sadaqah Jariyah'}</Text>
+            <Text style={styles.headerSub}>{t('nobleCauses') || 'Enduring Islamic Charitable Giving'}</Text>
           </View>
           <View style={styles.secureBadge}>
             <Ionicons name="shield-checkmark" size={13} color="#10b981" />
@@ -186,7 +188,7 @@ export default function GivingScreen() {
             onPress={handleContribute}
           >
             <Ionicons name="heart" size={18} color="#031712" />
-            <Text style={styles.giveBtnText}>Contribute ${selectedAmount} as Sadaqah</Text>
+            <Text style={styles.giveBtnText}>{t('donate') || 'Contribute'} ${selectedAmount}</Text>
           </TouchableOpacity>
 
           <View style={{ height: 60 }} />

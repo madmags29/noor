@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Path } from 'react-native-svg';
 import { THEME } from '../theme';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface MobileUser {
   name: string;
@@ -39,6 +40,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   currentUser,
   onLogout,
 }) => {
+  const { t } = useLanguage();
   const [tab, setTab] = useState<'signin' | 'signup'>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -129,7 +131,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   }}
                 >
                   <Ionicons name="log-out-outline" size={18} color="#ef4444" />
-                  <Text style={styles.logoutBtnText}>Sign Out</Text>
+                  <Text style={styles.logoutBtnText}>{t('signOut') || 'Sign Out'}</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -141,7 +143,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     <Ionicons name="person" size={24} color="#031712" />
                   </View>
                   <Text style={styles.title}>
-                    {tab === 'signin' ? 'Welcome Back to NOOR' : 'Join the NOOR Community'}
+                    {tab === 'signin' ? (t('login') || 'Sign In') : (t('signup') || 'Create Account')}
                   </Text>
                   <Text style={styles.subtitle}>
                     Sync prayer progress, favorite Ziyarat sanctuaries, and personal Quranic bookmarks across devices
@@ -155,7 +157,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     onPress={() => { setTab('signin'); setError(''); }}
                   >
                     <Text style={[styles.tabBtnText, tab === 'signin' && styles.tabBtnTextActive]}>
-                      Sign In
+                      {t('login') || 'Sign In'}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -163,7 +165,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     onPress={() => { setTab('signup'); setError(''); }}
                   >
                     <Text style={[styles.tabBtnText, tab === 'signup' && styles.tabBtnTextActive]}>
-                      Create Account
+                      {t('signup') || 'Create Account'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -271,7 +273,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     <ActivityIndicator color="#031712" />
                   ) : (
                     <Text style={styles.submitBtnText}>
-                      {tab === 'signin' ? 'Sign In' : 'Create Account'}
+                      {tab === 'signin' ? (t('login') || 'Sign In') : (t('signup') || 'Create Account')}
                     </Text>
                   )}
                 </TouchableOpacity>

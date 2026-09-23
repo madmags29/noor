@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { THEME } from '../theme';
+import { useLanguage } from '../context/LanguageContext';
 
 interface QiblaModalProps {
   visible: boolean;
@@ -24,6 +25,8 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
   cityName,
   countryName,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <SafeAreaView style={styles.modalBackdrop}>
@@ -35,8 +38,8 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
                 <Ionicons name="compass" size={20} color={THEME.colors.goldPrimary} />
               </View>
               <View>
-                <Text style={styles.headerTitle}>Spherical Qibla Compass</Text>
-                <Text style={styles.headerSub}>Direction towards the Holy Kaaba</Text>
+                <Text style={styles.headerTitle}>{t('qibla') || 'Spherical Qibla Compass'}</Text>
+                <Text style={styles.headerSub}>{t('qiblaSub') || 'Direction towards the Holy Kaaba'}</Text>
               </View>
             </View>
 

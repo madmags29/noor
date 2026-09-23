@@ -24,7 +24,7 @@ import { LanguageModal } from '../../src/components/LanguageModal';
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { t, currentLanguageInfo } = useLanguage();
+  const { t, language, currentLanguageInfo } = useLanguage();
   const [currentCity, setCurrentCity] = useState<MobileCity>(POPULAR_CITIES[0]); // Makkah default
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
@@ -124,10 +124,10 @@ export default function HomeScreen() {
         <View style={styles.dateBar}>
           <View style={styles.dateLeft}>
             <Text style={styles.dateMoon}>🌙</Text>
-            <Text style={styles.dateText}>14 Ramadan 1448 AH • Holy Month of Fasting</Text>
+            <Text style={styles.dateText}>{t('ramadanNotice')}</Text>
           </View>
           <TouchableOpacity onPress={() => router.push('/calendar')}>
-            <Text style={styles.calendarLink}>Calendar →</Text>
+            <Text style={styles.calendarLink}>{t('calendar')} →</Text>
           </TouchableOpacity>
         </View>
 
@@ -135,28 +135,28 @@ export default function HomeScreen() {
         <View style={styles.heroCard}>
           <View style={styles.heroTop}>
             <View>
-              <Text style={styles.heroLabel}>UPCOMING SALAAH</Text>
-              <Text style={styles.heroPrayer}>Asr • العصر</Text>
+              <Text style={styles.heroLabel}>{t('upcomingSalaah')}</Text>
+              <Text style={styles.heroPrayer}>{t('asr')} • العصر</Text>
             </View>
             <View style={styles.heroTimeBox}>
               <Text style={styles.heroTime}>04:18 PM</Text>
-              <Text style={styles.heroMethod}>MWL • Standard</Text>
+              <Text style={styles.heroMethod}>{t('standardAsrMethod')}</Text>
             </View>
           </View>
 
           {/* Countdown & Progress Bar */}
           <View style={styles.countdownBox}>
             <Text style={styles.countdownNumber}>{formatCountdown(secondsLeft)}</Text>
-            <Text style={styles.countdownSub}>Remaining until Adhan</Text>
+            <Text style={styles.countdownSub}>{t('remainingUntilAdhan')}</Text>
 
             {/* Visual Progress Bar */}
             <View style={styles.progressBarTrack}>
               <View style={[styles.progressBarFill, { width: '68%' }]} />
             </View>
             <View style={styles.progressLabels}>
-              <Text style={styles.progressText}>Dhuhr passed</Text>
-              <Text style={styles.progressText}>68% elapsed</Text>
-              <Text style={styles.progressText}>Asr next</Text>
+              <Text style={styles.progressText}>{t('dhuhr')} {t('elapsed')}</Text>
+              <Text style={styles.progressText}>68% {t('elapsed')}</Text>
+              <Text style={styles.progressText}>{t('asr')} {t('currentBadge')}</Text>
             </View>
           </View>
 
@@ -169,7 +169,7 @@ export default function HomeScreen() {
             >
               <Ionicons name="volume-high" size={14} color="#f59e0b" />
               <Text style={styles.adhanPillText} numberOfLines={1}>
-                Adhan: {activeAdhan.name}
+                {t('adhanVoice')}: {activeAdhan.name}
               </Text>
               <View style={styles.adhanBadgeSmall}>
                 <Text style={styles.adhanBadgeText}>VOICE</Text>
@@ -181,7 +181,7 @@ export default function HomeScreen() {
               onPress={() => setShowAdhanModal(true)}
             >
               <Ionicons name="play-circle" size={15} color="#031712" />
-              <Text style={styles.listenAdhanText}>Listen</Text>
+              <Text style={styles.listenAdhanText}>{t('listenAdhan')}</Text>
             </TouchableOpacity>
           </View>
 
@@ -192,7 +192,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/(tabs)/prayer')}
             >
               <Ionicons name="time" size={15} color={THEME.colors.textDark} />
-              <Text style={styles.heroBtnPrimaryText}>Full Timetable</Text>
+              <Text style={styles.heroBtnPrimaryText}>{t('ctaPrayerTimes')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -200,13 +200,13 @@ export default function HomeScreen() {
               onPress={() => setShowQiblaModal(true)}
             >
               <Ionicons name="compass-outline" size={16} color={THEME.colors.goldPrimary} />
-              <Text style={styles.heroBtnSecondaryText}>Qibla</Text>
+              <Text style={styles.heroBtnSecondaryText}>{t('qibla')}</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* 4. Quick Essentials Grid (Matching All Website Features) */}
-        <Text style={styles.sectionHeading}>Sacred Deen Essentials</Text>
+        <Text style={styles.sectionHeading}>{t('quickEssentials')}</Text>
         <View style={styles.grid}>
           <TouchableOpacity
             style={styles.gridCard}
@@ -216,8 +216,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="time-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Prayer Times</Text>
-            <Text style={styles.gridCardSub}>Fajr to Isha</Text>
+            <Text style={styles.gridCardTitle}>{t('prayers')}</Text>
+            <Text style={styles.gridCardSub}>{t('prayerTimetable')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -228,8 +228,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="book-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Noble Quran</Text>
-            <Text style={styles.gridCardSub}>114 Surahs Catalog</Text>
+            <Text style={styles.gridCardTitle}>{t('quran')}</Text>
+            <Text style={styles.gridCardSub}>{t('surahsCatalog')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -240,8 +240,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <MaterialCommunityIcons name="mosque" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Ziyarat & Dargahs</Text>
-            <Text style={styles.gridCardSub}>35+ Sanctuaries</Text>
+            <Text style={styles.gridCardTitle}>{t('ziyarat')}</Text>
+            <Text style={styles.gridCardSub}>{t('sanctuariesDirectory')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -252,8 +252,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <MaterialCommunityIcons name="hands-pray" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Digital Tasbih</Text>
-            <Text style={styles.gridCardSub}>Haptic Counter</Text>
+            <Text style={styles.gridCardTitle}>{t('duas')}</Text>
+            <Text style={styles.gridCardSub}>{t('interactiveTasbih')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -264,8 +264,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="calendar-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Hijri Calendar</Text>
-            <Text style={styles.gridCardSub}>12 Lunar Months</Text>
+            <Text style={styles.gridCardTitle}>{t('calendar')}</Text>
+            <Text style={styles.gridCardSub}>{t('sacredLunarMonths')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -276,8 +276,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="images-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Islamic Media</Text>
-            <Text style={styles.gridCardSub}>4K Wallpapers</Text>
+            <Text style={styles.gridCardTitle}>{t('media')}</Text>
+            <Text style={styles.gridCardSub}>{t('visualTreasures')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -288,8 +288,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="stats-chart-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Deen Tracker</Text>
-            <Text style={styles.gridCardSub}>Daily Worship Log</Text>
+            <Text style={styles.gridCardTitle}>{t('dashboard')}</Text>
+            <Text style={styles.gridCardSub}>{t('spiritualDeenTracker')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -300,8 +300,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="sparkles-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Asma-ul-Husna</Text>
-            <Text style={styles.gridCardSub}>99 Divine Names</Text>
+            <Text style={styles.gridCardTitle}>{t('namesOfAllah')}</Text>
+            <Text style={styles.gridCardSub}>{t('asmaDesc')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -312,8 +312,8 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="heart-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Sadaqah Jariyah</Text>
-            <Text style={styles.gridCardSub}>Halal Charity</Text>
+            <Text style={styles.gridCardTitle}>{t('giving')}</Text>
+            <Text style={styles.gridCardSub}>{t('sadaqahJariyah')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -324,13 +324,13 @@ export default function HomeScreen() {
             <View style={styles.gridIconCircle}>
               <Ionicons name="compass-outline" size={20} color={THEME.colors.goldPrimary} />
             </View>
-            <Text style={styles.gridCardTitle}>Qibla Compass</Text>
-            <Text style={styles.gridCardSub}>Kaaba Bearing</Text>
+            <Text style={styles.gridCardTitle}>{t('qibla')}</Text>
+            <Text style={styles.gridCardSub}>{t('sacredDirection')}</Text>
           </TouchableOpacity>
         </View>
 
         {/* 5. Verse of the Day */}
-        <Text style={styles.sectionHeading}>Noble Quran • Verse of the Day</Text>
+        <Text style={styles.sectionHeading}>{t('dailyVerse')}</Text>
         <View style={styles.ayahCard}>
           <View style={styles.ayahTopRow}>
             <Text style={styles.ayahBismillah}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</Text>
@@ -338,30 +338,34 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.ayahArabicText}>
-            اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ
+            اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْमٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَमَا فِي الْأَرْضِ
           </Text>
 
           <Text style={styles.ayahEnglishText}>
-            "Allah! There is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth."
+            {language === 'hi'
+              ? 'अल्लाह — उसके सिवा कोई इबादत के लायक़ नहीं, वह हमेशा ज़िंदा रहने वाला और सब कुछ संभालने वाला है। न उसे ऊंघ आती है और न नींद। जो कुछ आसमानों में है और जो कुछ ज़मीन में है, सब उसी का है।'
+              : language === 'ur'
+              ? 'اللہ کے سوا کوئی معبود نہیں، وہ ہمیشہ زندہ رہنے والا اور سب کو سنبھالنے والا ہے۔ نہ اسے اونگھ آتی ہے نہ نیند۔'
+              : '"Allah! There is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth."'}
           </Text>
 
           <View style={styles.ayahFooter}>
-            <Text style={styles.ayahFooterBadge}>Ayat al-Kursi (The Throne Verse)</Text>
+            <Text style={styles.ayahFooterBadge}>Ayat al-Kursi (2:255)</Text>
             <TouchableOpacity onPress={() => router.push('/(tabs)/quran')}>
-              <Text style={styles.ayahFooterLink}>Read Full Surah →</Text>
+              <Text style={styles.ayahFooterLink}>{t('readQuranCta')}</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* 6. Daily Hadith Card */}
-        <Text style={styles.sectionHeading}>Prophetic Wisdom • Hadith</Text>
+        <Text style={styles.sectionHeading}>{t('dailyHadith')}</Text>
         <View style={styles.hadithCard}>
           <View style={styles.hadithHeader}>
             <MaterialCommunityIcons name="book-open-variant" size={16} color={THEME.colors.goldPrimary} />
             <Text style={styles.hadithLabel}>AUTHENTIC PROPHETIC SUNNAH</Text>
           </View>
           <Text style={styles.hadithQuote}>
-            "The best among you are those who learn the Quran and teach it to others."
+            {t('hadithQuote')}
           </Text>
           <View style={styles.hadithSourceRow}>
             <Text style={styles.hadithSource}>Sahih al-Bukhari 5027</Text>

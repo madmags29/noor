@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { THEME } from '../theme';
 import { askNoorAi } from '../services/aiService';
+import { useLanguage } from '../context/LanguageContext';
 
 interface Message {
   id: string;
@@ -59,6 +60,7 @@ const PRELOADED_RESPONSES: Record<string, { text: string; citation: string }> = 
 };
 
 export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({ visible, onClose }) => {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
@@ -120,7 +122,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({ visible, onC
                 <MaterialCommunityIcons name="creation" size={18} color={THEME.colors.goldPrimary} />
               </View>
               <View>
-                <Text style={styles.headerTitle}>NOOR Islamic AI</Text>
+                <Text style={styles.headerTitle}>{t('askAi') || 'NOOR Islamic AI'}</Text>
                 <Text style={styles.headerSub}>Spiritual Knowledge Companion</Text>
               </View>
             </View>

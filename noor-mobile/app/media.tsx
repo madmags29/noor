@@ -18,6 +18,7 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import { MEDIA_GALLERY, ISLAMIC_VIDEOS, MediaItem, VideoItem } from '../src/data/mediaData';
 import { FloatingAiButton } from '../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../src/components/AiAssistantModal';
+import { useLanguage } from '../src/context/LanguageContext';
 
 function ActiveVideoPlayer({ videoUrl }: { videoUrl: string }) {
   const player = useVideoPlayer(videoUrl, p => {
@@ -41,6 +42,7 @@ const CATEGORIES = ['All', 'Makkah', 'Madinah', 'Holy Quran', 'Architecture', 'C
 
 export default function MediaScreen() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [mediaTab, setMediaTab] = useState<'photos' | 'videos'>('photos');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [previewPhoto, setPreviewPhoto] = useState<MediaItem | null>(null);
@@ -88,8 +90,8 @@ export default function MediaScreen() {
             <Ionicons name="arrow-back" size={20} color="#ffffff" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.headerTitle}>Islamic Visual Gallery</Text>
-            <Text style={styles.headerSub}>4K Cinematography & Sacred Photography</Text>
+            <Text style={styles.headerTitle}>{t('media')}</Text>
+            <Text style={styles.headerSub}>{t('visualTreasures')}</Text>
           </View>
           <View style={styles.badgeCount}>
             <Ionicons name={mediaTab === 'photos' ? 'images-outline' : 'videocam-outline'} size={13} color="#f59e0b" />
@@ -111,7 +113,7 @@ export default function MediaScreen() {
               color={mediaTab === 'photos' ? '#02120d' : '#6ee7b7'}
             />
             <Text style={[styles.typeBtnText, mediaTab === 'photos' && styles.typeBtnTextActive]}>
-              Sacred Photos ({MEDIA_GALLERY.length})
+              {t('photosTab')} ({MEDIA_GALLERY.length})
             </Text>
           </TouchableOpacity>
 
@@ -125,7 +127,7 @@ export default function MediaScreen() {
               color={mediaTab === 'videos' ? '#02120d' : '#6ee7b7'}
             />
             <Text style={[styles.typeBtnText, mediaTab === 'videos' && styles.typeBtnTextActive]}>
-              4K Videos ({ISLAMIC_VIDEOS.length})
+              {t('cinematicVideosTab')} ({ISLAMIC_VIDEOS.length})
             </Text>
           </TouchableOpacity>
         </View>

@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
+import { useLanguage } from '../../src/context/LanguageContext';
 
 import { CANONICAL_SURAHS } from '../../src/data/quranFullCatalog';
 
@@ -89,6 +90,7 @@ const SURAH_LIST: SurahItem[] = CANONICAL_SURAHS.map((s) => ({
 }));
 
 export default function QuranScreen() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'All' | 'Popular' | 'Meccan' | 'Medinan'>('All');
   const [selectedSurah, setSelectedSurah] = useState<SurahItem | null>(null);
@@ -133,8 +135,8 @@ export default function QuranScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>The Noble Qur'an</Text>
-            <Text style={styles.subtitle}>الْقُرْآن الْكَرِيم • Divine Revelation</Text>
+            <Text style={styles.title}>{t('quran')}</Text>
+            <Text style={styles.subtitle}>الْقُرْآن الْكَرِيم • {t('nobleScripture')}</Text>
           </View>
           <View style={styles.badgeQari}>
             <Ionicons name="mic-outline" size={14} color="#f59e0b" />
@@ -146,7 +148,7 @@ export default function QuranScreen() {
         <View style={styles.searchBar}>
           <Ionicons name="search-outline" size={18} color="#10b981" />
           <TextInput
-            placeholder="Search by Surah name, number, or translation..."
+            placeholder={t('searchSurahPlaceholder')}
             placeholderTextColor="rgba(110, 231, 183, 0.45)"
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -161,17 +163,27 @@ export default function QuranScreen() {
 
         {/* Filter Pills */}
         <View style={styles.filterRow}>
-          {(['All', 'Popular', 'Meccan', 'Medinan'] as const).map((filter) => (
-            <TouchableOpacity
-              key={filter}
-              style={[styles.filterPill, activeFilter === filter && styles.filterPillActive]}
-              onPress={() => setActiveFilter(filter)}
-            >
-              <Text style={[styles.filterPillText, activeFilter === filter && styles.filterPillTextActive]}>
-                {filter === 'Popular' ? '⭐ ' + filter : filter}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {(['All', 'Popular', 'Meccan', 'Medinan'] as const).map((filter) => {
+            const label =
+              filter === 'All'
+                ? t('filterAll')
+                : filter === 'Meccan'
+                ? t('filterMeccan')
+                : filter === 'Medinan'
+                ? t('filterMedinan')
+                : '⭐ Popular';
+            return (
+              <TouchableOpacity
+                key={filter}
+                style={[styles.filterPill, activeFilter === filter && styles.filterPillActive]}
+                onPress={() => setActiveFilter(filter)}
+              >
+                <Text style={[styles.filterPillText, activeFilter === filter && styles.filterPillTextActive]}>
+                  {label}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         {/* Surahs List */}
@@ -207,7 +219,7 @@ export default function QuranScreen() {
                         {item.type === 'Meccan' ? '🕋 Makkah' : '🕌 Madinah'}
                       </Text>
                       <Text style={styles.dot}>•</Text>
-                      <Text style={styles.ayahsCount}>{item.ayahs} Verses</Text>
+                      <Text style={styles.ayahsCount}>{item.ayahs} {t('versesCount')}</Text>
                     </View>
                   </View>
                 </View>
@@ -250,7 +262,7 @@ export default function QuranScreen() {
 
                 <View style={styles.modalTitleContainer}>
                   <Text style={styles.modalTitle}>{selectedSurah.englishName}</Text>
-                  <Text style={styles.modalSub}>{selectedSurah.ayahs} Ayahs • {selectedSurah.type}</Text>
+                  <Text style={styles.modalSub}>{selectedSurah.ayahs} {t('ayahsCount')} • {selectedSurah.type}</Text>
                 </View>
 
                 <TouchableOpacity
@@ -277,7 +289,7 @@ export default function QuranScreen() {
                   <View style={styles.bannerMetaRow}>
                     <Text style={styles.bannerMetaText}>Surah #{selectedSurah.number}</Text>
                     <Text style={styles.bannerMetaDot}>•</Text>
-                    <Text style={styles.bannerMetaText}>{selectedSurah.type} Revelation</Text>
+                    <Text style={styles.bannerMetaText}>{selectedSurah.type} {t('revelation')}</Text>
                   </View>
                 </View>
 
@@ -288,7 +300,7 @@ export default function QuranScreen() {
                     <View style={{ marginLeft: 10 }}>
                       <Text style={styles.audioQari}>Sheikh Mishary Rashid Alafasy</Text>
                       <Text style={styles.audioState}>
-                        {isPlayingAudio ? 'Playing Recitation • Tajweed Hafs' : 'Tap play to stream audio'}
+                        {isPlayingAudio ? t('pauseRecitation') : t('listenReciter')}
                       </Text>
                     </View>
                   </View>
@@ -309,7 +321,7 @@ export default function QuranScreen() {
                   <View style={styles.bismillahBox}>
                     <Text style={styles.bismillahArabic}>بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</Text>
                     <Text style={styles.bismillahTrans}>
-                      In the name of Allah, the Entirely Merciful, the Especially Merciful
+                      {t('bismillahTranslation')}
                     </Text>
                   </View>
                 )}

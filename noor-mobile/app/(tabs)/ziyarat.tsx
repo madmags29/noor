@@ -22,8 +22,10 @@ import {
 } from '../../src/data/mobileZiyaratData';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
+import { useLanguage } from '../../src/context/LanguageContext';
 
 export default function ZiyaratScreen() {
+  const { t } = useLanguage();
   const [selectedCountry, setSelectedCountry] = useState('All Nations');
   const [selectedTariqa, setSelectedTariqa] = useState('All Lineages');
   const [searchQuery, setSearchQuery] = useState('');
@@ -71,9 +73,9 @@ export default function ZiyaratScreen() {
             <Text style={styles.countPill}>{filteredSanctuaries.length} Sanctuaries</Text>
           </View>
 
-          <Text style={styles.pageTitle}>Global Ziyarat & Dargahs</Text>
+          <Text style={styles.pageTitle}>{t('ziyarat')}</Text>
           <Text style={styles.pageSubtitle}>
-            Sacred Sufi shrines, Ahl al-Bayt sanctuaries, and Sahabah memorials across 12+ nations.
+            {t('sanctuariesDirectory')}
           </Text>
         </View>
 
@@ -82,7 +84,7 @@ export default function ZiyaratScreen() {
           <Ionicons name="search" size={18} color={THEME.colors.emeraldSubtle} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search saint, shrine, city (e.g. Ali, Rumi, Fez)..."
+            placeholder={t('searchSanctuaries')}
             placeholderTextColor="rgba(110, 231, 183, 0.4)"
             value={searchQuery}
             onChangeText={setSearchQuery}
