@@ -4,7 +4,7 @@
 // NOOR Web — Interactive Mobile App Preview & Store Deployment Suite
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Smartphone,
@@ -164,6 +164,51 @@ export default function AppPreviewPage() {
     url: 'https://cdn.aladhan.com/audio/adhans/a1.mp3',
   });
   const [simulatedAdhanPlaying, setSimulatedAdhanPlaying] = useState(false);
+
+  // Live Gyroscope & Compass Orientation States
+  const [simulatedHeading, setSimulatedHeading] = useState<number>(45);
+  const [isGyroActive, setIsGyroActive] = useState<boolean>(false);
+  const [isAutoSpinning, setIsAutoSpinning] = useState<boolean>(false);
+  const qiblaTargetBearing = 118.4; // Degrees from True North towards Holy Kaaba
+
+  // Real-world Device Orientation Event Listener
+  useEffect(() => {
+    const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
+      // @ts-ignore iOS webkitCompassHeading
+      const compass = e.webkitCompassHeading;
+      if (typeof compass === 'number' && !isNaN(compass)) {
+        setSimulatedHeading(Math.round(compass));
+        setIsGyroActive(true);
+      } else if (e.alpha !== null && !isNaN(e.alpha)) {
+        // Standard Web orientation (alpha rotates counter-clockwise)
+        const heading = (360 - e.alpha) % 360;
+        setSimulatedHeading(Math.round(heading));
+        setIsGyroActive(true);
+      }
+    };
+
+    if (typeof window !== 'undefined' && window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleDeviceOrientation, true);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('deviceorientation', handleDeviceOrientation, true);
+      }
+    };
+  }, []);
+
+  // Auto-Spinning Gyroscope Demo Test
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (isAutoSpinning) {
+      interval = setInterval(() => {
+        setSimulatedHeading(prev => (prev + 3) % 360);
+      }, 50);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isAutoSpinning]);
   const [simulatedAiMessages, setSimulatedAiMessages] = useState<{ sender: 'user' | 'ai'; text: string; ref?: string }[]>([
     {
       sender: 'ai',
@@ -1108,20 +1153,159 @@ export default function AppPreviewPage() {
                   </div>
                 )}
 
-                {/* 11. QIBLA SCREEN */}
-                {activeScreen === 'qibla' && (
-                  <div className="space-y-3 animate-in fade-in text-center">
-                    <div className="font-bold text-white text-sm">{t('qibla') || 'Spherical Qibla Compass'}</div>
-                    <div className="text-2xl font-black font-mono text-amber-300">118.4° N</div>
-                    <span className="text-[9px] text-emerald-300/70 block">6,782 km to Holy Kaaba</span>
+                {/* 11. QIBLA SCREEN — DYNAMIC GYROSCOPE COMPASS */}
+                {activeScreen === 'qibla' && (() => {
+                  const relKaabaAngle = (qiblaTargetBearing - simulatedHeading + 360) % 360;
+                  const isAligned = relKaabaAngle <= 4 || relKaabaAngle >= 356;
 
-                    {/* Compass Mini Rosette */}
-                    <div className="w-28 h-28 rounded-full border-2 border-amber-400/50 mx-auto flex items-center justify-center relative bg-black/40 shadow-inner">
-                      <span className="absolute top-1 text-[9px] font-bold text-amber-400">N</span>
-                      <span className="text-2xl">🕋</span>
+                  const getCardinalName = (deg: number) => {
+                    const val = (deg + 360) % 360;
+                    if (val >= 337.5 || val < 22.5) return 'N';
+                    if (val >= 22.5 && val < 67.5) return 'NE';
+                    if (val >= 67.5 && val < 112.5) return 'E';
+                    if (val >= 112.5 && val < 157.5) return 'ESE';
+                    if (val >= 157.5 && val < 202.5) return 'S';
+                    if (val >= 202.5 && val < 247.5) return 'SW';
+                    if (val >= 247.5 && val < 292.5) return 'W';
+                    return 'NW';
+                  };
+
+                  return (
+                    <div className="space-y-3 animate-in fade-in text-center">
+                      <div className="flex items-center justify-between px-1">
+                        <div className="text-left">
+                          <div className="font-bold text-white text-xs">{t('qibla') || 'Spherical Qibla Compass'}</div>
+                          <span className="text-[8px] text-emerald-300/70">{t('qiblaSub') || 'Direction towards Holy Kaaba'}</span>
+                        </div>
+                        <div className="flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded-full border border-white/10 text-[8px]">
+                          <span className={`w-1.5 h-1.5 rounded-full ${isGyroActive ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+                          <span className="text-white font-bold">{isGyroActive ? 'Live Gyro' : 'Simulator'}</span>
+                        </div>
+                      </div>
+
+                      {/* Alignment Notification Banner */}
+                      {isAligned ? (
+                        <div className="p-2 rounded-xl bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-black text-[10px] animate-pulse shadow-lg shadow-emerald-500/20">
+                          <div>🕋 ALIGNED WITH THE HOLY KAABA 🕋</div>
+                          <span className="text-[8px] text-emerald-200 font-medium">काबा के बिल्कुल सम्मुख • Facing Holy Kaaba</span>
+                        </div>
+                      ) : (
+                        <div className="text-[9px] text-amber-300/90 font-medium bg-black/30 py-1 px-2 rounded-lg border border-amber-500/20">
+                          Rotate device {relKaabaAngle < 180 ? `right by ${Math.round(relKaabaAngle)}°` : `left by ${Math.round(360 - relKaabaAngle)}°`} to face Kaaba
+                        </div>
+                      )}
+
+                      {/* Interactive Rotating Compass Arena */}
+                      <div className="relative w-44 h-44 mx-auto flex items-center justify-center my-1">
+                        {/* Outer Compass Rose that rotates counter-heading */}
+                        <div
+                          className={`absolute inset-0 rounded-full border-2 bg-gradient-to-b from-[#04281e] to-[#02130e] transition-transform duration-200 ease-out flex items-center justify-center shadow-inner ${
+                            isAligned ? 'border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.5)]' : 'border-amber-400/50'
+                          }`}
+                          style={{ transform: `rotate(${-simulatedHeading}deg)` }}
+                        >
+                          <span className="absolute top-1.5 font-black text-xs text-red-500">N</span>
+                          <span className="absolute right-2 font-bold text-[9px] text-white">E</span>
+                          <span className="absolute bottom-1.5 font-bold text-[9px] text-white">S</span>
+                          <span className="absolute left-2 font-bold text-[9px] text-white">W</span>
+                          <div className="w-32 h-32 rounded-full border border-dashed border-white/10" />
+                        </div>
+
+                        {/* Kaaba Target Needle pointing to relative bearing */}
+                        <div
+                          className="absolute inset-0 flex items-center justify-center transition-transform duration-200 ease-out pointer-events-none"
+                          style={{ transform: `rotate(${qiblaTargetBearing - simulatedHeading}deg)` }}
+                        >
+                          <div className="absolute top-2 flex flex-col items-center">
+                            <span className="text-xl filter drop-shadow-[0_0_8px_rgba(245,158,11,0.9)]">🕋</span>
+                            <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[10px] border-t-amber-400 mt-0.5" />
+                          </div>
+                        </div>
+
+                        {/* Center Hub with Current Heading Angle */}
+                        <div
+                          className={`w-14 h-14 rounded-full border-2 flex flex-col items-center justify-center z-10 transition-colors shadow-md ${
+                            isAligned ? 'bg-[#04281e] border-emerald-400' : 'bg-[#021812] border-amber-400'
+                          }`}
+                        >
+                          <span className="text-xs font-black font-mono text-white">{simulatedHeading}°</span>
+                          <span className="text-[7px] font-bold text-amber-300">{getCardinalName(simulatedHeading)}</span>
+                        </div>
+                      </div>
+
+                      {/* Stat Tiles: Bearing, Heading, Distance */}
+                      <div className="grid grid-cols-3 gap-1 text-[9px]">
+                        <div className="p-1.5 rounded-lg bg-black/40 border border-white/10">
+                          <span className="text-[7px] text-amber-400 font-bold block uppercase">Qibla</span>
+                          <span className="font-bold text-white font-mono text-[10px]">{qiblaTargetBearing}°</span>
+                        </div>
+                        <div className={`p-1.5 rounded-lg bg-black/40 border ${isAligned ? 'border-emerald-400 text-emerald-300' : 'border-white/10'}`}>
+                          <span className="text-[7px] text-emerald-400 font-bold block uppercase">Heading</span>
+                          <span className="font-bold text-white font-mono text-[10px]">{simulatedHeading}°</span>
+                        </div>
+                        <div className="p-1.5 rounded-lg bg-black/40 border border-white/10">
+                          <span className="text-[7px] text-emerald-400/80 font-bold block uppercase">Distance</span>
+                          <span className="font-bold text-white font-mono text-[10px]">4,215 km</span>
+                        </div>
+                      </div>
+
+                      {/* Gyroscope Simulator & Rotation Control Deck */}
+                      <div className="p-2 rounded-xl bg-black/40 border border-white/10 text-left space-y-1.5">
+                        <div className="flex items-center justify-between text-[8px]">
+                          <span className="font-bold text-amber-300 flex items-center gap-1">
+                            <span>🧭</span>
+                            <span>Gyroscope Device Angle Slider:</span>
+                          </span>
+                          <span className="font-mono text-white font-bold">{simulatedHeading}° ({getCardinalName(simulatedHeading)})</span>
+                        </div>
+
+                        {/* Interactive Range Slider */}
+                        <input
+                          type="range"
+                          min="0"
+                          max="360"
+                          value={simulatedHeading}
+                          onChange={(e) => setSimulatedHeading(Number(e.target.value))}
+                          className="w-full accent-amber-400 h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                        />
+
+                        {/* Quick Turn & Align Buttons */}
+                        <div className="grid grid-cols-4 gap-1 text-[8px] pt-0.5">
+                          <button
+                            onClick={() => setSimulatedHeading(prev => (prev - 30 + 360) % 360)}
+                            className="py-1 rounded bg-white/5 hover:bg-white/10 text-white font-bold border border-white/10"
+                          >
+                            ↺ -30°
+                          </button>
+                          <button
+                            onClick={() => setSimulatedHeading(Math.round(qiblaTargetBearing))}
+                            className="py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-black border border-amber-400/40 col-span-2"
+                          >
+                            🕋 Face Kaaba
+                          </button>
+                          <button
+                            onClick={() => setSimulatedHeading(prev => (prev + 30) % 360)}
+                            className="py-1 rounded bg-white/5 hover:bg-white/10 text-white font-bold border border-white/10"
+                          >
+                            +30° ↻
+                          </button>
+                        </div>
+
+                        {/* Auto-Spin Gyroscope Demo Test Button */}
+                        <button
+                          onClick={() => setIsAutoSpinning(prev => !prev)}
+                          className={`w-full py-1 rounded text-[8px] font-bold flex items-center justify-center gap-1 border transition-colors ${
+                            isAutoSpinning
+                              ? 'bg-red-500/20 text-red-300 border-red-500/40'
+                              : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/20'
+                          }`}
+                        >
+                          <span>{isAutoSpinning ? '⏸ Stop Auto-Spin' : '▶ Auto 360° Gyroscope Sweep Test'}</span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
               </div>
 
               {/* Floating Ask AI Bubble Inside Device */}
