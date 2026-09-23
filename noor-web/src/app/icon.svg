@@ -1,0 +1,96 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Liquid Gold Shimmer Gradient -->
+    <linearGradient id="crescentGold" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="35%" stop-color="#F59E0B" />
+      <stop offset="70%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <!-- Sacred Emerald Jewel Gradient -->
+    <linearGradient id="emeraldBase" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+
+    <!-- Radiant Star Core Gradient -->
+    <radialGradient id="starShine" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="45%" stop-color="#FDE68A" />
+      <stop offset="80%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </radialGradient>
+
+    <!-- Celestial Orbit Ring Gradient -->
+    <linearGradient id="orbitStroke" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#34D399" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Outer Protective Rounded Base with Sacred Emerald Fill -->
+  <rect
+    x="2"
+    y="2"
+    width="60"
+    height="60"
+    rx="16"
+    fill="url(#emeraldBase)"
+    stroke="rgba(253, 230, 138, 0.4)"
+    stroke-width="1.5"
+  />
+
+  <!-- 2. Celestial Astrolabe / Orbit Ring -->
+  <circle
+    cx="32"
+    cy="32"
+    r="25"
+    stroke="url(#orbitStroke)"
+    stroke-width="1.2"
+    stroke-dasharray="4 4"
+    fill="none"
+  />
+
+  <!-- 3. Authentic Sacred Crescent Moon (Hilal) -->
+  <path
+    d="M 34.61 15.8 A 17.5 17.5 0 1 0 34.61 48.2 A 16.5 16.5 0 0 1 34.61 15.8 Z"
+    fill="url(#crescentGold)"
+  />
+
+  <!-- 4. Inner Crescent Shimmer Spine Highlight -->
+  <path
+    d="M 30 18 A 16 16 0 0 0 13 32 A 16 16 0 0 0 30 46 A 15.5 15.5 0 0 1 14.5 32 A 15.5 15.5 0 0 1 30 18 Z"
+    fill="#FFFFFF"
+    opacity="0.3"
+  />
+
+  <!-- 5. Islamic Eight-Pointed Star (Rub el Hizb ۞) Nested in Crescent Cradle -->
+  <g transform="translate(35, 32)">
+    <!-- Square 1 -->
+    <rect
+      x="-4.5"
+      y="-4.5"
+      width="9"
+      height="9"
+      rx="1"
+      fill="url(#starShine)"
+    />
+    <!-- Square 2 (Rotated 45 degrees) -->
+    <rect
+      x="-4.5"
+      y="-4.5"
+      width="9"
+      height="9"
+      rx="1"
+      transform="rotate(45)"
+      fill="url(#starShine)"
+      opacity="0.95"
+    />
+    <!-- Star Radiant Core Center -->
+    <circle cx="0" cy="0" r="1.5" fill="#FFFFFF" />
+    <circle cx="0" cy="0" r="0.6" fill="#B45309" />
+  </g>
+</svg>

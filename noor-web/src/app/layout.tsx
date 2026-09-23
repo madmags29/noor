@@ -102,6 +102,17 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon', sizes: '64x64', type: 'image/png' },
+      { url: '/favicon.ico' },
+    ],
+    shortcut: '/favicon.svg',
+    apple: [
+      { url: '/icon', sizes: '64x64', type: 'image/png' },
+    ],
+  },
 };
 
 export const viewport = {
