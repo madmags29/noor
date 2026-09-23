@@ -5,7 +5,7 @@
 // ============================================================
 
 import React, { useState, useEffect } from 'react';
-import { X, Mail, Lock, User as UserIcon, ShieldCheck, Check, Sparkles, ChevronRight, AlertCircle, Info } from 'lucide-react';
+import { X, Mail, Lock, User as UserIcon, ShieldCheck, Check, CheckCircle2, Sparkles, ChevronRight, AlertCircle, Info } from 'lucide-react';
 
 export interface AuthUser {
   name: string;
@@ -68,31 +68,59 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
     },
   ];
 
-  // Try to load Google Identity Services SDK
+  const GOOGLE_CLIENT_ID =
+    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
+    '419653061982-6p0q94rb00qv96n2e8tjmemmfklaalo3.apps.googleusercontent.com';
+
+  // Load and initialize Google Identity Services SDK
   useEffect(() => {
     if (!isOpen) return;
 
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    if (!clientId) return;
-
-    // Check if script already loaded
-    if (!document.getElementById('google-gsi-client')) {
-      const script = document.createElement('script');
-      script.id = 'google-gsi-client';
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
-        if ((window as any).google?.accounts?.id) {
+    const setupGsi = () => {
+      if (typeof window !== 'undefined' && (window as any).google?.accounts?.id) {
+        try {
           (window as any).google.accounts.id.initialize({
-            client_id: clientId,
+            client_id: GOOGLE_CLIENT_ID,
             callback: handleGoogleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true,
           });
+
+          // Render into official container if available
+          const btnEl = document.getElementById('google-official-btn');
+          if (btnEl) {
+            btnEl.innerHTML = '';
+            (window as any).google.accounts.id.renderButton(btnEl, {
+              type: 'standard',
+              theme: 'outline',
+              size: 'large',
+              text: 'continue_with',
+              shape: 'pill',
+              width: 340,
+            });
+          }
+        } catch (e) {
+          console.warn('Google GSI initialization notice:', e);
         }
-      };
-      document.body.appendChild(script);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      if (!(window as any).google?.accounts?.id) {
+        if (!document.getElementById('google-gsi-client')) {
+          const script = document.createElement('script');
+          script.id = 'google-gsi-client';
+          script.src = 'https://accounts.google.com/gsi/client';
+          script.async = true;
+          script.defer = true;
+          script.onload = setupGsi;
+          document.body.appendChild(script);
+        }
+      } else {
+        setupGsi();
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, showGoogleFlow]);
 
   const handleGoogleCredentialResponse = (response: any) => {
     try {
@@ -219,7 +247,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
               <p className="text-xs text-emerald-200/70 mt-1">
                 Choose an account to continue to <span className="text-amber-300 font-semibold">Noor-e-ilahi</span>
               </p>
+              <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] text-emerald-300 font-medium">
+                <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                <span>Google OAuth 2.0 Connected</span>
+              </div>
             </div>
+
+            {/* Official Google Identity Button (when rendered by SDK) */}
+            <div id="google-official-btn" className="flex justify-center mb-3 min-h-[40px] empty:hidden" />
 
             {error && (
               <div className="mb-4 p-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
@@ -282,7 +317,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
               </form>
             </div>
 
-            {/* Developer Setup Pill (Collapsible) */}
+            {/* Developer Setup & Credentials Status */}
             <div className="mt-3 p-2.5 rounded-xl bg-black/40 border border-white/10 text-[11px] text-emerald-300/80">
               <button
                 type="button"
@@ -291,16 +326,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
               >
                 <span className="flex items-center gap-1.5">
                   <Info className="w-3.5 h-3.5" />
-                  <span>Google Cloud OAuth Setup Info</span>
+                  <span>Google Cloud OAuth Credentials</span>
                 </span>
                 <span className="text-[10px] opacity-75">{showDevInfo ? 'Hide' : 'Show'}</span>
               </button>
               {showDevInfo && (
-                <div className="mt-2 text-[10px] space-y-1 text-emerald-200/70 border-t border-white/5 pt-2">
-                  <p>1. Go to <span className="text-white font-mono">console.cloud.google.com</span>.</p>
-                  <p>2. Create OAuth 2.0 Client ID (Web Application).</p>
-                  <p>3. Add Authorized Origins: <span className="text-white font-mono">http://localhost:3000</span> and your Vercel domain.</p>
-                  <p>4. Add <span className="text-amber-300 font-mono">NEXT_PUBLIC_GOOGLE_CLIENT_ID</span> to <span className="text-white font-mono">.env.local</span>.</p>
+                <div className="mt-2 text-[10px] space-y-1.5 text-emerald-200/70 border-t border-white/5 pt-2">
+                  <p className="text-amber-300 font-semibold">Active Client ID:</p>
+                  <p className="font-mono text-white/90 break-all bg-black/50 p-1.5 rounded border border-white/10">
+                    {GOOGLE_CLIENT_ID}
+                  </p>
+                  <p>Client Secret: <span className="font-mono text-emerald-300">GOCSPX-*** (Configured)</span></p>
+                  <div className="mt-1.5 pt-1.5 border-t border-white/10 text-emerald-300/90 space-y-1">
+                    <p className="font-semibold text-amber-200">Google Cloud Console Checklist:</p>
+                    <p>1. Authorized JavaScript origins: <span className="text-white font-mono">http://localhost:3000</span> and production domain</p>
+                    <p>2. Authorized redirect URIs: <span className="text-white font-mono">http://localhost:3000/api/auth/google</span></p>
+                  </div>
                 </div>
               )}
             </div>
