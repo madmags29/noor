@@ -50,8 +50,8 @@ const INITIAL_ARTICLES: ArticleItem[] = [
 export default function DashboardPage() {
   // Authentication Gate State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loginEmail, setLoginEmail] = useState('admin@noor.app');
-  const [loginPassword, setLoginPassword] = useState('noor2026');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
@@ -139,16 +139,6 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          {/* Quick Demo Credentials Pill */}
-          <div className="mb-6 p-3 rounded-2xl bg-emerald-950/60 border border-emerald-700/40 text-[11px] text-emerald-200">
-            <div className="flex items-center justify-between font-bold text-amber-300 mb-1">
-              <span>Demo Administrator Account</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20">Verified</span>
-            </div>
-            <div>Email: <span className="font-mono text-white font-semibold">admin@noor.app</span></div>
-            <div>Password: <span className="font-mono text-white font-semibold">noor2026</span></div>
-          </div>
-
           {loginError && (
             <div className="mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs">
               {loginError}
@@ -164,9 +154,10 @@ export default function DashboardPage() {
                 <input
                   type="email"
                   required
+                  placeholder="admin@noor.app"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white placeholder-emerald-400/50 focus:outline-none focus:border-amber-400"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white placeholder-emerald-400/40 focus:outline-none focus:border-amber-400"
                 />
               </div>
             </div>
@@ -178,9 +169,10 @@ export default function DashboardPage() {
                 <input
                   type="password"
                   required
+                  placeholder="••••••••"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white placeholder-emerald-400/50 focus:outline-none focus:border-amber-400"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white placeholder-emerald-400/40 focus:outline-none focus:border-amber-400"
                 />
               </div>
             </div>
