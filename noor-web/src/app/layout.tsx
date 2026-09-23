@@ -8,9 +8,30 @@ export const metadata: Metadata = {
     default: 'Noor-e-ilahi — Your Deen. Your Daily Companion. | Global Islamic Platform',
     template: '%s | Noor-e-ilahi Islamic Ecosystem',
   },
-  description: 'World-class Islamic digital technology platform offering astronomical prayer times, Quran audio recitations, authentic Hisn al-Muslim duas, interactive Qibla compass, Hijri calendar, and AI Islamic companion.',
+  description:
+    'World-class Islamic digital technology platform offering astronomical prayer times, Quran audio recitations, authentic Hisn al-Muslim duas, 3D Qibla compass, Hijri calendar, audited global Ziyarat sanctuaries, and Noor AI companion.',
   keywords: [
-    'Noor-e-ilahi', 'NOOR', 'Islamic App', 'Prayer Times', 'Azan', 'Quran Recitation', 'Qibla Direction', 'Duas', 'Adhkar', 'Hijri Calendar', 'Makkah Live', 'Islamic Technology', 'Ummah', 'Zakat Calculator'
+    'Noor-e-ilahi',
+    'NOOR',
+    'Islamic App',
+    'Prayer Times',
+    'Namaz Vakitleri',
+    'Azan',
+    'Quran Recitation',
+    'Qibla Direction',
+    'Duas',
+    'Adhkar',
+    'Ziyarat',
+    'Dargahs',
+    'Ajmer Sharif',
+    'Nizamuddin Auliya',
+    'Rumi Konya',
+    'Hijri Calendar',
+    'Makkah Live',
+    'Islamic Technology',
+    'Ummah',
+    'Zakat Calculator',
+    'AEO Islamic Assistant',
   ],
   authors: [{ name: 'Noor-e-ilahi Global Islamic Foundation' }],
   creator: 'Noor-e-ilahi Ecosystem',
@@ -18,16 +39,24 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://noor.app',
     languages: {
-      'en-US': 'https://noor.app',
-      'ar-SA': 'https://noor.app?lang=ar',
-      'ur-PK': 'https://noor.app?lang=ur',
-      'id-ID': 'https://noor.app?lang=id',
-      'tr-TR': 'https://noor.app?lang=tr',
+      'x-default': 'https://noor.app',
+      'en': 'https://noor.app?lang=en',
+      'hi': 'https://noor.app?lang=hi',
+      'ur': 'https://noor.app?lang=ur',
+      'ar': 'https://noor.app?lang=ar',
+      'bn': 'https://noor.app?lang=bn',
+      'tr': 'https://noor.app?lang=tr',
+      'id': 'https://noor.app?lang=id',
+      'ta': 'https://noor.app?lang=ta',
+      'ml': 'https://noor.app?lang=ml',
+      'mr': 'https://noor.app?lang=mr',
+      'gu': 'https://noor.app?lang=gu',
     },
   },
   openGraph: {
     title: 'Noor-e-ilahi — Your Deen. Your Daily Companion.',
-    description: 'The premier Islamic technology platform for prayer times, Quran, duas, Qibla, and AI-powered guidance.',
+    description:
+      'The premier Islamic technology platform for astronomical prayer times, Noble Quran, Hisn al-Muslim duas, 3D Qibla compass, and global Ziyarat chronicles.',
     url: 'https://noor.app',
     siteName: 'Noor-e-ilahi Islamic Ecosystem',
     images: [
@@ -39,12 +68,14 @@ export const metadata: Metadata = {
       },
     ],
     locale: 'en_US',
+    alternateLocale: ['ar_SA', 'ur_PK', 'hi_IN', 'tr_TR', 'id_ID', 'bn_BD'],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Noor-e-ilahi — Your Deen. Your Daily Companion.',
-    description: 'Precision astronomical prayer times, Quran audio, authentic duas, and Qibla compass.',
+    description:
+      'Precision astronomical prayer times, Noble Quran audio, authentic duas, 3D Qibla compass, and 31 audited global Ziyarat shrines.',
     images: ['https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?w=1200&h=630&q=90'],
     creator: '@nooreilahi',
   },
@@ -53,6 +84,12 @@ export const metadata: Metadata = {
     'geo.placename': 'Makkah Al-Mukarramah',
     'geo.position': '21.4225;39.8262',
     'ICBM': '21.4225, 39.8262',
+    'ai-content-declarations': 'Scholarly Verified Islamic Corpus with Zero Synthetic Inventions',
+    'citation_title': 'Noor-e-ilahi: Global Islamic Digital Platform',
+    'citation_publisher': 'Noor-e-ilahi Global Islamic Foundation',
+    'citation_language': 'en, hi, ur, ar, tr, id, bn, ta, ml, mr, gu',
+    'apple-itunes-app': 'app-id=6478901234, app-argument=noor://',
+    'google-play-app': 'app-id=com.noor.app',
   },
   robots: {
     index: true,
@@ -73,6 +110,7 @@ export const viewport = {
   themeColor: '#02120d',
 };
 
+
 import { LanguageProvider } from '../context/LanguageContext';
 
 export default function RootLayout({
@@ -84,6 +122,8 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
         <JsonLd />
+        <link rel="alternate" type="text/plain" href="https://noor.app/llms.txt" title="LLMs.txt AEO Knowledge Base" />
+        <link rel="author" href="https://noor.app/llms.txt" />
       </head>
       <body
         suppressHydrationWarning

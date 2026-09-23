@@ -19,6 +19,7 @@ import { duasRouter } from './modules/duas/duas.routes.js';
 import { searchRouter } from './modules/search/search.routes.js';
 import { calendarRouter } from './modules/calendar/calendar.routes.js';
 import { ziyaratRouter } from './modules/ziyarat/ziyarat.routes.js';
+import { aeoRouter } from './modules/aeo/aeo.routes.js';
 
 const app = express();
 
@@ -34,6 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan(config.isProduction ? 'combined' : 'dev'));
 app.use(apiRateLimiter);
 
+// SEO & AEO Headers for Public APIs
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Robots-Tag', 'all, index, follow');
+  next();
+});
+
 // ---- API v1 Routes ----
 const v1 = express.Router();
 v1.use('/health', healthRouter);
@@ -43,6 +51,7 @@ v1.use('/duas', duasRouter);
 v1.use('/search', searchRouter);
 v1.use('/calendar', calendarRouter);
 v1.use('/ziyarat', ziyaratRouter);
+v1.use('/aeo', aeoRouter);
 
 app.use('/api/v1', v1);
 

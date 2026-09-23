@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.noor.app",
+      "sha256_cert_fingerprints": [
+        "14:6D:E9:7F:0B:4D:76:CD:7A:8E:24:D3:2F:56:88:65:C2:59:75:A8:8B:DF:A6:45:90:3A:45:A4:3F:89:12:44"
+      ]
+    }
+  }
+]

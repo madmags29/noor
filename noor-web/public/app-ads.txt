@@ -1,0 +1,4 @@
+# Noor-e-ilahi Authorized Digital Sellers
+# Policy: Noor-e-ilahi is 100% Non-Commercial and Ad-Free. No unverified third-party ad networks are permitted.
+contact=privacy@noor.app
+subdomain=noor.app

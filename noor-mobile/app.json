@@ -1,22 +1,48 @@
 {
   "expo": {
-    "name": "NOOR",
+    "name": "Noor-e-ilahi: Daily Islamic App",
     "slug": "noor-islamic-app",
     "version": "1.0.0",
+    "description": "Precision astronomical prayer times, Noble Quran audio recitation, authentic Hisn al-Muslim duas, 3D Qibla compass, and audited global Ziyarat shrines.",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
+    "primaryColor": "#059669",
     "splash": {
       "backgroundColor": "#031712"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noor.app"
+      "bundleIdentifier": "com.noor.app",
+      "associatedDomains": [
+        "applinks:noor.app"
+      ]
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#031712"
       },
-      "package": "com.noor.app"
+      "package": "com.noor.app",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "noor.app",
+              "pathPrefix": "/"
+            },
+            {
+              "scheme": "noor",
+              "host": "*"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "bundler": "metro"

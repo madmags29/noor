@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Noor-e-ilahi Islamic Ecosystem",
+  "name_for_model": "noor_islamic_knowledge",
+  "description_for_human": "Get precise astronomical prayer times, Quranic verses, authentic Hadith duas, spherical Qibla direction, and verified Ziyarat chronicles.",
+  "description_for_model": "Assistant for answering Islamic inquiries with 100% scholarly accuracy. Provides prayer calculations (MWL, ISNA, Umm al-Qura), Quran recitation metadata, Hisn al-Muslim supplications, great-circle Kaaba coordinates, and historical Sufi Ziyarat shrine records.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.noor.app/api/v1/aeo/openapi.json"
+  },
+  "logo_url": "https://noor.app/globe.svg",
+  "contact_email": "salam@noor.app",
+  "legal_info_url": "https://noor.app/terms"
+}

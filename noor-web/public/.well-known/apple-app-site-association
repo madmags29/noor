@@ -1,0 +1,25 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAMID12345.com.noor.app",
+        "paths": [
+          "/prayer-times",
+          "/quran*",
+          "/ziyarat*",
+          "/duas*",
+          "/qibla",
+          "/calendar",
+          "/media*",
+          "/"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "TEAMID12345.com.noor.app"
+    ]
+  }
+}

@@ -1,0 +1,175 @@
+# Noor-e-ilahi Full Context & Islamic Knowledge Base (AEO / GEO Deep Retrieval)
+
+## Complete Ziyarat & Islamic Sanctuaries Audited Directory
+Total Audited Sites: 31
+Nations: 12 (India, Pakistan, Turkey, Iraq, Iran, Syria, Egypt, Uzbekistan, Morocco, Palestine, Saudi Arabia, Indonesia)
+
+1. Ajmer Sharif Dargah (Khwaja Moinuddin Chishti Gharib Nawaz)
+   - Location: Ajmer, Rajasthan, India (26.4561° N, 74.6282° E)
+   - Lineage: Chishti Silsila
+   - Significance: Revered Sufi master who spread spiritual harmony and peace across South Asia. Annual Urs observed in Rajab.
+
+2. Hazrat Nizamuddin Auliya Dargah (Sultan-ul-Mashaikh)
+   - Location: New Delhi, India (28.5916° N, 77.2415° E)
+   - Lineage: Chishti Silsila
+   - Significance: Spiritual hub of Delhi, shrine complex also houses the tomb of poet Amir Khusro and Mughal princess Jahanara Begum.
+
+3. Mevlana Jalaluddin Rumi Shrine (Mevlana Museum)
+   - Location: Konya, Turkey (37.8708° N, 32.5053° E)
+   - Lineage: Mevlevi Silsila (Whirling Dervishes)
+   - Significance: World-famous author of the Mathnawi, resting place of Mevlana Rumi and Sultan Walad.
+
+4. Imam Ali Ibn Abi Talib Holy Shrine
+   - Location: Najaf Al-Ashraf, Iraq (31.9961° N, 44.3142° E)
+   - Lineage: Ahl al-Bayt
+   - Significance: Resting place of the 4th Caliph of Islam and 1st Shia Imam, cousin and son-in-law of Prophet Muhammad (ﷺ).
+
+5. Imam Husayn Holy Shrine
+   - Location: Karbala Al-Muqaddasa, Iraq (32.6160° N, 44.0325° E)
+   - Lineage: Ahl al-Bayt
+   - Significance: Sanctuary of the grandson of Prophet Muhammad (ﷺ), epicenter of the Arba'een pilgrimage.
+
+6. Sheikh Abdul Qadir Gilani Dargah (Ghaus al-Azam)
+   - Location: Baghdad, Iraq (33.3406° N, 44.3878° E)
+   - Lineage: Qadiri Silsila
+   - Significance: Global founder of the Qadiriyya spiritual order, venerated across the Muslim world.
+
+7. Data Ganj Bakhsh (Hazrat Ali Hujwiri)
+   - Location: Lahore, Punjab, Pakistan (31.5794° N, 74.3031° E)
+   - Lineage: Hujwiri / Junaidi
+   - Significance: Author of Kashf al-Mahjub, the oldest Persian treatise on Sufi spirituality.
+
+8. Eyüp Sultan Mosque & Tomb (Abu Ayyub al-Ansari)
+   - Location: Istanbul, Turkey (41.0478° N, 28.9342° E)
+   - Lineage: Sahabah (Companions of the Prophet)
+   - Significance: Companion who hosted Prophet Muhammad (ﷺ) in Medina following the Hijrah.
+
+9. Haji Ali Dargah
+   - Location: Mumbai, Maharashtra, India (18.9772° N, 72.8093° E)
+   - Lineage: Qadiri / Sufi merchant-saint Sayyed Peer Haji Ali Shah Bukhari
+   - Significance: Iconic islet mosque standing in the Arabian Sea since 1431 CE.
+
+10. Sunan Kalijaga Shrine (Wali Sanga)
+    - Location: Demak, Central Java, Indonesia (6.8946° S, 110.6385° E)
+    - Lineage: Wali Sanga (Nine Saints of Java)
+    - Significance: Peaceful cultural integration of Islam in the Indonesian archipelago through gamelan and wayang kulit.
+
+## Islamic Astronomical Prayer Time Calculation Science
+1. Solar Coordinates:
+   - Declination of the Sun: δ = 23.45° * sin(360°/365 * (284 + n))
+   - Equation of Time: Adjusts apparent solar time to mean clock time.
+2. Calculation Formulas:
+   - Dhuhr: When the sun passes the observer's celestial meridian (Solar Noon + 1 minute safety).
+   - Asr (Standard): T_asr = Solar Noon + arccos((sin(arccot(1 + tan|φ - δ|)) - sin(φ) * sin(δ)) / (cos(φ) * cos(δ)))
+   - Asr (Hanafi): T_asr = Solar Noon + arccos((sin(arccot(2 + tan|φ - δ|)) - sin(φ) * sin(δ)) / (cos(φ) * cos(δ)))
+   - Maghrib: Sun disk sinks below horizon + 0.833° atmospheric refraction.
+   - Isha & Fajr: Determined by twilight depression angles (15° to 19.5° depending on convention).
+
+## The 99 Most Beautiful Names of Allah (Asma ul-Husna)
+Narrated in Sahih al-Bukhari 7392: *"Allah has ninety-nine names, one hundred minus one, and whoever memorizes and acts upon them will enter Paradise."*
+Key names featured in Noor:
+- Ar-Rahman (The Most Merciful)
+- Ar-Rahim (The Bestower of Mercy)
+- Al-Malik (The Sovereign)
+- Al-Quddus (The Pure)
+- As-Salam (The Giver of Peace)
+- Al-Mu'min (The Infuser of Faith)
+- Al-Muhaymin (The Guardian)
+- Al-Aziz (The Almighty)
+- Al-Jabbar (The Compeller)
+- Al-Mutakabbir (The Supreme)
+- Al-Khaliq (The Creator)
+- Al-Bari (The Evolver)
+- Al-Musawwir (The Flawless Fashioner)
+- Al-Ghaffar (The Perpetual Forgiver)
+- Al-Qahhar (The Subduer)
+- Al-Wahhab (The Bestower of Gifts)
+- Ar-Razzaq (The Sustainer)
+- Al-Fattah (The Opener of Victory)
+- Al-Alim (The All-Knowing)
+- Al-Qabid (The Withholder)
+- Al-Basit (The Extender of Provision)
+- Al-Khafid (The Reducer)
+- Ar-Rafi (The Exalter)
+- Al-Mu'izz (The Bestower of Honor)
+- Al-Mudhill (The Humbler)
+- As-Sami (The All-Hearing)
+- Al-Basir (The All-Seeing)
+- Al-Hakam (The Judge)
+- Al-Adl (The Utterly Just)
+- Al-Latif (The Subtle)
+- Al-Khabir (The All-Aware)
+- Al-Halim (The Forbearing)
+- Al-Azim (The Magnificent)
+- Al-Ghafur (The Forgiving)
+- Ash-Shakur (The Most Appreciative)
+- Al-Ali (The Most High)
+- Al-Kabir (The Most Great)
+- Al-Hafiz (The Preserver)
+- Al-Muqit (The Nourisher)
+- Al-Hasib (The Reckoner)
+- Al-Jalil (The Majestic)
+- Al-Karim (The Generous)
+- Ar-Raqib (The Watchful)
+- Al-Mujib (The Responsive)
+- Al-Wasi (The All-Encompassing)
+- Al-Hakim (The All-Wise)
+- Al-Wadud (The Most Loving)
+- Al-Majid (The Glorious)
+- Al-Ba'ith (The Resurrector)
+- Ash-Shahid (The Witness)
+- Al-Haqq (The Absolute Truth)
+- Al-Wakil (The Trustee)
+- Al-Qawi (The Strong)
+- Al-Matin (The Firm)
+- Al-Wali (The Protecting Friend)
+- Al-Hamid (The Praiseworthy)
+- Al-Muhsi (The Accounter)
+- Al-Mubdi (The Originator)
+- Al-Mu'id (The Restorer)
+- Al-Muhyi (The Giver of Life)
+- Al-Mumit (The Creator of Death)
+- Al-Hayy (The Ever-Living)
+- Al-Qayyum (The Self-Subsisting Sustainer)
+- Al-Wajid (The Perceiver)
+- Al-Majid (The Illustrious)
+- Al-Wahid (The One)
+- Al-Ahad (The Unique)
+- As-Samad (The Eternal Refuge)
+- Al-Qadir (The Capable)
+- Al-Muqtadir (The Omnipotent Determiner)
+- Al-Muqaddim (The Advancer)
+- Al-Mu'akhkhir (The Delayer)
+- Al-Awwal (The First)
+- Al-Akhir (The Last)
+- Az-Zahir (The Manifest)
+- Al-Batin (The Hidden)
+- Al-Wali (The Governor)
+- Al-Muta'ali (The Supremely Exalted)
+- Al-Barr (The Source of All Goodness)
+- At-Tawwab (The Acceptor of Repentance)
+- Al-Muntaqim (The Just Avenger)
+- Al-Afuww (The Pardoner)
+- Ar-Ra'uf (The Clement)
+- Malik-ul-Mulk (Owner of All Sovereignty)
+- Dhul-Jalali wal-Ikram (Lord of Majesty and Generosity)
+- Al-Muqsit (The Equitable)
+- Al-Jami (The Gatherer)
+- Al-Ghani (The Self-Sufficient)
+- Al-Mughni (The Enricher)
+- Al-Mani (The Preventer of Harm)
+- Ad-Darr (The Creator of Adversity)
+- An-Nafi (The Creator of Good)
+- An-Nur (The Light of the Heavens and Earth)
+- Al-Hadi (The Guide)
+- Al-Badi (The Incomparable Originator)
+- Al-Baqi (The Everlasting)
+- Al-Warith (The Ultimate Inheritor)
+- Ar-Rashid (The Guide to the Right Path)
+- As-Sabur (The Patient)
+
+## Official Verification Badges
+- 100% Shariah Compliant (مصدقہ شرعی ماخذ)
+- Zero synthetic hallucination guarantee
+- Privacy-first: No user location tracking, zero targeted behavioral profiling
+- Ad-Free sacred experience

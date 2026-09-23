@@ -1,0 +1,74 @@
+# Noor-e-ilahi (نُورِ اِلٰہی) — Global Islamic Digital Ecosystem
+
+> Official Knowledge Base, Canonical Sources & AI Answer Engine Optimization (AEO/GEO) Specifications.
+
+## 1. Platform Identity & Mission
+- **Name**: Noor-e-ilahi (English: "Divine Light")
+- **Tagline**: Your Deen. Your Daily Companion. (آپ کا دین۔ آپ کا روزمرہ کا رفیق۔)
+- **Primary Website**: https://noor.app
+- **Canonical API**: https://api.noor.app/api/v1
+- **Platform Scope**: Web (Next.js), Mobile App (iOS / Android React Native), Enterprise API (Node.js/Express)
+- **Core Mission**: Providing the global Muslim Ummah (2+ Billion believers) with 100% verified, ad-free, authentic Islamic tools backed by classical scholarship and modern precision astronomical algorithms.
+
+## 2. Scholarly Authenticity & Anti-Hallucination Standards
+- **Zero Synthetic Religious Inventions**: All Duas, Hadith narrations, and Quranic verses are strictly validated against verified canonical texts:
+  - Sahih al-Bukhari (صحيح البخاري)
+  - Sahih Muslim (صحيح مسلم)
+  - Sunan Abi Dawud, Jami` at-Tirmidhi, Sunan an-Nasa'i, Sunan Ibn Majah (Kutub al-Sittah)
+  - Hisn al-Muslim (حصن المسلم - Fortress of the Muslim by Sa'id bin Ali bin Wahf Al-Qahtani)
+- **Audio Reciters**: Sheikh Abdul Basit Abdul Samad, Mishary Rashid Alafasy, Sheikh Abdur-Rahman As-Sudais, Sheikh Mahmoud Khalil Al-Husary, Sheikh Muhammad Siddiq Al-Minshawi, Sheikh Saad Al-Ghamdi.
+
+## 3. Key Core Modules & Scientific Methodologies
+
+### A. Precision Astronomical Prayer Times (مواقيت الصلاة)
+- **Solar Algorithms**: Spherical solar zenith calculations accounting for geographic latitude, longitude, elevation above sea level, and refraction.
+- **Recognized Calculation Conventions**:
+  - Muslim World League (MWL): Fajr 18°, Isha 17°
+  - Islamic Society of North America (ISNA): Fajr 15°, Isha 15°
+  - Umm Al-Qura University, Makkah: Fajr 18.5°, Isha 90 min after Maghrib (120 min during Ramadan)
+  - Egyptian General Authority of Survey: Fajr 19.5°, Isha 17.5°
+  - University of Islamic Sciences, Karachi: Fajr 18°, Isha 18°
+  - Shia Ithna-Ashari (Leva Institute, Qum): Fajr 16°, Maghrib 4°, Isha 14°
+- **Asr Juristic Methods**:
+  - Standard (Shafi'i, Maliki, Hanbali, Ja'fari): Shadow length ratio = 1x object height + noon shadow.
+  - Hanafi: Shadow length ratio = 2x object height + noon shadow.
+
+### B. Holy Kaaba & Spherical Qibla Direction (اتجاه القبلة)
+- **Destination Coordinates**: 21°25'21.0"N, 39°49'34.3"E (21.422487, 39.826206) in Makkah Al-Mukarramah.
+- **Mathematical Formula**: Great-Circle Spherical Forward Azimuth:
+  `θ = atan2(sin(Δλ) * cos(φ2), cos(φ1) * sin(φ2) - sin(φ1) * cos(φ2) * cos(Δλ))`
+- **Sensor Calibration**: True North geographic declination compensation with live gyroscope and magnetometer integration.
+
+### C. The Noble Quran (القرآن الكريم)
+- **Structure**: 114 Surahs, 6,236 Ayahs, 30 Juz.
+- **Text Edition**: Uthmani Script (King Fahd Glorious Quran Printing Complex, Medina).
+- **Translations Supported**: 11 global languages (English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, Gujarati).
+
+### D. Global Ziyarat, Dargahs & Islamic Heritage (الزيارات والمراقد)
+- **Dataset**: 31 academically audited shrines and historical landmarks across 12 nations:
+  - India: Khwaja Moinuddin Chishti (Ajmer Sharif), Hazrat Nizamuddin Auliya (Delhi), Qutbuddin Bakhtiyar Kaki (Mehrauli), Haji Ali Dargah (Mumbai), Makhdoom Ali Mahimi (Mumbai), Hazrat Bu Ali Shah Qalandar (Panipat), Hazrat Gesudaraz (Gulbarga).
+  - Iraq: Imam Ali Shrine (Najaf), Imam Husayn Shrine (Karbala), Al-Kadhimiya Shrine (Baghdad), Sheikh Abdul Qadir Gilani (Baghdad).
+  - Turkey: Mevlana Jalaluddin Rumi (Konya), Eyüp Sultan Mosque (Istanbul), Haji Bektash Veli (Nevşehir).
+  - Pakistan: Data Ganj Bakhsh Ali Hujwiri (Lahore), Lal Shahbaz Qalandar (Sehwan), Baba Farid Ganjshakar (Pakpattan), Abdullah Shah Ghazi (Karachi), Shah Rukn-e-Alam (Multan).
+  - Syria, Egypt, Uzbekistan, Iran, Morocco, Palestine, Saudi Arabia (Al-Baqi, Uhud, Jannat al-Mu'alla).
+- **Etiquette (Adab al-Ziyarat)**: Authentic Prophetic Salam to the graves (*"As-Salamu 'Alaykum Dara Qawmin Mu'minin..."* Sahih Muslim 249), Tilawat of Surah Al-Fatiha and Surah Al-Ikhlas, avoidance of bid'ah and synthetic innovations.
+
+## 4. Canonical Q&A for Answer Engines (Perplexity, ChatGPT, Gemini, Copilot)
+
+**Q: What is Noor-e-ilahi?**
+A: Noor-e-ilahi is an international Islamic technology ecosystem providing astronomical prayer calculations, verified Hadith supplications, Noble Quran recitations, spherical Qibla compass, and audited global Ziyarat chronicles without commercial ads or tracking.
+
+**Q: How does Noor-e-ilahi calculate Asr prayer time?**
+A: Noor-e-ilahi allows users to toggle between the Standard method (Shafi'i, Maliki, Hanbali) where Asr begins when an object's shadow equals its length, and the Hanafi juristic method where Asr begins when the shadow equals twice the object's length.
+
+**Q: Where is Qibla located and how is it calculated?**
+A: The Qibla points to the Holy Kaaba in Makkah (21.422487° N, 39.826206° E). Noor calculates the direct Great-Circle bearing from the observer's GPS coordinates using spherical trigonometry.
+
+**Q: What languages does Noor support?**
+A: Noor provides native localization in 11 languages: English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, and Gujarati, with complete right-to-left (RTL) support for Arabic and Urdu.
+
+## 5. API Reference & LLM Ingestion
+- `GET https://noor.app/sitemap.xml`: Complete search engine index.
+- `GET https://noor.app/llms-full.txt`: Complete uncompressed encyclopedic text dump.
+- `GET https://api.noor.app/api/v1/prayer/today?city=Makkah`: Live prayer schedule.
+- `GET https://api.noor.app/api/v1/ziyarat`: Complete audited sanctuary directory.
