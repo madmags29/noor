@@ -1,0 +1,44 @@
+/* True RTL Bidirectional Engine */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .ltr-only {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Icons that should flip in RTL (like arrows and back buttons) */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Prevent flipping for Quran text, compass, and standard media controls */
+[dir="rtl"] .no-rtl-flip,
+[dir="rtl"] .qibla-compass,
+[dir="rtl"] .media-controls,
+[dir="rtl"] .font-arabic-quran {
+  transform: none !important;
+}
+
+/* Margin and Padding utilities for RTL */
+[dir="rtl"] .mr-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* Flex alignments */
+[dir="rtl"] .flex-row-reverse-rtl {
+  flex-direction: row-reverse;
+}
+
+/* Badges and indicators */
+[dir="rtl"] .badge-icon {
+  margin-right: 0;
+  margin-left: var(--space-1);
+}

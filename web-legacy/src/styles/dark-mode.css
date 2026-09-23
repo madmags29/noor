@@ -1,0 +1,50 @@
+[data-theme="dark"] {
+  --color-primary: #1F7A5E;
+  --color-primary-dark: #125540;
+  --color-primary-light: #2BA07D;
+  --color-primary-subtle: rgba(31, 122, 94, 0.18);
+
+  --color-secondary-sand: #1B211D;
+  --color-secondary-ivory: #141816;
+  --color-secondary-cream: #222924;
+
+  --color-accent-gold: #D4B06A;
+  --color-accent-gold-light: #E7C98C;
+  --color-accent-gold-subtle: rgba(212, 176, 106, 0.12);
+  --color-accent-gold-dark: #B89248;
+
+  --color-charcoal: #0B0E0D;
+  --color-gray-dark: #C5CBC7;
+  --color-gray-medium: #95A39D;
+  --color-gray-light: #37423D;
+  --color-gray-ultra-light: #1E2521;
+  --color-white: #FFFFFF;
+
+  /* Semantic Theme Tokens - Dark Mode */
+  --bg-app: #0D110F;
+  --bg-surface: #141A17;
+  --bg-surface-elevated: #1A221E;
+  --bg-surface-subtle: #18201C;
+  --bg-surface-emerald: #10382B;
+  --bg-surface-sand: #161D19;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-subtle: rgba(255, 255, 255, 0.04);
+  --border-color-focus: #D4B06A;
+
+  --text-primary: #FAF8F5;
+  --text-secondary: #B9C5BF;
+  --text-muted: #7E8E87;
+  --text-inverse: #0D110F;
+  --text-emerald: #39C298;
+  --text-gold: #E5C37E;
+
+  /* Dark Elevation Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.7);
+  --shadow-gold: 0 8px 25px rgba(212, 176, 106, 0.2);
+  --shadow-emerald: 0 8px 25px rgba(31, 122, 94, 0.25);
+
+  --pattern-lattice-opacity: 0.03;
+}

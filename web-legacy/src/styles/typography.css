@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-latin-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-latin-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-arabic-quran: 'Amiri', 'Noto Naskh Arabic', serif;
+  --font-arabic-ui: 'Noto Naskh Arabic', 'Amiri', sans-serif;
+}
+
+/* Typography Classes */
+.font-display {
+  font-family: var(--font-latin-display);
+  font-size: 2.25rem; /* 36px */
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.font-h1 {
+  font-family: var(--font-latin-ui);
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.font-h2 {
+  font-family: var(--font-latin-ui);
+  font-size: 1.375rem; /* 22px */
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.font-h3 {
+  font-family: var(--font-latin-ui);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.font-body {
+  font-family: var(--font-latin-ui);
+  font-size: 1rem; /* 16px */
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.font-body-sm {
+  font-family: var(--font-latin-ui);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.font-caption {
+  font-family: var(--font-latin-ui);
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.font-button {
+  font-family: var(--font-latin-ui);
+  font-size: 0.9375rem; /* 15px */
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Dedicated Arabic Quran Styles */
+.font-arabic-display {
+  font-family: var(--font-arabic-ui);
+  font-size: 1.85rem;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.font-arabic-quran {
+  font-family: var(--font-arabic-quran);
+  font-size: 1.625rem; /* 26px */
+  line-height: 2.2;
+  font-weight: 400;
+  direction: rtl;
+  text-align: right;
+  word-spacing: 2px;
+}
+
+.font-arabic-quran-lg {
+  font-family: var(--font-arabic-quran);
+  font-size: 2.125rem; /* 34px */
+  line-height: 2.4;
+  font-weight: 400;
+  direction: rtl;
+  text-align: center;
+}
+
+.font-arabic-translation {
+  font-family: var(--font-latin-ui);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+/* Transliteration */
+.font-transliteration {
+  font-style: italic;
+  color: var(--color-gray-medium);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

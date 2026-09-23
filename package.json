@@ -1,0 +1,27 @@
+{
+  "name": "noor-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NOOR — Your Deen. Your Daily Companion. Global Islamic Digital Ecosystem.",
+  "workspaces": [
+    "noor-shared",
+    "noor-api",
+    "noor-web",
+    "noor-admin"
+  ],
+  "scripts": {
+    "dev:api": "cd noor-api && npm run dev",
+    "dev:web": "cd noor-web && npm run dev",
+    "dev:admin": "cd noor-admin && npm run dev",
+    "dev:mobile": "cd noor-mobile && npx expo start",
+    "build:shared": "cd noor-shared && npm run build",
+    "build:api": "cd noor-api && npm run build",
+    "build:web": "cd noor-web && npm run build",
+    "build:admin": "cd noor-admin && npm run build",
+    "typecheck": "npm run typecheck --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
