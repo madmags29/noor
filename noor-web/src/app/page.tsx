@@ -16,7 +16,7 @@ import { QiblaSection } from '../components/QiblaSection';
 import { PixabayMediaSection } from '../components/PixabayMediaSection';
 import { CalendarSection } from '../components/CalendarSection';
 import { MonetizationSection } from '../components/MonetizationSection';
-import { AuthModal } from '../components/AuthModal';
+import { AuthModal, AuthUser } from '../components/AuthModal';
 import { AiAssistantModal } from '../components/AiAssistantModal';
 import { SearchModal } from '../components/SearchModal';
 import { DashboardModal } from '../components/DashboardModal';
@@ -39,7 +39,14 @@ export default function Home() {
   const [showAiModal, setShowAiModal] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showDashboardModal, setShowDashboardModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState<{ name: string; email: string } | null>(null);
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+
+  const handleSignOut = () => {
+    try {
+      localStorage.removeItem('noor_user');
+    } catch {}
+    setCurrentUser(null);
+  };
 
   // Auto-detect user's location on startup (instant IP + browser GPS)
   useEffect(() => {
@@ -78,6 +85,7 @@ export default function Home() {
         onOpenSearch={() => setShowSearchModal(true)}
         onOpenDashboard={() => setShowDashboardModal(true)}
         user={currentUser}
+        onSignOut={handleSignOut}
       />
 
       {/* Main Content Sections */}
@@ -156,7 +164,12 @@ export default function Home() {
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onLoginSuccess={(u) => setCurrentUser(u)}
+        onLoginSuccess={(u) => {
+          setCurrentUser(u);
+          try {
+            localStorage.setItem('noor_user', JSON.stringify(u));
+          } catch {}
+        }}
       />
 
       <AiAssistantModal

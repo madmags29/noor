@@ -15,12 +15,14 @@ import {
   LocateFixed,
   ChevronDown,
   Menu,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 import { CityLocation, POPULAR_CITIES, detectUserLocation } from '../lib/locationService';
 import { MuslimLogo } from './MuslimLogo';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import { GoogleLogo, AuthUser } from './AuthModal';
 
 interface NavbarProps {
   currentLocation: CityLocation;
@@ -29,7 +31,8 @@ interface NavbarProps {
   onOpenAi: () => void;
   onOpenSearch: () => void;
   onOpenDashboard?: () => void;
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
+  onSignOut?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -39,16 +42,19 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAi,
   onOpenSearch,
   onOpenDashboard,
-  user
+  user,
+  onSignOut
 }) => {
   const pathname = usePathname();
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showExploreDropdown, setShowExploreDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [detecting, setDetecting] = useState(false);
 
   const locationRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
   // Close dropdowns when clicking outside
@@ -59,6 +65,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       }
       if (exploreRef.current && !exploreRef.current.contains(event.target as Node)) {
         setShowExploreDropdown(false);
+      }
+      if (userRef.current && !userRef.current.contains(event.target as Node)) {
+        setShowUserDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -320,16 +329,73 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* User Profile or Sign In */}
           {user ? (
-            <div className="flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs text-white bg-white/5 border border-white/10">
-              <div className="w-5 h-5 rounded-full bg-amber-500 text-emerald-950 font-black flex items-center justify-center text-[10px]">
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-              <span className="max-w-[70px] truncate text-[11px] font-semibold hidden md:inline">{user.name}</span>
+            <div className="relative" ref={userRef}>
+              <button
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
+                className="flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-colors cursor-pointer"
+              >
+                {user.picture ? (
+                  <img
+                    src={user.picture}
+                    alt={user.name}
+                    className="w-5 h-5 rounded-full object-cover border border-amber-400/40"
+                  />
+                ) : (
+                  <div className="w-5 h-5 rounded-full bg-amber-500 text-emerald-950 font-black flex items-center justify-center text-[10px]">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <span className="max-w-[70px] truncate text-[11px] font-semibold hidden md:inline">
+                  {user.name.split(' ')[0]}
+                </span>
+                <ChevronDown className="w-3 h-3 text-emerald-400/70" />
+              </button>
+
+              {/* Profile Dropdown */}
+              {showUserDropdown && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-[#031d16] border border-emerald-700/50 rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in">
+                  <div className="flex items-center gap-2.5 pb-2.5 border-b border-white/10 mb-2">
+                    {user.picture ? (
+                      <img
+                        src={user.picture}
+                        alt={user.name}
+                        className="w-9 h-9 rounded-full object-cover border border-amber-400"
+                      />
+                    ) : (
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-emerald-700 text-emerald-950 font-bold flex items-center justify-center text-sm shadow">
+                        {user.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="min-w-0 flex-1 text-left">
+                      <div className="text-xs font-bold text-white truncate">{user.name}</div>
+                      <div className="text-[10px] text-emerald-300/70 truncate">{user.email}</div>
+                    </div>
+                  </div>
+
+                  {user.provider === 'google' && (
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-700/30 text-[10px] text-emerald-300 mb-2">
+                      <GoogleLogo className="w-3.5 h-3.5 shrink-0" />
+                      <span className="font-semibold">Google Account Verified</span>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      if (onSignOut) onSignOut();
+                      setShowUserDropdown(false);
+                    }}
+                    className="w-full py-1.5 px-2.5 rounded-lg hover:bg-red-500/15 text-red-300 hover:text-red-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer text-left"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <button
               onClick={onOpenAuth}
-              className="px-3 py-1 rounded-full text-xs font-semibold text-amber-300 border border-amber-400/40 hover:bg-amber-400/10 hover:border-amber-400 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+              className="px-3 py-1 rounded-full text-xs font-semibold text-amber-300 border border-amber-400/40 hover:bg-amber-400/10 hover:border-amber-400 transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
             >
               <User className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Sign In</span>
@@ -430,13 +496,42 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Search className="w-3.5 h-3.5 text-amber-400" />
               <span>Search</span>
             </button>
-            {!user && (
+            {user ? (
+              <div className="flex-1 p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                <div className="flex items-center gap-2 min-w-0">
+                  {user.picture ? (
+                    <img src={user.picture} alt={user.name} className="w-6 h-6 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-amber-500 text-emerald-950 font-bold flex items-center justify-center text-[10px]">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div className="truncate text-left">
+                    <div className="text-[11px] font-bold text-white truncate">{user.name}</div>
+                    <div className="text-[9px] text-emerald-300/70 truncate flex items-center gap-1">
+                      {user.provider === 'google' && <GoogleLogo className="w-2.5 h-2.5 inline" />}
+                      <span>{user.email}</span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    if (onSignOut) onSignOut();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="p-1.5 text-red-400 hover:text-red-300 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenAuth();
                 }}
-                className="flex-1 py-2 px-3 rounded-xl bg-amber-400/15 text-amber-300 border border-amber-400/30 text-xs font-bold flex items-center justify-center gap-1.5"
+                className="flex-1 py-2 px-3 rounded-xl bg-amber-400/15 text-amber-300 border border-amber-400/30 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <User className="w-3.5 h-3.5" />
                 <span>Sign In</span>
