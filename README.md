@@ -58,8 +58,7 @@ noor/
 ├── noor-mobile/        # React Native / Expo SDK 57 iOS & Android Mobile App
 ├── noor-api/           # Express / TypeScript Backend REST API
 ├── noor-admin/         # Next.js Admin & Content Management Dashboard
-├── noor-shared/        # Shared TypeScript types, prayer formulas & utils
-└── web-legacy/         # Legacy web prototype
+└── noor-shared/        # Shared TypeScript types, prayer formulas & utils
 ```
 
 ---
