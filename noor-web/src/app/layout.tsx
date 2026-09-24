@@ -3,7 +3,7 @@ import './globals.css';
 import JsonLd from '../components/JsonLd';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://noor.app'),
+  metadataBase: new URL('https://www.nooreilahi.com'),
   title: {
     default: 'Noor-e-ilahi — Your Deen. Your Daily Companion. | Global Islamic Platform',
     template: '%s | Noor-e-ilahi Islamic Ecosystem',
@@ -37,27 +37,27 @@ export const metadata: Metadata = {
   creator: 'Noor-e-ilahi Ecosystem',
   publisher: 'Noor-e-ilahi',
   alternates: {
-    canonical: 'https://noor.app',
+    canonical: 'https://www.nooreilahi.com',
     languages: {
-      'x-default': 'https://noor.app',
-      'en': 'https://noor.app?lang=en',
-      'hi': 'https://noor.app?lang=hi',
-      'ur': 'https://noor.app?lang=ur',
-      'ar': 'https://noor.app?lang=ar',
-      'bn': 'https://noor.app?lang=bn',
-      'tr': 'https://noor.app?lang=tr',
-      'id': 'https://noor.app?lang=id',
-      'ta': 'https://noor.app?lang=ta',
-      'ml': 'https://noor.app?lang=ml',
-      'mr': 'https://noor.app?lang=mr',
-      'gu': 'https://noor.app?lang=gu',
+      'x-default': 'https://www.nooreilahi.com',
+      'en': 'https://www.nooreilahi.com?lang=en',
+      'hi': 'https://www.nooreilahi.com?lang=hi',
+      'ur': 'https://www.nooreilahi.com?lang=ur',
+      'ar': 'https://www.nooreilahi.com?lang=ar',
+      'bn': 'https://www.nooreilahi.com?lang=bn',
+      'tr': 'https://www.nooreilahi.com?lang=tr',
+      'id': 'https://www.nooreilahi.com?lang=id',
+      'ta': 'https://www.nooreilahi.com?lang=ta',
+      'ml': 'https://www.nooreilahi.com?lang=ml',
+      'mr': 'https://www.nooreilahi.com?lang=mr',
+      'gu': 'https://www.nooreilahi.com?lang=gu',
     },
   },
   openGraph: {
     title: 'Noor-e-ilahi — Your Deen. Your Daily Companion.',
     description:
       'The premier Islamic technology platform for astronomical prayer times, Noble Quran, Hisn al-Muslim duas, 3D Qibla compass, and global Ziyarat chronicles.',
-    url: 'https://noor.app',
+    url: 'https://www.nooreilahi.com',
     siteName: 'Noor-e-ilahi Islamic Ecosystem',
     images: [
       {
@@ -139,8 +139,8 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
         <JsonLd />
-        <link rel="alternate" type="text/plain" href="https://noor.app/llms.txt" title="LLMs.txt AEO Knowledge Base" />
-        <link rel="author" href="https://noor.app/llms.txt" />
+        <link rel="alternate" type="text/plain" href="https://www.nooreilahi.com/llms.txt" title="LLMs.txt AEO Knowledge Base" />
+        <link rel="author" href="https://www.nooreilahi.com/llms.txt" />
       </head>
       <body
         suppressHydrationWarning

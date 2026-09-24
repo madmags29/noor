@@ -49,6 +49,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isGsiReady, setIsGsiReady] = useState(false);
+  const [gsiButtonLoaded, setGsiButtonLoaded] = useState(false);
 
   const GOOGLE_CLIENT_ID =
     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
@@ -93,7 +94,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
 
   // Load and initialize Google Identity Services SDK
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      setGsiButtonLoaded(false);
+      return;
+    }
 
     const setupGsi = () => {
       if (typeof window !== 'undefined' && (window as any).google?.accounts?.id) {
@@ -120,6 +124,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
               width: 320,
               logo_alignment: 'left',
             });
+            setGsiButtonLoaded(true);
           }
         } catch (e) {
           console.warn('Google GSI initialization notice:', e);
@@ -260,24 +265,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
           </div>
         )}
 
-        {/* Primary Google Login Section */}
-        <div className="space-y-3.5 my-2">
+        {/* Primary Google Login Section (Strictly ONE button) */}
+        <div className="flex justify-center w-full my-3 min-h-[44px]">
           {/* Official Google Identity Button Container */}
           <div
             id="google-official-button-container"
-            className="flex justify-center w-full min-h-[44px] empty:hidden"
+            className={`flex justify-center w-full min-h-[44px] ${gsiButtonLoaded ? 'block' : 'hidden'}`}
           />
 
-          {/* Premium Fallback/Direct Google Button */}
-          <button
-            type="button"
-            onClick={handleDirectGoogleLogin}
-            disabled={loading}
-            className="w-full py-3 px-4 rounded-2xl bg-white hover:bg-gray-100 text-gray-800 font-bold text-sm flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.01] cursor-pointer disabled:opacity-60"
-          >
-            <GoogleLogo className="w-5 h-5 shrink-0" />
-            <span>{loading ? 'Connecting to Google...' : 'Continue with Google'}</span>
-          </button>
+          {/* Premium Fallback/Direct Google Button (only shown if official button is not loaded) */}
+          {!gsiButtonLoaded && (
+            <button
+              type="button"
+              onClick={handleDirectGoogleLogin}
+              disabled={loading}
+              className="w-full max-w-[320px] py-2.5 px-4 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-bold text-sm flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-60 border border-gray-300"
+            >
+              <GoogleLogo className="w-5 h-5 shrink-0" />
+              <span>{loading ? 'Connecting to Google...' : 'Continue with Google'}</span>
+            </button>
+          )}
         </div>
 
         {/* Security & Sync Highlights */}

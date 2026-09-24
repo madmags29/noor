@@ -59,8 +59,11 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/dashboard'],
       },
     ],
-    sitemap: 'https://noor.app/sitemap.xml',
-    host: 'https://noor.app',
+    sitemap: [
+      'https://www.nooreilahi.com/sitemap.xml',
+      'https://www.nooreilahi.com/sitemap-noor.xml'
+    ],
+    host: 'https://www.nooreilahi.com',
   };
 }
 

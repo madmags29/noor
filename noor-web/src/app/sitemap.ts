@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { VERIFIED_DARGAHS_DATABASE } from '../lib/ziyaratData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://noor.app';
+  const baseUrl = 'https://www.nooreilahi.com';
   const currentDate = new Date().toISOString();
 
   // All 11 supported languages for SEO hreflang alternates
@@ -30,15 +31,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/qibla', changeFrequency: 'monthly', priority: 0.90 },
     { path: '/calendar', changeFrequency: 'daily', priority: 0.85 },
     { path: '/media', changeFrequency: 'daily', priority: 0.80 },
+    { path: '/dashboard', changeFrequency: 'daily', priority: 0.85 },
     { path: '/app-preview', changeFrequency: 'monthly', priority: 0.80 },
   ];
 
-  return routes.map((r) => ({
+  const mainPages: MetadataRoute.Sitemap = routes.map((r) => ({
     url: `${baseUrl}${r.path}`,
     lastModified: currentDate,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
     alternates: createLocalizedAlternates(r.path),
   }));
-}
 
+  // Add all 31 verified Ziyarat shrine detail pages
+  const ziyaratPages: MetadataRoute.Sitemap = VERIFIED_DARGAHS_DATABASE.map((dargah) => ({
+    url: `${baseUrl}/ziyarat/${dargah.slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+    alternates: createLocalizedAlternates(`/ziyarat/${dargah.slug}`),
+  }));
+
+  return [...mainPages, ...ziyaratPages];
+}
