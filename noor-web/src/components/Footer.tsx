@@ -2,11 +2,12 @@
 
 // ============================================================
 // NOOR Web — Luxury Islamic Ecosystem Footer
+// Perfectly synchronized with Header Primary & Explore Navigation
 // ============================================================
 
 import React from 'react';
 import Link from 'next/link';
-import { Apple, Play } from 'lucide-react';
+import { Apple, Play, Compass, BookOpen, Volume2, Calendar, ShieldCheck, FileText, Globe2, Sparkles } from 'lucide-react';
 
 import { MuslimLogo } from './MuslimLogo';
 import { useLanguage } from '../context/LanguageContext';
@@ -17,8 +18,9 @@ export const Footer: React.FC = () => {
   return (
     <footer className="w-full bg-[#010e0a] border-t border-white/10 pt-16 pb-12 px-4 lg:px-8 mt-16 text-xs text-emerald-300/70">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
-        {/* Brand Col */}
-        <div className="lg:col-span-2 space-y-4">
+        
+        {/* Column 1: Brand & Mobile Apps */}
+        <div className="space-y-4">
           <MuslimLogo size="lg" showText={true} />
 
           <p className="text-xs text-emerald-200/75 leading-relaxed max-w-sm">
@@ -28,61 +30,163 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-3 pt-2">
             <Link
               href="/app-preview"
-              className="liquid-pill px-3 py-1.5 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold hover:border-amber-400 whitespace-nowrap"
+              className="liquid-pill px-3 py-1.5 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold hover:border-amber-400 whitespace-nowrap transition-colors"
             >
               <Apple className="w-3.5 h-3.5" />
               <span>{t('iosApp')}</span>
             </Link>
             <Link
               href="/app-preview"
-              className="liquid-pill px-3 py-1.5 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold hover:border-amber-400 whitespace-nowrap"
+              className="liquid-pill px-3 py-1.5 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold hover:border-amber-400 whitespace-nowrap transition-colors"
             >
               <Play className="w-3.5 h-3.5 fill-white" />
               <span>{t('androidApp')}</span>
             </Link>
           </div>
+
+          <div className="flex items-center gap-2 pt-2 text-[10px] text-emerald-400/80 font-mono">
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span>100% Shariah Compliant • Zero Obscene Ads</span>
+          </div>
         </div>
 
-        {/* Dedicated Pages Column */}
+        {/* Column 2: Core Islamic Pillars (Matches Header Primary Nav) */}
         <div>
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3 text-amber-400">
-            {t('colIslamicFeatures')}
+          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🕌</span>
+            <span>{t('colIslamicFeatures')}</span>
           </h4>
-          <ul className="space-y-2">
-            <li><Link href="/prayer-times" className="hover:text-amber-300 transition-colors">{t('prayerTimetable')}</Link></li>
-            <li><Link href="/quran" className="hover:text-amber-300 transition-colors">{t('quran')}</Link></li>
-            <li><Link href="/duas" className="hover:text-amber-300 transition-colors">{t('duas')}</Link></li>
-            <li><Link href="/qibla" className="hover:text-amber-300 transition-colors">{t('qibla')}</Link></li>
-            <li><Link href="/media" className="hover:text-amber-300 transition-colors">{t('media')}</Link></li>
-            <li><Link href="/calendar" className="hover:text-amber-300 transition-colors">{t('calendar')}</Link></li>
-            <li><Link href="/ziyarat" className="hover:text-amber-300 text-amber-400/90 font-medium transition-colors">{t('sanctuariesDirectory')}</Link></li>
+          <ul className="space-y-2.5">
+            <li>
+              <Link href="/prayer-times" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🕌</span>
+                <span>{t('prayers')} ({t('prayerTimetable')})</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/quran" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📖</span>
+                <span>{t('quran')} (114 Surahs)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/duas" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🤲</span>
+                <span>{t('duas')} (Hisn al-Muslim)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/ziyarat" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-medium">
+                <span>🏛️</span>
+                <span>{t('ziyarat')} ({t('sanctuariesDirectory')})</span>
+              </Link>
+            </li>
           </ul>
         </div>
 
-        {/* Ethical Monetization & Ummah */}
+        {/* Column 3: Spiritual Tools & Explore (Matches Header Explore Menu) */}
         <div>
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3 text-amber-400">
-            {t('colHalalEcosystem')}
+          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🧭</span>
+            <span>{t('explore')} & Tools</span>
           </h4>
-          <ul className="space-y-2">
-            <li><Link href="/dashboard" className="hover:text-amber-300 transition-colors">{t('proMembershipTitle')}</Link></li>
-            <li><Link href="/dashboard" className="hover:text-amber-300 transition-colors">{t('verifiedDirectoryTitle')}</Link></li>
-            <li><Link href="/dashboard" className="hover:text-amber-300 transition-colors">{t('digitalWaqfTitle')}</Link></li>
-            <li><Link href="/giving" className="hover:text-amber-300 transition-colors">{t('giving')}</Link></li>
+          <ul className="space-y-2.5">
+            <li>
+              <Link href="/qibla" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🧭</span>
+                <span>{t('qibla')} (3D Kaaba Azimuth)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/media" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📻</span>
+                <span>{t('media')} (Live Makkah & Adhan)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/calendar" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🌙</span>
+                <span>{t('calendar')} (Hijri 1448 AH)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/?profile=true" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📊</span>
+                <span>{t('dashboard')} (Salah Tracker)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/app-preview" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📱</span>
+                <span>{t('app')} (Mobile Companion)</span>
+              </Link>
+            </li>
           </ul>
         </div>
+
+        {/* Column 4: Standards & Search Optimization */}
+        <div>
+          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🌐</span>
+            <span>Standards & Machine Context</span>
+          </h4>
+          <ul className="space-y-2.5">
+            <li>
+              <Link href="/sitemap.xml" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🗺️</span>
+                <span>{t('sitemapXml')} (Global Index)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/llms.txt" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🤖</span>
+                <span>AI Context Specs (llms.txt)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/llms-full.txt" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📜</span>
+                <span>Deep Knowledge Base (llms-full)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/sitemap-noor.xml" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📑</span>
+                <span>Secondary Verified Sitemap</span>
+              </Link>
+            </li>
+            <li className="pt-1 text-[11px] text-emerald-400/80 flex items-center gap-2 font-mono">
+              <Globe2 className="w-3.5 h-3.5 text-amber-400" />
+              <span>11 Global Languages • Full RTL</span>
+            </li>
+          </ul>
+        </div>
+
       </div>
 
-      {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-[11px] text-emerald-400/60 text-center sm:text-left">
+      {/* Bottom Bar: Synchronized Horizontal Nav & Copyright */}
+      <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="text-[11px] text-emerald-400/60 text-center md:text-left">
           {t('footerCopyright')}
         </p>
 
-        <div className="flex items-center gap-4 text-[11px] text-emerald-300/60">
-          <Link href="/sitemap.xml" className="hover:text-amber-300 transition-colors">{t('sitemapXml')}</Link>
+        {/* Clean Header-Aligned Quick Links */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] text-emerald-300/70">
+          <Link href="/prayer-times" className="hover:text-amber-300 transition-colors">{t('prayers')}</Link>
           <span>•</span>
-          <Link href="/dashboard" className="hover:text-amber-300 transition-colors">{t('adminPortal')}</Link>
+          <Link href="/quran" className="hover:text-amber-300 transition-colors">{t('quran')}</Link>
+          <span>•</span>
+          <Link href="/duas" className="hover:text-amber-300 transition-colors">{t('duas')}</Link>
+          <span>•</span>
+          <Link href="/ziyarat" className="hover:text-amber-300 transition-colors">{t('ziyarat')}</Link>
+          <span>•</span>
+          <Link href="/qibla" className="hover:text-amber-300 transition-colors">{t('qibla')}</Link>
+          <span>•</span>
+          <Link href="/calendar" className="hover:text-amber-300 transition-colors">{t('calendar')}</Link>
+          <span>•</span>
+          <Link href="/media" className="hover:text-amber-300 transition-colors">{t('media')}</Link>
+          <span>•</span>
+          <Link href="/sitemap.xml" className="hover:text-amber-300 transition-colors">{t('sitemapXml')}</Link>
         </div>
       </div>
     </footer>
