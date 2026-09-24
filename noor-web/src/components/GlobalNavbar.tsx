@@ -35,6 +35,7 @@ import { AuthModal, GoogleLogo, AuthUser } from './AuthModal';
 import { AiAssistantModal } from './AiAssistantModal';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import { loadCurrentUser, saveCurrentUser } from '../lib/userDataService';
 
 interface GlobalNavbarProps {
   currentLocation?: CityLocation;
@@ -118,9 +119,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
   }, [pathname]);
 
   const handleSignOut = () => {
-    try {
-      localStorage.removeItem('noor_user');
-    } catch {}
+    saveCurrentUser(null);
     setCurrentUser(null);
     setShowUserDropdown(false);
   };
@@ -620,9 +619,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
         onClose={() => setShowAuthModal(false)}
         onLoginSuccess={(user) => {
           setCurrentUser(user);
-          try {
-            localStorage.setItem('noor_user', JSON.stringify(user));
-          } catch {}
+          saveCurrentUser(user);
         }}
       />
     </>

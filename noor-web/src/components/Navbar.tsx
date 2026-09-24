@@ -16,7 +16,8 @@ import {
   ChevronDown,
   Menu,
   X,
-  LogOut
+  LogOut,
+  Sliders
 } from 'lucide-react';
 import { CityLocation, POPULAR_CITIES, detectUserLocation } from '../lib/locationService';
 import { MuslimLogo } from './MuslimLogo';
@@ -378,6 +379,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <span className="font-semibold">Google Account Verified</span>
                     </div>
                   )}
+
+                  <button
+                    onClick={() => {
+                      if (onOpenDashboard) onOpenDashboard();
+                      setShowUserDropdown(false);
+                    }}
+                    className="w-full py-1.5 px-2.5 rounded-lg hover:bg-white/10 text-emerald-100 hover:text-white text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer text-left mb-1"
+                  >
+                    <Sliders className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Profile & Settings</span>
+                  </button>
 
                   <button
                     onClick={() => {

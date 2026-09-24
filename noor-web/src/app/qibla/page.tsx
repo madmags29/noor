@@ -278,20 +278,27 @@ export default function QiblaPage() {
             >
               <div className="absolute top-4 flex flex-col items-center">
                 <span className="text-2xl filter drop-shadow-[0_0_10px_rgba(245,158,11,0.9)]">🕋</span>
-                <div className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[28px] border-t-amber-400 mt-1 filter drop-shadow-[0_0_12px_rgba(245,158,11,0.8)]" />
+                <svg className="w-7 h-8 text-amber-400 filter drop-shadow-[0_0_10px_rgba(245,158,11,0.8)] mt-0.5" viewBox="0 0 24 28">
+                  <polygon points="12,0 24,28 12,20 0,28" fill="currentColor" />
+                </svg>
                 <span className="text-[10px] font-black text-amber-300 mt-1 uppercase bg-black/80 px-2 py-0.5 rounded border border-amber-400/50">
                   Kaaba ({bearing}°)
                 </span>
               </div>
 
-              <div className="absolute bottom-6 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[20px] border-t-emerald-800/80" />
+              {/* Counter Tail Needle (Emerald) */}
+              <div className="absolute bottom-6 flex flex-col items-center">
+                <svg className="w-5 h-7 text-emerald-800/90" viewBox="0 0 20 24">
+                  <polygon points="10,24 0,0 10,6 20,0" fill="currentColor" />
+                </svg>
+              </div>
             </div>
 
             {/* Pivot */}
-            <div className={`w-14 h-14 rounded-full border-2 flex flex-col items-center justify-center shadow-lg z-10 transition-colors ${
+            <div className={`w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-lg z-10 transition-colors ${
               isAligned ? 'bg-[#04281e] border-emerald-400' : 'bg-gradient-to-tr from-amber-500 to-amber-300 border-emerald-950'
             }`}>
-              <Navigation className={`w-6 h-6 ${isAligned ? 'text-emerald-400 fill-emerald-400' : 'text-emerald-950 fill-emerald-950'}`} />
+              <div className={`w-4 h-4 rounded-full ${isAligned ? 'bg-emerald-400' : 'bg-emerald-950'}`} />
             </div>
           </div>
 

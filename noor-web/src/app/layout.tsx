@@ -102,6 +102,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'U0EUqGVn0UMNM7TTtNVZQ2zVq0FaT-s_ndT_E_cfBJU',
+  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },

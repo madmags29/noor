@@ -25,6 +25,7 @@ import { Footer } from '../components/Footer';
 import { DEFAULT_LOCATION, CityLocation, detectUserLocation, saveUserLocation } from '../lib/locationService';
 import { calculateDayPrayerTimes, PrayerTimeItem } from '../lib/prayerService';
 import { useLanguage } from '../context/LanguageContext';
+import { loadCurrentUser, saveCurrentUser, loadUserSettings } from '../lib/userDataService';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -42,11 +43,18 @@ export default function Home() {
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
 
   const handleSignOut = () => {
-    try {
-      localStorage.removeItem('noor_user');
-    } catch {}
+    saveCurrentUser(null);
     setCurrentUser(null);
   };
+
+  // Load saved user & settings on startup
+  useEffect(() => {
+    const u = loadCurrentUser();
+    if (u) setCurrentUser(u);
+    const s = loadUserSettings();
+    if (s?.calculationMethod) setSelectedMethod(s.calculationMethod);
+    if (s?.asrFactor) setAsrFactor(s.asrFactor);
+  }, []);
 
   // Auto-detect user's location on startup (instant IP + browser GPS)
   useEffect(() => {
@@ -166,9 +174,7 @@ export default function Home() {
         onClose={() => setShowAuthModal(false)}
         onLoginSuccess={(u) => {
           setCurrentUser(u);
-          try {
-            localStorage.setItem('noor_user', JSON.stringify(u));
-          } catch {}
+          saveCurrentUser(u);
         }}
       />
 
@@ -190,6 +196,12 @@ export default function Home() {
         onMethodChange={setSelectedMethod}
         asrFactor={asrFactor}
         onAsrFactorChange={setAsrFactor}
+        user={currentUser}
+        onSignOut={handleSignOut}
+        onOpenAuth={() => {
+          setShowDashboardModal(false);
+          setShowAuthModal(true);
+        }}
       />
     </div>
   );
