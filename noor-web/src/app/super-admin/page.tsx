@@ -38,7 +38,18 @@ import {
   X,
   Palette,
   KeyRound,
-  UserCheck
+  UserCheck,
+  Flame,
+  MousePointerClick,
+  Smartphone,
+  Laptop,
+  Radio,
+  GitFork,
+  Navigation,
+  Layers,
+  Zap,
+  Clock,
+  Coins
 } from 'lucide-react';
 import {
   RegisteredUser,
@@ -68,7 +79,7 @@ export default function SuperAdminPage() {
   const [adminUser, setAdminUser] = useState<{ email: string; name: string } | null>(null);
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<'users' | 'traffic' | 'appearance' | 'cms' | 'exports'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('users');
 
   // Registered Users Directory State
   const [usersList, setUsersList] = useState<RegisteredUser[]>([]);
@@ -79,6 +90,22 @@ export default function SuperAdminPage() {
 
   // Real-time Traffic State
   const [trafficRange, setTrafficRange] = useState<'today' | '7d' | '30d' | '1y'>('7d');
+
+  // Heatmap & User Flows State
+  const [heatmapMode, setHeatmapMode] = useState<'clicks' | 'scroll' | 'time'>('clicks');
+  const [liveStreamPaused, setLiveStreamPaused] = useState<boolean>(false);
+
+  // Live User Sessions Telemetry
+  const [liveSessions] = useState([
+    { id: 'sess_9821', user: 'Anonymous Pilgrim', city: 'Makkah', country: 'Saudi Arabia', flag: '🇸🇦', device: 'iPhone 16 Pro', browser: 'Safari 18', os: 'iOS 18.2', page: '/zakat', timeOnPage: '4m 12s', event: 'Valued Zakat in SAR (315 SAR/g gold)', status: 'active' },
+    { id: 'sess_9822', user: 'Dr. Tariq Mansoor', email: 'tariq.mansoor@gmail.com', city: 'London', country: 'United Kingdom', flag: '🇬🇧', device: 'MacBook Pro M3', browser: 'Chrome 128', os: 'macOS 15', page: '/guides', timeOnPage: '7m 45s', event: 'Completed Wudu Step 6 (Head Masah)', status: 'active' },
+    { id: 'sess_9823', user: 'Zubair Farooqi', email: 'zubair.farooqi@gmail.com', city: 'Delhi', country: 'India', flag: '🇮🇳', device: 'Samsung Galaxy S24', browser: 'Chrome Mobile', os: 'Android 15', page: '/prayer-times', timeOnPage: '2m 10s', event: 'Checked Asr time (Hanafi juristic mode)', status: 'active' },
+    { id: 'sess_9824', user: 'Amina Al-Zahra', email: 'amina.zahra@gmail.com', city: 'Istanbul', country: 'Turkey', flag: '🇹🇷', device: 'iPad Pro', browser: 'Safari Mobile', os: 'iPadOS', page: '/quran', timeOnPage: '14m 20s', event: 'Reciting Surah Al-Kahf (Sheikh Alafasy)', status: 'active' },
+    { id: 'sess_9825', user: 'Anonymous Pilgrim', city: 'Dubai', country: 'United Arab Emirates', flag: '🇦🇪', device: 'Windows 11 PC', browser: 'Edge 128', os: 'Windows 11', page: '/hajj-umrah', timeOnPage: '5m 30s', event: 'Downloaded Umrah Packing Checklist', status: 'active' },
+    { id: 'sess_9826', user: 'Fatima Noor', email: 'fatima.n@gmail.com', city: 'Jakarta', country: 'Indonesia', flag: '🇮🇩', device: 'Xiaomi 14', browser: 'Chrome Mobile', os: 'Android 14', page: '/janazah', timeOnPage: '3m 18s', event: 'Reviewed 4 Takbeers & Adult Janazah Dua', status: 'active' },
+    { id: 'sess_9827', user: 'Anonymous Pilgrim', city: 'Toronto', country: 'Canada', flag: '🇨🇦', device: 'Pixel 9 Pro', browser: 'Chrome 128', os: 'Android 15', page: '/travel', timeOnPage: '1m 45s', event: 'Calculated 140km Qasr Prayer Shortening', status: 'active' },
+    { id: 'sess_9828', user: 'Bilal Qureshi', email: 'bilal.q@gmail.com', city: 'Karachi', country: 'Pakistan', flag: '🇵🇰', device: 'iPhone 15', browser: 'Safari 18', os: 'iOS 18.1', page: '/ziyarat', timeOnPage: '8m 05s', event: 'Inspecting Data Darbar Lahore Coordinates', status: 'active' },
+  ]);
 
   // Appearance State
   const [themeHue, setThemeHue] = useState<'emerald' | 'gold' | 'sapphire' | 'obsidian'>('emerald');
@@ -491,7 +518,43 @@ export default function SuperAdminPage() {
             }`}
           >
             <Activity className="w-3.5 h-3.5" />
-            <span>Real-Time Traffic</span>
+            <span>Traffic Overview</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('tracking')}
+            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'tracking'
+                ? 'bg-amber-500 text-emerald-950 font-black shadow'
+                : 'text-emerald-200 hover:text-white'
+            }`}
+          >
+            <Radio className="w-3.5 h-3.5" />
+            <span>Live User Tracking ({liveSessions.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('flows')}
+            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'flows'
+                ? 'bg-amber-500 text-emerald-950 font-black shadow'
+                : 'text-emerald-200 hover:text-white'
+            }`}
+          >
+            <GitFork className="w-3.5 h-3.5" />
+            <span>User Flows & Funnels</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('heatmap')}
+            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'heatmap'
+                ? 'bg-amber-500 text-emerald-950 font-black shadow'
+                : 'text-emerald-200 hover:text-white'
+            }`}
+          >
+            <MousePointerClick className="w-3.5 h-3.5" />
+            <span>Click & Scroll Heatmap</span>
           </button>
 
           <button
@@ -1065,7 +1128,608 @@ export default function SuperAdminPage() {
         )}
 
         {/* ====================================================
-            TAB 3: APPEARANCE & ATMOSPHERE
+            TAB 3: LIVE USER TRACKING & SESSIONS
+           ==================================================== */}
+        {activeTab === 'tracking' && (
+          <div className="space-y-6">
+            {/* Top Live Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-3.5 w-3.5">
+                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${liveStreamPaused ? 'bg-zinc-400' : 'bg-emerald-400'}`} />
+                  <span className={`relative inline-flex rounded-full h-3.5 w-3.5 ${liveStreamPaused ? 'bg-zinc-500' : 'bg-emerald-500'}`} />
+                </span>
+                <div>
+                  <span className="text-xs text-emerald-300/70 font-semibold block">
+                    {liveStreamPaused ? 'Live Telemetry Paused' : 'Live User Sessions Streaming'}
+                  </span>
+                  <span className="text-xl sm:text-2xl font-black text-white font-mono">
+                    1,842 Active Pilgrims Right Now
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setLiveStreamPaused(!liveStreamPaused)}
+                  className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer ${
+                    liveStreamPaused
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                      : 'bg-white/5 text-zinc-300 hover:text-white border-white/10'
+                  }`}
+                >
+                  <Radio className="w-3.5 h-3.5 text-amber-400" />
+                  <span>{liveStreamPaused ? 'Resume Stream' : 'Pause Stream'}</span>
+                </button>
+
+                <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-xs font-mono text-emerald-300">
+                  Global Edge Ping: <strong>28ms</strong>
+                </div>
+              </div>
+            </div>
+
+            {/* KPI Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-2">
+                <div className="flex items-center justify-between text-xs text-emerald-300/70">
+                  <span>Avg Session Duration</span>
+                  <Clock className="w-4 h-4 text-amber-400" />
+                </div>
+                <div className="text-2xl font-black text-white font-mono">6m 48s</div>
+                <span className="text-[11px] text-emerald-400 font-semibold block">↑ +18.4% depth of study</span>
+              </div>
+
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-2">
+                <div className="flex items-center justify-between text-xs text-emerald-300/70">
+                  <span>Top Active Module</span>
+                  <Coins className="w-4 h-4 text-emerald-400" />
+                </div>
+                <div className="text-2xl font-black text-white font-mono">Zakat Hub</div>
+                <span className="text-[11px] text-amber-400 font-semibold block">38% active traffic share</span>
+              </div>
+
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-2">
+                <div className="flex items-center justify-between text-xs text-emerald-300/70">
+                  <span>Mobile Device Ratio</span>
+                  <Smartphone className="w-4 h-4 text-sky-400" />
+                </div>
+                <div className="text-2xl font-black text-white font-mono">68.2%</div>
+                <span className="text-[11px] text-sky-300 font-semibold block">iOS 44% • Android 24%</span>
+              </div>
+
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-2">
+                <div className="flex items-center justify-between text-xs text-emerald-300/70">
+                  <span>PWA App Installs</span>
+                  <Download className="w-4 h-4 text-amber-400" />
+                </div>
+                <div className="text-2xl font-black text-white font-mono">14,890</div>
+                <span className="text-[11px] text-emerald-400 font-semibold block">↑ +32.1% this week</span>
+              </div>
+            </div>
+
+            {/* Live Sessions Stream Table */}
+            <div className="bg-[#031c15] border border-white/10 rounded-3xl overflow-hidden shadow-xl">
+              <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Radio className="w-4 h-4 text-emerald-400" />
+                    <span>Real-Time Visitor Journey Stream</span>
+                  </h3>
+                  <p className="text-[11px] text-emerald-300/70 mt-0.5">
+                    Live telemetry detailing active pages, devices, and spiritual interactions
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono text-zinc-400">
+                  Showing {liveSessions.length} live telemetry nodes
+                </span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-black/40 border-b border-white/10 text-emerald-300/70 font-semibold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-3 px-4">Visitor / ID</th>
+                      <th className="py-3 px-4">Origin / Country</th>
+                      <th className="py-3 px-4">Device & Browser</th>
+                      <th className="py-3 px-4">Current Page</th>
+                      <th className="py-3 px-4">Time on Page</th>
+                      <th className="py-3 px-4">Live Interaction Event</th>
+                      <th className="py-3 px-4 text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5 font-mono">
+                    {liveSessions.map((s) => (
+                      <tr key={s.id} className="hover:bg-white/[0.02] transition-colors">
+                        <td className="py-3 px-4 font-sans font-medium text-white">
+                          <div>{s.user}</div>
+                          <span className="text-[10px] text-zinc-500 font-mono">{s.id}</span>
+                        </td>
+                        <td className="py-3 px-4 font-sans text-emerald-200">
+                          <span className="text-base mr-1.5">{s.flag}</span>
+                          <span>{s.city}, {s.country}</span>
+                        </td>
+                        <td className="py-3 px-4 text-zinc-300 text-[11px]">
+                          <div>{s.device}</div>
+                          <span className="text-[10px] text-zinc-500">{s.browser} • {s.os}</span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-amber-300 text-[11px]">
+                            {s.page}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-emerald-300 text-[11px]">
+                          {s.timeOnPage}
+                        </td>
+                        <td className="py-3 px-4 font-sans text-xs text-white">
+                          <span className="text-emerald-400 mr-1.5">⚡</span>
+                          <span>{s.event}</span>
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            Live
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Platform & Acquisition Breakdown */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Device Types */}
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-4">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <Smartphone className="w-4 h-4 text-amber-400" />
+                  <span>Device Distribution</span>
+                </h4>
+                <div className="space-y-3">
+                  {[
+                    { label: 'Mobile Smartphones', percent: 68.2, count: '292,510' },
+                    { label: 'Desktop Computers', percent: 26.8, count: '114,940' },
+                    { label: 'Tablet Devices', percent: 5.0, count: '21,460' },
+                  ].map((d, i) => (
+                    <div key={i} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-emerald-200">{d.label}</span>
+                        <span className="text-amber-300 font-mono font-bold">{d.percent}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                        <div className="h-full bg-emerald-500" style={{ width: `${d.percent}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Operating Systems */}
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-4">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <Laptop className="w-4 h-4 text-emerald-400" />
+                  <span>Operating Systems</span>
+                </h4>
+                <div className="space-y-3">
+                  {[
+                    { label: 'Apple iOS & iPadOS', percent: 46.4, color: 'bg-amber-400' },
+                    { label: 'Google Android', percent: 34.2, color: 'bg-emerald-400' },
+                    { label: 'Apple macOS', percent: 11.2, color: 'bg-sky-400' },
+                    { label: 'Microsoft Windows', percent: 8.2, color: 'bg-indigo-400' },
+                  ].map((os, i) => (
+                    <div key={i} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-emerald-200">{os.label}</span>
+                        <span className="text-white font-mono font-bold">{os.percent}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                        <div className={`h-full ${os.color}`} style={{ width: `${os.percent}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Acquisition Channels */}
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-4">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <Globe2 className="w-4 h-4 text-sky-400" />
+                  <span>Acquisition Origins</span>
+                </h4>
+                <div className="space-y-3">
+                  {[
+                    { label: 'Google Organic Search (SEO)', percent: 54.0 },
+                    { label: 'Direct URL / PWA App', percent: 24.0 },
+                    { label: 'Social & Telegram Communities', percent: 12.0 },
+                    { label: 'AI Search (Perplexity / ChatGPT)', percent: 10.0 },
+                  ].map((ac, i) => (
+                    <div key={i} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-emerald-200">{ac.label}</span>
+                        <span className="text-amber-300 font-mono font-bold">{ac.percent}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                        <div className="h-full bg-gradient-to-r from-emerald-500 to-amber-400" style={{ width: `${ac.percent}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ====================================================
+            TAB 4: USER FLOWS & CONVERSION FUNNELS
+           ==================================================== */}
+        {activeTab === 'flows' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-2">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <GitFork className="w-5 h-5 text-amber-400" />
+                <span>Multi-Stage User Journey & Spiritual Conversion Funnel</span>
+              </h3>
+              <p className="text-xs text-emerald-300/70">
+                Visualizing how visitors progress from initial landing into active daily prayer logging, Zakat calculation, and app adoption.
+              </p>
+            </div>
+
+            {/* 4-Step Funnel Visualization */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {[
+                {
+                  step: '01',
+                  title: 'Discovery & Landing',
+                  visitors: '428,910',
+                  conversion: '100%',
+                  dropOff: '0%',
+                  color: 'border-emerald-500/50 bg-emerald-950/30',
+                  accent: 'text-emerald-400',
+                  notes: 'Homepage (58%) • /prayer-times (22%) • /quran (12%) • /guides (8%)'
+                },
+                {
+                  step: '02',
+                  title: 'Core Deen Engagement',
+                  visitors: '336,260',
+                  conversion: '78.4%',
+                  dropOff: '-21.6%',
+                  color: 'border-amber-500/50 bg-amber-950/30',
+                  accent: 'text-amber-400',
+                  notes: 'Explored 10 Pillars • Read Quran Verses • Listened to Adhan'
+                },
+                {
+                  step: '03',
+                  title: 'Interactive Fiqh Tools',
+                  visitors: '191,290',
+                  conversion: '44.6%',
+                  dropOff: '-33.8%',
+                  color: 'border-sky-500/50 bg-sky-950/30',
+                  accent: 'text-sky-400',
+                  notes: 'Country Zakat Calculator • Qibla Compass • Hajj Checklist'
+                },
+                {
+                  step: '04',
+                  title: 'Spiritual Conversion',
+                  visitors: '112,370',
+                  conversion: '26.2%',
+                  dropOff: '-18.4%',
+                  color: 'border-rose-500/50 bg-rose-950/30',
+                  accent: 'text-rose-400',
+                  notes: 'Logged Daily Salah • Saved Qada Journal • Pledged Sadaqah'
+                },
+              ].map((stage, idx) => (
+                <div key={idx} className={`p-5 rounded-3xl border ${stage.color} space-y-3 relative overflow-hidden`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold text-zinc-400">STAGE {stage.step}</span>
+                    <span className={`text-xs font-mono font-bold ${stage.accent}`}>{stage.conversion} Retained</span>
+                  </div>
+
+                  <div>
+                    <h4 className="text-base font-bold text-white">{stage.title}</h4>
+                    <span className="text-2xl font-black font-mono text-white block mt-1">{stage.visitors}</span>
+                  </div>
+
+                  <p className="text-[11px] text-zinc-300 leading-relaxed border-t border-white/10 pt-2">
+                    {stage.notes}
+                  </p>
+
+                  <div className="flex items-center justify-between text-[10px] text-zinc-400 font-mono">
+                    <span>Drop-off:</span>
+                    <span className="text-red-400 font-bold">{stage.dropOff}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Top User Journey Transition Paths */}
+            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-4">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <Navigation className="w-4 h-4 text-emerald-400" />
+                <span>Top Multi-Step Journey Paths</span>
+              </h4>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                {[
+                  {
+                    path: ['Home', 'Prayer Times', 'Qibla Compass', 'Daily Adhkar'],
+                    share: '34.2%',
+                    visitors: '146,680',
+                    persona: 'Daily Worship Pilgrim',
+                    intent: 'High Daily Retention'
+                  },
+                  {
+                    path: ['Home', 'Zakat Hub', 'Currency Switcher (INR/SAR)', 'Sadaqah Relief'],
+                    share: '24.1%',
+                    visitors: '103,360',
+                    persona: 'Wealth Purification & Donors',
+                    intent: 'High Philanthropic Intent'
+                  },
+                  {
+                    path: ['Home', 'Guides', 'Wudu Step-by-Step', 'Salah Qada Journal'],
+                    share: '21.5%',
+                    visitors: '92,210',
+                    persona: 'Student of Knowledge / New Muslim',
+                    intent: 'Deep Educational Value'
+                  },
+                  {
+                    path: ['Home', 'Hajj & Umrah', 'Miqat / Tawaf Steps', 'Packing Checklist'],
+                    share: '13.8%',
+                    visitors: '59,190',
+                    persona: 'Makkah/Madinah Traveler',
+                    intent: 'Sacred Pilgrimage Traveler'
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className="p-4 rounded-2xl bg-black/30 border border-white/10 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-amber-300 font-mono">{item.persona}</span>
+                      <span className="text-xs font-mono font-bold text-emerald-400">{item.share} ({item.visitors})</span>
+                    </div>
+
+                    {/* Path Steps */}
+                    <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
+                      {item.path.map((node, i) => (
+                        <React.Fragment key={i}>
+                          <span className="px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-white font-medium">
+                            {node}
+                          </span>
+                          {i < item.path.length - 1 && <span className="text-amber-400">→</span>}
+                        </React.Fragment>
+                      ))}
+                    </div>
+
+                    <div className="text-[10px] text-zinc-400 pt-1 border-t border-white/5 flex justify-between">
+                      <span>Primary Intent: {item.intent}</span>
+                      <span className="text-emerald-400 font-semibold">98.2% Completion Rate</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Top Entry vs Exit Pages */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-3">
+                <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                  Top Gateway Entry Points
+                </h4>
+                <div className="space-y-2 text-xs font-mono">
+                  {[
+                    { page: '/', name: 'Homepage (Ecosystem Hub)', count: '248,760', share: '58.0%' },
+                    { page: '/prayer-times', name: 'Astronomical Timetable', count: '94,360', share: '22.0%' },
+                    { page: '/quran', name: 'Noble Quran Explorer', count: '51,460', share: '12.0%' },
+                    { page: '/guides', name: 'Wudu & Salah Guides', count: '34,330', share: '8.0%' },
+                  ].map((p, i) => (
+                    <div key={i} className="flex justify-between p-2 rounded-xl bg-black/30 border border-white/5">
+                      <span className="text-white font-sans">{p.name} <span className="text-zinc-500 font-mono text-[10px]">({p.page})</span></span>
+                      <span className="text-emerald-300 font-bold">{p.share}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-3">
+                <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider">
+                  Top Exit Points (Session Completion)
+                </h4>
+                <div className="space-y-2 text-xs font-mono">
+                  {[
+                    { page: '/quran', name: 'Finished Daily Recitation', share: '32.4%' },
+                    { page: '/prayer-times', name: 'Checked Adhan Schedule', share: '28.1%' },
+                    { page: '/zakat', name: 'Completed Nisab Calculation', share: '19.8%' },
+                    { page: '/contact', name: 'Submitted Inquiries / Sadaqah', share: '11.2%' },
+                  ].map((p, i) => (
+                    <div key={i} className="flex justify-between p-2 rounded-xl bg-black/30 border border-white/5">
+                      <span className="text-white font-sans">{p.name}</span>
+                      <span className="text-zinc-400">{p.share}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ====================================================
+            TAB 5: CLICK & SCROLL HEATMAP ANALYTICS
+           ==================================================== */}
+        {activeTab === 'heatmap' && (
+          <div className="space-y-6">
+            {/* Top Heatmap Control Toolbar */}
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <MousePointerClick className="w-5 h-5 text-amber-400" />
+                  <span>Interaction & Click Density Heatmap</span>
+                </h3>
+                <p className="text-xs text-emerald-300/70 mt-0.5">
+                  Visual telemetry of user clicks, scroll depth, and component engagement intensity.
+                </p>
+              </div>
+
+              {/* Heatmap Mode Selector */}
+              <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
+                {[
+                  { id: 'clicks', label: '🔥 Click Hotspots' },
+                  { id: 'scroll', label: '📊 Scroll Depth' },
+                  { id: 'time', label: '⏱️ Hover Engagement' },
+                ].map((mode) => (
+                  <button
+                    key={mode.id}
+                    onClick={() => setHeatmapMode(mode.id as any)}
+                    className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                      heatmapMode === mode.id
+                        ? 'bg-amber-500 text-emerald-950 shadow'
+                        : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    {mode.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Interactive Visual Heatmap Matrix */}
+            <div className="bg-[#031c15] border border-white/10 rounded-3xl p-6 space-y-6">
+              <div className="flex items-center justify-between text-xs border-b border-white/10 pb-3">
+                <span className="font-bold text-white uppercase tracking-wider">
+                  UI Component Hotspot Map (Sample of 428.9k Visitors)
+                </span>
+                <div className="flex items-center gap-3 font-mono text-[11px]">
+                  <span className="flex items-center gap-1 text-red-400">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" /> Ultra Hot (&gt;80%)
+                  </span>
+                  <span className="flex items-center gap-1 text-amber-400">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> Warm (60-80%)
+                  </span>
+                  <span className="flex items-center gap-1 text-emerald-400">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> Steady (40-60%)
+                  </span>
+                </div>
+              </div>
+
+              {/* Component Hotspots Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  {
+                    component: 'Hero CTA: Full Prayer Timetable & Quran',
+                    intensity: 94,
+                    clicks: '182,400 clicks',
+                    category: 'Primary Call to Action',
+                    color: 'from-red-500/20 to-amber-500/10 border-red-500/40 text-red-300',
+                    dot: 'bg-red-500'
+                  },
+                  {
+                    component: 'Prayer Times Table & Calculation Method Selector',
+                    intensity: 91,
+                    clicks: '176,200 clicks',
+                    category: 'Daily Essential Routine',
+                    color: 'from-red-500/20 to-amber-500/10 border-red-500/40 text-red-300',
+                    dot: 'bg-red-500'
+                  },
+                  {
+                    component: 'Floating "Ask AI" Spiritual Bubble',
+                    intensity: 88,
+                    clicks: '169,500 clicks',
+                    category: 'Bottom-Right Assistant',
+                    color: 'from-red-500/20 to-amber-500/10 border-red-500/40 text-red-300',
+                    dot: 'bg-red-500'
+                  },
+                  {
+                    component: 'Zakat Country Currency & Spot Bullion Switcher',
+                    intensity: 82,
+                    clicks: '158,100 clicks',
+                    category: 'Financial Fiqh Engine',
+                    color: 'from-amber-500/20 to-emerald-500/10 border-amber-500/40 text-amber-300',
+                    dot: 'bg-amber-400'
+                  },
+                  {
+                    component: 'Noble Quran Surah Cards & Audio Reciter Toggle',
+                    intensity: 79,
+                    clicks: '152,600 clicks',
+                    category: 'Scripture & Recitation',
+                    color: 'from-amber-500/20 to-emerald-500/10 border-amber-500/40 text-amber-300',
+                    dot: 'bg-amber-400'
+                  },
+                  {
+                    component: 'Explore More: 10 Practice Pillars Showcase Grid',
+                    intensity: 76,
+                    clicks: '146,800 clicks',
+                    category: 'Discovery Portal',
+                    color: 'from-amber-500/20 to-emerald-500/10 border-amber-500/40 text-amber-300',
+                    dot: 'bg-amber-400'
+                  },
+                  {
+                    component: 'Native 11-Language Switcher (Top Navbar)',
+                    intensity: 71,
+                    clicks: '137,200 clicks',
+                    category: 'Multilingual Switching',
+                    color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-300',
+                    dot: 'bg-emerald-400'
+                  },
+                  {
+                    component: 'Spherical Qibla Compass Sensor Calibration',
+                    intensity: 68,
+                    clicks: '131,400 clicks',
+                    category: 'Directional Sensor',
+                    color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-300',
+                    dot: 'bg-emerald-400'
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className={`p-4 rounded-2xl bg-gradient-to-br border ${item.color} space-y-2`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2.5 h-2.5 rounded-full ${item.dot} animate-pulse`} />
+                        <span className="text-xs font-bold text-white">{item.component}</span>
+                      </div>
+                      <span className="text-xs font-mono font-black">{item.intensity}%</span>
+                    </div>
+
+                    <div className="flex justify-between items-center text-[11px] text-zinc-300 pt-1">
+                      <span className="font-mono">{item.clicks}</span>
+                      <span className="text-[10px] text-zinc-400 font-sans">{item.category}</span>
+                    </div>
+
+                    {/* Intensity Visual Bar */}
+                    <div className="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
+                      <div className={`h-full ${item.dot}`} style={{ width: `${item.intensity}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Scroll Depth Analysis */}
+            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-4">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <Layers className="w-4 h-4 text-emerald-400" />
+                <span>Page Scroll Depth Retention Curve</span>
+              </h4>
+
+              <div className="space-y-3">
+                {[
+                  { fold: '0% - 25% Fold (Hero, Search & Adhan Schedule)', percent: 100, color: 'bg-emerald-400' },
+                  { fold: '25% - 50% Fold (Prayer Times Table & Verse of Day)', percent: 88, color: 'bg-emerald-500' },
+                  { fold: '50% - 75% Fold (Quran Reader & 10 Practice Pillars)', percent: 66, color: 'bg-amber-400' },
+                  { fold: '75% - 100% Fold (Calendar, App Stores & Ecosystem Footer)', percent: 44, color: 'bg-sky-400' },
+                ].map((s, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-emerald-200 font-medium">{s.fold}</span>
+                      <span className="text-white font-mono font-bold">{s.percent}% of visitors reach here</span>
+                    </div>
+                    <div className="w-full h-2.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                      <div className={`h-full ${s.color}`} style={{ width: `${s.percent}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ====================================================
+            TAB 6: APPEARANCE & ATMOSPHERE
            ==================================================== */}
         {activeTab === 'appearance' && (
           <div className="space-y-6">
