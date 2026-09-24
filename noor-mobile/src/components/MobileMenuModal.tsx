@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   View,
@@ -6,6 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Linking,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,7 +16,6 @@ import { MuslimLogo } from './MuslimLogo';
 import { MobileUser } from './AuthModal';
 import { THEME } from '../theme';
 import { useLanguage } from '../context/LanguageContext';
-import { useSplash } from '../context/SplashContext';
 
 interface MobileMenuModalProps {
   visible: boolean;
@@ -39,7 +40,26 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
 }) => {
   const router = useRouter();
   const { t, currentLanguageInfo } = useLanguage();
-  const { replaySplash } = useSplash();
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [userRating, setUserRating] = useState(5);
+  const [ratingSubmitted, setRatingSubmitted] = useState(false);
+
+  const openAppStore = () => {
+    const iosUrl = 'https://apps.apple.com/app/noor-e-ilahi/id6470000000?action=write-review';
+    Linking.openURL(iosUrl).catch(() => {
+      Linking.openURL('https://apps.apple.com/app/noor-e-ilahi');
+    });
+    setRatingSubmitted(true);
+  };
+
+  const openPlayStore = () => {
+    const androidMarketUrl = 'market://details?id=com.noor.app';
+    const playStoreWebUrl = 'https://play.google.com/store/apps/details?id=com.noor.app';
+    Linking.openURL(androidMarketUrl).catch(() => {
+      Linking.openURL(playStoreWebUrl);
+    });
+    setRatingSubmitted(true);
+  };
 
   const navigateTo = (route: string) => {
     onClose();
@@ -48,14 +68,13 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
 
   const MENU_ITEMS = [
     {
-      id: 'splash',
-      label: 'Animated Splash Screen',
-      icon: 'sparkles-outline',
+      id: 'rating',
+      label: 'Rate on App Store / Play Store',
+      icon: 'star',
       color: '#f59e0b',
-      badge: 'Cinema',
+      badge: '★★★★★ 5.0',
       action: () => {
-        onClose();
-        replaySplash();
+        setShowRatingModal(true);
       },
     },
     {
@@ -271,6 +290,94 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
             <Text style={styles.footerTagline}>Global Classical Islamic Companion • v1.0.0 (SDK 57)</Text>
           </View>
         </ScrollView>
+
+        {/* Rating Prompt Modal */}
+        <Modal
+          visible={showRatingModal}
+          transparent
+          animationType="fade"
+          onRequestClose={() => {
+            setShowRatingModal(false);
+            setRatingSubmitted(false);
+          }}
+        >
+          <View style={styles.ratingBackdrop}>
+            <View style={styles.ratingCard}>
+              <View style={styles.ratingTopIcon}>
+                <Ionicons name="star" size={32} color="#f59e0b" />
+              </View>
+
+              <Text style={styles.ratingTitle}>Rate Noor-e-ilahi</Text>
+              <Text style={styles.ratingArabic}>جَزَاكَ ٱللَّٰهُ خَيْرًا</Text>
+              <Text style={styles.ratingDesc}>
+                Your review helps Muslims worldwide discover 100% verified prayer calculations, Quran recitations, and authentic duas.
+              </Text>
+
+              {/* Star selector */}
+              <View style={styles.starsRow}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <TouchableOpacity
+                    key={star}
+                    onPress={() => setUserRating(star)}
+                    activeOpacity={0.7}
+                    style={styles.starTouch}
+                  >
+                    <Ionicons
+                      name={star <= userRating ? 'star' : 'star-outline'}
+                      size={32}
+                      color="#f59e0b"
+                    />
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {ratingSubmitted && (
+                <View style={styles.thankYouBox}>
+                  <Text style={styles.thankYouText}>
+                    ✨ JazakAllah Khair for your {userRating}-star support!
+                  </Text>
+                </View>
+              )}
+
+              {/* Store Buttons */}
+              <View style={styles.storeButtonsCol}>
+                <TouchableOpacity
+                  style={styles.appleStoreBtn}
+                  onPress={openAppStore}
+                  activeOpacity={0.85}
+                >
+                  <Ionicons name="logo-apple" size={22} color="#ffffff" />
+                  <View style={{ marginLeft: 10 }}>
+                    <Text style={styles.storeBtnSub}>Download on the</Text>
+                    <Text style={styles.storeBtnMain}>Apple App Store</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.googlePlayBtn}
+                  onPress={openPlayStore}
+                  activeOpacity={0.85}
+                >
+                  <Ionicons name="logo-google-playstore" size={20} color="#ffffff" />
+                  <View style={{ marginLeft: 10 }}>
+                    <Text style={styles.storeBtnSub}>Get it on</Text>
+                    <Text style={styles.storeBtnMain}>Google Play Store</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                style={styles.ratingCloseBtn}
+                onPress={() => {
+                  setShowRatingModal(false);
+                  setRatingSubmitted(false);
+                }}
+              >
+                <Text style={styles.ratingCloseText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     </Modal>
   );
@@ -443,5 +550,129 @@ const styles = StyleSheet.create({
   footerTagline: {
     color: 'rgba(255, 255, 255, 0.35)',
     fontSize: 9.5,
+  },
+  ratingBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  ratingCard: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: '#04231b',
+    borderRadius: 24,
+    borderWidth: 1.5,
+    borderColor: 'rgba(245, 158, 11, 0.35)',
+    padding: 24,
+    alignItems: 'center',
+    shadowColor: '#f59e0b',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 12,
+  },
+  ratingTopIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(245, 158, 11, 0.4)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 14,
+  },
+  ratingTitle: {
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  ratingArabic: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#fde68a',
+    marginTop: 4,
+    letterSpacing: 0.5,
+  },
+  ratingDesc: {
+    fontSize: 12,
+    color: '#a7f3d0',
+    textAlign: 'center',
+    marginTop: 10,
+    lineHeight: 18,
+  },
+  starsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    marginVertical: 18,
+  },
+  starTouch: {
+    padding: 4,
+  },
+  thankYouBox: {
+    backgroundColor: 'rgba(52, 211, 153, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(52, 211, 153, 0.4)',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginBottom: 16,
+  },
+  thankYouText: {
+    color: '#6ee7b7',
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  storeButtonsCol: {
+    width: '100%',
+    gap: 10,
+    marginBottom: 14,
+  },
+  appleStoreBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000000',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.25)',
+    borderRadius: 14,
+    paddingVertical: 11,
+    paddingHorizontal: 16,
+  },
+  googlePlayBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#01382b',
+    borderWidth: 1,
+    borderColor: 'rgba(52, 211, 153, 0.4)',
+    borderRadius: 14,
+    paddingVertical: 11,
+    paddingHorizontal: 16,
+  },
+  storeBtnSub: {
+    fontSize: 9,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  storeBtnMain: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  ratingCloseBtn: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  ratingCloseText: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

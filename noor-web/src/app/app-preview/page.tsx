@@ -1661,7 +1661,7 @@ export default function AppPreviewPage() {
                       {/* Menu Links */}
                       <div className="space-y-1 text-left">
                         {[
-                          { id: 'splash', label: 'Animated Splash Screen (Cinema Intro)', emoji: '🎬' },
+                          { id: 'rating', label: 'Rate on App Store / Play Store (5.0 ★)', emoji: '⭐' },
                           { id: 'home', label: t('home') || 'Home Dashboard', emoji: '🕌' },
                           { id: 'prayers', label: t('prayers') || 'Prayer Times & Timetable', emoji: '⏱️' },
                           { id: 'adhan_action', label: t('adhanVoice') || 'Adhan Voices (Audio)', emoji: '🔊' },
@@ -1679,7 +1679,9 @@ export default function AppPreviewPage() {
                             key={item.id}
                             onClick={() => {
                               setSimulatedMenuOpen(false);
-                              if (item.id === 'adhan_action') {
+                              if (item.id === 'rating') {
+                                alert('⭐️ JazakAllah Khair! Opening Apple App Store / Google Play Store to rate Noor-e-ilahi 5.0 Stars.');
+                              } else if (item.id === 'adhan_action') {
                                 setSimulatedAdhanOpen(true);
                               } else {
                                 setActiveScreen(item.id as ScreenType);

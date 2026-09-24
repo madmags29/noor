@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { sendContactInquiryEmails } from '@/lib/mailer';
 
 export interface ContactInquiry {
   id: string;
@@ -81,10 +82,25 @@ export async function POST(req: Request) {
     console.log(`[NOOR CONTACT] New Inquiry [${ticketId}] from ${newInquiry.email} for ${targetEmail}`);
     console.log(`Category: ${newInquiry.category} | Subject: ${newInquiry.subject}`);
 
+    // 3. Dispatch real emails via FastWebHost SMTP (in10.fastwebhost.com)
+    const emailResult = await sendContactInquiryEmails({
+      ticketId,
+      name: newInquiry.name,
+      email: newInquiry.email,
+      phone: newInquiry.phone,
+      organization: newInquiry.organization,
+      category: newInquiry.category,
+      subject: newInquiry.subject,
+      message: newInquiry.message,
+    });
+
+    console.log(`[NOOR CONTACT] Email dispatch result for ${ticketId}:`, emailResult);
+
     return NextResponse.json({
       success: true,
       ticketId,
       targetEmail,
+      emailDispatched: emailResult.adminSent,
       message: `Assalamu Alaikum, ${newInquiry.name}. Your message has been received and routed to ${targetEmail}. Our team will respond within 24 hours.`,
       inquiry: {
         id: ticketId,

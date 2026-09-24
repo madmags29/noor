@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -62,6 +62,31 @@ export default function SettingsScreen() {
             </Text>
           </View>
           <Text style={styles.settingValue}>salam@nooreilahi.com →</Text>
+        </TouchableOpacity>
+
+        {/* Rating on App Store / Play Store */}
+        <TouchableOpacity
+          style={styles.settingItem}
+          onPress={() => {
+            if (Platform.OS === 'ios') {
+              Linking.openURL('https://apps.apple.com/app/noor-e-ilahi/id6470000000?action=write-review').catch(() => {
+                Linking.openURL('https://apps.apple.com/app/noor-e-ilahi');
+              });
+            } else {
+              Linking.openURL('market://details?id=com.noor.app').catch(() => {
+                Linking.openURL('https://play.google.com/store/apps/details?id=com.noor.app');
+              });
+            }
+          }}
+          activeOpacity={0.8}
+        >
+          <View>
+            <Text style={styles.settingTitle}>Rate on App Store / Play Store</Text>
+            <Text style={{ color: '#f59e0b', fontSize: 10, marginTop: 2 }}>
+              ★★★★★ Support Sacred Classical Deen
+            </Text>
+          </View>
+          <Text style={[styles.settingValue, { color: '#f59e0b' }]}>Rate 5.0 ★ →</Text>
         </TouchableOpacity>
 
         {/* About NOOR Mobile */}
