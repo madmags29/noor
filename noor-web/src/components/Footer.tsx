@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="w-full bg-[#010e0a] border-t border-white/10 pt-16 pb-12 px-4 lg:px-8 mt-16 text-xs text-emerald-300/70">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16 pb-12 border-b border-white/10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-12 border-b border-white/10">
         
         {/* Column 1: Brand & Mobile Apps */}
         <div className="space-y-4">
@@ -57,11 +57,11 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Column 2: Core Islamic Pillars (Matches Header Primary Nav) */}
+        {/* Column 2: Core Islamic Worship */}
         <div>
           <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🕌</span>
-            <span>{t('colIslamicFeatures')}</span>
+            <span>Worship & Pillars</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
@@ -71,67 +71,119 @@ export const Footer: React.FC = () => {
               </Link>
             </li>
             <li>
+              <Link href="/guides" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300">
+                <span>✨</span>
+                <span>Wudu, Ghusl & Salah Guides</span>
+              </Link>
+            </li>
+            <li>
               <Link href="/quran" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>📖</span>
-                <span>{t('quran')} (114 Surahs)</span>
+                <span>{t('quran')} (Offline & Tafsir)</span>
               </Link>
             </li>
             <li>
               <Link href="/duas" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🤲</span>
-                <span>{t('duas')} (Hisn al-Muslim)</span>
+                <span>14 Life Duas & Adhkar</span>
               </Link>
             </li>
             <li>
-              <Link href="/ziyarat" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-medium">
-                <span>🏛️</span>
-                <span>{t('ziyarat')} ({t('sanctuariesDirectory')})</span>
+              <Link href="/hajj-umrah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🕋</span>
+                <span>Hajj & Umrah Pilgrimage Guide</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/zakat" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🪙</span>
+                <span>Zakat Calculator & 9 Sadaqah</span>
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Column 3: Spiritual Tools & Explore (Matches Header Explore Menu) */}
+        {/* Column 3: Daily Life & Family */}
         <div>
           <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
-            <span>🧭</span>
-            <span>{t('explore')} & Tools</span>
+            <span>🌱</span>
+            <span>Family & Life Guides</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
-              <Link href="/qibla" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🧭</span>
-                <span>{t('qibla')} (3D Kaaba Azimuth)</span>
+              <Link href="/kids" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🧒</span>
+                <span>NOOR Kids & Arabic Letters</span>
               </Link>
             </li>
             <li>
-              <Link href="/media" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📻</span>
-                <span>{t('media')} (Live Makkah & Adhan)</span>
+              <Link href="/janazah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🕊️</span>
+                <span>Janazah & Bereavement Guide</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/etiquette" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📜</span>
+                <span>Islamic Etiquette (Adab) Library</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/nikah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>💍</span>
+                <span>Nikah & Family Education</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/travel" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>✈️</span>
+                <span>Travel Mode & Qasr Rules</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Column 4: Explorer & Discovery */}
+        <div>
+          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🔍</span>
+            <span>Search & Discovery</span>
+          </h4>
+          <ul className="space-y-2.5">
+            <li>
+              <Link href="/search" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-semibold">
+                <span>🔍</span>
+                <span>Search Islam Encyclopedia</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/ziyarat" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🏛️</span>
+                <span>Dargahs, Shrines & Ziyarat</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/watch" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>📺</span>
+                <span>NOOR Watch (24/7 Haramain)</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/qibla" className="hover:text-amber-300 transition-colors flex items-center gap-2">
+                <span>🧭</span>
+                <span>Live Qibla Compass</span>
               </Link>
             </li>
             <li>
               <Link href="/calendar" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🌙</span>
-                <span>{t('calendar')} (Hijri 1448 AH)</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/?profile=true" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📊</span>
-                <span>{t('dashboard')} (Salah Tracker)</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/app-preview" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📱</span>
-                <span>{t('app')} (Mobile Companion)</span>
+                <span>Hijri Calendar 1448 AH</span>
               </Link>
             </li>
             <li>
               <Link href="/contact" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-medium">
                 <span>✉️</span>
-                <span>{t('contact') || 'Contact & Support'} (salam@nooreilahi.com)</span>
+                <span>Contact & Inquiries</span>
               </Link>
             </li>
           </ul>

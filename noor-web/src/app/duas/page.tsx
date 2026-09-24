@@ -16,9 +16,51 @@ import {
   Sparkles,
   CircleDot
 } from 'lucide-react';
-import { DUA_CATEGORIES, DUAS_LIST, DuaItem } from '../../lib/duasData';
+import { DUA_CATEGORIES as BASE_CATEGORIES, DUAS_LIST as BASE_DUAS, DuaItem } from '../../lib/duasData';
+import { LIFE_DUAS } from '../../data/islamicCoreData';
 import { GlobalNavbar } from '../../components/GlobalNavbar';
 import { Footer } from '../../components/Footer';
+
+// 14 Comprehensive Life Duas Categories requested by user
+const ALL_CATEGORIES = [
+  { id: 'all', name: 'All Duas & Adhkar' },
+  { id: 'travel', name: '✈️ Travel' },
+  { id: 'food', name: '🍽️ Food' },
+  { id: 'rain', name: '🌧️ Rain' },
+  { id: 'home', name: '🏡 Home' },
+  { id: 'work', name: '💼 Work' },
+  { id: 'study', name: '📚 Study' },
+  { id: 'marriage', name: '💍 Marriage' },
+  { id: 'children', name: '👶 Children' },
+  { id: 'parents', name: '🤍 Parents' },
+  { id: 'difficulties', name: '🛡️ Difficulties' },
+  { id: 'forgiveness', name: '🤲 Forgiveness' },
+  { id: 'protection', name: '⚡ Protection' },
+  { id: 'gratitude', name: '✨ Gratitude' },
+  { id: 'rizq', name: '💰 Rizq' },
+  { id: 'morning', name: '🌅 Morning' },
+  { id: 'evening', name: '🌇 Evening' },
+  { id: 'sleep', name: '🌙 Sleep' }
+];
+
+// Convert LIFE_DUAS to DuaItem format
+const CONVERTED_LIFE_DUAS: DuaItem[] = LIFE_DUAS.map(ld => ({
+  id: ld.id,
+  category: ld.category,
+  title: ld.title,
+  arabic: ld.arabic,
+  transliteration: ld.transliteration,
+  translation: ld.translation,
+  source: ld.hadithSource,
+  targetCount: ld.category === 'forgiveness' || ld.category === 'gratitude' ? 33 : 1,
+  virtue: `Authentic supplication for ${ld.categoryLabel}.`
+}));
+
+// Combine without duplicate IDs
+const COMBINED_DUAS: DuaItem[] = [
+  ...CONVERTED_LIFE_DUAS,
+  ...BASE_DUAS.filter(b => !CONVERTED_LIFE_DUAS.some(c => c.id === b.id || (c.category === b.category && c.title.toLowerCase() === b.title.toLowerCase())))
+];
 
 export default function DuasPage() {
   const [category, setCategory] = useState('all');
@@ -28,7 +70,7 @@ export default function DuasPage() {
   const [tasbihTarget, setTasbihTarget] = useState(33);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const filtered = DUAS_LIST.filter(d => {
+  const filtered = COMBINED_DUAS.filter(d => {
     const matchCat = category === 'all' || d.category === category;
     const matchQ =
       d.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -94,7 +136,7 @@ export default function DuasPage() {
       <main className="flex-1 max-w-7xl mx-auto w-full p-6 sm:p-10 space-y-8">
         {/* Categories Carousel */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-          {DUA_CATEGORIES.map(cat => (
+          {ALL_CATEGORIES.map(cat => (
             <button
               key={cat.id}
               onClick={() => setCategory(cat.id)}

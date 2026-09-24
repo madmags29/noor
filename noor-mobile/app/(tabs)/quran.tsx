@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -100,6 +101,17 @@ export default function QuranScreen() {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [showMenuModal, setShowMenuModal] = useState(false);
   const [bookmarkedSurahs, setBookmarkedSurahs] = useState<number[]>([1, 18, 67]);
+  const [lastRead, setLastRead] = useState<{ surahNumber: number; surahName: string; ayah: number } | null>(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem('@noor_quran_last_read').then(val => {
+      if (val) {
+        try {
+          setLastRead(JSON.parse(val));
+        } catch {}
+      }
+    }).catch(() => {});
+  }, []);
 
   const filteredSurahs = useMemo(() => {
     return SURAH_LIST.filter(surah => {
@@ -124,10 +136,13 @@ export default function QuranScreen() {
     );
   };
 
-  const openSurahReader = (surah: SurahItem) => {
+  const openSurahReader = (surah: SurahItem, ayahNum: number = 1) => {
     setSelectedSurah(surah);
     setIsPlayingAudio(false);
     setReaderModalVisible(true);
+    const data = { surahNumber: surah.number, surahName: surah.englishName, ayah: ayahNum };
+    setLastRead(data);
+    AsyncStorage.setItem('@noor_quran_last_read', JSON.stringify(data)).catch(() => {});
   };
 
   return (
@@ -197,6 +212,35 @@ export default function QuranScreen() {
             );
           })}
         </View>
+
+        {/* Continue Exactly Where User Left Off Banner */}
+        {lastRead && (
+          <TouchableOpacity
+            style={styles.resumeCard}
+            activeOpacity={0.85}
+            onPress={() => {
+              const target = SURAH_LIST.find(s => s.number === lastRead.surahNumber);
+              if (target) openSurahReader(target, lastRead.ayah);
+            }}
+          >
+            <View style={styles.resumeLeft}>
+              <View style={styles.resumeIconWrap}>
+                <Ionicons name="bookmark" size={16} color="#02120d" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <View style={styles.resumeBadgeRow}>
+                  <Text style={styles.resumeBadgeText}>CONTINUE READING</Text>
+                  <Text style={styles.resumeAyahBadge}>Ayah {lastRead.ayah}</Text>
+                </View>
+                <Text style={styles.resumeSurahName}>{lastRead.surahName}</Text>
+                <Text style={styles.resumeSub}>Surah #{lastRead.surahNumber} • Tap to resume immediately</Text>
+              </View>
+            </View>
+            <View style={styles.resumeActionBtn}>
+              <Ionicons name="arrow-forward-circle" size={26} color="#f59e0b" />
+            </View>
+          </TouchableOpacity>
+        )}
 
         {/* Surahs List */}
         <FlatList
@@ -501,6 +545,66 @@ const styles = StyleSheet.create({
   filterPillTextActive: {
     color: '#02120d',
     fontWeight: '900',
+  },
+  resumeCard: {
+    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+    borderRadius: 16,
+    padding: 14,
+    marginHorizontal: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.35)',
+  },
+  resumeLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    flex: 1,
+  },
+  resumeIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#f59e0b',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resumeBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 2,
+  },
+  resumeBadgeText: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: '#f59e0b',
+    letterSpacing: 0.5,
+  },
+  resumeAyahBadge: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#a7f3d0',
+    backgroundColor: 'rgba(16, 185, 129, 0.25)',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 6,
+  },
+  resumeSurahName: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  resumeSub: {
+    fontSize: 10,
+    color: 'rgba(167, 243, 208, 0.7)',
+    marginTop: 1,
+  },
+  resumeActionBtn: {
+    paddingLeft: 8,
   },
   listContent: {
     paddingBottom: 90,

@@ -154,16 +154,70 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
   // 2. Secondary Spiritual Tools (Inside sleek "Explore ▾" flyout with 3D Icons)
   const secondaryNavLinks = [
     {
+      label: 'Prayer & Purification Guides',
+      href: '/guides',
+      desc: 'Wudu, Ghusl, Salah step-by-step & Qada journal',
+      icon3d: '✨'
+    },
+    {
+      label: 'Hajj & Umrah Pilgrimage',
+      href: '/hajj-umrah',
+      desc: 'Miqat, Tawaf, Sa\'i, Arafat & checklist',
+      icon3d: '🕋'
+    },
+    {
+      label: 'Zakat & Sadaqah Hub',
+      href: '/zakat',
+      desc: 'Nisab calculator, 9 charity channels & Taraweeh',
+      icon3d: '🪙'
+    },
+    {
+      label: 'Search Islam Encyclopedia',
+      href: '/search',
+      desc: 'Unified Quran, Hadith, Duas, Mosques & Scholars',
+      icon3d: '🔍'
+    },
+    {
+      label: 'NOOR Kids & Family',
+      href: '/kids',
+      desc: 'Arabic alphabet, Prophet stories & quizzes',
+      icon3d: '🧒'
+    },
+    {
+      label: 'Janazah & Bereavement',
+      href: '/janazah',
+      desc: '4 Takbeers guide, Ghusl, Kafan & burial rules',
+      icon3d: '🕊️'
+    },
+    {
+      label: 'Islamic Etiquette (Adab)',
+      href: '/etiquette',
+      desc: 'Prophetic manners across 13 life domains',
+      icon3d: '📜'
+    },
+    {
+      label: 'Nikah & Family Education',
+      href: '/nikah',
+      desc: '5 pillars, 20 pre-marital questions & rights',
+      icon3d: '💍'
+    },
+    {
+      label: 'NOOR Travel Mode',
+      href: '/travel',
+      desc: 'Safar distance, Qasr prayer & strict Halal policy',
+      icon3d: '✈️'
+    },
+    {
+      label: 'NOOR Watch Media',
+      href: '/watch',
+      desc: '24/7 Makkah/Madinah feeds & Islamic learning',
+      icon3d: '📺'
+    },
+    {
       label: t('qibla'),
       href: '/qibla',
       desc: 'Kaaba direction & live compass',
       icon3d: '🧭'
-    },
-    {
-      label: t('media'),
-      href: '/media',
-      desc: 'Live Makkah, Madinah & broadcasts',
-      icon3d: '📻'
     },
     {
       label: t('calendar'),
@@ -282,10 +336,10 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
 
               {/* Flyout Card */}
               {showExploreDropdown && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-72 z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
-                  <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-2">
-                    <div className="px-2.5 py-1 text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider border-b border-white/5 mb-1">
-                      More Features
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-80 z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
+                  <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-2 max-h-[75vh] overflow-y-auto no-scrollbar">
+                    <div className="px-2.5 py-1 text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider border-b border-white/5 mb-1 sticky top-0 bg-[#021711] z-10">
+                      Spiritual Guides & Tools
                     </div>
                     <div className="space-y-1">
                       {secondaryNavLinks.map((item) => {

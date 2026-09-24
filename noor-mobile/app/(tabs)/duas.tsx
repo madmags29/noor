@@ -24,10 +24,12 @@ interface DhikrItem {
   reference: string;
 }
 
+import { LIFE_DUAS } from '../../src/data/islamicCoreData';
+
 interface DuaItem {
   id: string;
   title: string;
-  category: 'Morning & Evening' | 'Protection' | 'Relief' | 'Forgiveness';
+  category: string;
   arabic: string;
   transliteration: string;
   translation: string;
@@ -140,6 +142,44 @@ const AUTHENTIC_DUAS: DuaItem[] = [
   }
 ];
 
+const CONVERTED_LIFE_DUAS: DuaItem[] = LIFE_DUAS.map(ld => {
+  const catLabel = ld.category.charAt(0).toUpperCase() + ld.category.slice(1);
+  return {
+    id: ld.id,
+    title: ld.title,
+    category: catLabel,
+    arabic: ld.arabic,
+    transliteration: ld.transliteration,
+    translation: ld.translation,
+    reference: ld.hadithSource,
+    benefits: `Authentic supplication for ${ld.categoryLabel}.`
+  };
+});
+
+const ALL_COMBINED_DUAS: DuaItem[] = [
+  ...CONVERTED_LIFE_DUAS,
+  ...AUTHENTIC_DUAS
+];
+
+const MOBILE_DUA_CATEGORIES = [
+  'All',
+  'Travel',
+  'Food',
+  'Rain',
+  'Home',
+  'Work',
+  'Study',
+  'Marriage',
+  'Children',
+  'Parents',
+  'Difficulties',
+  'Forgiveness',
+  'Protection',
+  'Gratitude',
+  'Rizq',
+  'Morning & Evening'
+];
+
 export default function DuasScreen() {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'Tasbih' | 'Duas'>('Tasbih');
@@ -191,9 +231,9 @@ export default function DuasScreen() {
     }
   };
 
-  const filteredDuas = AUTHENTIC_DUAS.filter(d => {
+  const filteredDuas = ALL_COMBINED_DUAS.filter(d => {
     if (duaCategory === 'All') return true;
-    return d.category === duaCategory;
+    return d.category.toLowerCase() === duaCategory.toLowerCase();
   });
 
   const progressPercent = Math.min(100, Math.round((count / target) * 100));
@@ -382,17 +422,7 @@ export default function DuasScreen() {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.duaCategoryRow}
             >
-              {['All', 'Morning & Evening', 'Protection', 'Relief', 'Forgiveness'].map(cat => {
-                const label =
-                  cat === 'All'
-                    ? t('catAll')
-                    : cat === 'Morning & Evening'
-                    ? t('catMorning')
-                    : cat === 'Protection'
-                    ? t('catProtection')
-                    : cat === 'Relief'
-                    ? t('catHardship')
-                    : t('catForgiveness');
+              {MOBILE_DUA_CATEGORIES.map(cat => {
                 return (
                   <TouchableOpacity
                     key={cat}
@@ -400,7 +430,7 @@ export default function DuasScreen() {
                     onPress={() => setDuaCategory(cat)}
                   >
                     <Text style={[styles.duaCatPillText, duaCategory === cat && styles.duaCatPillTextActive]}>
-                      {label}
+                      {cat}
                     </Text>
                   </TouchableOpacity>
                 );
