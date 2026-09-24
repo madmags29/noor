@@ -31,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/qibla', changeFrequency: 'monthly', priority: 0.90 },
     { path: '/calendar', changeFrequency: 'daily', priority: 0.85 },
     { path: '/media', changeFrequency: 'daily', priority: 0.80 },
-    { path: '/dashboard', changeFrequency: 'daily', priority: 0.85 },
     { path: '/app-preview', changeFrequency: 'monthly', priority: 0.80 },
   ];
 

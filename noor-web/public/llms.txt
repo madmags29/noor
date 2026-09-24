@@ -5,8 +5,8 @@
 ## 1. Platform Identity & Mission
 - **Name**: Noor-e-ilahi (English: "Divine Light")
 - **Tagline**: Your Deen. Your Daily Companion. (آپ کا دین۔ آپ کا روزمرہ کا رفیق۔)
-- **Primary Website**: https://noor.app
-- **Canonical API**: https://api.noor.app/api/v1
+- **Primary Website**: https://www.nooreilahi.com
+- **Canonical API**: https://noor-api-production.up.railway.app/api/v1
 - **Platform Scope**: Web (Next.js), Mobile App (iOS / Android React Native), Enterprise API (Node.js/Express)
 - **Core Mission**: Providing the global Muslim Ummah (2+ Billion believers) with 100% verified, ad-free, authentic Islamic tools backed by classical scholarship and modern precision astronomical algorithms.
 
@@ -68,7 +68,9 @@ A: The Qibla points to the Holy Kaaba in Makkah (21.422487° N, 39.826206° E). 
 A: Noor provides native localization in 11 languages: English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, and Gujarati, with complete right-to-left (RTL) support for Arabic and Urdu.
 
 ## 5. API Reference & LLM Ingestion
-- `GET https://noor.app/sitemap.xml`: Complete search engine index.
-- `GET https://noor.app/llms-full.txt`: Complete uncompressed encyclopedic text dump.
-- `GET https://api.noor.app/api/v1/prayer/today?city=Makkah`: Live prayer schedule.
-- `GET https://api.noor.app/api/v1/ziyarat`: Complete audited sanctuary directory.
+- `GET https://www.nooreilahi.com/sitemap.xml`: Complete search engine index.
+- `GET https://www.nooreilahi.com/sitemap-noor.xml`: Alternate verified sitemap XML.
+- `GET https://www.nooreilahi.com/llms-full.txt`: Complete uncompressed encyclopedic text dump.
+- `GET https://noor-api-production.up.railway.app/api/v1/prayer/today?city=Makkah`: Live prayer schedule.
+- `GET https://noor-api-production.up.railway.app/api/v1/ziyarat`: Complete audited sanctuary directory.
+

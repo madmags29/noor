@@ -7,9 +7,15 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: [
           '/',
+          '/_next/static/*',
+          '/_next/image*',
+          '/sitemap.xml',
+          '/sitemap-noor.xml',
+          '/robots.txt',
           '/prayer-times',
           '/quran',
           '/ziyarat',
+          '/ziyarat/*',
           '/duas',
           '/qibla',
           '/calendar',
@@ -21,9 +27,40 @@ export default function robots(): MetadataRoute.Robots {
         ],
         disallow: [
           '/dashboard',
+          '/super-admin',
+          '/admin',
           '/api/admin/*',
           '/api/auth/*',
-          '/_next/*',
+        ],
+      },
+      // Googlebot explicit rule ensuring zero crawling obstacles
+      {
+        userAgent: ['Googlebot', 'Googlebot-Mobile', 'Googlebot-Image'],
+        allow: [
+          '/',
+          '/_next/static/*',
+          '/_next/image*',
+          '/sitemap.xml',
+          '/sitemap-noor.xml',
+          '/robots.txt',
+          '/prayer-times',
+          '/quran',
+          '/ziyarat',
+          '/ziyarat/*',
+          '/duas',
+          '/qibla',
+          '/calendar',
+          '/media',
+          '/app-preview',
+          '/llms.txt',
+          '/llms-full.txt',
+        ],
+        disallow: [
+          '/dashboard',
+          '/super-admin',
+          '/admin',
+          '/api/admin/*',
+          '/api/auth/*',
         ],
       },
       // Answer Engine Optimization (AEO) & Generative Engine Optimization (GEO) Bots
@@ -45,9 +82,12 @@ export default function robots(): MetadataRoute.Robots {
         ],
         allow: [
           '/',
+          '/_next/static/*',
+          '/_next/image*',
           '/prayer-times',
           '/quran',
           '/ziyarat',
+          '/ziyarat/*',
           '/duas',
           '/qibla',
           '/calendar',
@@ -56,14 +96,21 @@ export default function robots(): MetadataRoute.Robots {
           '/llms.txt',
           '/llms-full.txt',
         ],
-        disallow: ['/dashboard'],
+        disallow: [
+          '/dashboard',
+          '/super-admin',
+          '/admin',
+          '/api/admin/*',
+          '/api/auth/*',
+        ],
       },
     ],
     sitemap: [
       'https://www.nooreilahi.com/sitemap.xml',
-      'https://www.nooreilahi.com/sitemap-noor.xml'
+      'https://www.nooreilahi.com/sitemap-noor.xml',
     ],
     host: 'https://www.nooreilahi.com',
   };
 }
+
 
