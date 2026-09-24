@@ -15,6 +15,7 @@ import { DuasSection } from '../components/DuasSection';
 import { QiblaSection } from '../components/QiblaSection';
 import { PixabayMediaSection } from '../components/PixabayMediaSection';
 import { CalendarSection } from '../components/CalendarSection';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 import { MonetizationSection } from '../components/MonetizationSection';
 import { AuthModal, AuthUser } from '../components/AuthModal';
 import { AiAssistantModal } from '../components/AiAssistantModal';
@@ -143,7 +144,10 @@ export default function Home() {
         {/* 8. Hijri Calendar & Holy Events */}
         <CalendarSection />
 
-        {/* 9. Ethical Monetization & Mobile App Stores Showcase */}
+        {/* 9. Explore More Islamic Practice & Knowledge Pillars */}
+        <ExploreMoreSection />
+
+        {/* 10. Ethical Monetization & Mobile App Stores Showcase */}
         <MonetizationSection />
       </main>
 

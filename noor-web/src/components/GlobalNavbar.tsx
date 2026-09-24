@@ -52,6 +52,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
   const [showExploreDropdown, setShowExploreDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [detecting, setDetecting] = useState(false);
+  const [citySearch, setCitySearch] = useState('');
 
   // Modals state
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -413,7 +414,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                   <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-1.5">
                     <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
                       <MapPin className="w-3 h-3 text-amber-400" />
-                      <span>Select City</span>
+                      <span>Select Country & City</span>
                     </span>
                     <button
                       onClick={handleAutoDetect}
@@ -424,21 +425,57 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                       <span>{detecting ? 'Detecting...' : 'Auto Detect'}</span>
                     </button>
                   </div>
-                  <div className="max-h-52 overflow-y-auto space-y-0.5 custom-scrollbar">
-                    {POPULAR_CITIES.map((loc) => (
-                      <button
-                        key={`${loc.city}-${loc.country}`}
-                        onClick={() => handleLocationSelect(loc)}
-                        className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
-                          loc.city === activeLocation.city
-                            ? 'bg-amber-400/20 text-amber-300 font-bold'
-                            : 'text-emerald-100 hover:bg-white/5'
-                        }`}
-                      >
-                        <span className="text-[11px]">{loc.city}, <span className="opacity-60 text-[10px]">{loc.country}</span></span>
-                        <span className="text-[9px] text-emerald-400/60">{loc.region}</span>
-                      </button>
-                    ))}
+
+                  {/* Instant Search Bar */}
+                  <div className="mb-2">
+                    <input
+                      type="text"
+                      value={citySearch}
+                      onChange={(e) => setCitySearch(e.target.value)}
+                      placeholder="Search city or country (e.g. Makkah, Delhi)..."
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-zinc-500 text-[11px] outline-none focus:border-amber-400/60"
+                    />
+                  </div>
+
+                  <div className="max-h-56 overflow-y-auto space-y-0.5 custom-scrollbar">
+                    {POPULAR_CITIES.filter(
+                      loc =>
+                        !citySearch ||
+                        loc.city.toLowerCase().includes(citySearch.toLowerCase()) ||
+                        loc.country.toLowerCase().includes(citySearch.toLowerCase()) ||
+                        loc.region.toLowerCase().includes(citySearch.toLowerCase())
+                    ).map((loc) => {
+                      const isSelected = loc.city === activeLocation.city;
+                      return (
+                        <button
+                          key={`${loc.city}-${loc.country}`}
+                          onClick={() => {
+                            handleLocationSelect(loc);
+                            setCitySearch('');
+                          }}
+                          className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
+                            isSelected
+                              ? 'bg-amber-400/20 text-amber-300 font-bold border border-amber-400/30'
+                              : 'text-emerald-100 hover:bg-white/5'
+                          }`}
+                        >
+                          <span className="text-[11px]">
+                            {loc.city}, <span className="opacity-60 text-[10px]">{loc.country}</span>
+                          </span>
+                          <span className="text-[9px] text-emerald-400/60 font-mono">{loc.region}</span>
+                        </button>
+                      );
+                    })}
+                    {POPULAR_CITIES.filter(
+                      loc =>
+                        !citySearch ||
+                        loc.city.toLowerCase().includes(citySearch.toLowerCase()) ||
+                        loc.country.toLowerCase().includes(citySearch.toLowerCase())
+                    ).length === 0 && (
+                      <div className="py-4 text-center text-zinc-400 text-[11px]">
+                        No matching cities found.
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

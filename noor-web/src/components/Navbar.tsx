@@ -53,6 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [detecting, setDetecting] = useState(false);
+  const [citySearch, setCitySearch] = useState('');
 
   const locationRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLDivElement>(null);
@@ -100,6 +101,54 @@ export const Navbar: React.FC<NavbarProps> = ({
   // 2. Secondary Spiritual Tools (Inside sleek "Explore ▾" flyout with 3D Icons)
   const secondaryNavLinks = [
     {
+      label: t('guides') || 'Prayer Guides',
+      href: '/guides',
+      desc: 'Wudu, Ghusl, Salah step-by-step & Qada',
+      icon3d: '🧎‍♂️'
+    },
+    {
+      label: t('hajjUmrah') || 'Hajj & Umrah',
+      href: '/hajj-umrah',
+      desc: 'Miqat, Tawaf, Sa\'i, Arafat & checklist',
+      icon3d: '🕋'
+    },
+    {
+      label: t('zakatHub') || 'Zakat & Sadaqah',
+      href: '/zakat',
+      desc: 'Country currency Nisab & 9 charity channels',
+      icon3d: '🪙'
+    },
+    {
+      label: t('janazah') || 'Salatul Janazah',
+      href: '/janazah',
+      desc: '4 Takbeers, Ghusl, Kafan & burial rules',
+      icon3d: '🕊️'
+    },
+    {
+      label: t('travelMode') || 'Travel Mode',
+      href: '/travel',
+      desc: '77km Safar limit & Qasr prayer rules',
+      icon3d: '✈️'
+    },
+    {
+      label: t('nikah') || 'Islamic Nikah',
+      href: '/nikah',
+      desc: 'Mahr, Khutbah, consent & family etiquette',
+      icon3d: '💍'
+    },
+    {
+      label: t('etiquette') || 'Daily Adab & Manners',
+      href: '/etiquette',
+      desc: 'Prophetic manners across 13 life domains',
+      icon3d: '🌸'
+    },
+    {
+      label: t('kids') || 'NOOR Kids & Family',
+      href: '/kids',
+      desc: 'Arabic alphabet, Prophet stories & quizzes',
+      icon3d: '🌟'
+    },
+    {
       label: t('qibla'),
       href: '/qibla',
       desc: 'Kaaba direction & live compass',
@@ -116,18 +165,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       href: '/calendar',
       desc: 'Islamic lunar dates & sacred events',
       icon3d: '🌙'
-    },
-    {
-      label: t('dashboard'),
-      href: '/dashboard',
-      desc: 'Daily habits, prayer logs & tracker',
-      icon3d: '📊'
-    },
-    {
-      label: t('app'),
-      href: '/app-preview',
-      desc: 'Download iOS & Android companion',
-      icon3d: '📱'
     },
     {
       label: t('contact') || 'Contact & Support',
@@ -224,12 +261,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Flyout Card */}
             {showExploreDropdown && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-72 z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
-                <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-2">
-                  <div className="px-2.5 py-1 text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider border-b border-white/5 mb-1">
-                    More Features
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-80 sm:w-[520px] z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
+                <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-3">
+                  <div className="flex items-center justify-between px-2.5 py-1 text-[10px] font-semibold text-amber-400/80 uppercase tracking-wider border-b border-white/5 mb-2">
+                    <span>Spiritual Practice & Life Tools</span>
+                    <span className="font-mono text-[9px] text-emerald-400">12 Verified Pillars</span>
                   </div>
-                  <div className="space-y-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-[65vh] overflow-y-auto custom-scrollbar p-0.5">
                     {secondaryNavLinks.map((item) => {
                       const isActive = pathname === item.href;
 
@@ -238,7 +276,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           key={item.href}
                           href={item.href}
                           onClick={() => setShowExploreDropdown(false)}
-                          className={`group flex items-start gap-3 p-2 rounded-xl transition-all ${
+                          className={`group flex items-start gap-2.5 p-2 rounded-xl transition-all ${
                             isActive
                               ? 'bg-amber-400/15 text-amber-300'
                               : 'hover:bg-white/5 text-emerald-100/90 hover:text-white'
@@ -253,7 +291,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                             <span className="text-xs font-semibold leading-tight group-hover:text-amber-300 transition-colors">
                               {item.label}
                             </span>
-                            <span className="text-[10px] text-emerald-300/60 leading-tight mt-0.5 truncate">
+                            <span className="text-[10px] text-emerald-300/60 leading-tight mt-0.5 line-clamp-1">
                               {item.desc}
                             </span>
                           </div>
@@ -297,11 +335,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {showLocationDropdown && (
-              <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-[#031d16]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-2.5 z-[100] text-xs animate-in fade-in zoom-in-95">
-                <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-1.5">
+              <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-[#031d16]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-2.5 z-[100] text-xs animate-in fade-in zoom-in-95">
+                <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
                   <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
                     <MapPin className="w-3 h-3 text-amber-400" />
-                    <span>Select City</span>
+                    <span>Select Country & City</span>
                   </span>
                   <button
                     onClick={handleAutoDetect}
@@ -312,24 +350,58 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span>{detecting ? 'Detecting...' : 'Auto Detect'}</span>
                   </button>
                 </div>
-                <div className="max-h-52 overflow-y-auto space-y-0.5 custom-scrollbar">
-                  {POPULAR_CITIES.map((loc) => (
-                    <button
-                      key={`${loc.city}-${loc.country}`}
-                      onClick={() => {
-                        onLocationChange(loc);
-                        setShowLocationDropdown(false);
-                      }}
-                      className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
-                        loc.city === currentLocation.city
-                          ? 'bg-amber-400/20 text-amber-300 font-bold'
-                          : 'text-emerald-100 hover:bg-white/5'
-                      }`}
-                    >
-                      <span className="text-[11px]">{loc.city}, <span className="opacity-60 text-[10px]">{loc.country}</span></span>
-                      <span className="text-[9px] text-emerald-400/60">{loc.region}</span>
-                    </button>
-                  ))}
+
+                {/* Instant Search Bar */}
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    value={citySearch}
+                    onChange={(e) => setCitySearch(e.target.value)}
+                    placeholder="Search city or country (e.g. Makkah, Delhi)..."
+                    className="w-full px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-zinc-500 text-[11px] outline-none focus:border-amber-400/60"
+                  />
+                </div>
+
+                <div className="max-h-56 overflow-y-auto space-y-0.5 custom-scrollbar">
+                  {POPULAR_CITIES.filter(
+                    loc =>
+                      !citySearch ||
+                      loc.city.toLowerCase().includes(citySearch.toLowerCase()) ||
+                      loc.country.toLowerCase().includes(citySearch.toLowerCase()) ||
+                      loc.region.toLowerCase().includes(citySearch.toLowerCase())
+                  ).map((loc) => {
+                    const isSelected = loc.city === currentLocation.city;
+                    return (
+                      <button
+                        key={`${loc.city}-${loc.country}`}
+                        onClick={() => {
+                          onLocationChange(loc);
+                          setShowLocationDropdown(false);
+                          setCitySearch('');
+                        }}
+                        className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
+                          isSelected
+                            ? 'bg-amber-400/20 text-amber-300 font-bold border border-amber-400/30'
+                            : 'text-emerald-100 hover:bg-white/5'
+                        }`}
+                      >
+                        <span className="text-[11px]">
+                          {loc.city}, <span className="opacity-60 text-[10px]">{loc.country}</span>
+                        </span>
+                        <span className="text-[9px] text-emerald-400/60 font-mono">{loc.region}</span>
+                      </button>
+                    );
+                  })}
+                  {POPULAR_CITIES.filter(
+                    loc =>
+                      !citySearch ||
+                      loc.city.toLowerCase().includes(citySearch.toLowerCase()) ||
+                      loc.country.toLowerCase().includes(citySearch.toLowerCase())
+                  ).length === 0 && (
+                    <div className="py-4 text-center text-zinc-400 text-[11px]">
+                      No matching cities found.
+                    </div>
+                  )}
                 </div>
               </div>
             )}
