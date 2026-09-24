@@ -32,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/calendar', changeFrequency: 'daily', priority: 0.85 },
     { path: '/media', changeFrequency: 'daily', priority: 0.80 },
     { path: '/app-preview', changeFrequency: 'monthly', priority: 0.80 },
+    { path: '/contact', changeFrequency: 'monthly', priority: 0.85 },
   ];
 
   const mainPages: MetadataRoute.Sitemap = routes.map((r) => ({

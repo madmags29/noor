@@ -48,6 +48,13 @@ export const Footer: React.FC = () => {
             <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span>100% Shariah Compliant • Zero Obscene Ads</span>
           </div>
+
+          <div className="pt-0.5 text-[11px] text-emerald-300/80 flex items-center gap-2">
+            <span className="text-amber-400">✉️</span>
+            <Link href="/contact" className="font-mono hover:text-amber-300 transition-colors">
+              salam@nooreilahi.com
+            </Link>
+          </div>
         </div>
 
         {/* Column 2: Core Islamic Pillars (Matches Header Primary Nav) */}
@@ -121,16 +128,26 @@ export const Footer: React.FC = () => {
                 <span>{t('app')} (Mobile Companion)</span>
               </Link>
             </li>
+            <li>
+              <Link href="/contact" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-medium">
+                <span>✉️</span>
+                <span>{t('contact') || 'Contact & Support'} (salam@nooreilahi.com)</span>
+              </Link>
+            </li>
           </ul>
         </div>
 
       </div>
 
-      {/* Bottom Bar: Copyright notice */}
-      <div className="max-w-7xl mx-auto pt-8 flex items-center justify-between">
-        <p className="text-[11px] text-emerald-400/60">
+      {/* Bottom Bar: Copyright notice & Official Contact */}
+      <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="text-[11px] text-emerald-400/60 text-center sm:text-left">
           {t('footerCopyright')}
         </p>
+        <Link href="/contact" className="text-[11px] text-amber-300/80 hover:text-amber-300 font-mono transition-colors flex items-center gap-1.5">
+          <span>Official Inbox:</span>
+          <span className="underline underline-offset-2">salam@nooreilahi.com</span>
+        </Link>
       </div>
     </footer>
   );

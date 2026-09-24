@@ -127,6 +127,7 @@ type ScreenType =
   | 'names'
   | 'giving'
   | 'qibla'
+  | 'contact'
   | 'splash';
 
 export default function AppPreviewPage() {
@@ -376,6 +377,7 @@ export default function AppPreviewPage() {
                 { id: 'names', label: '✨ 99 Names', color: 'bg-amber-500/20 text-amber-300' },
                 { id: 'giving', label: '💚 Sadaqah', color: 'bg-emerald-500/20' },
                 { id: 'qibla', label: '🧭 Qibla', color: 'bg-emerald-500/20' },
+                { id: 'contact', label: '✉️ Contact', color: 'bg-amber-500/20 text-amber-300' },
               ].map(s => (
                 <button
                   key={s.id}
@@ -1461,6 +1463,68 @@ export default function AppPreviewPage() {
                     </div>
                   );
                 })()}
+
+                {/* 12. CONTACT SCREEN — OFFICIAL CORRESPONDENCE & SUPPORT */}
+                {activeScreen === 'contact' && (
+                  <div className="space-y-2.5 animate-in fade-in text-left">
+                    <div className="flex items-center justify-between px-1">
+                      <div>
+                        <div className="font-bold text-white text-xs">✉️ Contact & Support</div>
+                        <span className="text-[8px] text-emerald-300/70">salam@nooreilahi.com • 24h Response</span>
+                      </div>
+                      <span className="text-[8px] px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-mono font-bold">
+                        Official
+                      </span>
+                    </div>
+
+                    {/* Official Inbox Card */}
+                    <div className="p-2.5 rounded-xl bg-[#031c15] border border-amber-400/40 space-y-1.5 shadow-md">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[8px] font-bold text-amber-400 uppercase tracking-wider">OFFICIAL INBOX</span>
+                        <span className="text-[8px] text-emerald-400 font-mono">24/7 Monitored</span>
+                      </div>
+                      <div className="text-sm font-mono font-bold text-white">salam@nooreilahi.com</div>
+                      <p className="text-[8px] text-emerald-200/70 leading-tight">
+                        Partnerships, feedback, bug reports & general Islamic inquiries.
+                      </p>
+                      <div className="flex gap-1.5 pt-1">
+                        <a
+                          href="mailto:salam@nooreilahi.com"
+                          className="flex-1 py-1 rounded-lg bg-amber-400 text-[#02120d] text-[8px] font-black text-center shadow"
+                        >
+                          ✉️ Open Mail App
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Interactive Inquiry Type Pills */}
+                    <div className="space-y-1">
+                      <span className="text-[8px] font-bold text-emerald-300/60 uppercase">Inquiry Categories</span>
+                      <div className="grid grid-cols-2 gap-1 text-[8px]">
+                        <div className="p-1.5 rounded-lg bg-[#031712] border border-white/10 text-white font-medium">
+                          💼 Business & B2B
+                        </div>
+                        <div className="p-1.5 rounded-lg bg-[#031712] border border-white/10 text-white font-medium">
+                          💡 App Feedback
+                        </div>
+                        <div className="p-1.5 rounded-lg bg-[#031712] border border-white/10 text-white font-medium">
+                          ⚠️ Report Issue
+                        </div>
+                        <div className="p-1.5 rounded-lg bg-[#031712] border border-white/10 text-white font-medium">
+                          🤲 General Deen
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Direct Contact Button */}
+                    <Link
+                      href="/contact"
+                      className="block w-full py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-[#02120d] font-bold text-[9px] text-center shadow hover:scale-[1.01] transition-transform"
+                    >
+                      Open Full Web Form →
+                    </Link>
+                  </div>
+                )}
               </div>
 
               {/* Floating Ask AI Bubble Inside Device */}

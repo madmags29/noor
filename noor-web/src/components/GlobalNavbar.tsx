@@ -183,6 +183,12 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
       desc: 'Download iOS & Android companion',
       icon3d: '📱'
     },
+    {
+      label: t('contact') || 'Contact & Support',
+      href: '/contact',
+      desc: 'salam@nooreilahi.com & business queries',
+      icon3d: '✉️'
+    },
   ];
 
   const isSecondaryActive = secondaryNavLinks.some(

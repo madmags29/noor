@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 
 export default function SettingsScreen() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -43,6 +46,23 @@ export default function SettingsScreen() {
           <Text style={styles.settingTitle}>Adhan Notifications</Text>
           <Text style={styles.settingValue}>Enabled (Makkah Voice)</Text>
         </View>
+
+        {/* Contact & Support Section */}
+        <Text style={[styles.sectionHeader, { marginTop: 14 }]}>Support & Inquiries</Text>
+
+        <TouchableOpacity
+          style={styles.settingItem}
+          onPress={() => router.push('/contact' as any)}
+          activeOpacity={0.8}
+        >
+          <View>
+            <Text style={styles.settingTitle}>Contact & Inquiries</Text>
+            <Text style={{ color: 'rgba(110, 231, 183, 0.6)', fontSize: 10, marginTop: 2 }}>
+              Business, Feedback & Complaints
+            </Text>
+          </View>
+          <Text style={styles.settingValue}>salam@nooreilahi.com →</Text>
+        </TouchableOpacity>
 
         {/* About NOOR Mobile */}
         <View style={styles.aboutCard}>

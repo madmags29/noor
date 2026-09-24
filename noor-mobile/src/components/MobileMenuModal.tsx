@@ -177,6 +177,14 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
         onOpenLocation();
       },
     },
+    {
+      id: 'contact',
+      label: t('contact') || 'Contact & Support',
+      icon: 'mail-outline',
+      color: '#34d399',
+      badge: 'salam@nooreilahi.com',
+      action: () => navigateTo('/contact'),
+    },
   ];
 
   return (
