@@ -47,13 +47,20 @@ export default function Home() {
     setCurrentUser(null);
   };
 
-  // Load saved user & settings on startup
+  // Load saved user & settings on startup, and check for ?profile=true query
   useEffect(() => {
     const u = loadCurrentUser();
     if (u) setCurrentUser(u);
     const s = loadUserSettings();
     if (s?.calculationMethod) setSelectedMethod(s.calculationMethod);
     if (s?.asrFactor) setAsrFactor(s.asrFactor);
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('profile') === 'true') {
+        setShowDashboardModal(true);
+      }
+    }
   }, []);
 
   // Auto-detect user's location on startup (instant IP + browser GPS)
