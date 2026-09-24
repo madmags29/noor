@@ -19,23 +19,23 @@ import { useSplash } from '../context/SplashContext';
 interface MobileMenuModalProps {
   visible: boolean;
   onClose: () => void;
-  currentUser: MobileUser | null;
-  onOpenAuth: () => void;
-  onOpenAdhan: () => void;
-  onOpenQibla: () => void;
-  onOpenLocation: () => void;
-  onOpenLanguage: () => void;
+  currentUser?: MobileUser | null;
+  onOpenAuth?: () => void;
+  onOpenAdhan?: () => void;
+  onOpenQibla?: () => void;
+  onOpenLocation?: () => void;
+  onOpenLanguage?: () => void;
 }
 
 export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
   visible,
   onClose,
-  currentUser,
-  onOpenAuth,
-  onOpenAdhan,
-  onOpenQibla,
-  onOpenLocation,
-  onOpenLanguage,
+  currentUser = null,
+  onOpenAuth = () => {},
+  onOpenAdhan = () => {},
+  onOpenQibla = () => {},
+  onOpenLocation = () => {},
+  onOpenLanguage = () => {},
 }) => {
   const router = useRouter();
   const { t, currentLanguageInfo } = useLanguage();

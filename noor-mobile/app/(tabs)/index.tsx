@@ -64,11 +64,24 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {/* 1. Header with Website Muslim Logo, Profile & Side Menu */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => setShowMenuModal(true)} activeOpacity={0.8}>
-            <MuslimLogo size={38} showText />
+          <TouchableOpacity onPress={() => setShowMenuModal(true)} activeOpacity={0.8} style={styles.brandTouch}>
+            <MuslimLogo size={34} showText compactText />
           </TouchableOpacity>
 
           <View style={styles.headerRightActions}>
+            {/* Location Selector Pill (Dynamic width, never cut off) */}
+            <TouchableOpacity
+              style={styles.locationPill}
+              onPress={() => setShowLocationModal(true)}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="location" size={13} color={THEME.colors.goldPrimary} />
+              <Text style={styles.locationText} numberOfLines={1} ellipsizeMode="tail">
+                {currentCity.city}
+              </Text>
+              <Ionicons name="chevron-down" size={11} color={THEME.colors.emeraldSubtle} />
+            </TouchableOpacity>
+
             {/* Native Language Selector Pill */}
             <TouchableOpacity
               style={styles.langPill}
@@ -76,44 +89,17 @@ export default function HomeScreen() {
               activeOpacity={0.8}
             >
               <Text style={styles.langPillFlag}>{currentLanguageInfo.flag}</Text>
-              <Text style={styles.langPillText} numberOfLines={1}>
-                {currentLanguageInfo.nativeName}
+              <Text style={styles.langPillText}>
+                {currentLanguageInfo.code.toUpperCase()}
               </Text>
             </TouchableOpacity>
 
-            {/* Location Selector Pill */}
-            <TouchableOpacity
-              style={styles.locationPill}
-              onPress={() => setShowLocationModal(true)}
-              activeOpacity={0.8}
-            >
-              <Ionicons name="location" size={13} color={THEME.colors.goldPrimary} />
-              <Text style={styles.locationText} numberOfLines={1}>
-                {currentCity.city}
-              </Text>
-              <Ionicons name="chevron-down" size={11} color={THEME.colors.emeraldSubtle} />
-            </TouchableOpacity>
-
-            {/* Profile / Auth Button */}
-            <TouchableOpacity
-              style={styles.profileBtn}
-              onPress={() => setShowAuthModal(true)}
-              activeOpacity={0.8}
-            >
-              {currentUser?.isLoggedIn ? (
-                <View style={styles.avatarMini}>
-                  <Text style={styles.avatarMiniText}>{currentUser.name.charAt(0).toUpperCase()}</Text>
-                </View>
-              ) : (
-                <Ionicons name="person-circle-outline" size={26} color="#f59e0b" />
-              )}
-            </TouchableOpacity>
-
-            {/* Side Menu Hamburger Button */}
+            {/* Side Menu Hamburger Button (Prominent ☰) */}
             <TouchableOpacity
               style={styles.menuBtn}
               onPress={() => setShowMenuModal(true)}
               activeOpacity={0.8}
+              accessibilityLabel="Open Menu"
             >
               <Ionicons name="menu" size={22} color="#ffffff" />
             </TouchableOpacity>
@@ -446,7 +432,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.bgDark,
   },
   scrollContainer: {
-    paddingHorizontal: 18,
+    paddingHorizontal: 14,
     paddingTop: 14,
     paddingBottom: 90,
     gap: 16,
@@ -456,11 +442,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 4,
+    gap: 6,
+  },
+  brandTouch: {
+    flexShrink: 0,
   },
   headerRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 7,
+    gap: 5,
+    flexShrink: 1,
+    justifyContent: 'flex-end',
   },
   profileBtn: {
     padding: 3,
@@ -574,14 +566,15 @@ const styles = StyleSheet.create({
   locationPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
-    backgroundColor: THEME.colors.bgCard,
+    gap: 4,
+    backgroundColor: '#062c21',
     borderWidth: 1,
-    borderColor: THEME.colors.borderSubtle,
-    paddingHorizontal: 9,
-    paddingVertical: 6,
+    borderColor: 'rgba(52, 211, 153, 0.25)',
+    paddingHorizontal: 8,
+    paddingVertical: 5.5,
     borderRadius: 16,
-    maxWidth: 105,
+    flexShrink: 1,
+    maxWidth: 140,
   },
   locationText: {
     fontSize: 12,
@@ -591,21 +584,21 @@ const styles = StyleSheet.create({
   langPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 3,
     backgroundColor: 'rgba(245, 158, 11, 0.12)',
     borderWidth: 1,
     borderColor: 'rgba(245, 158, 11, 0.35)',
-    paddingHorizontal: 8,
-    paddingVertical: 5,
+    paddingHorizontal: 7,
+    paddingVertical: 5.5,
     borderRadius: 16,
-    maxWidth: 95,
+    flexShrink: 0,
   },
   langPillFlag: {
-    fontSize: 13,
+    fontSize: 12,
   },
   langPillText: {
-    fontSize: 11,
-    fontWeight: '700',
+    fontSize: 10.5,
+    fontWeight: '800',
     color: THEME.colors.goldLight,
   },
   dateBar: {

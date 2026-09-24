@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
+import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { useLanguage } from '../../src/context/LanguageContext';
 
 import { CANONICAL_SURAHS } from '../../src/data/quranFullCatalog';
@@ -97,6 +98,7 @@ export default function QuranScreen() {
   const [readerModalVisible, setReaderModalVisible] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
   const [bookmarkedSurahs, setBookmarkedSurahs] = useState<number[]>([1, 18, 67]);
 
   const filteredSurahs = useMemo(() => {
@@ -134,13 +136,23 @@ export default function QuranScreen() {
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <View>
+          <View style={{ flex: 1, marginRight: 8 }}>
             <Text style={styles.title}>{t('quran')}</Text>
-            <Text style={styles.subtitle}>الْقُرْآن الْكَرِيم • {t('nobleScripture')}</Text>
+            <Text style={styles.subtitle} numberOfLines={1}>الْقُرْآن الْكَرِيم • {t('nobleScripture')}</Text>
           </View>
-          <View style={styles.badgeQari}>
-            <Ionicons name="mic-outline" size={14} color="#f59e0b" />
-            <Text style={styles.qariText}>Alafasy</Text>
+          <View style={styles.headerRightActions}>
+            <View style={styles.badgeQari}>
+              <Ionicons name="mic-outline" size={13} color="#f59e0b" />
+              <Text style={styles.qariText}>Alafasy</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.menuBtn}
+              onPress={() => setShowMenuModal(true)}
+              activeOpacity={0.8}
+              accessibilityLabel="Open Menu"
+            >
+              <Ionicons name="menu" size={22} color="#ffffff" />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -375,6 +387,12 @@ export default function QuranScreen() {
           visible={isAiModalOpen}
           onClose={() => setIsAiModalOpen(false)}
         />
+
+        {/* Side Menu Drawer Modal */}
+        <MobileMenuModal
+          visible={showMenuModal}
+          onClose={() => setShowMenuModal(false)}
+        />
       </View>
     </SafeAreaView>
   );
@@ -396,6 +414,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 14,
+  },
+  headerRightActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+  },
+  menuBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 24,

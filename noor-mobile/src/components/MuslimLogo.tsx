@@ -14,11 +14,13 @@ import Svg, {
 interface MuslimLogoProps {
   size?: number;
   showText?: boolean;
+  compactText?: boolean;
 }
 
 export const MuslimLogo: React.FC<MuslimLogoProps> = ({
   size = 40,
   showText = false,
+  compactText = false,
 }) => {
   return (
     <View style={styles.container}>
@@ -129,12 +131,18 @@ export const MuslimLogo: React.FC<MuslimLogoProps> = ({
       {showText && (
         <View style={styles.textColumn}>
           <View style={styles.titleRow}>
-            <Text style={styles.brandTitle}>Noor-e-ilahi</Text>
-            <View style={styles.arabicBadge}>
-              <Text style={styles.arabicBadgeText}>نُورِ اِلٰہی</Text>
+            <Text style={[styles.brandTitle, compactText && styles.brandTitleCompact]}>
+              {compactText ? 'Noor' : 'Noor-e-ilahi'}
+            </Text>
+            <View style={[styles.arabicBadge, compactText && styles.arabicBadgeCompact]}>
+              <Text style={[styles.arabicBadgeText, compactText && styles.arabicBadgeTextCompact]}>
+                {compactText ? 'نُور' : 'نُورِ اِلٰہی'}
+              </Text>
             </View>
           </View>
-          <Text style={styles.brandTagline}>Your Deen. Your Daily Companion.</Text>
+          {!compactText && (
+            <Text style={styles.brandTagline}>Your Deen. Your Daily Companion.</Text>
+          )}
         </View>
       )}
     </View>
@@ -145,7 +153,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 8,
   },
   emblemContainer: {
     justifyContent: 'center',
@@ -162,13 +170,17 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 5,
   },
   brandTitle: {
     color: '#ffffff',
     fontSize: 18,
     fontWeight: '900',
     letterSpacing: 0.5,
+  },
+  brandTitleCompact: {
+    fontSize: 16,
+    letterSpacing: 0.3,
   },
   arabicBadge: {
     backgroundColor: 'rgba(245, 158, 11, 0.15)',
@@ -178,10 +190,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 1,
   },
+  arabicBadgeCompact: {
+    paddingHorizontal: 4,
+    paddingVertical: 0.5,
+  },
   arabicBadgeText: {
     color: '#fde68a',
     fontSize: 11,
     fontWeight: 'bold',
+  },
+  arabicBadgeTextCompact: {
+    fontSize: 10,
   },
   brandTagline: {
     color: 'rgba(110, 231, 183, 0.75)',

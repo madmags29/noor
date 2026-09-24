@@ -14,6 +14,7 @@ import { POPULAR_CITIES, MobileCity, LocationPickerModal } from '../../src/compo
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
 import { AdhanVoiceModal, ADHAN_VOICES, AdhanVoice } from '../../src/components/AdhanVoiceModal';
+import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { useLanguage } from '../../src/context/LanguageContext';
 
 interface PrayerItem {
@@ -41,6 +42,7 @@ export default function PrayerScreen() {
   const [selectedMethod, setSelectedMethod] = useState(METHODS[0]);
   const [showAiModal, setShowAiModal] = useState(false);
   const [showAdhanModal, setShowAdhanModal] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
   const [activeAdhan, setActiveAdhan] = useState<AdhanVoice>(ADHAN_VOICES[0]);
 
   // Audio playing simulation
@@ -80,21 +82,33 @@ export default function PrayerScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Top Header */}
         <View style={styles.header}>
-          <View>
+          <View style={{ flex: 1, marginRight: 8 }}>
             <Text style={styles.pageTitle}>{t('dailyPrayerTimes')}</Text>
-            <Text style={styles.pageSub}>{t('precisionCalculationFor')} {currentCity.city}</Text>
+            <Text style={styles.pageSub} numberOfLines={1}>{t('precisionCalculationFor')} {currentCity.city}</Text>
           </View>
 
-          {/* Location Picker */}
-          <TouchableOpacity
-            style={styles.locationBtn}
-            onPress={() => setShowLocationModal(true)}
-            activeOpacity={0.8}
-          >
-            <Ionicons name="location" size={14} color={THEME.colors.goldPrimary} />
-            <Text style={styles.locationBtnText}>{currentCity.city}</Text>
-            <Ionicons name="chevron-down" size={12} color={THEME.colors.emeraldSubtle} />
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
+            {/* Location Picker */}
+            <TouchableOpacity
+              style={styles.locationBtn}
+              onPress={() => setShowLocationModal(true)}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="location" size={13} color={THEME.colors.goldPrimary} />
+              <Text style={styles.locationBtnText}>{currentCity.city}</Text>
+              <Ionicons name="chevron-down" size={11} color={THEME.colors.emeraldSubtle} />
+            </TouchableOpacity>
+
+            {/* Hamburger Menu Button */}
+            <TouchableOpacity
+              style={styles.menuBtn}
+              onPress={() => setShowMenuModal(true)}
+              activeOpacity={0.8}
+              accessibilityLabel="Open Menu"
+            >
+              <Ionicons name="menu" size={22} color="#ffffff" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Next Prayer Highlight Card */}
@@ -291,6 +305,18 @@ export default function PrayerScreen() {
         visible={showAiModal}
         onClose={() => setShowAiModal(false)}
       />
+
+      {/* Mobile Side Navigation Menu Drawer */}
+      <MobileMenuModal
+        visible={showMenuModal}
+        onClose={() => setShowMenuModal(false)}
+        currentUser={null}
+        onOpenAuth={() => {}}
+        onOpenAdhan={() => setShowAdhanModal(true)}
+        onOpenQibla={() => {}}
+        onOpenLocation={() => setShowLocationModal(true)}
+        onOpenLanguage={() => {}}
+      />
     </SafeAreaView>
   );
 }
@@ -329,7 +355,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.bgCard,
     borderWidth: 1,
     borderColor: THEME.colors.borderSubtle,
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
     paddingVertical: 7,
     borderRadius: 20,
   },
@@ -337,6 +363,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     color: THEME.colors.textWhite,
+  },
+  menuBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   nextPrayerCard: {
     backgroundColor: THEME.colors.bgCard,

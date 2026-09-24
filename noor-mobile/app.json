@@ -50,6 +50,9 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "noor"
+    "scheme": "noor",
+    "extra": {
+      "gaMeasurementId": "G-6VEVYV7DX2"
+    }
   }
 }

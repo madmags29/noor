@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { LanguageProvider } from '../src/context/LanguageContext';
 import { SplashProvider, useSplash } from '../src/context/SplashContext';
 import { AnimatedSplashScreen } from '../src/components/AnimatedSplashScreen';
+import { analytics } from '../src/services/analyticsService';
 
 function RootContent() {
   const { showSplash, hideSplash } = useSplash();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    analytics.init();
+  }, []);
+
+  useEffect(() => {
+    if (pathname) {
+      analytics.trackScreenView(pathname);
+    }
+  }, [pathname]);
 
   return (
     <View style={styles.container}>

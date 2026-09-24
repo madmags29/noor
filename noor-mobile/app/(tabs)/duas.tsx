@@ -13,6 +13,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
+import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { useLanguage } from '../../src/context/LanguageContext';
 
 interface DhikrItem {
@@ -149,6 +150,7 @@ export default function DuasScreen() {
   const [completedCycles, setCompletedCycles] = useState(0);
   const [duaCategory, setDuaCategory] = useState<string>('All');
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
 
   const activeDhikr = DHIKR_PHRASES[activeDhikrIndex];
 
@@ -200,41 +202,55 @@ export default function DuasScreen() {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#02120d" />
       <View style={styles.container}>
-        {/* Top Header */}
+        {/* Top Header Row with Title, Subtitle & Hamburger Menu */}
         <View style={styles.header}>
-          <View>
+          <View style={{ flex: 1, marginRight: 10 }}>
             <Text style={styles.title}>{t('duas')}</Text>
-            <Text style={styles.subtitle}>أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ • {t('supplicationsTitle')}</Text>
+            <Text style={styles.subtitle} numberOfLines={1}>
+              أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ • {t('supplicationsTitle')}
+            </Text>
           </View>
-          <View style={styles.tabToggle}>
-            <TouchableOpacity
-              style={[styles.tabBtn, activeTab === 'Tasbih' && styles.tabBtnActive]}
-              onPress={() => setActiveTab('Tasbih')}
-            >
-              <Ionicons
-                name="finger-print-outline"
-                size={14}
-                color={activeTab === 'Tasbih' ? '#02120d' : '#6ee7b7'}
-              />
-              <Text style={[styles.tabBtnText, activeTab === 'Tasbih' && styles.tabBtnTextActive]}>
-                Tasbih
-              </Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuBtn}
+            onPress={() => setShowMenuModal(true)}
+            activeOpacity={0.8}
+            accessibilityLabel="Open Menu"
+          >
+            <Ionicons name="menu" size={22} color="#ffffff" />
+          </TouchableOpacity>
+        </View>
 
-            <TouchableOpacity
-              style={[styles.tabBtn, activeTab === 'Duas' && styles.tabBtnActive]}
-              onPress={() => setActiveTab('Duas')}
-            >
-              <Ionicons
-                name="book-outline"
-                size={14}
-                color={activeTab === 'Duas' ? '#02120d' : '#6ee7b7'}
-              />
-              <Text style={[styles.tabBtnText, activeTab === 'Duas' && styles.tabBtnTextActive]}>
-                {t('duas')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+        {/* Dedicated Full-Width Segmented Tab Switcher (Never Cuts Off!) */}
+        <View style={styles.tabToggleRow}>
+          <TouchableOpacity
+            style={[styles.tabBtn, activeTab === 'Tasbih' && styles.tabBtnActive]}
+            onPress={() => setActiveTab('Tasbih')}
+            activeOpacity={0.8}
+          >
+            <Ionicons
+              name="finger-print-outline"
+              size={15}
+              color={activeTab === 'Tasbih' ? '#02120d' : '#f59e0b'}
+            />
+            <Text style={[styles.tabBtnText, activeTab === 'Tasbih' && styles.tabBtnTextActive]}>
+              📿 Tasbih Counter
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.tabBtn, activeTab === 'Duas' && styles.tabBtnActive]}
+            onPress={() => setActiveTab('Duas')}
+            activeOpacity={0.8}
+          >
+            <Ionicons
+              name="book-outline"
+              size={15}
+              color={activeTab === 'Duas' ? '#02120d' : '#34d399'}
+            />
+            <Text style={[styles.tabBtnText, activeTab === 'Duas' && styles.tabBtnTextActive]}>
+              🤲 Authentic Duas
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {activeTab === 'Tasbih' ? (
@@ -434,6 +450,18 @@ export default function DuasScreen() {
           visible={isAiModalOpen}
           onClose={() => setIsAiModalOpen(false)}
         />
+
+        {/* Mobile Side Navigation Menu Drawer */}
+        <MobileMenuModal
+          visible={showMenuModal}
+          onClose={() => setShowMenuModal(false)}
+          currentUser={null}
+          onOpenAuth={() => {}}
+          onOpenAdhan={() => {}}
+          onOpenQibla={() => {}}
+          onOpenLocation={() => {}}
+          onOpenLanguage={() => {}}
+        />
       </View>
     </SafeAreaView>
   );
@@ -454,7 +482,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 14,
+    marginBottom: 10,
   },
   title: {
     fontSize: 22,
@@ -468,33 +496,51 @@ const styles = StyleSheet.create({
     marginTop: 2,
     fontWeight: '600',
   },
-  tabToggle: {
+  menuBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabToggleRow: {
     flexDirection: 'row',
     backgroundColor: '#04231b',
-    borderRadius: 12,
-    padding: 3,
+    borderRadius: 14,
+    padding: 4,
     borderWidth: 1,
-    borderColor: 'rgba(52, 211, 153, 0.2)',
+    borderColor: 'rgba(52, 211, 153, 0.25)',
+    marginBottom: 14,
+    gap: 6,
   },
   tabBtn: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 9,
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 9,
+    borderRadius: 10,
   },
   tabBtnActive: {
     backgroundColor: '#10b981',
+    shadowColor: '#10b981',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   tabBtnText: {
     color: '#6ee7b7',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   tabBtnTextActive: {
     color: '#02120d',
-    fontWeight: '900',
+    fontWeight: '800',
   },
   tasbihScroll: {
     paddingBottom: 20,

@@ -22,6 +22,7 @@ import {
 } from '../../src/data/mobileZiyaratData';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
+import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { useLanguage } from '../../src/context/LanguageContext';
 
 export default function ZiyaratScreen() {
@@ -31,6 +32,7 @@ export default function ZiyaratScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSanctuary, setSelectedSanctuary] = useState<MobileSanctuary | null>(null);
   const [showAiModal, setShowAiModal] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
 
   // Filter sanctuaries
   const filteredSanctuaries = MOBILE_SANCTUARIES.filter(s => {
@@ -70,7 +72,17 @@ export default function ZiyaratScreen() {
               <MaterialCommunityIcons name="shield-check" size={14} color={THEME.colors.goldPrimary} />
               <Text style={styles.verifiedText}>100% SCHOLARLY VERIFIED</Text>
             </View>
-            <Text style={styles.countPill}>{filteredSanctuaries.length} Sanctuaries</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
+              <Text style={styles.countPill}>{filteredSanctuaries.length} Sanctuaries</Text>
+              <TouchableOpacity
+                style={styles.menuBtn}
+                onPress={() => setShowMenuModal(true)}
+                activeOpacity={0.8}
+                accessibilityLabel="Open Menu"
+              >
+                <Ionicons name="menu" size={22} color="#ffffff" />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <Text style={styles.pageTitle}>{t('ziyarat')}</Text>
@@ -347,6 +359,12 @@ export default function ZiyaratScreen() {
           </SafeAreaView>
         </Modal>
       )}
+
+      {/* Side Menu Drawer Modal */}
+      <MobileMenuModal
+        visible={showMenuModal}
+        onClose={() => setShowMenuModal(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -363,6 +381,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 12,
+  },
+  menuBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   badgeRow: {
     flexDirection: 'row',

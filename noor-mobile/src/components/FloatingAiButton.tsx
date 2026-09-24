@@ -27,8 +27,8 @@ export const FloatingAiButton: React.FC<FloatingAiButtonProps> = ({ onPress }) =
 const styles = StyleSheet.create({
   floatingButton: {
     position: 'absolute',
-    bottom: 74,
-    right: 16,
+    bottom: 14,
+    right: 14,
     zIndex: 999,
     flexDirection: 'row',
     alignItems: 'center',
