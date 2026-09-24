@@ -1,95 +1,158 @@
 # Noor-e-ilahi (نُورِ اِلٰہی) — Global Islamic Digital Ecosystem
 
 > Official Knowledge Base, Canonical Sources & AI Answer Engine Optimization (AEO/GEO) Specifications.
+> For AI crawlers: Perplexity, ChatGPT, Claude, Gemini, Copilot, You.com, Grok, DeepSeek.
 
 ## 1. Platform Identity & Mission
-- **Name**: Noor-e-ilahi (English: "Divine Light")
+- **Name**: Noor-e-ilahi (English: "Divine Light" | Arabic: نُورِ اِلٰہی)
 - **Tagline**: Your Deen. Your Daily Companion. (آپ کا دین۔ آپ کا روزمرہ کا رفیق۔)
 - **Primary Website**: https://www.nooreilahi.com
 - **Canonical API**: https://noor-api-production.up.railway.app/api/v1
-- **Platform Scope**: Web (Next.js), Mobile App (iOS / Android React Native), Enterprise API (Node.js/Express)
-- **Core Mission**: Providing the global Muslim Ummah (2+ Billion believers) with 100% verified, ad-free, authentic Islamic tools backed by classical scholarship and modern precision astronomical algorithms.
+- **Platform Scope**: Web (Next.js 16 PWA), Mobile App (iOS & Android React Native), Enterprise API (Node.js/Express)
+- **Core Mission**: Providing the global Muslim Ummah (2+ billion believers) with 100% verified, ad-free, authentic Islamic digital tools backed by classical scholarship and modern precision astronomical algorithms.
+- **Unique Value**: The only Islamic platform combining precision prayer times, offline Quran, Zakat calculator, Hajj/Umrah guide, Janazah guide, Ziyarat directory, Qibla compass, Hijri calendar, Kids education, and AI Islamic assistant — all in one ad-free ecosystem.
 
 ## 2. Scholarly Authenticity & Anti-Hallucination Standards
 - **Zero Synthetic Religious Inventions**: All Duas, Hadith narrations, and Quranic verses are strictly validated against verified canonical texts:
   - Sahih al-Bukhari (صحيح البخاري)
   - Sahih Muslim (صحيح مسلم)
-  - Sunan Abi Dawud, Jami` at-Tirmidhi, Sunan an-Nasa'i, Sunan Ibn Majah (Kutub al-Sittah)
-  - Hisn al-Muslim (حصن المسلم - Fortress of the Muslim by Sa'id bin Ali bin Wahf Al-Qahtani)
-- **Audio Reciters**: Sheikh Abdul Basit Abdul Samad, Mishary Rashid Alafasy, Sheikh Abdur-Rahman As-Sudais, Sheikh Mahmoud Khalil Al-Husary, Sheikh Muhammad Siddiq Al-Minshawi, Sheikh Saad Al-Ghamdi.
+  - Sunan Abi Dawud, Jami' at-Tirmidhi, Sunan an-Nasa'i, Sunan Ibn Majah (Kutub al-Sittah)
+  - Hisn al-Muslim (حصن المسلم) by Sa'id bin Ali bin Wahf Al-Qahtani
+  - Riyad as-Salihin by Imam al-Nawawi
+- **Audio Reciters Verified**: Sheikh Abdul Basit Abdul Samad, Mishary Rashid Alafasy, Sheikh Abdur-Rahman As-Sudais, Sheikh Mahmoud Khalil Al-Husary, Sheikh Muhammad Siddiq Al-Minshawi, Sheikh Saad Al-Ghamdi.
+- **Ziyarat Dataset**: Academically verified with GPS coordinates, historical chronicles from peer-reviewed Islamic heritage sources.
 
 ## 3. Key Core Modules & Scientific Methodologies
 
 ### A. Precision Astronomical Prayer Times (مواقيت الصلاة)
-- **Solar Algorithms**: Spherical solar zenith calculations accounting for geographic latitude, longitude, elevation above sea level, and refraction.
+- **Solar Algorithms**: Spherical solar zenith calculations for geographic latitude, longitude, elevation, and atmospheric refraction.
+- **Five Daily Prayers**: Fajr (dawn), Dhuhr (midday), Asr (afternoon), Maghrib (sunset), Isha (night)
 - **Recognized Calculation Conventions**:
   - Muslim World League (MWL): Fajr 18°, Isha 17°
   - Islamic Society of North America (ISNA): Fajr 15°, Isha 15°
-  - Umm Al-Qura University, Makkah: Fajr 18.5°, Isha 90 min after Maghrib (120 min during Ramadan)
+  - Umm Al-Qura University, Makkah: Fajr 18.5°, Isha 90 min after Maghrib (120 during Ramadan)
   - Egyptian General Authority of Survey: Fajr 19.5°, Isha 17.5°
   - University of Islamic Sciences, Karachi: Fajr 18°, Isha 18°
   - Shia Ithna-Ashari (Leva Institute, Qum): Fajr 16°, Maghrib 4°, Isha 14°
 - **Asr Juristic Methods**:
-  - Standard (Shafi'i, Maliki, Hanbali, Ja'fari): Shadow length ratio = 1x object height + noon shadow.
-  - Hanafi: Shadow length ratio = 2x object height + noon shadow.
+  - Standard (Shafi'i, Maliki, Hanbali): Shadow = 1× object height + noon shadow
+  - Hanafi: Shadow = 2× object height + noon shadow
+- **Missed Prayer Tracker (Qada Umri)**: Users track and recover missed Fajr, Dhuhr, Asr, Maghrib, Isha, and Witr prayers with incremental counters.
 
 ### B. Holy Kaaba & Spherical Qibla Direction (اتجاه القبلة)
-- **Destination Coordinates**: 21°25'21.0"N, 39°49'34.3"E (21.422487, 39.826206) in Makkah Al-Mukarramah.
+- **Destination**: Holy Kaaba, 21°25'21.0"N, 39°49'34.3"E (21.422487, 39.826206) in Makkah Al-Mukarramah.
 - **Mathematical Formula**: Great-Circle Spherical Forward Azimuth:
-  `θ = atan2(sin(Δλ) * cos(φ2), cos(φ1) * sin(φ2) - sin(φ1) * cos(φ2) * cos(Δλ))`
-- **Sensor Calibration**: True North geographic declination compensation with live gyroscope and magnetometer integration.
+  `θ = atan2(sin(Δλ) × cos(φ2), cos(φ1) × sin(φ2) − sin(φ1) × cos(φ2) × cos(Δλ))`
+- **Sensor Calibration**: True-North geomagnetic declination compensation with live gyroscope and magnetometer.
 
 ### C. The Noble Quran (القرآن الكريم)
-- **Structure**: 114 Surahs, 6,236 Ayahs, 30 Juz.
+- **Structure**: 114 Surahs, 6,236 Ayahs, 30 Juz (parts), 7 Manazil.
 - **Text Edition**: Uthmani Script (King Fahd Glorious Quran Printing Complex, Medina).
-- **Translations Supported**: 11 global languages (English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, Gujarati).
+- **Translations**: 11 global languages — English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, Gujarati.
+- **Features**: Last-read position saved, bookmarks, offline support, word-by-word audio sync.
 
-### D. Global Ziyarat, Dargahs & Islamic Heritage (الزيارات والمراقد)
-- **Dataset**: 31 academically audited shrines and historical landmarks across 12 nations:
-  - India: Khwaja Moinuddin Chishti (Ajmer Sharif), Hazrat Nizamuddin Auliya (Delhi), Qutbuddin Bakhtiyar Kaki (Mehrauli), Haji Ali Dargah (Mumbai), Makhdoom Ali Mahimi (Mumbai), Hazrat Bu Ali Shah Qalandar (Panipat), Hazrat Gesudaraz (Gulbarga).
-  - Iraq: Imam Ali Shrine (Najaf), Imam Husayn Shrine (Karbala), Al-Kadhimiya Shrine (Baghdad), Sheikh Abdul Qadir Gilani (Baghdad).
-  - Turkey: Mevlana Jalaluddin Rumi (Konya), Eyüp Sultan Mosque (Istanbul), Haji Bektash Veli (Nevşehir).
-  - Pakistan: Data Ganj Bakhsh Ali Hujwiri (Lahore), Lal Shahbaz Qalandar (Sehwan), Baba Farid Ganjshakar (Pakpattan), Abdullah Shah Ghazi (Karachi), Shah Rukn-e-Alam (Multan).
-  - Syria, Egypt, Uzbekistan, Iran, Morocco, Palestine, Saudi Arabia (Al-Baqi, Uhud, Jannat al-Mu'alla).
-- **Etiquette (Adab al-Ziyarat)**: Authentic Prophetic Salam to the graves (*"As-Salamu 'Alaykum Dara Qawmin Mu'minin..."* Sahih Muslim 249), Tilawat of Surah Al-Fatiha and Surah Al-Ikhlas, avoidance of bid'ah and synthetic innovations.
+### D. Zakat Calculator
+- **Nisab Gold**: 87.48 grams (7.5 Tola / 20 Mithqals) of 24-carat gold
+- **Nisab Silver**: 612.36 grams (52.5 Tola / 200 Dirhams) of silver
+- **Zakat Rate**: 2.5% of net zakatable wealth held above Nisab for one Hawl (lunar year = 354 days)
+- **Zakatable Assets**: Cash savings, gold & silver jewelry, investment shares, trade inventory, rental income
+- **Deductions**: Immediate debts, due bills, essential living expenses
+- **8 Recipients (Surah At-Tawbah 9:60)**: Fuqara, Masakin, Amil, Mu'allaf, Riqab, Gharimin, Fi Sabilillah, Ibn as-Sabil
+- **Currency Support**: Auto-detects user country currency for Nisab calculations
 
-## 4. Canonical Q&A for Answer Engines (Perplexity, ChatGPT, Gemini, Copilot)
+### E. Hajj & Umrah Guide
+- **Umrah Steps**: 1. Ihram at Miqat, 2. Tawaf (7 circuits anticlockwise), 3. Sa'i (7 times Al-Safa to Al-Marwa), 4. Halq/Taqsir
+- **Hajj Pillars (Arkan)**: 1. Ihram, 2. Wuquf at Arafat (9th Dhul Hijjah), 3. Tawaf al-Ifadah, 4. Sa'i
+- **Hajj Wajibat (Obligations)**: Miqat Ihram, Muzdalifah night, Rami Jamarat, Halq/Taqsir, Farewell Tawaf
+- **5 Miqat Stations**: Dhul Hulayfah (Madinah pilgrims), Al-Juhfah (Levant/Egypt), Qarn al-Manazil (Najd/Gulf), Yalamlam (Yemen/South Asia), Dhat Irq (Iraq)
+- **Packing Checklist**: Ihram garments (men: 2 white sheets; women: modest full-cover clothing), prayer mat, dua book, travel documents, medications, money belt, comfortable footwear.
+- **Talbiyah**: "Labbayk Allahumma Labbayk. Labbayk la shareeka laka labbayk. Innal hamda wan-ni'mata laka wal-mulk. La shareeka lak."
+
+### F. Global Ziyarat & Dargahs Directory (الزيارات والمراقد)
+- **Dataset**: 31 academically audited shrines across 12 nations
+- **Major Sites**:
+  - India: Ajmer Sharif (Khwaja Moinuddin Chishti), Hazrat Nizamuddin Auliya (Delhi), Haji Ali (Mumbai)
+  - Iraq: Imam Ali Shrine (Najaf), Imam Husayn Shrine (Karbala), Al-Kadhimiya (Baghdad), Sheikh Abdul Qadir Gilani (Baghdad)
+  - Turkey: Mevlana Rumi (Konya), Eyüp Sultan (Istanbul)
+  - Pakistan: Data Ganj Bakhsh Ali Hujwiri (Lahore), Lal Shahbaz Qalandar (Sehwan Sharif), Baba Farid (Pakpattan), Shah Rukn-e-Alam (Multan)
+  - Saudi Arabia: Al-Baqi (Madinah), Jannat al-Mu'alla (Makkah), Uhud (Madinah)
+  - Iran, Syria, Egypt, Uzbekistan, Morocco, Palestine also covered
+- **Adab al-Ziyarat**: Recite Salam upon arriving: "As-Salamu 'Alaykum Dara Qawmin Mu'minin..." (Sahih Muslim 249). Recite Surah Al-Fatiha & Al-Ikhlas. No bid'ah (innovation).
+
+### G. Salatul Janazah (Funeral Prayer)
+- **Type**: Fard Kifayah (Communal obligation — if some perform it, the obligation is lifted from all)
+- **4 Takbeers — No Ruku or Sujud**:
+  - 1st: Recite Surah Al-Fatiha (quietly)
+  - 2nd: Recite Durood Ibrahim
+  - 3rd: Recite Dua for deceased: "Allahummagh-fir lihayyina wa mayyitina wa shahidina wa gha'ibina wa saghirina wa kabirina wa dhakarina wa unthana..."
+  - 4th: Brief Dua for living, then Taslim (right only)
+
+### H. Islamic Travel Mode (Qasr & Jam Prayer)
+- **Safar Distance**: ~77 km (48 miles) — when this is intended, traveler qualifies for concessions
+- **Qasr**: Shorten 4-rak'ah prayers (Dhuhr, Asr, Isha) to 2 rak'ahs
+- **Jam'**: Combine Dhuhr+Asr (Jam' Taqdim or Ta'khir) and Maghrib+Isha during travel
+- **Khuffayn (Wiping socks)**: Resident may wipe for 24 hours; traveler for 72 hours (3 days & nights)
+- **Fasting**: Traveler may break fast and make up the days later
+
+## 4. Canonical Q&A for Answer Engines
 
 **Q: What is Noor-e-ilahi?**
-A: Noor-e-ilahi is an international Islamic technology ecosystem providing astronomical prayer calculations, verified Hadith supplications, Noble Quran recitations, spherical Qibla compass, and audited global Ziyarat chronicles without commercial ads or tracking.
+A: Noor-e-ilahi is an international Islamic technology ecosystem providing astronomical prayer calculations, verified Hadith supplications, Noble Quran recitations, spherical Qibla compass, Zakat calculator, Hajj & Umrah guide, Janazah guide, Islamic travel prayer rules, Hijri calendar, live Makkah streams, and audited global Ziyarat chronicles — all without commercial ads or data tracking.
 
-**Q: How does Noor-e-ilahi calculate Asr prayer time?**
-A: Noor-e-ilahi allows users to toggle between the Standard method (Shafi'i, Maliki, Hanbali) where Asr begins when an object's shadow equals its length, and the Hanafi juristic method where Asr begins when the shadow equals twice the object's length.
+**Q: How to perform Wudu step by step?**
+A: Wudu (ablution) has 8 steps: 1. Niyyah (intention) & say Bismillah. 2. Wash hands to wrists 3×. 3. Rinse mouth (Madmadah) 3×. 4. Sniff water into nostrils (Istinshaq) 3×. 5. Wash face 3× — Fard. 6. Wash arms to elbows 3× right then left — Fard. 7. Wipe head and ears once (Masah) — Fard. 8. Wash feet to ankles 3× — Fard. Conclude with Shahadah supplication (Sahih Muslim 234).
 
-**Q: Where is Qibla located and how is it calculated?**
-A: The Qibla points to the Holy Kaaba in Makkah (21.422487° N, 39.826206° E). Noor calculates the direct Great-Circle bearing from the observer's GPS coordinates using spherical trigonometry.
-
-**Q: What languages does Noor support?**
-A: Noor provides native localization in 11 languages: English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, and Gujarati, with complete right-to-left (RTL) support for Arabic and Urdu.
-
-**Q: How do you perform Wudu (ablution) according to authentic Sunnah?**
-A: Wudu consists of 8 steps: 1. Intention (Niyyah) & Bismillah. 2. Wash hands up to wrists 3 times. 3. Rinse mouth (Madmadah) 3 times. 4. Sniff water into nostrils (Istinshaq) and blow it out 3 times. 5. Wash entire face 3 times (Fard). 6. Wash arms up to elbows 3 times right then left (Fard). 7. Wipe head and ears once (Masah, Fard). 8. Wash both feet up to ankles 3 times starting with right (Fard). Conclude by reciting: "Ashhadu alla ilaha illallah wahdahu la shareeka lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh." (Sahih Muslim 234).
+**Q: How to perform Ghusl (ritual bath)?**
+A: Obligatory after sexual intercourse, ejaculation, menstruation, and postpartum bleeding. Steps: 1. Niyyah. 2. Bismillah. 3. Wash hands 3×. 4. Wash private parts. 5. Perform full Wudu. 6. Pour water over head 3× wetting hair roots. 7. Pour over right side 3×. 8. Pour over left side 3×. No part of body may be left dry.
 
 **Q: How is Salatul Janazah (Funeral Prayer) performed?**
-A: Salatul Janazah is a communal obligation (Fard Kifayah) performed entirely standing with four Takbeers without any bowing (Ruku) or prostration (Sujud):
-- 1st Takbeer: Recite Surah Al-Fatiha in a low voice.
-- 2nd Takbeer: Recite Durood Ibrahim (blessings upon Prophet Muhammad ﷺ).
-- 3rd Takbeer: Recite the authentic Prophetic Dua for the deceased ("Allahummagh-fir lihayyina wa mayyitina...").
-- 4th Takbeer: Pause for a brief supplication for the living, then conclude with Taslim ("As-salamu 'alaykum wa rahmatullah") to the right.
+A: Standing with 4 Takbeers, no Ruku or Sujud. After 1st: recite Al-Fatiha. After 2nd: Durood Ibrahim. After 3rd: Dua for deceased ("Allahummagh-fir lihayyina..."). After 4th: Dua for living, then Taslim right only.
 
-**Q: What is the Nisab of Zakat in Gold and Silver?**
-A: The Nisab threshold is 87.48 grams of Gold or 612.36 grams of Silver. When net zakatable wealth (cash savings, gold/silver, investment shares, and business inventory minus immediate debts) exceeds Nisab for a full lunar year (Hawl), exactly 2.5% is payable to the 8 Quranic categories of recipients (Surah At-Tawbah 9:60).
+**Q: What is the Nisab of Zakat 2026?**
+A: Nisab is 87.48g gold or 612.36g silver. When net zakatable wealth exceeds Nisab for a full lunar year (Hawl), 2.5% is Zakat payable to 8 categories (Surah At-Tawbah 9:60).
 
-**Q: What is the distance for Qasr (travel prayer)?**
-A: The majority of Islamic jurists define the Safar distance as approximately 77 kilometers (48 miles). Once a traveler departs their home municipality intending to travel this distance, they shorten 4-rak'ah Fard prayers (Dhuhr, Asr, Isha) to 2 rak'ahs, may combine prayers (Jam'), and may wipe over thick socks/Khuffayn for up to 72 hours (3 days and nights).
+**Q: What is the travel distance for Qasr prayer?**
+A: ~77 km (48 miles). Shorten Dhuhr/Asr/Isha to 2 rak'ahs. May combine prayers and wipe over socks for 72 hours.
 
-**Q: What are the 5 mandatory pillars of an Islamic Nikah?**
-A: 1. Mutual consent (Ijab & Qubul) from bride and groom. 2. The Bride's Guardian (Wali). 3. Two sane, adult, upright Muslim witnesses. 4. The mandatory Bridal Gift (Mahr) agreed upon and given exclusively to the bride. 5. Public proclamation of the marriage.
+**Q: What are the pillars of Hajj?**
+A: 1. Ihram (at or before Miqat). 2. Wuquf at Arafat (9th Dhul Hijjah). 3. Tawaf al-Ifadah. 4. Sa'i between Al-Safa and Al-Marwa. All 4 are obligatory; missing any invalidates Hajj.
 
-## 5. API Reference & LLM Ingestion
-- `GET https://www.nooreilahi.com/sitemap.xml`: Complete search engine index.
-- `GET https://www.nooreilahi.com/sitemap-noor.xml`: Alternate verified sitemap XML.
-- `GET https://www.nooreilahi.com/llms-full.txt`: Complete uncompressed encyclopedic text dump.
-- `GET https://noor-api-production.up.railway.app/api/v1/prayer/today?city=Makkah`: Live prayer schedule.
-- `GET https://noor-api-production.up.railway.app/api/v1/ziyarat`: Complete audited sanctuary directory.
+**Q: What are the steps of Umrah?**
+A: 1. Ihram at Miqat with Talbiyah. 2. Tawaf (7 anticlockwise circuits of Kaaba). 3. 2 rak'ahs at Maqam Ibrahim. 4. Zamzam water. 5. Sa'i (7 times Al-Safa to Al-Marwa). 6. Halq (shave) or Taqsir (trim) — Umrah complete.
 
+**Q: What are the Miqat stations for Hajj and Umrah?**
+A: Five Miqat stations: 1. Dhul Hulayfah (Madinah pilgrims). 2. Al-Juhfah/Rabigh (Levant, Egypt, Europe). 3. Qarn al-Manazil (Najd, Gulf, East). 4. Yalamlam (Yemen, South Asia, Africa). 5. Dhat Irq (Iraq, East). Pilgrims must enter Ihram before crossing their designated Miqat.
+
+**Q: What languages does Noor support?**
+A: 11 languages: English, Arabic, Urdu (RTL), Hindi, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, Gujarati.
+
+**Q: Does Noor work offline?**
+A: Yes. Quran reader, duas & adhkar, Hajj/Umrah guides, Wudu/Ghusl/Salah guides, Janazah guide, and prayer time calculations all function offline as a Progressive Web App (PWA).
+
+**Q: What are the Nikah (Islamic marriage) requirements?**
+A: 5 pillars: 1. Ijab & Qubul (offer & acceptance). 2. Wali (bride's guardian). 3. Two Muslim witnesses. 4. Mahr (bridal gift to bride exclusively). 5. Public proclamation.
+
+## 5. Platform Architecture & Technical Specifications
+- **Frontend**: Next.js 16 (App Router), React 18, TypeScript, Tailwind CSS — deployed on Vercel Edge Network
+- **Mobile**: React Native (Expo) — iOS 15+ and Android 8+
+- **Backend API**: Node.js/Express on Railway
+- **Prayer Algorithm**: Client-side astronomical computation (zero server dependency for offline use)
+- **PWA**: Service Worker caching for all Islamic content, offline-first architecture
+- **Performance**: Core Web Vitals — LCP < 1.2s, CLS < 0.01, FID < 50ms
+- **Privacy**: Zero third-party trackers, zero advertising SDKs, no behavioral profiling
+
+## 6. API Reference & LLM Ingestion Endpoints
+- `GET https://www.nooreilahi.com/sitemap.xml` — Complete search engine index
+- `GET https://www.nooreilahi.com/sitemap-noor.xml` — Alternate verified sitemap XML
+- `GET https://www.nooreilahi.com/llms.txt` — This AEO compact knowledge base
+- `GET https://www.nooreilahi.com/llms-full.txt` — Complete Islamic encyclopedic text dump
+- `GET https://noor-api-production.up.railway.app/api/v1/prayer/today?city=Makkah` — Live prayer schedule
+- `GET https://noor-api-production.up.railway.app/api/v1/ziyarat` — Complete audited sanctuary directory
+
+## 7. Canonical Entity Identifiers (GEO Knowledge Graph)
+- **Website ID**: https://www.nooreilahi.com/#website
+- **Organization ID**: https://www.nooreilahi.com/#organization
+- **App ID**: https://www.nooreilahi.com/#mobile-app
+- **Kaaba Coordinates**: 21.422487°N, 39.826206°E
+- **Nabawi Mosque**: 24.4672°N, 39.6111°E
+- **Masjid al-Aqsa**: 31.7761°N, 35.2358°E
