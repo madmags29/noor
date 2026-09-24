@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Apple, Play, Compass, BookOpen, Volume2, Calendar, ShieldCheck, FileText, Globe2, Sparkles } from 'lucide-react';
+import { Apple, Play, ShieldCheck } from 'lucide-react';
 
 import { MuslimLogo } from './MuslimLogo';
 import { useLanguage } from '../context/LanguageContext';
@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="w-full bg-[#010e0a] border-t border-white/10 pt-16 pb-12 px-4 lg:px-8 mt-16 text-xs text-emerald-300/70">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16 pb-12 border-b border-white/10">
         
         {/* Column 1: Brand & Mobile Apps */}
         <div className="space-y-4">
@@ -124,70 +124,13 @@ export const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* Column 4: Standards & Search Optimization */}
-        <div>
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
-            <span>🌐</span>
-            <span>Standards & Machine Context</span>
-          </h4>
-          <ul className="space-y-2.5">
-            <li>
-              <Link href="/sitemap.xml" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🗺️</span>
-                <span>{t('sitemapXml')} (Global Index)</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/llms.txt" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🤖</span>
-                <span>AI Context Specs (llms.txt)</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/llms-full.txt" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📜</span>
-                <span>Deep Knowledge Base (llms-full)</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/sitemap-noor.xml" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📑</span>
-                <span>Secondary Verified Sitemap</span>
-              </Link>
-            </li>
-            <li className="pt-1 text-[11px] text-emerald-400/80 flex items-center gap-2 font-mono">
-              <Globe2 className="w-3.5 h-3.5 text-amber-400" />
-              <span>11 Global Languages • Full RTL</span>
-            </li>
-          </ul>
-        </div>
-
       </div>
 
-      {/* Bottom Bar: Synchronized Horizontal Nav & Copyright */}
-      <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-[11px] text-emerald-400/60 text-center md:text-left">
+      {/* Bottom Bar: Copyright notice */}
+      <div className="max-w-7xl mx-auto pt-8 flex items-center justify-between">
+        <p className="text-[11px] text-emerald-400/60">
           {t('footerCopyright')}
         </p>
-
-        {/* Clean Header-Aligned Quick Links */}
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] text-emerald-300/70">
-          <Link href="/prayer-times" className="hover:text-amber-300 transition-colors">{t('prayers')}</Link>
-          <span>•</span>
-          <Link href="/quran" className="hover:text-amber-300 transition-colors">{t('quran')}</Link>
-          <span>•</span>
-          <Link href="/duas" className="hover:text-amber-300 transition-colors">{t('duas')}</Link>
-          <span>•</span>
-          <Link href="/ziyarat" className="hover:text-amber-300 transition-colors">{t('ziyarat')}</Link>
-          <span>•</span>
-          <Link href="/qibla" className="hover:text-amber-300 transition-colors">{t('qibla')}</Link>
-          <span>•</span>
-          <Link href="/calendar" className="hover:text-amber-300 transition-colors">{t('calendar')}</Link>
-          <span>•</span>
-          <Link href="/media" className="hover:text-amber-300 transition-colors">{t('media')}</Link>
-          <span>•</span>
-          <Link href="/sitemap.xml" className="hover:text-amber-300 transition-colors">{t('sitemapXml')}</Link>
-        </div>
       </div>
     </footer>
   );
