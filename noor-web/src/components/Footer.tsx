@@ -69,7 +69,6 @@ export const Footer: React.FC = () => {
             <li><Link href="/dashboard" className="hover:text-amber-300 transition-colors">{t('verifiedDirectoryTitle')}</Link></li>
             <li><Link href="/dashboard" className="hover:text-amber-300 transition-colors">{t('digitalWaqfTitle')}</Link></li>
             <li><Link href="/giving" className="hover:text-amber-300 transition-colors">{t('giving')}</Link></li>
-            <li><Link href="/super-admin" className="text-amber-300 font-bold hover:text-amber-200 transition-colors flex items-center gap-1">🛡️ Super Admin Portal</Link></li>
           </ul>
         </div>
       </div>

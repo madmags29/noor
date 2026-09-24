@@ -392,15 +392,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span>Profile & Settings</span>
                   </button>
 
-                  <Link
-                    href="/super-admin"
-                    onClick={() => setShowUserDropdown(false)}
-                    className="w-full py-1.5 px-2.5 rounded-lg hover:bg-amber-500/15 text-amber-300 text-xs font-bold flex items-center gap-2 transition-colors cursor-pointer text-left mb-1"
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Super Admin Portal</span>
-                  </Link>
-
                   <button
                     onClick={() => {
                       if (onSignOut) onSignOut();

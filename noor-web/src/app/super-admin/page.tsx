@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ShieldCheck,
+  ShieldAlert,
   Users,
   Activity,
   Sliders,
@@ -24,6 +25,8 @@ import {
   LogOut,
   ArrowLeft,
   Eye,
+  EyeOff,
+  Mail,
   RefreshCw,
   Compass,
   Volume2,
@@ -52,10 +55,17 @@ import {
 import { GoogleLogo, AuthUser } from '../../components/AuthModal';
 
 export default function SuperAdminPage() {
-  // Super Admin Authentication Gate
+  // High-Security Super Admin Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [adminPin, setAdminPin] = useState<string>('');
+  const [isVerifyingSession, setIsVerifyingSession] = useState<boolean>(true);
+  const [adminEmail, setAdminEmail] = useState<string>('noor@nooreilahi.com');
+  const [adminPassword, setAdminPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>('');
+  const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null);
+  const [lockoutSeconds, setLockoutSeconds] = useState<number>(0);
+  const [adminUser, setAdminUser] = useState<{ email: string; name: string } | null>(null);
 
   // Active navigation tab
   const [activeTab, setActiveTab] = useState<'users' | 'traffic' | 'appearance' | 'cms' | 'exports'>('users');
@@ -87,33 +97,110 @@ export default function SuperAdminPage() {
   const [newArtCategory, setNewArtCategory] = useState('Ramadan');
   const [newArtAuthor, setNewArtAuthor] = useState('Chief Scholar');
 
-  // Load initial users on mount & check if current user is owner
+  // Brute-force lockout countdown timer
   useEffect(() => {
-    const current = loadCurrentUser();
-    if (
-      current &&
-      (current.email.toLowerCase().includes('majid') ||
-       current.email.toLowerCase() === 'admin@nooreilahi.com' ||
-       current.name.toLowerCase().includes('majid'))
-    ) {
-      setIsAuthenticated(true);
+    if (lockoutSeconds <= 0) return;
+    const interval = setInterval(() => {
+      setLockoutSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [lockoutSeconds]);
+
+  // Verify server-side session on mount
+  useEffect(() => {
+    async function verifySession() {
+      try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('noor_admin_token') : null;
+        const res = await fetch('/api/admin/verify', {
+          method: 'GET',
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated) {
+            setIsAuthenticated(true);
+            setAdminUser(data.user);
+          }
+        }
+      } catch (err) {
+        console.error('Super Admin session verification check failed:', err);
+      } finally {
+        setIsVerifyingSession(false);
+      }
     }
+
+    verifySession();
     const all = loadAllRegisteredUsers();
     setUsersList(all);
   }, []);
 
-  const handleAdminLogin = (e: React.FormEvent) => {
+  // Secure Super Admin Login Handler
+  const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (adminPin === 'noor-admin-2026' || adminPin === 'admin' || adminPin === 'majid' || adminPin === '786') {
+    if (!adminEmail.trim() || !adminPassword.trim()) {
+      setAuthError('Both Super Admin Email and Master Password are required.');
+      return;
+    }
+
+    if (lockoutSeconds > 0) {
+      setAuthError(`Security Lockout: Please wait ${lockoutSeconds}s before attempting again.`);
+      return;
+    }
+
+    setIsAuthenticating(true);
+    setAuthError('');
+
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: adminEmail.trim(), password: adminPassword }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setAuthError(data.error || 'Authentication denied.');
+        if (data.remainingAttempts !== undefined) {
+          setRemainingAttempts(data.remainingAttempts);
+        }
+        if (data.lockoutRemainingSeconds) {
+          setLockoutSeconds(data.lockoutRemainingSeconds);
+        }
+        return;
+      }
+
+      // Authorization success
+      if (typeof window !== 'undefined' && data.token) {
+        localStorage.setItem('noor_admin_token', data.token);
+      }
       setIsAuthenticated(true);
+      setAdminUser(data.user);
+      setAdminPassword('');
       setAuthError('');
-    } else {
-      setAuthError('Incorrect Super Admin passcode. (Hint: Use owner quick access)');
+      setRemainingAttempts(null);
+      const all = loadAllRegisteredUsers();
+      setUsersList(all);
+    } catch {
+      setAuthError('Connection error to security server. Please check your network.');
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
-  const handleOwnerQuickAccess = () => {
-    setIsAuthenticated(true);
+  // Secure Logout Handler
+  const handleAdminLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {
+      // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('noor_admin_token');
+    }
+    setIsAuthenticated(false);
+    setAdminUser(null);
+    setAdminPassword('');
     setAuthError('');
   };
 
@@ -175,6 +262,22 @@ export default function SuperAdminPage() {
     triggerNotice('New article publication published successfully.');
   };
 
+  // Loading state while checking active session
+  if (isVerifyingSession) {
+    return (
+      <div className="min-h-screen bg-[#02120d] text-white flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto animate-spin">
+            <RefreshCw className="w-6 h-6 text-amber-400" />
+          </div>
+          <p className="text-xs text-emerald-300 font-semibold tracking-wider uppercase">
+            Verifying Super Admin Authorization...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // ============================================================
   // VIEW A: ACCESS GATE (If not authenticated as Super Admin)
   // ============================================================
@@ -182,76 +285,139 @@ export default function SuperAdminPage() {
     return (
       <div className="min-h-screen bg-[#02120d] text-white flex flex-col selection:bg-amber-500 selection:text-black relative">
         <div className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
 
           <div className="w-full max-w-md liquid-glass rounded-3xl p-8 sm:p-10 border border-amber-500/30 shadow-2xl relative z-10 text-left">
+            {/* Top Shield & Title */}
             <div className="text-center mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 via-emerald-600 to-emerald-950 flex items-center justify-center mx-auto mb-4 shadow-xl border border-white/20">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-[10px] uppercase font-mono tracking-widest text-amber-300 font-bold mb-3">
+                <ShieldAlert className="w-3 h-3 text-amber-400" />
+                <span>Restricted Executive Gateway</span>
+              </div>
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 via-emerald-600 to-emerald-950 flex items-center justify-center mx-auto mb-3 shadow-xl border border-white/20">
                 <ShieldCheck className="w-7 h-7 text-emerald-950" />
               </div>
-              <h2 className="text-2xl font-black text-white">Super Admin Portal</h2>
+              <h2 className="text-2xl font-black text-white">Super Admin Login</h2>
               <p className="text-xs text-emerald-300/80 mt-1">
-                Executive Access to User Directory, Real-Time Traffic & Platform Controls
+                Authorized Personnel Only • High-Security Cryptographic Gate
               </p>
             </div>
 
+            {/* Error / Alert Display */}
             {authError && (
-              <div className="mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-                <span>{authError}</span>
+              <div className="mb-4 p-3.5 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs flex items-start gap-2.5">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-400 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="font-semibold">{authError}</p>
+                  {remainingAttempts !== null && remainingAttempts > 0 && (
+                    <p className="text-[11px] text-amber-300">
+                      ⚠️ Caution: {remainingAttempts} attempts remaining before 15-minute temporary lockout.
+                    </p>
+                  )}
+                  {lockoutSeconds > 0 && (
+                    <p className="text-[11px] text-red-300 font-mono">
+                      ⏱️ Brute-Force Lockout Active: {lockoutSeconds}s remaining.
+                    </p>
+                  )}
+                </div>
               </div>
             )}
 
+            {/* Login Form */}
             <form onSubmit={handleAdminLogin} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-emerald-200 mb-1">
-                  Super Admin Master Passcode
+                <label className="block text-xs font-semibold text-emerald-200 mb-1.5">
+                  Super Admin Email
                 </label>
                 <div className="relative">
-                  <KeyRound className="w-4 h-4 text-emerald-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Mail className="w-4 h-4 text-emerald-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
-                    type="password"
-                    placeholder="Enter passcode (e.g. noor-admin-2026)"
-                    value={adminPin}
-                    onChange={(e) => setAdminPin(e.target.value)}
-                    className="w-full pl-10 pr-3.5 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="noor@nooreilahi.com"
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                    className="w-full pl-10 pr-3.5 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white placeholder-white/30 focus:outline-none focus:border-amber-400 transition-colors"
                   />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-semibold text-emerald-200">
+                    Master Password
+                  </label>
+                  <span className="text-[10px] text-emerald-400/60 font-mono">
+                    256-bit Protected
+                  </span>
+                </div>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-emerald-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    autoComplete="current-password"
+                    placeholder="••••••••••••"
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    className="w-full pl-10 pr-10 py-2.5 bg-black/40 border border-white/15 rounded-xl text-xs text-white placeholder-white/30 focus:outline-none focus:border-amber-400 transition-colors font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-1 rounded transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-3.5 h-3.5" />
+                    ) : (
+                      <Eye className="w-3.5 h-3.5" />
+                    )}
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                disabled={isAuthenticating || lockoutSeconds > 0}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 font-black text-xs shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed mt-2"
               >
-                <Lock className="w-4 h-4" />
-                <span>Authorize & Enter Super Admin</span>
+                {isAuthenticating ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Verifying Secure Credentials...</span>
+                  </>
+                ) : (
+                  <>
+                    <KeyRound className="w-4 h-4" />
+                    <span>Authenticate & Access Control Center</span>
+                  </>
+                )}
               </button>
             </form>
 
-            <div className="relative my-5">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
+            {/* Security Badges */}
+            <div className="mt-6 pt-5 border-t border-white/10 space-y-2 text-[10px] text-emerald-300/70 font-mono">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>HMAC-SHA256 Cryptographic Session Binding</span>
               </div>
-              <div className="relative flex justify-center text-[10px] uppercase font-bold text-emerald-400/60 bg-[#031d16] px-2 w-max mx-auto">
-                Owner Direct Access
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Brute-Force Rate Limiting & Sliding Window Lockout</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Zero Public Links • Restricted Operator Gateway</span>
               </div>
             </div>
-
-            {/* Instant Owner Access */}
-            <button
-              type="button"
-              onClick={handleOwnerQuickAccess}
-              className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
-            >
-              <UserCheck className="w-4 h-4 text-amber-400" />
-              <span>Enter as Owner (Majid Khan)</span>
-            </button>
 
             <div className="mt-6 text-center">
               <Link
                 href="/"
-                className="text-xs text-emerald-400/80 hover:text-white transition-colors flex items-center justify-center gap-1.5"
+                className="text-xs text-emerald-400/80 hover:text-white transition-colors inline-flex items-center justify-center gap-1.5"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Return to Main Platform</span>
@@ -365,15 +531,27 @@ export default function SuperAdminPage() {
           </button>
         </div>
 
-        {/* Exit Admin */}
-        <button
-          onClick={() => setIsAuthenticated(false)}
-          className="p-2 rounded-xl bg-white/10 hover:bg-red-500/20 text-emerald-200 hover:text-red-300 transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
-          title="Sign Out of Super Admin"
-        >
-          <LogOut className="w-4 h-4" />
-          <span className="hidden sm:inline">Exit</span>
-        </button>
+        {/* Super Admin Session Badge & Sign Out */}
+        <div className="flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-[11px]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-mono text-emerald-200">
+              {adminUser?.email || 'noor@nooreilahi.com'}
+            </span>
+            <span className="text-amber-400 font-bold bg-amber-400/10 px-1.5 py-0.5 rounded text-[10px]">
+              SUPER ADMIN
+            </span>
+          </div>
+
+          <button
+            onClick={handleAdminLogout}
+            className="px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-200 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+            title="Sign Out of Super Admin and Lock Session"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out & Lock</span>
+          </button>
+        </div>
       </header>
 
       {/* Main Admin Content Body */}
