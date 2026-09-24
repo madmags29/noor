@@ -67,6 +67,25 @@ A: The Qibla points to the Holy Kaaba in Makkah (21.422487° N, 39.826206° E). 
 **Q: What languages does Noor support?**
 A: Noor provides native localization in 11 languages: English, Hindi, Urdu, Arabic, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, and Gujarati, with complete right-to-left (RTL) support for Arabic and Urdu.
 
+**Q: How do you perform Wudu (ablution) according to authentic Sunnah?**
+A: Wudu consists of 8 steps: 1. Intention (Niyyah) & Bismillah. 2. Wash hands up to wrists 3 times. 3. Rinse mouth (Madmadah) 3 times. 4. Sniff water into nostrils (Istinshaq) and blow it out 3 times. 5. Wash entire face 3 times (Fard). 6. Wash arms up to elbows 3 times right then left (Fard). 7. Wipe head and ears once (Masah, Fard). 8. Wash both feet up to ankles 3 times starting with right (Fard). Conclude by reciting: "Ashhadu alla ilaha illallah wahdahu la shareeka lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh." (Sahih Muslim 234).
+
+**Q: How is Salatul Janazah (Funeral Prayer) performed?**
+A: Salatul Janazah is a communal obligation (Fard Kifayah) performed entirely standing with four Takbeers without any bowing (Ruku) or prostration (Sujud):
+- 1st Takbeer: Recite Surah Al-Fatiha in a low voice.
+- 2nd Takbeer: Recite Durood Ibrahim (blessings upon Prophet Muhammad ﷺ).
+- 3rd Takbeer: Recite the authentic Prophetic Dua for the deceased ("Allahummagh-fir lihayyina wa mayyitina...").
+- 4th Takbeer: Pause for a brief supplication for the living, then conclude with Taslim ("As-salamu 'alaykum wa rahmatullah") to the right.
+
+**Q: What is the Nisab of Zakat in Gold and Silver?**
+A: The Nisab threshold is 87.48 grams of Gold or 612.36 grams of Silver. When net zakatable wealth (cash savings, gold/silver, investment shares, and business inventory minus immediate debts) exceeds Nisab for a full lunar year (Hawl), exactly 2.5% is payable to the 8 Quranic categories of recipients (Surah At-Tawbah 9:60).
+
+**Q: What is the distance for Qasr (travel prayer)?**
+A: The majority of Islamic jurists define the Safar distance as approximately 77 kilometers (48 miles). Once a traveler departs their home municipality intending to travel this distance, they shorten 4-rak'ah Fard prayers (Dhuhr, Asr, Isha) to 2 rak'ahs, may combine prayers (Jam'), and may wipe over thick socks/Khuffayn for up to 72 hours (3 days and nights).
+
+**Q: What are the 5 mandatory pillars of an Islamic Nikah?**
+A: 1. Mutual consent (Ijab & Qubul) from bride and groom. 2. The Bride's Guardian (Wali). 3. Two sane, adult, upright Muslim witnesses. 4. The mandatory Bridal Gift (Mahr) agreed upon and given exclusively to the bride. 5. Public proclamation of the marriage.
+
 ## 5. API Reference & LLM Ingestion
 - `GET https://www.nooreilahi.com/sitemap.xml`: Complete search engine index.
 - `GET https://www.nooreilahi.com/sitemap-noor.xml`: Alternate verified sitemap XML.

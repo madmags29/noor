@@ -198,6 +198,72 @@ export default function JsonLd() {
             name: 'Media & Adhan',
             item: 'https://www.nooreilahi.com/media',
           },
+          {
+            '@type': 'ListItem',
+            position: 9,
+            name: 'Prayer & Purification Guides',
+            item: 'https://www.nooreilahi.com/guides',
+          },
+          {
+            '@type': 'ListItem',
+            position: 10,
+            name: 'Hajj & Umrah Field Guide',
+            item: 'https://www.nooreilahi.com/hajj-umrah',
+          },
+          {
+            '@type': 'ListItem',
+            position: 11,
+            name: 'Zakat & Sadaqah Hub',
+            item: 'https://www.nooreilahi.com/zakat',
+          },
+          {
+            '@type': 'ListItem',
+            position: 12,
+            name: 'Janazah & Bereavement Guide',
+            item: 'https://www.nooreilahi.com/janazah',
+          },
+          {
+            '@type': 'ListItem',
+            position: 13,
+            name: 'Search Islam Encyclopedia',
+            item: 'https://www.nooreilahi.com/search',
+          },
+          {
+            '@type': 'ListItem',
+            position: 14,
+            name: 'NOOR Travel Mode',
+            item: 'https://www.nooreilahi.com/travel',
+          },
+          {
+            '@type': 'ListItem',
+            position: 15,
+            name: 'Islamic Etiquette (Adab)',
+            item: 'https://www.nooreilahi.com/etiquette',
+          },
+          {
+            '@type': 'ListItem',
+            position: 16,
+            name: 'Nikah & Family Education',
+            item: 'https://www.nooreilahi.com/nikah',
+          },
+          {
+            '@type': 'ListItem',
+            position: 17,
+            name: 'NOOR Kids',
+            item: 'https://www.nooreilahi.com/kids',
+          },
+          {
+            '@type': 'ListItem',
+            position: 18,
+            name: 'NOOR Watch',
+            item: 'https://www.nooreilahi.com/watch',
+          },
+          {
+            '@type': 'ListItem',
+            position: 19,
+            name: 'Contact & Support',
+            item: 'https://www.nooreilahi.com/contact',
+          },
         ],
       },
       {
@@ -210,6 +276,46 @@ export default function JsonLd() {
             acceptedAnswer: {
               '@type': 'Answer',
               text: 'Noor-e-ilahi is an international, ad-free Islamic digital technology ecosystem providing precision astronomical prayer times, high-fidelity Adhan broadcasts, the Noble Quran with word-by-word recitations, authentic Hisn al-Muslim supplications, a 3D spherical Qibla compass, and the world’s first academically audited Global Ziyarat & Dargahs directory across 12 countries.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'How do I perform Wudu (ablution) step by step according to the Sunnah?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'According to authentic Sunni jurisprudence, Wudu consists of 8 steps: 1. Sincere Intention (Niyyah) & saying Bismillah. 2. Washing hands to wrists 3 times. 3. Rinsing the mouth (Madmadah) 3 times. 4. Sniffing water into nostrils (Istinshaq) 3 times. 5. Washing the full face 3 times (Fard). 6. Washing arms including elbows 3 times right then left (Fard). 7. Wiping the head (Masah) and ears once (Fard). 8. Washing both feet up to ankles 3 times starting with right (Fard). Conclude by reciting the Shahadah supplication.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'How is Salatul Janazah (Funeral Prayer) performed?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Salatul Janazah is a communal obligation (Fard Kifayah) performed standing with four Takbeers without any Ruku or Sujud: After the 1st Takbeer, recite Surah Al-Fatiha. After the 2nd Takbeer, recite Durood Ibrahim upon Prophet Muhammad ﷺ. After the 3rd Takbeer, recite the authentic Prophetic Dua for the deceased. After the 4th Takbeer, pause briefly for a Dua for the living, then conclude with Taslim to the right.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'What is the Nisab of Zakat in Gold and Silver?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'The Nisab threshold for Zakat is 87.48 grams (7.5 Tola / 20 Mithqals) for Gold, or 612.36 grams (52.5 Tola / 200 Dirhams) for Silver. When a Muslim holds net zakatable wealth (cash, savings, gold, silver, shares, trade inventory minus immediate debts) exceeding the Nisab for one full lunar year (Hawl), 2.5% of that wealth must be distributed to the 8 Quranically designated recipient categories.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'What is the minimum travel distance to qualify for Qasr (shortened) prayer?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'The majority of Islamic jurists define the Safar distance as approximately 77 kilometers (48 miles). Once a traveler passes city limits intending to travel this distance, they shorten 4-rak\'ah Fard prayers (Dhuhr, Asr, Isha) to 2 rak\'ahs, may combine Dhuhr with Asr and Maghrib with Isha during journey transit, and may wipe over thick socks/Khuffayn for up to 72 hours (3 days and nights).',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'What are the 5 mandatory pillars of an Islamic Nikah (Marriage)?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'A valid Islamic Nikah requires: 1. Mutual consent (Ijab & Qubul) from bride and groom. 2. The Bride\'s Guardian (Wali). 3. Two sane, adult, upright Muslim witnesses. 4. Mandatory Bridal Gift (Mahr) agreed upon and gifted exclusively to the bride. 5. Public proclamation without concealment.',
             },
           },
           {
@@ -420,6 +526,159 @@ export default function JsonLd() {
           addressLocality: 'Makkah Al-Mukarramah',
           addressCountry: 'Saudi Arabia',
         },
+      },
+      {
+        '@type': 'Place',
+        '@id': 'https://www.nooreilahi.com/#nabawi',
+        name: 'Al-Masjid an-Nabawi (The Prophet\'s Mosque)',
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 24.4672,
+          longitude: 39.6111,
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Madinah Al-Munawwarah',
+          addressCountry: 'Saudi Arabia',
+        },
+      },
+      {
+        '@type': 'Place',
+        '@id': 'https://www.nooreilahi.com/#aqsa',
+        name: 'Al-Masjid al-Aqsa (Bait al-Maqdis)',
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 31.7761,
+          longitude: 35.2358,
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Old City, Jerusalem',
+          addressCountry: 'Palestine',
+        },
+      },
+      {
+        '@type': 'HowTo',
+        '@id': 'https://www.nooreilahi.com/guides#howto-wudu',
+        name: 'How to Perform Wudu (Ablution) Step-by-Step according to Sunnah',
+        description: 'Complete 8-step guide to ritual purification before prayer with authentic hadith evidence.',
+        totalTime: 'PT3M',
+        step: [
+          {
+            '@type': 'HowToStep',
+            position: 1,
+            name: 'Intention (Niyyah) & Bismillah',
+            text: 'Form the sincere intention in your heart to purify yourself for Allah, then say: "Bismillah".',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 2,
+            name: 'Washing Hands to Wrists',
+            text: 'Wash both hands up to the wrists three times, ensuring water passes between fingers.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 3,
+            name: 'Rinsing the Mouth (Madmadah)',
+            text: 'Take water with the right hand and rinse the mouth thoroughly three times.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 4,
+            name: 'Sniffing Water into Nostrils (Istinshaq)',
+            text: 'Inhale water gently into nostrils using right hand and blow it out with the left hand, three times.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 5,
+            name: 'Washing the Face (Fard)',
+            text: 'Wash the entire face three times, from hair-line to jawbone, and from ear to ear.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 6,
+            name: 'Washing the Arms including Elbows (Fard)',
+            text: 'Wash the right arm from fingertips up to and including the elbow 3 times, then repeat for the left arm.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 7,
+            name: 'Wiping the Head & Ears (Masah) (Fard)',
+            text: 'Wipe wet hands from forehead over the crown to the nape and back once, then clean inside and outside of ears.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 8,
+            name: 'Washing the Feet to Ankles (Fard)',
+            text: 'Wash the right foot up to the ankle 3 times cleaning between toes, then repeat for the left foot. Conclude with the Shahadah supplication.',
+          },
+        ],
+      },
+      {
+        '@type': 'HowTo',
+        '@id': 'https://www.nooreilahi.com/janazah#howto-janazah',
+        name: 'How to Pray Salatul Janazah (Islamic Funeral Prayer)',
+        description: 'Step-by-step funeral prayer guide with 4 Takbeers and authentic verbatim Arabic Duas.',
+        totalTime: 'PT5M',
+        step: [
+          {
+            '@type': 'HowToStep',
+            position: 1,
+            name: '1st Takbeer: Recite Surah Al-Fatiha',
+            text: 'Say "Allahu Akbar", fold hands, and recite Surah Al-Fatiha in a low voice.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 2,
+            name: '2nd Takbeer: Recite Durood Ibrahim',
+            text: 'Say "Allahu Akbar" and recite Durood Ibrahim sending peace and blessings upon Prophet Muhammad ﷺ.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 3,
+            name: '3rd Takbeer: Supplication for Deceased',
+            text: 'Say "Allahu Akbar" and recite the authentic Prophetic supplication asking Allah to forgive the deceased and expand their grave.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 4,
+            name: '4th Takbeer: Supplication for Living & Taslim',
+            text: 'Say "Allahu Akbar", make a brief Dua for the living Ummah, then turn head to the right and declare "As-salamu \'alaykum wa rahmatullah".',
+          },
+        ],
+      },
+      {
+        '@type': 'HowTo',
+        '@id': 'https://www.nooreilahi.com/zakat#howto-zakat',
+        name: 'How to Calculate Zakat on Wealth (2.5%)',
+        description: 'Step-by-step calculation of annual Zakat liability using Gold and Silver Nisab standards.',
+        totalTime: 'PT5M',
+        step: [
+          {
+            '@type': 'HowToStep',
+            position: 1,
+            name: 'Check the Current Nisab Threshold',
+            text: 'Determine the Nisab: 87.48 grams of Gold or 612.36 grams of Silver using current spot prices.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 2,
+            name: 'Sum All Zakatable Assets',
+            text: 'Calculate total cash savings, gold/silver value, active trade inventory, and liquid shares.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 3,
+            name: 'Deduct Immediate Liabilities',
+            text: 'Subtract immediate due bills, unpaid debts, and overdue living expenses from your total assets.',
+          },
+          {
+            '@type': 'HowToStep',
+            position: 4,
+            name: 'Multiply Net Zakatable Wealth by 2.5%',
+            text: 'If your net wealth held for a lunar year (Hawl) equals or exceeds Nisab, pay exactly 2.5% to verified charitable causes.',
+          },
+        ],
       },
     ],
   };

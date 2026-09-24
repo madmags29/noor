@@ -55,6 +55,66 @@
     <priority>0.80</priority>
   </url>
   <url>
+    <loc>https://www.nooreilahi.com/guides</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.96</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/hajj-umrah</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/zakat</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/janazah</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.94</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/search</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/travel</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.91</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/etiquette</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/nikah</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/kids</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.nooreilahi.com/watch</loc>
+    <lastmod>2026-09-24T12:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
     <loc>https://www.nooreilahi.com/contact</loc>
     <lastmod>2026-09-24T09:30:00.000Z</lastmod>
     <changefreq>monthly</changefreq>
