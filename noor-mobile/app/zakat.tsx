@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   TextInput,
   StatusBar,
   Alert,
+  Modal,
+  FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,18 +19,45 @@ import {
   SADAQAH_CATEGORIES,
   SadaqahCategory
 } from '../src/data/islamicCoreData';
+import {
+  ZAKAT_CURRENCIES,
+  ZakatCurrency,
+  DEFAULT_CURRENCY,
+  detectUserCurrency,
+  formatCurrencyAmount
+} from '../src/data/zakatCurrencies';
 
 export default function ZakatScreen() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'calc' | 'sadaqah' | 'ramadan'>('calc');
-  const [nisabStandard, setNisabStandard] = useState<'gold' | 'silver'>('silver');
-  const [cash, setCash] = useState('5000');
-  const [goldVal, setGoldVal] = useState('2000');
-  const [investments, setInvestments] = useState('1000');
-  const [debts, setDebts] = useState('500');
+  
+  // Currency state
+  const [currency, setCurrency] = useState<ZakatCurrency>(DEFAULT_CURRENCY);
+  const [showCurrencyModal, setShowCurrencyModal] = useState<boolean>(false);
+  const [currencySearch, setCurrencySearch] = useState<string>('');
 
-  const goldPricePerGram = 85;
-  const silverPricePerGram = 1.1;
+  const [nisabStandard, setNisabStandard] = useState<'gold' | 'silver'>('silver');
+  const [goldPricePerGram, setGoldPricePerGram] = useState<number>(DEFAULT_CURRENCY.goldGramPrice);
+  const [silverPricePerGram, setSilverPricePerGram] = useState<number>(DEFAULT_CURRENCY.silverGramPrice);
+
+  const [cash, setCash] = useState('50000');
+  const [goldVal, setGoldVal] = useState('20000');
+  const [investments, setInvestments] = useState('10000');
+  const [debts, setDebts] = useState('5000');
+
+  useEffect(() => {
+    const detected = detectUserCurrency();
+    setCurrency(detected);
+    setGoldPricePerGram(detected.goldGramPrice);
+    setSilverPricePerGram(detected.silverGramPrice);
+  }, []);
+
+  const handleSelectCurrency = (selected: ZakatCurrency) => {
+    setCurrency(selected);
+    setGoldPricePerGram(selected.goldGramPrice);
+    setSilverPricePerGram(selected.silverGramPrice);
+    setShowCurrencyModal(false);
+  };
 
   const cashNum = parseFloat(cash) || 0;
   const goldNum = parseFloat(goldVal) || 0;
@@ -45,6 +74,17 @@ export default function ZakatScreen() {
   const isEligible = netWealth >= currentNisab;
   const zakatDue = isEligible ? Math.round(netWealth * 0.025) : 0;
 
+  const filteredCurrencies = ZAKAT_CURRENCIES.filter(c => {
+    const q = currencySearch.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      c.country.toLowerCase().includes(q) ||
+      c.code.toLowerCase().includes(q) ||
+      c.name.toLowerCase().includes(q) ||
+      c.symbol.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#02120d" />
@@ -56,8 +96,17 @@ export default function ZakatScreen() {
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
             <Text style={styles.title}>Zakat & Sadaqah Hub</Text>
-            <Text style={styles.subtitle}>2.5% Purification & 9 Charity Channels</Text>
+            <Text style={styles.subtitle}>2.5% Purification • Country Currency Valuation</Text>
           </View>
+          {/* Currency Trigger Button */}
+          <TouchableOpacity
+            style={styles.currencyHeaderBtn}
+            onPress={() => setShowCurrencyModal(true)}
+          >
+            <Text style={styles.currencyFlag}>{currency.flag}</Text>
+            <Text style={styles.currencyCodeText}>{currency.code}</Text>
+            <Ionicons name="chevron-down" size={14} color="#f59e0b" />
+          </TouchableOpacity>
         </View>
 
         {/* Tabs */}
@@ -82,6 +131,45 @@ export default function ZakatScreen() {
         <ScrollView contentContainerStyle={styles.contentScroll} showsVerticalScrollIndicator={false}>
           {activeTab === 'calc' && (
             <View style={styles.sectionWrap}>
+              {/* Currency Info & Live Spot Rates Card */}
+              <View style={styles.currencyCard}>
+                <View style={styles.currencyCardTop}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 }}>
+                    <Text style={{ fontSize: 24 }}>{currency.flag}</Text>
+                    <View>
+                      <Text style={styles.currencyCardCountry}>
+                        {currency.country} ({currency.name})
+                      </Text>
+                      <Text style={styles.currencyCardBadge}>
+                        Active: {currency.code} ({currency.symbol})
+                      </Text>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.switchCurrencyBtn}
+                    onPress={() => setShowCurrencyModal(true)}
+                  >
+                    <Text style={styles.switchCurrencyBtnText}>Change</Text>
+                  </TouchableOpacity>
+                </View>
+
+                {/* Spot Bullion Gram Rates */}
+                <View style={styles.spotRatesRow}>
+                  <View style={styles.spotRateBox}>
+                    <Text style={styles.spotRateLabel}>24K Gold / Gram</Text>
+                    <Text style={styles.spotRateVal}>
+                      {currency.symbol} {goldPricePerGram.toLocaleString()}
+                    </Text>
+                  </View>
+                  <View style={styles.spotRateBox}>
+                    <Text style={styles.spotRateLabel}>Fine Silver / Gram</Text>
+                    <Text style={styles.spotRateVal}>
+                      {currency.symbol} {silverPricePerGram.toLocaleString()}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
               {/* Nisab Selector */}
               <View style={styles.card}>
                 <Text style={styles.cardTitle}>Nisab Standard</Text>
@@ -91,7 +179,10 @@ export default function ZakatScreen() {
                     onPress={() => setNisabStandard('silver')}
                   >
                     <Text style={[styles.nisabBtnText, nisabStandard === 'silver' && styles.nisabBtnTextActive]}>
-                      Silver ({NISAB_STANDARDS.silverGrams}g) ~ ${Math.round(NISAB_STANDARDS.silverGrams * silverPricePerGram)}
+                      Silver ({NISAB_STANDARDS.silverGrams}g)
+                    </Text>
+                    <Text style={[styles.nisabSubText, nisabStandard === 'silver' && styles.nisabSubTextActive]}>
+                      {formatCurrencyAmount(Math.round(NISAB_STANDARDS.silverGrams * silverPricePerGram), currency)}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -99,7 +190,10 @@ export default function ZakatScreen() {
                     onPress={() => setNisabStandard('gold')}
                   >
                     <Text style={[styles.nisabBtnText, nisabStandard === 'gold' && styles.nisabBtnTextActive]}>
-                      Gold ({NISAB_STANDARDS.goldGrams}g) ~ ${Math.round(NISAB_STANDARDS.goldGrams * goldPricePerGram)}
+                      Gold ({NISAB_STANDARDS.goldGrams}g)
+                    </Text>
+                    <Text style={[styles.nisabSubText, nisabStandard === 'gold' && styles.nisabSubTextActive]}>
+                      {formatCurrencyAmount(Math.round(NISAB_STANDARDS.goldGrams * goldPricePerGram), currency)}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -107,47 +201,61 @@ export default function ZakatScreen() {
 
               {/* Inputs */}
               <View style={styles.card}>
-                <Text style={styles.cardTitle}>Your Assets & Liabilities ($ USD)</Text>
+                <Text style={styles.cardTitle}>
+                  Your Assets & Liabilities ({currency.symbol} {currency.code})
+                </Text>
                 
-                <Text style={styles.inputLabel}>Cash, Savings & Bank Balances</Text>
+                <Text style={styles.inputLabel}>Cash, Savings & Bank Balances ({currency.symbol})</Text>
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
                   value={cash}
                   onChangeText={setCash}
+                  placeholder="0"
+                  placeholderTextColor="#64748b"
                 />
 
-                <Text style={styles.inputLabel}>Gold, Silver & Precious Assets</Text>
+                <Text style={styles.inputLabel}>Gold, Silver & Precious Assets ({currency.symbol})</Text>
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
                   value={goldVal}
                   onChangeText={setGoldVal}
+                  placeholder="0"
+                  placeholderTextColor="#64748b"
                 />
 
-                <Text style={styles.inputLabel}>Stocks, Crypto & Trade Inventory</Text>
+                <Text style={styles.inputLabel}>Stocks, Crypto & Trade Inventory ({currency.symbol})</Text>
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
                   value={investments}
                   onChangeText={setInvestments}
+                  placeholder="0"
+                  placeholderTextColor="#64748b"
                 />
 
-                <Text style={[styles.inputLabel, { color: '#f87171' }]}>Immediate Liabilities & Due Debts</Text>
+                <Text style={[styles.inputLabel, { color: '#f87171' }]}>
+                  Immediate Liabilities & Due Debts ({currency.symbol})
+                </Text>
                 <TextInput
                   style={[styles.input, { borderColor: 'rgba(239, 68, 68, 0.4)' }]}
                   keyboardType="numeric"
                   value={debts}
                   onChangeText={setDebts}
+                  placeholder="0"
+                  placeholderTextColor="#64748b"
                 />
               </View>
 
               {/* Result Summary */}
               <View style={styles.resultCard}>
                 <Text style={styles.resultTitle}>Total Zakat Payable (2.5%)</Text>
-                <Text style={styles.resultAmount}>${zakatDue.toLocaleString()}</Text>
+                <Text style={styles.resultAmount}>
+                  {formatCurrencyAmount(zakatDue, currency)}
+                </Text>
                 <Text style={styles.resultSub}>
-                  Net Zakatable: ${netWealth.toLocaleString()} • Status: {isEligible ? '✅ Nisab Exceeded' : 'ℹ️ Below Nisab'}
+                  Net Zakatable: {formatCurrencyAmount(netWealth, currency)} • Status: {isEligible ? '✅ Nisab Exceeded' : 'ℹ️ Below Nisab'}
                 </Text>
               </View>
             </View>
@@ -168,9 +276,9 @@ export default function ZakatScreen() {
                   <Text style={styles.sadaqahHadith}>🎯 {sc.impactMetric}</Text>
                   <TouchableOpacity
                     style={styles.giveBtn}
-                    onPress={() => Alert.alert('Give Sadaqah', `Dedicate Sadaqah for ${sc.name} via verified partners.`)}
+                    onPress={() => Alert.alert('Give Sadaqah', `Dedicate Sadaqah for ${sc.name} in ${currency.code} (${currency.symbol}) via verified partners.`)}
                   >
-                    <Text style={styles.giveBtnText}>Support {sc.name}</Text>
+                    <Text style={styles.giveBtnText}>Support {sc.name} ({currency.code})</Text>
                   </TouchableOpacity>
                 </View>
               ))}
@@ -209,6 +317,62 @@ export default function ZakatScreen() {
 
           <View style={{ height: 60 }} />
         </ScrollView>
+
+        {/* Currency Selection Modal */}
+        <Modal
+          visible={showCurrencyModal}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setShowCurrencyModal(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Select Country Currency</Text>
+                <TouchableOpacity onPress={() => setShowCurrencyModal(false)}>
+                  <Ionicons name="close" size={24} color="#ffffff" />
+                </TouchableOpacity>
+              </View>
+
+              {/* Search Bar */}
+              <TextInput
+                style={styles.modalSearchInput}
+                placeholder="Search country or currency code..."
+                placeholderTextColor="#64748b"
+                value={currencySearch}
+                onChangeText={setCurrencySearch}
+              />
+
+              <FlatList
+                data={filteredCurrencies}
+                keyExtractor={item => item.code}
+                renderItem={({ item }) => {
+                  const isSelected = item.code === currency.code;
+                  return (
+                    <TouchableOpacity
+                      style={[styles.currencyItem, isSelected && styles.currencyItemActive]}
+                      onPress={() => handleSelectCurrency(item)}
+                    >
+                      <Text style={{ fontSize: 24, marginRight: 12 }}>{item.flag}</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.currencyItemCountry}>{item.country}</Text>
+                        <Text style={styles.currencyItemName}>
+                          {item.name} • {item.code} ({item.symbol})
+                        </Text>
+                      </View>
+                      <View style={{ alignItems: 'flex-end' }}>
+                        <Text style={{ color: '#f59e0b', fontSize: 11, fontWeight: '700' }}>
+                          {item.symbol} {item.goldGramPrice.toLocaleString()}/g
+                        </Text>
+                        <Text style={{ color: '#94a3b8', fontSize: 10 }}>Gold</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     </SafeAreaView>
   );
@@ -236,6 +400,19 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 16, fontWeight: '800', color: '#ffffff' },
   subtitle: { fontSize: 11, color: '#f59e0b', marginTop: 1 },
+  currencyHeaderBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 10,
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.4)',
+  },
+  currencyFlag: { fontSize: 14 },
+  currencyCodeText: { color: '#f59e0b', fontSize: 11, fontWeight: '800' },
   tabRow: {
     flexDirection: 'row',
     padding: 12,
@@ -257,6 +434,45 @@ const styles = StyleSheet.create({
   tabBtnTextActive: { color: '#02120d', fontWeight: '900' },
   contentScroll: { padding: 16 },
   sectionWrap: { gap: 12 },
+  currencyCard: {
+    backgroundColor: 'rgba(4, 40, 31, 0.8)',
+    borderRadius: 16,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.3)',
+  },
+  currencyCardTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  currencyCardCountry: { color: '#ffffff', fontSize: 13, fontWeight: '800' },
+  currencyCardBadge: { color: '#f59e0b', fontSize: 11, fontWeight: '700', marginTop: 1 },
+  switchCurrencyBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+    borderWidth: 1,
+    borderColor: '#f59e0b',
+  },
+  switchCurrencyBtnText: { color: '#f59e0b', fontSize: 11, fontWeight: '800' },
+  spotRatesRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 12,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.08)',
+  },
+  spotRateBox: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    padding: 8,
+    borderRadius: 10,
+  },
+  spotRateLabel: { color: '#94a3b8', fontSize: 10, fontWeight: '600' },
+  spotRateVal: { color: '#ffffff', fontSize: 12, fontWeight: '800', marginTop: 2 },
   card: {
     backgroundColor: '#031a14',
     borderRadius: 16,
@@ -276,8 +492,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.1)',
   },
   nisabBtnActive: { backgroundColor: 'rgba(245, 158, 11, 0.2)', borderColor: '#f59e0b' },
-  nisabBtnText: { color: '#e2e8f0', fontSize: 10, fontWeight: '600' },
+  nisabBtnText: { color: '#e2e8f0', fontSize: 11, fontWeight: '600' },
   nisabBtnTextActive: { color: '#f59e0b', fontWeight: '800' },
+  nisabSubText: { color: '#94a3b8', fontSize: 10, marginTop: 2 },
+  nisabSubTextActive: { color: '#fef08a', fontWeight: '700' },
   inputLabel: { color: '#a7f3d0', fontSize: 11, marginTop: 10, marginBottom: 4, fontWeight: '600' },
   input: {
     backgroundColor: 'rgba(0,0,0,0.3)',
@@ -299,8 +517,8 @@ const styles = StyleSheet.create({
     borderColor: '#f59e0b',
   },
   resultTitle: { color: '#fde68a', fontSize: 12, fontWeight: '800', letterSpacing: 0.5 },
-  resultAmount: { color: '#ffffff', fontSize: 32, fontWeight: '900', marginVertical: 6 },
-  resultSub: { color: '#a7f3d0', fontSize: 11 },
+  resultAmount: { color: '#ffffff', fontSize: 28, fontWeight: '900', marginVertical: 6 },
+  resultSub: { color: '#a7f3d0', fontSize: 11, textAlign: 'center' },
   sadaqahHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 },
   sadaqahIcon: { fontSize: 24 },
   sadaqahName: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
@@ -318,4 +536,50 @@ const styles = StyleSheet.create({
   duaTranslit: { color: '#93c5fd', fontSize: 11, fontStyle: 'italic', marginBottom: 4 },
   duaTrans: { color: '#e2e8f0', fontSize: 11, lineHeight: 16 },
   sunnahText: { color: '#e2e8f0', fontSize: 12, lineHeight: 20 },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.85)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: '#031c15',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '80%',
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.3)',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  modalTitle: { color: '#ffffff', fontSize: 16, fontWeight: '800' },
+  modalSearchInput: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    color: '#ffffff',
+    fontSize: 13,
+    marginBottom: 14,
+  },
+  currencyItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.06)',
+  },
+  currencyItemActive: {
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  currencyItemCountry: { color: '#ffffff', fontSize: 13, fontWeight: '700' },
+  currencyItemName: { color: '#94a3b8', fontSize: 11, marginTop: 1 },
 });
