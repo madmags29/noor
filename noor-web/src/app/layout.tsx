@@ -145,6 +145,14 @@ export const metadata: Metadata = {
     'geo.placename': 'Makkah Al-Mukarramah',
     'geo.position': '21.4225;39.8262',
     'ICBM': '21.4225, 39.8262',
+    'DC.title': 'Noor-e-ilahi — Prayer Times, Quran, Qibla & Zakat',
+    'DC.creator': 'Noor-e-ilahi Global Islamic Foundation',
+    'DC.subject': 'Islam, Prayer Times, Quran, Qibla, Zakat, Hajj, Duas, Ziyarat, Hijri Calendar',
+    'DC.description': 'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, and Hijri calendar. 100% ad-free.',
+    'DC.publisher': 'Noor-e-ilahi Global Islamic Foundation',
+    'DC.language': 'en, ar, ur, hi, bn, tr, id',
+    'DC.coverage': 'Worldwide',
+    'DC.rights': 'Copyright 2026 Noor-e-ilahi. 100% Free & Ad-Free.',
     'ai-content-declarations': 'Scholarly Verified Islamic Corpus — Zero Synthetic Inventions',
     'citation_title': 'Noor-e-ilahi: Global Islamic Digital Ecosystem',
     'citation_publisher': 'Noor-e-ilahi Global Islamic Foundation',
@@ -155,7 +163,7 @@ export const metadata: Metadata = {
     'theme-color': '#02120d',
     'color-scheme': 'dark',
     'rating': 'general',
-    'revisit-after': '3 days',
+    'revisit-after': '1 days',
     'language': 'English, Arabic, Urdu, Hindi, Bengali, Turkish, Indonesian, Tamil, Malayalam, Marathi, Gujarati',
     'coverage': 'Worldwide',
     'distribution': 'Global',
@@ -215,6 +223,12 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
         <meta name="msvalidate.01" content="D3E6931423BFC988CB57DDD88A110617" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://api.indexnow.org" />
+        <link rel="dns-prefetch" href="https://www.bing.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <JsonLd />
         <link rel="alternate" type="text/plain" href="https://www.nooreilahi.com/llms.txt" title="LLMs.txt AEO Knowledge Base" />
         <link rel="author" href="https://www.nooreilahi.com/llms.txt" />
