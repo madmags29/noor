@@ -35,6 +35,7 @@ interface PillarItem {
   descKey: string;
   descFallback: string;
   href: string;
+  badgeKeys: string[];
   badges: string[];
   gradient: string;
   accentBorder: string;
@@ -54,6 +55,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'guidesDesc',
       descFallback: 'Step-by-step Wudu, Ghusl, Salah unit-by-unit with 4 Sunni Madhabs, Sunnah prayers & missed prayer journal.',
       href: '/guides',
+      badgeKeys: ['stepByStepSalah', 'fourMadhabs', 'qadaJournal'],
       badges: ['Step-by-Step Salah', '4 Sunni Madhabs', 'Qada Journal'],
       gradient: 'from-emerald-500/10 via-emerald-600/5 to-transparent',
       accentBorder: 'hover:border-emerald-500/50'
@@ -67,6 +69,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'hajjUmrahDesc',
       descFallback: 'Complete visual pilgrim rites from Miqat and Ihram to Tawaf, Sa\'i, Arafat, Jamarat, packing checklists & maps.',
       href: '/hajj-umrah',
+      badgeKeys: ['miqatIhram', 'tawafSai', 'packingList'],
       badges: ['Miqat & Ihram', 'Tawaf & Sa\'i Steps', 'Offline Packing List'],
       gradient: 'from-amber-500/10 via-amber-600/5 to-transparent',
       accentBorder: 'hover:border-amber-500/50'
@@ -80,6 +83,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'zakatHubDesc',
       descFallback: 'Dynamic 2.5% wealth calculation priced in your current country currency with live Gold/Silver Nisab and 9 charity channels.',
       href: '/zakat',
+      badgeKeys: ['countryCurrency', 'liveNisab', 'nineSadaqah'],
       badges: ['Country Currency', 'Live Nisab Standard', '9 Sadaqah Channels'],
       gradient: 'from-amber-500/10 via-emerald-600/5 to-transparent',
       accentBorder: 'hover:border-amber-400/50'
@@ -93,6 +97,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'janazahDesc',
       descFallback: 'Dignified funeral prayer guide with 4 Takbeers, adult & child supplications, shrouding (Kafan), Ghusl & condolence fiqh.',
       href: '/janazah',
+      badgeKeys: ['takbeerGuide', 'adultChildDuas', 'burialSunnah'],
       badges: ['4 Takbeers Guide', 'Adult & Child Duas', 'Burial Sunnahs'],
       gradient: 'from-teal-500/10 via-emerald-600/5 to-transparent',
       accentBorder: 'hover:border-teal-400/50'
@@ -106,6 +111,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'ziyaratDesc',
       descFallback: '31 revered historical sanctuaries across Makkah, Madinah, Jerusalem, Karbala, Najaf, Delhi, Ajmer, Istanbul with GPS & visitation etiquette.',
       href: '/ziyarat',
+      badgeKeys: ['sanctuariesDirectory', 'visitingEtiquette', 'allNations'],
       badges: ['31 Holy Shrines', 'GPS & Visiting Adab', 'Classical Awliya'],
       gradient: 'from-emerald-500/10 via-amber-500/5 to-transparent',
       accentBorder: 'hover:border-emerald-400/50'
@@ -119,6 +125,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'travelModeDesc',
       descFallback: 'Authoritative rules for traveling Muslims: 77km (48 miles) Safar distance, shortening 4-Rak\'ah prayers to 2 & traveler duas.',
       href: '/travel',
+      badgeKeys: ['safarLimit', 'qasrRules', 'travelerDuas'],
       badges: ['77 km Safar Limit', 'Qasr Shortening', 'Traveler Duas'],
       gradient: 'from-sky-500/10 via-emerald-600/5 to-transparent',
       accentBorder: 'hover:border-sky-400/50'
@@ -132,6 +139,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'nikahDesc',
       descFallback: 'Essential marital fiqh: 5 mandatory pillars, Mahr guidelines, Khutbat al-Hajah, valid consent & prophetic marital etiquette.',
       href: '/nikah',
+      badgeKeys: ['nikahPillars', 'mahrGuide', 'propheticSunnah'],
       badges: ['5 Nikah Pillars', 'Mahr Guidelines', 'Prophetic Sunnahs'],
       gradient: 'from-rose-500/10 via-amber-500/5 to-transparent',
       accentBorder: 'hover:border-rose-400/50'
@@ -145,6 +153,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'etiquetteDesc',
       descFallback: 'Prophetic manners across 13 domains of life: food, water, speech, sleep, parents, neighbors, gratitude & good character.',
       href: '/etiquette',
+      badgeKeys: ['thirteenDomains', 'sunnahEating', 'nobleAkhlaq'],
       badges: ['13 Life Domains', 'Sunnah Eating/Drinking', 'Noble Akhlaq'],
       gradient: 'from-emerald-500/10 via-teal-500/5 to-transparent',
       accentBorder: 'hover:border-emerald-400/50'
@@ -158,6 +167,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'kidsDesc',
       descFallback: 'Engaging Islamic learning for the next generation: 28 Arabic letters with audio, inspiring Prophet stories & interactive quizzes.',
       href: '/kids',
+      badgeKeys: ['arabicLetters', 'prophetStories', 'interactiveQuizzes'],
       badges: ['Arabic Alphabet', 'Stories of Prophets', 'Family Quizzes'],
       gradient: 'from-amber-500/10 via-yellow-500/5 to-transparent',
       accentBorder: 'hover:border-amber-400/50'
@@ -171,6 +181,7 @@ export const ExploreMoreSection: React.FC = () => {
       descKey: 'qiblaDesc',
       descFallback: 'High-precision Great-Circle forward azimuth pointing directly towards the Holy Kaaba in Makkah with live sensor calibration.',
       href: '/qibla',
+      badgeKeys: ['sphericalAzimuth', 'trueNorthCompass', 'globalGps'],
       badges: ['Spherical Azimuth', 'True North Compass', 'Global GPS'],
       gradient: 'from-emerald-500/10 via-amber-500/5 to-transparent',
       accentBorder: 'hover:border-emerald-400/50'
@@ -245,14 +256,18 @@ export const ExploreMoreSection: React.FC = () => {
                   </div>
                   
                   <div className="flex flex-wrap justify-end gap-1.5">
-                    {pillar.badges.slice(0, 2).map((badge, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/5 border border-white/10 text-amber-300/90 tracking-wide"
-                      >
-                        {badge}
-                      </span>
-                    ))}
+                    {pillar.badges.slice(0, 2).map((badge, idx) => {
+                      const badgeKey = pillar.badgeKeys ? pillar.badgeKeys[idx] : null;
+                      const label = badgeKey && t(badgeKey) !== badgeKey ? t(badgeKey) : badge;
+                      return (
+                        <span
+                          key={idx}
+                          className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/5 border border-white/10 text-amber-300/90 tracking-wide"
+                        >
+                          {label}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -270,7 +285,9 @@ export const ExploreMoreSection: React.FC = () => {
               {/* Bottom Action Row */}
               <div className="relative z-10 pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs">
                 <span className="text-[11px] text-emerald-400 group-hover:text-amber-300 transition-colors font-medium tracking-wide">
-                  {pillar.badges[2] || 'Verified Fiqh'}
+                  {pillar.badgeKeys && pillar.badgeKeys[2] && t(pillar.badgeKeys[2]) !== pillar.badgeKeys[2]
+                    ? t(pillar.badgeKeys[2])
+                    : (pillar.badges[2] || t('verifiedFiqh') || 'Verified Fiqh')}
                 </span>
                 <span className="flex items-center gap-1 font-bold text-amber-400 group-hover:translate-x-1 transition-transform">
                   <span>{t('explore') || 'Explore'}</span>

@@ -109,7 +109,7 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
           <div className="lg:col-span-7 space-y-5">
             <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-widest">
               <Compass className="w-3.5 h-3.5" />
-              <span>Sacred Direction & Great-Circle Bearing</span>
+              <span>{t('sacredDirection') || 'Sacred Direction & Great-Circle Bearing'}</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
@@ -117,29 +117,29 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
             </h2>
 
             <p className="text-sm text-emerald-100/80 leading-relaxed max-w-xl">
-              Calculated using the great-circle forward azimuth equation directly towards the Holy Kaaba in Makkah Al-Mukarramah (21.4225° N, 39.8262° E).
+              {t('qiblaDesc')}
             </p>
 
             {/* Coordinates & Heading Stats Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
               <div className="bg-[#031c15] p-4 rounded-2xl border border-emerald-800/40 shadow-inner">
-                <span className="text-[11px] text-emerald-400/80 block font-medium">Qibla Bearing</span>
+                <span className="text-[11px] text-emerald-400/80 block font-medium">{t('qiblaHeadingLabel') || 'Qibla Bearing'}</span>
                 <span className="text-2xl sm:text-3xl font-black text-amber-300 font-mono">
                   {bearing}° <span className="text-sm font-semibold text-amber-400/90">{getCardinalName(bearing)}</span>
                 </span>
-                <span className="text-[10px] text-emerald-300/60 block mt-0.5">Degrees from True North</span>
+                <span className="text-[10px] text-emerald-300/60 block mt-0.5">{t('degreesFromNorth') || 'Degrees from True North'}</span>
               </div>
 
               <div className="bg-[#031c15] p-4 rounded-2xl border border-emerald-800/40 shadow-inner">
-                <span className="text-[11px] text-emerald-400/80 block font-medium">Direct Distance</span>
+                <span className="text-[11px] text-emerald-400/80 block font-medium">{t('directDistance') || 'Direct Distance'}</span>
                 <span className="text-2xl sm:text-3xl font-black text-white font-mono">
                   {distanceKm.toLocaleString()}
                 </span>
-                <span className="text-[10px] text-emerald-300/60 block mt-0.5">Kilometers to Makkah</span>
+                <span className="text-[10px] text-emerald-300/60 block mt-0.5">{t('kmToMakkah') || 'Kilometers to Makkah'}</span>
               </div>
 
               <div className="bg-[#031c15] p-4 rounded-2xl border border-emerald-800/40 col-span-2 sm:col-span-1 shadow-inner">
-                <span className="text-[11px] text-emerald-400/80 block font-medium">Current Location</span>
+                <span className="text-[11px] text-emerald-400/80 block font-medium">{t('currentOrigin') || 'Current Location'}</span>
                 <span className="text-sm font-bold text-emerald-100 truncate block mt-1">
                   {currentLocation.city}
                 </span>
@@ -158,7 +158,7 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
                   <>
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span className="text-emerald-300 font-black">
-                      🕋 ALIGNED WITH THE HOLY KAABA — Facing Makkah Directly
+                      {t('alignedKaaba')}
                     </span>
                   </>
                 ) : (
@@ -182,7 +182,7 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
                 href="/qibla"
                 className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-black text-xs transition-all shadow-md flex items-center gap-1.5"
               >
-                <span>Open Full-Screen Qibla Locator</span>
+                <span>{t('openFullScreenQibla') || 'Open Full-Screen Qibla Locator'}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
 
@@ -194,7 +194,7 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
                   className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <Compass className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{isCalibrating ? 'Calibrating...' : 'Enable Phone Compass'}</span>
+                  <span>{isCalibrating ? (t('detecting') || 'Calibrating...') : (t('enableCompass') || 'Enable Phone Compass')}</span>
                 </button>
               )}
             </div>

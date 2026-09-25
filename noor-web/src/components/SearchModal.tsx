@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Search, X, BookOpen, Heart, ArrowRight } from 'lucide-react';
 import { SURAHS_LIST } from '../lib/quranData';
 import { DUAS_LIST } from '../lib/duasData';
+import { useLanguage } from '../context/LanguageContext';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface SearchModalProps {
 }
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
+  const { t, language } = useLanguage();
   const [query, setQuery] = useState('');
 
   if (!isOpen) return null;
@@ -32,8 +34,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
   const matchingDuas = clean
     ? DUAS_LIST.filter(d =>
         d.title.toLowerCase().includes(clean) ||
+        (d.titleHi && d.titleHi.toLowerCase().includes(clean)) ||
+        (d.titleUr && d.titleUr.toLowerCase().includes(clean)) ||
         d.category.toLowerCase().includes(clean) ||
-        d.translation.toLowerCase().includes(clean)
+        d.translation.toLowerCase().includes(clean) ||
+        (d.translationHi && d.translationHi.toLowerCase().includes(clean))
       )
     : [];
 
@@ -46,7 +51,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           <input
             type="text"
             autoFocus
-            placeholder="Search across Quran, Duas, Hadith, Topics..."
+            placeholder={t('searchPlaceholderFull') || "Search across Quran, Duas, Hadith, Topics..."}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="flex-1 bg-transparent text-sm sm:text-base text-white placeholder-emerald-400/50 focus:outline-none"
@@ -63,11 +68,15 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         <div className="max-h-[60vh] overflow-y-auto p-4 sm:p-6 space-y-5">
           {!clean ? (
             <div className="py-8 text-center text-xs text-emerald-300/60">
-              Type keywords like <span className="text-amber-300">"Fatihah"</span>, <span className="text-amber-300">"Morning"</span>, or <span className="text-amber-300">"Patience"</span> to discover content.
+              {language === 'hi'
+                ? 'कुरआन, दुआएं और विषय खोजने के लिए "फ़ातिहा", "सुबह", या "सब्र" जैसे शब्द लिखें।'
+                : 'Type keywords like "Fatihah", "Morning", or "Patience" to discover content.'}
             </div>
           ) : matchingSurahs.length === 0 && matchingDuas.length === 0 ? (
             <div className="py-8 text-center text-xs text-emerald-300/60">
-              No results found for "{query}". Try a different keyword.
+              {language === 'hi'
+                ? `"${query}" के लिए कोई परिणाम नहीं मिला। कृपया दूसरा शब्द आज़माएं।`
+                : `No results found for "${query}". Try a different keyword.`}
             </div>
           ) : (
             <>
@@ -75,7 +84,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
               {matchingSurahs.length > 0 && (
                 <div>
                   <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-2">
-                    Quran Surahs ({matchingSurahs.length})
+                    {t('quran')} ({matchingSurahs.length})
                   </span>
                   <div className="space-y-2">
                     {matchingSurahs.map(s => (
@@ -92,7 +101,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                               {s.englishName} ({s.englishNameTranslation})
                             </span>
                             <span className="text-[10px] text-emerald-400/60 block">
-                              Surah #{s.number} • {s.numberOfAyahs} Ayahs
+                              Surah #{s.number} • {s.numberOfAyahs} {t('ayahsCount')}
                             </span>
                           </div>
                         </div>
@@ -107,7 +116,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
               {matchingDuas.length > 0 && (
                 <div>
                   <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-2">
-                    Duas & Supplications ({matchingDuas.length})
+                    {t('supplicationsTitle')} ({matchingDuas.length})
                   </span>
                   <div className="space-y-2">
                     {matchingDuas.map(d => (
@@ -121,10 +130,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                           <Heart className="w-4 h-4 text-amber-400" />
                           <div>
                             <span className="text-xs font-bold text-white group-hover:text-amber-300">
-                              {d.title}
+                              {language === 'hi' && d.titleHi ? d.titleHi : (language === 'ur' && d.titleUr ? d.titleUr : d.title)}
                             </span>
                             <span className="text-[10px] text-emerald-400/60 block">
-                              Category: {d.category} • {d.source}
+                              {d.source}
                             </span>
                           </div>
                         </div>

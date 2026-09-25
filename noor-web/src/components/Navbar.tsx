@@ -103,73 +103,73 @@ export const Navbar: React.FC<NavbarProps> = ({
     {
       label: t('guides') || 'Prayer Guides',
       href: '/guides',
-      desc: 'Wudu, Ghusl, Salah step-by-step & Qada',
+      desc: t('guidesDesc') || 'Wudu, Ghusl, Salah step-by-step & Qada',
       icon3d: '🧎‍♂️'
     },
     {
       label: t('hajjUmrah') || 'Hajj & Umrah',
       href: '/hajj-umrah',
-      desc: 'Miqat, Tawaf, Sa\'i, Arafat & checklist',
+      desc: t('hajjUmrahDesc') || 'Miqat, Tawaf, Sa\'i, Arafat & checklist',
       icon3d: '🕋'
     },
     {
       label: t('zakatHub') || 'Zakat & Sadaqah',
       href: '/zakat',
-      desc: 'Country currency Nisab & 9 charity channels',
+      desc: t('zakatHubDesc') || 'Country currency Nisab & 9 charity channels',
       icon3d: '🪙'
     },
     {
       label: t('janazah') || 'Salatul Janazah',
       href: '/janazah',
-      desc: '4 Takbeers, Ghusl, Kafan & burial rules',
+      desc: t('janazahDesc') || '4 Takbeers, Ghusl, Kafan & burial rules',
       icon3d: '🕊️'
     },
     {
       label: t('travelMode') || 'Travel Mode',
       href: '/travel',
-      desc: '77km Safar limit & Qasr prayer rules',
+      desc: t('travelModeDesc') || '77km Safar limit & Qasr prayer rules',
       icon3d: '✈️'
     },
     {
       label: t('nikah') || 'Islamic Nikah',
       href: '/nikah',
-      desc: 'Mahr, Khutbah, consent & family etiquette',
+      desc: t('nikahDesc') || 'Mahr, Khutbah, consent & family etiquette',
       icon3d: '💍'
     },
     {
       label: t('etiquette') || 'Daily Adab & Manners',
       href: '/etiquette',
-      desc: 'Prophetic manners across 13 life domains',
+      desc: t('etiquetteDesc') || 'Prophetic manners across 13 life domains',
       icon3d: '🌸'
     },
     {
       label: t('kids') || 'NOOR Kids & Family',
       href: '/kids',
-      desc: 'Arabic alphabet, Prophet stories & quizzes',
+      desc: t('kidsDesc') || 'Arabic alphabet, Prophet stories & quizzes',
       icon3d: '🌟'
     },
     {
       label: t('qibla'),
       href: '/qibla',
-      desc: 'Kaaba direction & live compass',
+      desc: t('qiblaSub') || 'Kaaba direction & live compass',
       icon3d: '🧭'
     },
     {
       label: t('media'),
       href: '/media',
-      desc: 'Live Makkah, Madinah & broadcasts',
+      desc: t('pillarMediaDesc') || 'Live Makkah, Madinah & broadcasts',
       icon3d: '📻'
     },
     {
       label: t('calendar'),
       href: '/calendar',
-      desc: 'Islamic lunar dates & sacred events',
+      desc: t('pillarCalendarDesc') || 'Islamic lunar dates & sacred events',
       icon3d: '🌙'
     },
     {
       label: t('contact') || 'Contact & Support',
       href: '/contact',
-      desc: 'salam@nooreilahi.com & business queries',
+      desc: t('contactDesc') || 'salam@nooreilahi.com & business queries',
       icon3d: '✉️'
     },
   ];
@@ -264,8 +264,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-80 sm:w-[520px] z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
                 <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-3">
                   <div className="flex items-center justify-between px-2.5 py-1 text-[10px] font-semibold text-amber-400/80 uppercase tracking-wider border-b border-white/5 mb-2">
-                    <span>Spiritual Practice & Life Tools</span>
-                    <span className="font-mono text-[9px] text-emerald-400">12 Verified Pillars</span>
+                    <span>{t('spiritualTools')}</span>
+                    <span className="font-mono text-[9px] text-emerald-400">{t('verifiedPillars')}</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-[65vh] overflow-y-auto custom-scrollbar p-0.5">
                     {secondaryNavLinks.map((item) => {
@@ -339,7 +339,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
                   <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
                     <MapPin className="w-3 h-3 text-amber-400" />
-                    <span>Select Country & City</span>
+                    <span>{t('selectCountryCity')}</span>
                   </span>
                   <button
                     onClick={handleAutoDetect}
@@ -347,7 +347,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="flex items-center gap-1 text-[10px] text-amber-400 hover:text-amber-300 font-bold disabled:opacity-50"
                   >
                     <LocateFixed className={`w-3 h-3 ${detecting ? 'animate-spin' : ''}`} />
-                    <span>{detecting ? 'Detecting...' : 'Auto Detect'}</span>
+                    <span>{detecting ? t('detecting') : t('autoDetect')}</span>
                   </button>
                 </div>
 
@@ -467,7 +467,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="w-full py-1.5 px-2.5 rounded-lg hover:bg-white/10 text-emerald-100 hover:text-white text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer text-left mb-1"
                   >
                     <Sliders className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Profile & Settings</span>
+                    <span>{t('profileSettings')}</span>
                   </button>
 
                   <button
@@ -478,7 +478,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="w-full py-1.5 px-2.5 rounded-lg hover:bg-red-500/15 text-red-300 hover:text-red-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer text-left"
                   >
                     <LogOut className="w-3.5 h-3.5" />
-                    <span>Sign Out</span>
+                    <span>{t('signOut')}</span>
                   </button>
                 </div>
               )}
@@ -489,7 +489,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="px-3 py-1 rounded-full text-xs font-semibold text-amber-300 border border-amber-400/40 hover:bg-amber-400/10 hover:border-amber-400 transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
             >
               <User className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Sign In</span>
+              <span className="hidden sm:inline">{t('login')}</span>
             </button>
           )}
 
@@ -510,7 +510,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10 text-xs">
             <span className="text-amber-300 font-bold flex items-center gap-1.5">
               <MuslimLogo size={22} showText={false} />
-              <span>NOOR Navigation</span>
+              <span>{t('appName')} {t('menu')}</span>
             </span>
             <span className="text-[11px] text-emerald-300/80">
               📍 {currentLocation.city}
@@ -520,7 +520,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Section 1: Core Staples with 3D Icons */}
           <div className="mb-3">
             <div className="text-[10px] font-bold text-amber-400/70 uppercase tracking-widest px-1 mb-1.5">
-              Spiritual Pillars
+              {t('explorePillars')}
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {primaryNavLinks.map((link) => {
@@ -549,7 +549,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Section 2: Features & Tools with 3D Icons */}
           <div className="mb-3">
             <div className="text-[10px] font-bold text-emerald-400/70 uppercase tracking-widest px-1 mb-1.5">
-              Tools & Media
+              {t('toolsAndMedia')}
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {secondaryNavLinks.map((link) => {
@@ -585,7 +585,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 border border-white/10 text-xs font-semibold flex items-center justify-center gap-1.5"
             >
               <Search className="w-3.5 h-3.5 text-amber-400" />
-              <span>Search</span>
+              <span>{t('search')}</span>
             </button>
             {user ? (
               <div className="flex-1 p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">

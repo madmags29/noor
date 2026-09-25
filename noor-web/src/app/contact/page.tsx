@@ -64,7 +64,7 @@ export default function ContactPage() {
   const CATEGORIES: CategoryOption[] = [
     {
       id: 'business',
-      label: 'Business Queries & Partnerships',
+      label: t('businessQueries') || 'Business Queries & Partnerships',
       icon: <Briefcase className="w-4 h-4 text-amber-400" />,
       badge: 'B2B & Halal',
       description: 'Explore Halal ecosystem partnerships, API licenses, Zakat integrations, or pilgrimage services.',
@@ -72,7 +72,7 @@ export default function ContactPage() {
     },
     {
       id: 'feedback',
-      label: 'Feedback & Feature Suggestions',
+      label: t('feedback') || 'Feedback & Feature Suggestions',
       icon: <MessageSquare className="w-4 h-4 text-emerald-400" />,
       badge: 'Community',
       description: 'Share ideas to improve Noor-e-ilahi: new Quran reciters, UI enhancements, or mobile features.',
@@ -80,7 +80,7 @@ export default function ContactPage() {
     },
     {
       id: 'complaint',
-      label: 'Complaints & Technical Issues',
+      label: t('complaint') || 'Complaints & Technical Issues',
       icon: <AlertCircle className="w-4 h-4 text-rose-400" />,
       badge: 'High Priority',
       description: 'Report prayer time variances, audio streaming bugs, or application anomalies.',
@@ -88,7 +88,7 @@ export default function ContactPage() {
     },
     {
       id: 'general',
-      label: 'General & Classical Inquiries',
+      label: t('generalInquiry') || 'General & Classical Inquiries',
       icon: <HelpCircle className="w-4 h-4 text-sky-400" />,
       badge: 'Deen Support',
       description: 'Questions regarding platform authenticity, classical sources (Hisn al-Muslim, Ziyarat), or foundation activities.',

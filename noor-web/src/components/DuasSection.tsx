@@ -19,13 +19,25 @@ export const DuasSection: React.FC = () => {
 
   const categoryTranslations: Record<string, string> = {
     all: t('catAll'),
-    morning_evening: t('catMorning'),
-    sleep_waking: t('catSleep'),
+    morning: t('catMorning'),
+    evening: t('catEvening') || t('catMorning'),
+    sleep: t('catSleep'),
     protection: t('catProtection'),
     travel: t('catTravel'),
-    daily_life: t('catDaily'),
-    forgiveness: t('catForgiveness'),
+    rizq: t('catRizq') || t('catDaily'),
     hardship: t('catHardship'),
+  };
+
+  const getDuaTitle = (d: DuaItem) => {
+    if (language === 'hi' && d.titleHi) return d.titleHi;
+    if (language === 'ur' && d.titleUr) return d.titleUr;
+    return d.title;
+  };
+
+  const getDuaTranslation = (d: DuaItem) => {
+    if (language === 'hi' && d.translationHi) return d.translationHi;
+    if (language === 'ur' && d.translationUr) return d.translationUr;
+    return d.translation;
   };
 
   const filteredDuas = selectedCategory === 'all'
@@ -33,7 +45,9 @@ export const DuasSection: React.FC = () => {
     : DUAS_LIST.filter(d => d.category === selectedCategory);
 
   const handleCopyDua = (dua: DuaItem) => {
-    const text = `${dua.title}\n\n${dua.arabic}\n\n"${dua.translation}"\n\n— ${dua.source} (via NOOR)`;
+    const title = getDuaTitle(dua);
+    const translation = getDuaTranslation(dua);
+    const text = `${title}\n\n${dua.arabic}\n\n"${translation}"\n\n— ${dua.source} (via NOOR)`;
     navigator.clipboard.writeText(text);
     setCopiedId(dua.id);
     setTimeout(() => setCopiedId(null), 2000);
@@ -118,7 +132,7 @@ export const DuasSection: React.FC = () => {
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
                 <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full uppercase border border-amber-500/20">
-                  {dua.category}
+                  {categoryTranslations[dua.category] || dua.category}
                 </span>
 
                 <div className="flex items-center gap-1">
@@ -133,7 +147,7 @@ export const DuasSection: React.FC = () => {
               </div>
 
               <h4 className="text-sm font-bold text-white mb-4 line-clamp-2">
-                {dua.title}
+                {getDuaTitle(dua)}
               </h4>
 
               {/* Arabic */}
@@ -143,7 +157,7 @@ export const DuasSection: React.FC = () => {
 
               {/* Translation */}
               <p className="text-xs text-emerald-100/90 leading-relaxed font-sans mb-3">
-                "{dua.translation}"
+                "{getDuaTranslation(dua)}"
               </p>
             </div>
 
@@ -182,7 +196,7 @@ export const DuasSection: React.FC = () => {
               {t('interactiveTasbih')}
             </span>
             <h3 className="text-base font-bold text-white mt-1 mb-3">
-              {activeDua.title}
+              {getDuaTitle(activeDua)}
             </h3>
 
             {/* Arabic */}

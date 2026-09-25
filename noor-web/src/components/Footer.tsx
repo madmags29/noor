@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
 
           <div className="flex items-center gap-2 pt-2 text-[10px] text-emerald-400/80 font-mono">
             <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span>100% Shariah Compliant • Zero Obscene Ads</span>
+            <span>{t('shariahCompliantZeroAds') || '100% Shariah Compliant • Zero Obscene Ads'}</span>
           </div>
 
           <div className="pt-0.5 text-[11px] text-emerald-300/80 flex items-center gap-2">
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
         <div>
           <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🕌</span>
-            <span>Worship & Pillars</span>
+            <span>{t('worshipPillars') || 'Worship & Pillars'}</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
@@ -73,31 +73,31 @@ export const Footer: React.FC = () => {
             <li>
               <Link href="/guides" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300">
                 <span>✨</span>
-                <span>Wudu, Ghusl & Salah Guides</span>
+                <span>{t('guidesGuides') || 'Wudu, Ghusl & Salah Guides'}</span>
               </Link>
             </li>
             <li>
               <Link href="/quran" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>📖</span>
-                <span>{t('quran')} (Offline & Tafsir)</span>
+                <span>{t('quran')}</span>
               </Link>
             </li>
             <li>
               <Link href="/duas" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🤲</span>
-                <span>14 Life Duas & Adhkar</span>
+                <span>{t('lifeDuasAdhkar') || '14 Life Duas & Adhkar'}</span>
               </Link>
             </li>
             <li>
               <Link href="/hajj-umrah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🕋</span>
-                <span>Hajj & Umrah Pilgrimage Guide</span>
+                <span>{t('hajjUmrahPilgrimageGuide') || 'Hajj & Umrah Pilgrimage Guide'}</span>
               </Link>
             </li>
             <li>
               <Link href="/zakat" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🪙</span>
-                <span>Zakat Calculator & 9 Sadaqah</span>
+                <span>{t('zakatCalculatorSadaqah') || 'Zakat Calculator & 9 Sadaqah'}</span>
               </Link>
             </li>
           </ul>
@@ -107,37 +107,37 @@ export const Footer: React.FC = () => {
         <div>
           <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🌱</span>
-            <span>Family & Life Guides</span>
+            <span>{t('familyLifeGuides') || 'Family & Life Guides'}</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
               <Link href="/kids" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🧒</span>
-                <span>NOOR Kids & Arabic Letters</span>
+                <span>{t('kidsArabicLetters') || 'NOOR Kids & Arabic Letters'}</span>
               </Link>
             </li>
             <li>
               <Link href="/janazah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🕊️</span>
-                <span>Janazah & Bereavement Guide</span>
+                <span>{t('janazahBereavementGuide') || 'Janazah & Bereavement Guide'}</span>
               </Link>
             </li>
             <li>
               <Link href="/etiquette" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>📜</span>
-                <span>Islamic Etiquette (Adab) Library</span>
+                <span>{t('etiquetteAdabLibrary') || 'Islamic Etiquette (Adab) Library'}</span>
               </Link>
             </li>
             <li>
               <Link href="/nikah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>💍</span>
-                <span>Nikah & Family Education</span>
+                <span>{t('nikahFamilyEducation') || 'Nikah & Family Education'}</span>
               </Link>
             </li>
             <li>
               <Link href="/travel" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>✈️</span>
-                <span>Travel Mode & Qasr Rules</span>
+                <span>{t('travelModeQasrRules') || 'Travel Mode & Qasr Rules'}</span>
               </Link>
             </li>
           </ul>
@@ -147,43 +147,43 @@ export const Footer: React.FC = () => {
         <div>
           <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🔍</span>
-            <span>Search & Discovery</span>
+            <span>{t('ecosystemDiscover') || 'Search & Discovery'}</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
               <Link href="/search" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-semibold">
                 <span>🔍</span>
-                <span>Search Islam Encyclopedia</span>
+                <span>{t('search')}</span>
               </Link>
             </li>
             <li>
               <Link href="/ziyarat" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🏛️</span>
-                <span>Dargahs, Shrines & Ziyarat</span>
+                <span>{t('ziyarat')}</span>
               </Link>
             </li>
             <li>
               <Link href="/watch" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>📺</span>
-                <span>NOOR Watch (24/7 Haramain)</span>
+                <span>{t('media')} (24/7 Haramain)</span>
               </Link>
             </li>
             <li>
               <Link href="/qibla" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🧭</span>
-                <span>Live Qibla Compass</span>
+                <span>{t('qibla')}</span>
               </Link>
             </li>
             <li>
               <Link href="/calendar" className="hover:text-amber-300 transition-colors flex items-center gap-2">
                 <span>🌙</span>
-                <span>Hijri Calendar 1448 AH</span>
+                <span>{t('calendar')}</span>
               </Link>
             </li>
             <li>
               <Link href="/contact" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-medium">
                 <span>✉️</span>
-                <span>Contact & Inquiries</span>
+                <span>{t('contact')}</span>
               </Link>
             </li>
           </ul>

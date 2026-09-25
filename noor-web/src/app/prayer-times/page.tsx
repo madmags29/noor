@@ -25,8 +25,10 @@ import { POPULAR_CITIES, DEFAULT_LOCATION, CityLocation, detectUserLocation, sav
 import { calculateDayPrayerTimes, CALCULATION_METHODS } from '../../lib/prayerService';
 import { GlobalNavbar } from '../../components/GlobalNavbar';
 import { Footer } from '../../components/Footer';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function PrayerTimesPage() {
+  const { t, language } = useLanguage();
   const [location, setLocation] = useState<CityLocation>(DEFAULT_LOCATION);
   const [date, setDate] = useState(new Date());
   const [method, setMethod] = useState('MWL');
@@ -57,6 +59,21 @@ export default function PrayerTimesPage() {
 
   const times = calculateDayPrayerTimes(location.lat, location.lng, date, method, asrFactor);
 
+  const localeMap: Record<string, string> = {
+    hi: 'hi-IN',
+    ur: 'ur-PK',
+    ar: 'ar-SA',
+    bn: 'bn-BD',
+    ta: 'ta-IN',
+    ml: 'ml-IN',
+    mr: 'mr-IN',
+    gu: 'gu-IN',
+    tr: 'tr-TR',
+    id: 'id-ID',
+    en: 'en-US'
+  };
+  const activeLocale = localeMap[language] || 'en-US';
+
   // Generate 7-day forecast timetable
   const weeklySchedule = Array.from({ length: 7 }).map((_, i) => {
     const d = new Date(date);
@@ -64,7 +81,7 @@ export default function PrayerTimesPage() {
     const dayTimes = calculateDayPrayerTimes(location.lat, location.lng, d, method, asrFactor);
     return {
       date: d,
-      dateFormatted: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      dateFormatted: d.toLocaleDateString(activeLocale, { weekday: 'short', month: 'short', day: 'numeric' }),
       fajr: dayTimes.find(t => t.id === 'fajr')?.time,
       sunrise: dayTimes.find(t => t.id === 'sunrise')?.time,
       dhuhr: dayTimes.find(t => t.id === 'dhuhr')?.time,
@@ -107,21 +124,21 @@ export default function PrayerTimesPage() {
             <Link
               href="/"
               className="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 hover:text-white transition-colors"
-              title="Return to Home"
+              title={t('home') || "Home"}
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-black text-white">Prayer Times & Timetable</h1>
+                <h1 className="text-lg sm:text-xl font-black text-white">{t('dailyPrayerTimes')} & {t('calendar')}</h1>
                 {location.isAutoDetected && (
                   <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                    Auto-Detected
+                    {t('autoDetected')}
                   </span>
                 )}
               </div>
               <p className="text-[10px] text-emerald-300/70">
-                Astronomical calculations for {location.city}, {location.country}
+                {t('precisionCalculationFor')} {location.city}, {location.country}
               </p>
             </div>
           </div>
@@ -134,7 +151,7 @@ export default function PrayerTimesPage() {
               title="Auto Detect Real-world Location"
             >
               <LocateFixed className={`w-3.5 h-3.5 ${detecting ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">{detecting ? 'Detecting...' : 'Auto Detect'}</span>
+              <span className="hidden sm:inline">{detecting ? t('detecting') : t('autoDetect')}</span>
             </button>
 
             <select
@@ -165,10 +182,10 @@ export default function PrayerTimesPage() {
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
             <div>
               <span className="text-xs font-bold text-amber-400 uppercase tracking-widest block">
-                Today's Salaah Schedule
+                {t('upcomingSalaah')}
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-                {date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                {date.toLocaleDateString(activeLocale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
               </h2>
             </div>
 
@@ -178,7 +195,7 @@ export default function PrayerTimesPage() {
                 className="liquid-pill px-4 py-2 rounded-xl text-xs font-bold text-emerald-200 flex items-center gap-1.5 hover:text-white"
               >
                 <Printer className="w-3.5 h-3.5" />
-                <span>Print Timetable</span>
+                <span>{t('printTimetable') || "Print Timetable"}</span>
               </button>
             </div>
           </div>
@@ -192,7 +209,7 @@ export default function PrayerTimesPage() {
               >
                 <div>
                   <span className="text-xs font-black text-amber-300 uppercase tracking-wider block mb-1">
-                    {p.name}
+                    {t(p.id) || p.name}
                   </span>
                   <span className="arabic-text text-xl font-bold text-emerald-200">
                     {p.arabicName}
@@ -216,20 +233,20 @@ export default function PrayerTimesPage() {
         <div className="space-y-4">
           <h3 className="text-xl font-black text-white flex items-center gap-2">
             <Calendar className="w-5 h-5 text-amber-400" />
-            <span>Weekly & Ramadan Timetable Forecast</span>
+            <span>{t('weeklyForecast') || "Weekly & Ramadan Timetable Forecast"}</span>
           </h3>
 
           <div className="liquid-glass rounded-3xl border border-white/15 overflow-hidden">
             <table className="w-full text-left text-xs">
               <thead className="bg-black/40 text-emerald-300/80 uppercase text-[10px] tracking-wider border-b border-white/10">
                 <tr>
-                  <th className="p-4">Day & Date</th>
-                  <th className="p-4">Fajr (Sehri Ends)</th>
-                  <th className="p-4">Sunrise</th>
-                  <th className="p-4">Dhuhr</th>
-                  <th className="p-4">Asr</th>
-                  <th className="p-4 text-amber-400">Maghrib (Iftar)</th>
-                  <th className="p-4">Isha</th>
+                  <th className="p-4">{t('dayAndDate') || "Day & Date"}</th>
+                  <th className="p-4">{t('fajr')}</th>
+                  <th className="p-4">{t('sunrise')}</th>
+                  <th className="p-4">{t('dhuhr')}</th>
+                  <th className="p-4">{t('asr')}</th>
+                  <th className="p-4 text-amber-400">{t('maghrib')}</th>
+                  <th className="p-4">{t('isha')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10 font-mono">
