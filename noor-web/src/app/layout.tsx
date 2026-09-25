@@ -5,11 +5,11 @@ import JsonLd from '../components/JsonLd';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.nooreilahi.com'),
   title: {
-    default: 'Noor-e-ilahi — Islamic Prayer Times, Quran, Qibla & Zakat',
+    default: 'Noor-e-ilahi — Prayer Times, Quran, Qibla & Zakat',
     template: '%s | Noor-e-ilahi',
   },
   description:
-    'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, Hijri calendar & guides. 100% ad-free.',
+    'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, and Hijri calendar. 100% ad-free.',
   keywords: [
     'Noor-e-ilahi',
     'Islamic App',
@@ -106,9 +106,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Noor-e-ilahi — Islamic Prayer Times, Quran, Qibla & Zakat',
+    title: 'Noor-e-ilahi — Prayer Times, Quran, Qibla & Zakat',
     description:
-      'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, Hijri calendar & guides. 100% ad-free.',
+      'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, and Hijri calendar. 100% ad-free.',
     url: 'https://www.nooreilahi.com',
     siteName: 'Noor-e-ilahi Islamic Ecosystem',
     images: [
@@ -133,9 +133,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Noor-e-ilahi — Islamic Prayer Times, Quran, Qibla & Zakat',
+    title: 'Noor-e-ilahi — Prayer Times, Quran, Qibla & Zakat',
     description:
-      'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, Hijri calendar & guides. 100% ad-free.',
+      'Free Islamic platform with accurate prayer times, Noble Quran audio, Qibla compass, Zakat calculator, authentic duas, and Hijri calendar. 100% ad-free.',
     images: ['https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?w=1200&h=630&q=90'],
     creator: '@nooreilahi',
     site: '@nooreilahi',
