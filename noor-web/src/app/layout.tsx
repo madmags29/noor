@@ -214,6 +214,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
+        <meta name="msvalidate.01" content="D3E6931423BFC988CB57DDD88A110617" />
         <JsonLd />
         <link rel="alternate" type="text/plain" href="https://www.nooreilahi.com/llms.txt" title="LLMs.txt AEO Knowledge Base" />
         <link rel="author" href="https://www.nooreilahi.com/llms.txt" />
