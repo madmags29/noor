@@ -1,35 +1,33 @@
 'use client';
 
 // ============================================================
-// NOOR Web — Quran Catalog & Reader Section
+// NOOR Web — Quran Catalog (All 114 Surahs) & Seamless Direct Reader
+// Zero-Popup Design: Seamless navigation to full reader
 // ============================================================
 
 import React, { useState } from 'react';
-import { BookOpen, Search, Play, Volume2, X, Bookmark, Share2 } from 'lucide-react';
-import { SURAHS_LIST, AYAH_DATABANK, RECITERS_LIST, SurahItem } from '../lib/quranData';
+import Link from 'next/link';
+import { BookOpen, Search, ArrowRight, Play } from 'lucide-react';
+import { SURAHS_LIST } from '../lib/quranData';
 import { useLanguage } from '../context/LanguageContext';
 
 export const QuranSection: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRevelation, setSelectedRevelation] = useState<'All' | 'Meccan' | 'Medinan'>('All');
-  const [activeSurah, setActiveSurah] = useState<SurahItem | null>(null);
-  const [selectedReciter, setSelectedReciter] = useState(RECITERS_LIST[0].id);
 
   const filteredSurahs = SURAHS_LIST.filter(surah => {
+    const clean = searchTerm.trim().toLowerCase();
     const matchSearch =
-      surah.englishName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      surah.englishNameTranslation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      surah.name.includes(searchTerm) ||
-      surah.number.toString() === searchTerm.trim();
+      !clean ||
+      surah.englishName.toLowerCase().includes(clean) ||
+      surah.englishNameTranslation.toLowerCase().includes(clean) ||
+      surah.name.includes(clean) ||
+      surah.number.toString() === clean;
 
     const matchRev = selectedRevelation === 'All' || surah.revelationType === selectedRevelation;
     return matchSearch && matchRev;
   });
-
-  const currentAyahs = activeSurah ? (AYAH_DATABANK[activeSurah.number] || [
-    { number: 1, arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", translation: "In the name of Allah, the Entirely Merciful, the Especially Merciful." }
-  ]) : [];
 
   return (
     <section id="quran" className="relative w-full py-16 px-4 lg:px-8 max-w-7xl mx-auto">
@@ -58,7 +56,7 @@ export const QuranSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Search & Filter Bar */}
+        {/* Search, Filter & Full Reader CTA */}
         <div className="flex flex-wrap items-center gap-3">
           {/* Search Box */}
           <div className="relative">
@@ -68,7 +66,7 @@ export const QuranSection: React.FC = () => {
               placeholder={t('searchSurahPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2 bg-[#06241b] border border-emerald-800/60 rounded-xl text-xs text-white placeholder-emerald-400/50 focus:outline-none focus:border-amber-400 w-56 sm:w-64"
+              className="pl-9 pr-4 py-2 bg-[#06241b] border border-emerald-800/60 rounded-xl text-xs text-white placeholder-emerald-400/50 focus:outline-none focus:border-amber-400 w-52 sm:w-60"
             />
           </div>
 
@@ -88,16 +86,25 @@ export const QuranSection: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* Direct Link to Dedicated Platform */}
+          <Link
+            href="/quran"
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 text-xs font-bold transition-all shadow-md flex items-center gap-1.5 whitespace-nowrap"
+          >
+            <span>{t('readQuranCta')}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
 
-      {/* Surahs Grid */}
+      {/* 114 Surahs Grid — Direct In-Page Reader Navigation (Zero Popup Modals!) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {filteredSurahs.map((surah) => (
-          <button
+        {filteredSurahs.slice(0, 24).map((surah) => (
+          <Link
             key={surah.number}
-            onClick={() => setActiveSurah(surah)}
-            className="text-left glass-panel rounded-2xl p-4 border border-emerald-800/30 hover:border-amber-400/50 hover:bg-emerald-900/40 transition-all group flex items-center justify-between"
+            href={`/quran?surah=${surah.number}`}
+            className="text-left glass-panel rounded-2xl p-4 border border-emerald-800/30 hover:border-amber-400/50 hover:bg-emerald-900/40 transition-all group flex items-center justify-between hover:scale-[1.02]"
           >
             <div className="flex items-center gap-3.5">
               {/* Surah Number Hexagon */}
@@ -124,109 +131,20 @@ export const QuranSection: React.FC = () => {
                 {surah.revelationType === 'Meccan' ? t('filterMeccan') : t('filterMedinan')}
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
 
-      {/* Surah Reader Modal */}
-      {activeSurah && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in">
-          <div className="bg-[#031c15] border border-emerald-700/50 rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-emerald-800/50 flex items-center justify-between bg-[#021711]">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold flex items-center justify-center text-xs">
-                  {activeSurah.number}
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
-                    {activeSurah.englishName}
-                    <span className="arabic-text text-lg text-amber-300 font-normal">({activeSurah.name})</span>
-                  </h3>
-                  <p className="text-xs text-emerald-300/70">
-                    {activeSurah.englishNameTranslation} • {activeSurah.numberOfAyahs} {t('versesCount')} • {t('juzLabel')} {activeSurah.juz}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {/* Reciter Selector */}
-                <select
-                  value={selectedReciter}
-                  onChange={(e) => setSelectedReciter(e.target.value)}
-                  className="bg-emerald-950/80 border border-emerald-700/40 rounded-xl px-2.5 py-1 text-xs text-emerald-200 focus:outline-none"
-                >
-                  {RECITERS_LIST.map(r => (
-                    <option key={r.id} value={r.id} className="bg-[#021711]">
-                      {r.name}
-                    </option>
-                  ))}
-                </select>
-
-                <button
-                  onClick={() => setActiveSurah(null)}
-                  className="p-1.5 rounded-xl bg-emerald-950 border border-emerald-700/40 text-emerald-300 hover:text-white"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Ayahs Scrollable List */}
-            <div className="p-6 overflow-y-auto space-y-6">
-              {/* Bismillah Banner (except Surah 9) */}
-              {activeSurah.number !== 9 && (
-                <div className="text-center py-4 border-b border-emerald-900/40">
-                  <p className="arabic-text text-2xl sm:text-3xl text-amber-200 font-semibold">
-                    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-                  </p>
-                  <p className="text-xs text-emerald-300/70 mt-1">
-                    {t('bismillahTranslation')}
-                  </p>
-                </div>
-              )}
-
-              {currentAyahs.map((ayah) => (
-                <div
-                  key={ayah.number}
-                  className="p-4 rounded-2xl bg-[#06241b]/50 border border-emerald-800/30 hover:border-amber-400/30 transition-colors"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/30">
-                      {t('ayahNumber')} {ayah.number}
-                    </span>
-                    <div className="flex items-center gap-1.5 text-emerald-400">
-                      <button className="p-1.5 hover:text-amber-300 transition-colors" title={t('playVerse')}>
-                        <Play className="w-3.5 h-3.5" />
-                      </button>
-                      <button className="p-1.5 hover:text-amber-300 transition-colors" title={t('bookmarkVerse')}>
-                        <Bookmark className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Arabic Text */}
-                  <p className="arabic-text text-xl sm:text-2xl text-emerald-100 font-medium text-right mb-3 leading-[2.1]">
-                    {ayah.arabic}
-                  </p>
-
-                  {/* Transliteration */}
-                  {ayah.transliteration && (
-                    <p className="text-xs text-emerald-300/60 italic mb-2">
-                      "{ayah.transliteration}"
-                    </p>
-                  )}
-
-                  {/* English Translation */}
-                  <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-sans">
-                    {ayah.translation}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Bottom Link to View Remaining Surahs */}
+      <div className="mt-8 text-center">
+        <Link
+          href="/quran"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl liquid-glass border border-amber-500/30 text-amber-300 hover:text-white font-bold text-xs hover:border-amber-400 transition-all"
+        >
+          <span>Explore All 114 Surahs with Full Audio & Translations</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
     </section>
   );
 };

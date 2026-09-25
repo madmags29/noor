@@ -119,8 +119,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       audio.pause();
       setIsPlayingAzan(false);
     } else {
-      const adhanAudio = new Audio('https://cdn.aladhan.com/audio/adhans/makkah.mp3');
-      adhanAudio.play().catch(e => console.log('Audio playback error', e));
+      const adhanAudio = new Audio('/audio/adhan-makkah.mp3');
+      adhanAudio.play().catch(e => {
+        console.log('Local adhan error, trying fallback', e);
+        const fallbackAudio = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3');
+        fallbackAudio.play().catch(err => console.log('Audio playback error', err));
+        fallbackAudio.onended = () => setIsPlayingAzan(false);
+        setAudio(fallbackAudio);
+      });
       adhanAudio.onended = () => setIsPlayingAzan(false);
       setAudio(adhanAudio);
       setIsPlayingAzan(true);
