@@ -186,12 +186,12 @@ export const ExploreMoreSection: React.FC = () => {
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold tracking-wide">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wide shadow-sm">
           <Sparkles className="w-3.5 h-3.5" />
           <span>{t('quickEssentials') || '10 Verified Deen Pillars'}</span>
         </div>
         
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-white tracking-wide">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
           {t('explorePillars') || 'Explore Islamic Knowledge & Practice'}
         </h2>
 
@@ -248,7 +248,7 @@ export const ExploreMoreSection: React.FC = () => {
                     {pillar.badges.slice(0, 2).map((badge, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-amber-300/90"
+                        className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/5 border border-white/10 text-amber-300/90 tracking-wide"
                       >
                         {badge}
                       </span>
@@ -258,7 +258,7 @@ export const ExploreMoreSection: React.FC = () => {
 
                 {/* Title & Description */}
                 <div>
-                  <h3 className="text-lg font-bold font-serif text-white group-hover:text-amber-300 transition-colors">
+                  <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors tracking-tight">
                     {title}
                   </h3>
                   <p className="text-xs text-zinc-300/80 leading-relaxed mt-1.5 line-clamp-3">
@@ -269,7 +269,7 @@ export const ExploreMoreSection: React.FC = () => {
 
               {/* Bottom Action Row */}
               <div className="relative z-10 pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs">
-                <span className="text-[11px] font-mono text-emerald-400 group-hover:text-amber-300 transition-colors font-medium">
+                <span className="text-[11px] text-emerald-400 group-hover:text-amber-300 transition-colors font-medium tracking-wide">
                   {pillar.badges[2] || 'Verified Fiqh'}
                 </span>
                 <span className="flex items-center gap-1 font-bold text-amber-400 group-hover:translate-x-1 transition-transform">
