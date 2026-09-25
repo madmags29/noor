@@ -178,7 +178,7 @@ export const metadata: Metadata = {
     google: 'U0EUqGVn0UMNM7TTtNVZQ2zVq0FaT-s_ndT_E_cfBJU',
     yandex: 'noor-yandex-verification-2026',
     other: {
-      'msvalidate.01': 'noor-bing-verification-2026',
+      'msvalidate.01': 'D3E6931423BFC988CB57DDD88A110617',
     },
   },
   icons: {
