@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Adhan & Islamic Media — Live Makkah 24/7, Quran Recitations & Nasheeds',
+  title: 'Islamic Media & Adhan — Live Makkah 24/7 & Recitations',
   description:
-    'Listen to live Makkah Haram 24/7 Adhan broadcasts, beautiful Quran recitations by Sheikh Abdul Basit, Mishary Alafasy, and Sheikh Sudais, Islamic nasheeds, Hijri dates, and adhan audio for Fajr, Dhuhr, Asr, Maghrib, and Isha.',
+    'Watch live Makkah Haram 24/7 broadcasts, listen to beautiful Quran recitations, Islamic nasheeds, and global Adhan audio for all daily prayers.',
   keywords: [
     'Adhan audio',
     'Makkah Adhan live',

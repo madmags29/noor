@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Zakat Calculator 2026 — Calculate Your Zakat on Gold, Silver & Savings',
+  title: 'Zakat Calculator 2026 — Calculate Gold, Silver & Savings',
   description:
-    'Free online Zakat calculator 2026 with live gold & silver nisab prices. Calculate Zakat on savings, gold, silver, investments, and trade inventory in your local currency. Based on authentic Hanafi & Shafi\'i jurisprudence.',
+    'Free online Zakat calculator with live gold & silver Nisab rates. Calculate your Zakat on savings, gold, and investments in your currency.',
   keywords: [
     'Zakat calculator 2026',
     'Zakat calculator online',

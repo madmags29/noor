@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'NOOR Kids — Islamic Education for Children: Arabic Alphabet, Quran & Stories',
+  title: 'NOOR Kids — Islamic Learning, Arabic Alphabet & Stories',
   description:
-    'Islamic education platform for Muslim children. Interactive Arabic alphabet learning, Quran for kids, Islamic stories of the Prophets, children\'s duas, basic Wudu guide for kids, pillars of Islam for beginners, and halal creative content.',
+    'Interactive Islamic education for Muslim children: Arabic alphabet learning, Quran for kids, Prophet stories, children\'s duas, and pillars of Islam.',
   keywords: [
     'Islamic education for kids',
     'Arabic alphabet for children',

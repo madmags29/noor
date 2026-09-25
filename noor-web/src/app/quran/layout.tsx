@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Read Quran Online — 114 Surahs with Arabic, Translation & Audio Recitation',
+  title: 'Read Quran Online — 114 Surahs with Audio & Translation',
   description:
-    'Read and listen to the Noble Quran online with word-by-word audio synchronisation, authentic translations in 11 languages (English, Arabic, Urdu, Hindi, Bengali, Turkish), and offline reading support. 114 Surahs, 6,236 Ayahs.',
+    'Read and listen to the Noble Quran online with word-by-word audio, authentic translations in 11 languages, and offline reading. All 114 Surahs.',
   keywords: [
     'read Quran online',
     'Quran translation English',

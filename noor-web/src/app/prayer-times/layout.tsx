@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Prayer Times Today — Accurate Salah Times for Any City Worldwide',
+  title: 'Prayer Times Today — Accurate Salah Times Worldwide',
   description:
-    'Get precise astronomical Salah prayer times for Fajr, Dhuhr, Asr, Maghrib, and Isha for any city worldwide. Supports 6 Islamic calculation methods: MWL, ISNA, Umm Al-Qura Makkah, Egyptian, Karachi, and Jafari. Auto-detect your GPS location.',
+    'Get precise Salah prayer times for Fajr, Dhuhr, Asr, Maghrib, and Isha for any city worldwide with GPS auto-detection and 6 calculation methods.',
   keywords: [
     'prayer times today',
     'Salah times',

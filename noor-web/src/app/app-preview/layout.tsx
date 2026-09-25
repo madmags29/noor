@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Noor-e-ilahi App — Download Islamic App for iOS & Android',
+  title: 'Noor-e-ilahi App — Free Islamic App for iOS & Android',
   description:
-    'Download the Noor-e-ilahi Islamic app for iPhone and Android. Precision prayer times, offline Quran, Qibla compass, authentic duas, Hijri calendar, Ziyarat directory, and Noor AI — all in one ad-free Islamic companion app.',
+    'Download the Noor-e-ilahi Islamic mobile app for iOS and Android: prayer times, offline Quran, Qibla compass, duas, and AI assistant.',
   keywords: [
     'Islamic app download',
     'Muslim app iOS',

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Qibla Direction — Find Kaaba Direction from Your Location with 3D Compass',
+  title: 'Qibla Direction — Find Kaaba Direction with 3D Compass',
   description:
-    'Find the exact Qibla direction (direction of the Holy Kaaba in Makkah) from anywhere in the world. Uses spherical great-circle trigonometry with GPS and gyroscope sensor calibration. Works offline. True-North magnetic compensation.',
+    'Find the exact Qibla direction to the Holy Kaaba in Makkah from anywhere in the world using GPS calibration, 3D compass, and magnetic compensation.',
   keywords: [
     'Qibla direction',
     'find Qibla',

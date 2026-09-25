@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Islam Encyclopedia Search — Quran, Hadith, Fiqh & Islamic Knowledge',
+  title: 'Islamic Search Engine — Quran, Hadith & Knowledge',
   description:
-    'Search the Noor-e-ilahi Islam Encyclopedia: Quran Ayahs, authentic Hadith from Bukhari & Muslim, Fiqh rulings, Islamic terms (Glossary), Prophet stories, duas, and Ziyarat information. Powered by Noor AI.',
+    'Search the Noor-e-ilahi encyclopedia: Quran Ayahs, authentic Hadith, Fiqh rulings, Islamic terms glossary, and prophet stories powered by AI.',
   keywords: [
     'Islamic search engine',
     'Islam encyclopedia',

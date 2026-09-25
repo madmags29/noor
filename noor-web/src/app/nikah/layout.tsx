@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Nikah & Islamic Marriage Guide — Marriage Requirements, Mahr, Rights & Duas',
+  title: 'Nikah & Islamic Marriage Guide — Requirements & Mahr',
   description:
-    'Complete Islamic Nikah (marriage) guide: the 5 pillars of a valid Nikah, Mahr (bride gift) rules, marriage contract, rights of husband and wife, wedding duas, Islamic family law basics, divorce etiquette, and parenting in Islam. Based on authentic Fiqh.',
+    'Complete Islamic Nikah guide: pillars of valid marriage, Mahr rules, contract conditions, rights of spouses, and wedding duas based on authentic Fiqh.',
   keywords: [
     'Islamic Nikah guide',
     'how to perform Nikah',

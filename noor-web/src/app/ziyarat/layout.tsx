@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Global Islamic Ziyarat & Dargahs Directory — 31 Verified Sacred Shrines Across 12 Nations',
+  title: 'Islamic Ziyarat Directory — 31 Sacred Shrines & Dargahs',
   description:
-    'Explore 31 academically audited Islamic shrines, Sufi dargahs, Ahl al-Bayt sanctuaries, and heritage sites across 12 countries. Features Ajmer Sharif, Hazrat Nizamuddin Auliya, Imam Ali Najaf, Imam Husayn Karbala, Mevlana Rumi Konya, Data Ganj Bakhsh, and more. GPS coordinates, historical chronicles, and visiting etiquette (Adab al-Ziyarat).',
+    'Explore 31 verified Islamic shrines, Sufi dargahs, and sacred heritage sites across 12 countries with GPS locations, history, and Adab etiquette.',
   keywords: [
     'Islamic shrines',
     'dargah directory',

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Janazah & Funeral Prayer Guide — Ghusl, Kafan, Salatul Janazah & Burial Rites',
+  title: 'Janazah & Funeral Prayer Guide — Ghusl, Kafan & Burial Rites',
   description:
-    'Complete Islamic Janazah (funeral) guide: Ghusl al-Mayyit (ritual washing), Kafan (shrouding), Salatul Janazah 4-Takbeer prayer with authentic duas, Dua for the deceased in Arabic and translation, burial rites, condolences, and bereavement supplication etiquette.',
+    'Complete Islamic Janazah guide: Ghusl ritual washing, Kafan shrouding, 4-Takbeer funeral prayer with authentic duas, condolences, and burial rites.',
   keywords: [
     'Janazah guide',
     'Salatul Janazah',

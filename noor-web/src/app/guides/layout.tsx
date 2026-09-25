@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Prayer & Purification Guides — Wudu, Ghusl, Salah, Tayammum Step by Step',
+  title: 'Islamic Prayer & Purification Guides — Wudu & Salah',
   description:
-    'Complete Islamic prayer and purification guides: Wudu (ablution) 8-step guide, Ghusl (ritual bath) guide, Salah step-by-step guide with postures, Tayammum dry ablution, Sunnah prayers guide, missed prayer Qada journal, and Fiqh Madhab settings. Based on authentic Sunnah.',
+    'Complete Islamic prayer and purification guides: step-by-step Wudu ablution, Ghusl bath, Salah postures, and Sunnah prayers based on Sunnah.',
   keywords: [
     'how to perform Wudu',
     'Wudu step by step',

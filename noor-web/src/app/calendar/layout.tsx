@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Hijri Islamic Calendar 2026 — Moon Phases, Islamic Dates & Events',
+  title: 'Hijri Islamic Calendar 2026 — Dates & Moon Phases',
   description:
-    'View the complete Hijri Islamic calendar 2026 with accurate Gregorian date conversion, lunar moon phases, Islamic months (Muharram to Dhul Hijjah), Ramadan dates, Laylat al-Qadr, Eid al-Fitr, Eid al-Adha, Day of Arafat, and all major Islamic events.',
+    'View the complete Hijri Islamic calendar 2026 with Gregorian conversion, lunar moon phases, Ramadan dates, Eid al-Fitr, Eid al-Adha, and key events.',
   keywords: [
     'Hijri calendar 2026',
     'Islamic calendar 2026',

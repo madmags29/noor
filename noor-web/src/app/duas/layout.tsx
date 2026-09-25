@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Islamic Duas & Adhkar — Authentic Hisn al-Muslim Supplications with Arabic & Translation',
+  title: 'Islamic Duas & Adhkar — Authentic Hisn al-Muslim',
   description:
-    'Browse 200+ authentic duas and adhkar from Hisn al-Muslim (Fortress of the Muslim). Morning & evening adhkar, sleeping duas, travel supplications, Quran duas, and daily remembrances with Arabic text, transliteration, and 11 language translations.',
+    'Browse 200+ authentic daily duas and adhkar from Hisn al-Muslim with Arabic text, transliteration, and 11 translations. 100% free and ad-free.',
   keywords: [
     'Islamic duas',
     'Hisn al-Muslim duas',

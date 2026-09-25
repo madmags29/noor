@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Islamic Etiquette (Adab) — Sunnah Manners for Daily Life',
+  title: 'Islamic Etiquette (Adab) — Sunnah Manners for Life',
   description:
-    'Learn authentic Islamic etiquette (Adab) from the Sunnah: etiquette of eating and drinking, entering the home, visiting the mosque, greeting with Salam, caring for parents, dealing with neighbours, speech conduct, personal hygiene, and social manners based on Prophetic traditions.',
+    'Learn authentic Islamic etiquette (Adab) from the Sunnah: manners of eating, speech, greeting, visiting the mosque, and daily Muslim social conduct.',
   keywords: [
     'Islamic etiquette',
     'Adab Islam',

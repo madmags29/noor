@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Hajj & Umrah Complete Guide 2026 — Rituals, Checklist, Maps & Duas',
+  title: 'Hajj & Umrah Complete Guide 2026 — Rituals & Duas',
   description:
-    'Complete step-by-step Hajj & Umrah guide 2026. Covers Ihram, Miqat, Tawaf, Sa\'i, Arafat, Muzdalifah, Mina, Jamarat, Wuquf. Includes Hajj packing checklist, 2026 dates, important duas, maps of Makkah & Madinah holy sites. Available offline.',
+    'Complete step-by-step Hajj and Umrah guide 2026: Ihram rules, Miqat, Tawaf, Sa\'i, Arafat, packing checklist, and authentic pilgrimage duas.',
   keywords: [
     'Hajj guide 2026',
     'Umrah guide 2026',

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Noor-e-ilahi — Support, Scholarly Feedback & Partnerships',
+  title: 'Contact Noor-e-ilahi — Support & Feedback',
   description:
-    'Contact the Noor-e-ilahi team for technical support, scholarly correction submissions, partnership inquiries, press inquiries, and feature requests. Email: support@nooreilahi.com',
+    'Contact the Noor-e-ilahi team for technical support, scholarly feedback, partnership inquiries, and feature requests. We are here to help.',
   keywords: [
     'contact Noor-e-ilahi',
     'Islamic app support',
