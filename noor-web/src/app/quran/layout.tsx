@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     'Quran ayah verse',
     'Quran 30 Juz',
     'listen to Quran',
+    'read Surah in one go',
+    'continuous Quran recitation',
+    'complete Surah in one breath',
+    'Mushaf continuous view',
   ],
   alternates: {
     canonical: 'https://www.nooreilahi.com/quran',

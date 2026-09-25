@@ -233,6 +233,14 @@ export default function JsonLd() {
           },
           {
             '@type': 'Question',
+            name: 'Can I read all 114 Surahs in one go continuously on Noor-e-ilahi?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. Noor-e-ilahi features a dedicated professional switch allowing readers to toggle between "Read in One Go" (एक साथ पढ़ें) — displaying classical flowing Arabic Mushaf calligraphy with circular Eastern Arabic ayah numerals (۝) without page breaks — and "Verse by Verse" (आयत दर आयत) study mode with multi-lingual translations and per-ayah audio playback.',
+            },
+          },
+          {
+            '@type': 'Question',
             name: 'What is Noor-e-ilahi?',
             acceptedAnswer: {
               '@type': 'Answer',

@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { VERIFIED_DARGAHS_DATABASE } from '../lib/ziyaratData';
+import { SURAHS_LIST } from '../lib/quranData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.nooreilahi.com';
@@ -45,13 +46,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/contact', changeFrequency: 'monthly', priority: 0.75 },
   ];
 
-
   const mainPages: MetadataRoute.Sitemap = routes.map((r) => ({
     url: `${baseUrl}${r.path}`,
     lastModified: currentDate,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
     alternates: createLocalizedAlternates(r.path),
+  }));
+
+  // Add all 114 Surahs for comprehensive SEO & AEO indexing
+  const surahPages: MetadataRoute.Sitemap = SURAHS_LIST.map((surah) => ({
+    url: `${baseUrl}/quran?surah=${surah.number}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly' as const,
+    priority: 0.92,
+    alternates: createLocalizedAlternates(`/quran?surah=${surah.number}`),
   }));
 
   // Add all 31 verified Ziyarat shrine detail pages
@@ -63,5 +72,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: createLocalizedAlternates(`/ziyarat/${dargah.slug}`),
   }));
 
-  return [...mainPages, ...ziyaratPages];
+  return [...mainPages, ...surahPages, ...ziyaratPages];
 }
+

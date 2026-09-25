@@ -201,7 +201,7 @@ export default function robots(): MetadataRoute.Robots {
       'https://www.nooreilahi.com/sitemap.xml',
       'https://www.nooreilahi.com/sitemap-noor.xml',
     ],
-    host: 'https://www.nooreilahi.com',
+    host: 'www.nooreilahi.com',
   };
 }
 

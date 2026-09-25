@@ -81,11 +81,17 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  if (searchParams.get('submit') === 'true') {
+    return POST(request);
+  }
   return NextResponse.json({
     status: 'IndexNow configured',
     host: HOST,
     keyLocation: KEY_LOCATION,
     keyFile: `https://${HOST}/${INDEXNOW_KEY}.txt`,
+    urlsCount: URLS.length,
+    tip: 'Call GET /api/indexnow?submit=true or POST to trigger immediate indexation across Bing, Yandex, and Naver.',
   });
 }
