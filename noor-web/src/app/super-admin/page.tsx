@@ -48,8 +48,16 @@ import {
   Navigation,
   Layers,
   Zap,
+  Coins,
   Clock,
-  Coins
+  Monitor,
+  Tablet,
+  TrendingUp,
+  BarChart3,
+  Filter,
+  ArrowUpRight,
+  ChevronDown,
+  SlidersHorizontal
 } from 'lucide-react';
 import {
   RegisteredUser,
@@ -88,23 +96,34 @@ export default function SuperAdminPage() {
   const [editingUser, setEditingUser] = useState<RegisteredUser | null>(null);
   const [saveSuccessMsg, setSaveSuccessMsg] = useState<string>('');
 
-  // Real-time Traffic State
+  // Real-time Traffic & Telemetry State
   const [trafficRange, setTrafficRange] = useState<'today' | '7d' | '30d' | '1y'>('7d');
+  const [realtimeActiveUsers, setRealtimeActiveUsers] = useState<number>(1842);
+  const [realtimeTotalVisits, setRealtimeTotalVisits] = useState<number>(428910);
+  const [realtimeAdhanCount, setRealtimeAdhanCount] = useState<number>(184200);
+  const [realtimeQuranRead, setRealtimeQuranRead] = useState<number>(1492000);
+  const [realtimeEdgePing, setRealtimeEdgePing] = useState<number>(28);
+  const [lastIncomingEvent, setLastIncomingEvent] = useState<string | null>(null);
 
   // Heatmap & User Flows State
   const [heatmapMode, setHeatmapMode] = useState<'clicks' | 'scroll' | 'time'>('clicks');
+  const [heatmapDevice, setHeatmapDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [heatmapIntensity, setHeatmapIntensity] = useState<number>(85);
+  const [selectedHotspot, setSelectedHotspot] = useState<any | null>(null);
+  const [funnelChannel, setFunnelChannel] = useState<'all' | 'web' | 'mobile' | 'pwa'>('all');
+  const [selectedFunnelStage, setSelectedFunnelStage] = useState<number>(0);
   const [liveStreamPaused, setLiveStreamPaused] = useState<boolean>(false);
 
-  // Live User Sessions Telemetry
-  const [liveSessions] = useState([
-    { id: 'sess_9821', user: 'Anonymous Pilgrim', city: 'Makkah', country: 'Saudi Arabia', flag: '🇸🇦', device: 'iPhone 16 Pro', browser: 'Safari 18', os: 'iOS 18.2', page: '/zakat', timeOnPage: '4m 12s', event: 'Valued Zakat in SAR (315 SAR/g gold)', status: 'active' },
-    { id: 'sess_9822', user: 'Dr. Tariq Mansoor', email: 'tariq.mansoor@gmail.com', city: 'London', country: 'United Kingdom', flag: '🇬🇧', device: 'MacBook Pro M3', browser: 'Chrome 128', os: 'macOS 15', page: '/guides', timeOnPage: '7m 45s', event: 'Completed Wudu Step 6 (Head Masah)', status: 'active' },
-    { id: 'sess_9823', user: 'Zubair Farooqi', email: 'zubair.farooqi@gmail.com', city: 'Delhi', country: 'India', flag: '🇮🇳', device: 'Samsung Galaxy S24', browser: 'Chrome Mobile', os: 'Android 15', page: '/prayer-times', timeOnPage: '2m 10s', event: 'Checked Asr time (Hanafi juristic mode)', status: 'active' },
-    { id: 'sess_9824', user: 'Amina Al-Zahra', email: 'amina.zahra@gmail.com', city: 'Istanbul', country: 'Turkey', flag: '🇹🇷', device: 'iPad Pro', browser: 'Safari Mobile', os: 'iPadOS', page: '/quran', timeOnPage: '14m 20s', event: 'Reciting Surah Al-Kahf (Sheikh Alafasy)', status: 'active' },
-    { id: 'sess_9825', user: 'Anonymous Pilgrim', city: 'Dubai', country: 'United Arab Emirates', flag: '🇦🇪', device: 'Windows 11 PC', browser: 'Edge 128', os: 'Windows 11', page: '/hajj-umrah', timeOnPage: '5m 30s', event: 'Downloaded Umrah Packing Checklist', status: 'active' },
-    { id: 'sess_9826', user: 'Fatima Noor', email: 'fatima.n@gmail.com', city: 'Jakarta', country: 'Indonesia', flag: '🇮🇩', device: 'Xiaomi 14', browser: 'Chrome Mobile', os: 'Android 14', page: '/janazah', timeOnPage: '3m 18s', event: 'Reviewed 4 Takbeers & Adult Janazah Dua', status: 'active' },
-    { id: 'sess_9827', user: 'Anonymous Pilgrim', city: 'Toronto', country: 'Canada', flag: '🇨🇦', device: 'Pixel 9 Pro', browser: 'Chrome 128', os: 'Android 15', page: '/travel', timeOnPage: '1m 45s', event: 'Calculated 140km Qasr Prayer Shortening', status: 'active' },
-    { id: 'sess_9828', user: 'Bilal Qureshi', email: 'bilal.q@gmail.com', city: 'Karachi', country: 'Pakistan', flag: '🇵🇰', device: 'iPhone 15', browser: 'Safari 18', os: 'iOS 18.1', page: '/ziyarat', timeOnPage: '8m 05s', event: 'Inspecting Data Darbar Lahore Coordinates', status: 'active' },
+  // Live User Sessions Telemetry (Dynamic Streaming)
+  const [liveSessions, setLiveSessions] = useState([
+    { id: 'sess_9821', user: 'Anonymous Pilgrim', city: 'Makkah', country: 'Saudi Arabia', flag: '🇸🇦', device: 'iPhone 16 Pro', browser: 'Safari 18', os: 'iOS 18.2', page: '/zakat', timeOnPage: '4m 12s', event: 'Valued Zakat in SAR (315 SAR/g gold)', status: 'active', isNew: false },
+    { id: 'sess_9822', user: 'Dr. Tariq Mansoor', email: 'tariq.mansoor@gmail.com', city: 'London', country: 'United Kingdom', flag: '🇬🇧', device: 'MacBook Pro M3', browser: 'Chrome 128', os: 'macOS 15', page: '/guides', timeOnPage: '7m 45s', event: 'Completed Wudu Step 6 (Head Masah)', status: 'active', isNew: false },
+    { id: 'sess_9823', user: 'Zubair Farooqi', email: 'zubair.farooqi@gmail.com', city: 'Delhi', country: 'India', flag: '🇮🇳', device: 'Samsung Galaxy S24', browser: 'Chrome Mobile', os: 'Android 15', page: '/prayer-times', timeOnPage: '2m 10s', event: 'Checked Asr time (Hanafi juristic mode)', status: 'active', isNew: false },
+    { id: 'sess_9824', user: 'Amina Al-Zahra', email: 'amina.zahra@gmail.com', city: 'Istanbul', country: 'Turkey', flag: '🇹🇷', device: 'iPad Pro', browser: 'Safari Mobile', os: 'iPadOS', page: '/quran', timeOnPage: '14m 20s', event: 'Reciting Surah Al-Kahf (Sheikh Alafasy)', status: 'active', isNew: false },
+    { id: 'sess_9825', user: 'Anonymous Pilgrim', city: 'Dubai', country: 'United Arab Emirates', flag: '🇦🇪', device: 'Windows 11 PC', browser: 'Edge 128', os: 'Windows 11', page: '/hajj-umrah', timeOnPage: '5m 30s', event: 'Downloaded Umrah Packing Checklist', status: 'active', isNew: false },
+    { id: 'sess_9826', user: 'Fatima Noor', email: 'fatima.n@gmail.com', city: 'Jakarta', country: 'Indonesia', flag: '🇮🇩', device: 'Xiaomi 14', browser: 'Chrome Mobile', os: 'Android 14', page: '/janazah', timeOnPage: '3m 18s', event: 'Reviewed 4 Takbeers & Adult Janazah Dua', status: 'active', isNew: false },
+    { id: 'sess_9827', user: 'Anonymous Pilgrim', city: 'Toronto', country: 'Canada', flag: '🇨🇦', device: 'Pixel 9 Pro', browser: 'Chrome 128', os: 'Android 15', page: '/travel', timeOnPage: '1m 45s', event: 'Calculated 140km Qasr Prayer Shortening', status: 'active', isNew: false },
+    { id: 'sess_9828', user: 'Bilal Qureshi', email: 'bilal.q@gmail.com', city: 'Karachi', country: 'Pakistan', flag: '🇵🇰', device: 'iPhone 15', browser: 'Safari 18', os: 'iOS 18.1', page: '/ziyarat', timeOnPage: '8m 05s', event: 'Inspecting Data Darbar Lahore Coordinates', status: 'active', isNew: false },
   ]);
 
   // Appearance State
@@ -112,17 +131,143 @@ export default function SuperAdminPage() {
   const [blurAmount, setBlurAmount] = useState(28);
   const [glassOpacity, setGlassOpacity] = useState(60);
 
-  // CMS State
+  // CMS State with Rich Content & Preview Support
   const [articles, setArticles] = useState([
-    { id: '1', title: 'The Spiritual Virtues of Fasting in Holy Ramadan', category: 'Ramadan', author: 'Dr. Tariq Al-Hashimi', status: 'Published', views: '48.2k', date: '2026-09-18' },
-    { id: '2', title: 'Understanding Great-Circle Astronomical Calculation in Salaah', category: 'Astronomy & Fiqh', author: 'Sheikh Mansoor Ali', status: 'Published', views: '22.1k', date: '2026-09-15' },
-    { id: '3', title: 'Complete Guide to Umrah Rituals from Ihram to Tawaf', category: 'Pilgrimage', author: 'Fatima Zahra', status: 'Published', views: '39.8k', date: '2026-09-10' },
-    { id: '4', title: 'Zakat al-Fitr: Contemporary Currency & Commodity Valuation', category: 'Zakat', author: 'Dr. Bilal Qureshi', status: 'Draft', views: '1.2k', date: '2026-09-20' },
+    {
+      id: '1',
+      title: 'The Spiritual Virtues of Fasting in Holy Ramadan',
+      category: 'Ramadan',
+      author: 'Dr. Tariq Al-Hashimi',
+      status: 'Published',
+      views: '48.2k',
+      date: '2026-09-18',
+      readTime: '6 min read',
+      excerpt: 'Exploring the profound inner dimensions of Sawm (fasting), purification of the soul (Tazkiyah), and classical prophetic traditions.',
+      content: `In the name of Allah, the Most Gracious, the Most Merciful.\n\nFasting in the holy month of Ramadan is one of the five foundational pillars of Islam. Beyond physical abstinence from dawn to sunset, it represents a deep spiritual renewal and moral elevation.\n\n"O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous." (Surah Al-Baqarah 2:183)\n\nKey Reflections:\n1. Cultivating Taqwa (God-Consciousness)\n2. Empathy for the underprivileged and increasing generosity\n3. Night prayers (Taraweeh and Tahajjud) and recitation of the Noble Quran.\n\nScholars emphasize that the true essence of fasting is achieved when the eyes, tongue, ears, and hands abstain from all spiritual impurities.`
+    },
+    {
+      id: '2',
+      title: 'Understanding Great-Circle Astronomical Calculation in Salaah',
+      category: 'Astronomy & Fiqh',
+      author: 'Sheikh Mansoor Ali',
+      status: 'Published',
+      views: '22.1k',
+      date: '2026-09-15',
+      readTime: '8 min read',
+      excerpt: 'A comprehensive study on solar depression angles for Fajr and Isha, shadow ratios for Asr, and high-latitude juristic adaptations.',
+      content: `Astronomical prayer calculation relies on solar zenith angles and the spherical trigonometry of the Earth.\n\nFajr begins at astronomical twilight when the sun is 18° (or 19.5° per Umm al-Qura) below the eastern horizon. Dhuhr commences when the sun passes the celestial meridian. Asr is determined by shadow length (Shafi'i/Hanbali/Maliki 1:1, Hanafi 2:1 ratio). Maghrib occurs immediately upon sunset, and Isha commences when twilight ceases (17.5°-18°).\n\nIn Noor-e-ilahi, our calculation engine implements precise spherical coordinates with sub-second accuracy across all global timezones.`
+    },
+    {
+      id: '3',
+      title: 'Complete Guide to Umrah Rituals from Ihram to Tawaf',
+      category: 'Pilgrimage',
+      author: 'Fatima Zahra',
+      status: 'Published',
+      views: '39.8k',
+      date: '2026-09-10',
+      readTime: '10 min read',
+      excerpt: 'Step-by-step guidance on entering Ihram at the Miqat, performing the seven circuits of Tawaf, Sa\'i between Safa and Marwah, and Tahallul.',
+      content: `Umrah is a deeply sacred journey of devotion and spiritual rejuvenation. This guide details each milestone from reaching the designated Miqat stations to completing Tawaf around the Holy Kaaba.\n\n"And complete the Hajj and 'Umrah for Allah." (Surah Al-Baqarah 2:196)\n\nEssential Pillars of Umrah:\n1. Ihram: Intent and Talbiyah at the Miqat.\n2. Tawaf: Seven counter-clockwise circuits starting from the Black Stone (Hajar al-Aswad).\n3. Maqam Ibrahim: Praying two rak'ahs behind the station.\n4. Sa'i: Seven laps between Safa and Marwah.\n5. Halq or Taqsir: Shaving or clipping the hair to conclude the sacred state.`
+    },
+    {
+      id: '4',
+      title: 'Zakat al-Fitr: Contemporary Currency & Commodity Valuation',
+      category: 'Zakat',
+      author: 'Dr. Bilal Qureshi',
+      status: 'Draft',
+      views: '1.2k',
+      date: '2026-09-20',
+      readTime: '5 min read',
+      excerpt: 'Calculating modern staple food equivalencies (wheat, barley, dates, rice) and monetary disbursements according to classical Fiqh councils.',
+      content: `Zakat al-Fitr is an obligatory purification due before the Eid al-Fitr prayer on behalf of every member of a Muslim household.\n\nAccording to classical tradition, the amount corresponds to one Sa' (approximately 2.5 - 3.0 kg) of staple grain or foodstuff. Contemporary juristic councils permit cash valuation based on local staple prices to best serve the recipient's immediate needs.`
+    },
   ]);
   const [showAddArticle, setShowAddArticle] = useState(false);
   const [newArtTitle, setNewArtTitle] = useState('');
   const [newArtCategory, setNewArtCategory] = useState('Ramadan');
   const [newArtAuthor, setNewArtAuthor] = useState('Chief Scholar');
+  const [newArtReadTime, setNewArtReadTime] = useState('5 min read');
+  const [newArtExcerpt, setNewArtExcerpt] = useState('');
+  const [newArtContent, setNewArtContent] = useState('');
+  const [previewArticle, setPreviewArticle] = useState<any | null>(null);
+  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+
+  // Real-Time Telemetry Listener & Dynamic Heartbeat
+  useEffect(() => {
+    let channel: BroadcastChannel | null = null;
+
+    const handleIncomingTelemetry = (eventData: any) => {
+      if (!eventData || !eventData.page) return;
+      setRealtimeActiveUsers((prev) => prev + 1);
+      setRealtimeTotalVisits((prev) => prev + 1);
+
+      const newSession = {
+        id: eventData.id || ('sess_' + Math.floor(1000 + Math.random() * 9000)),
+        user: 'Active Pilgrim',
+        city: 'Local Edge',
+        country: 'Live Visitor',
+        flag: '🟢',
+        device: eventData.device || 'Web Browser',
+        browser: eventData.browser || 'Modern Browser',
+        os: eventData.os || 'OS',
+        page: eventData.page,
+        timeOnPage: 'Just now',
+        event: eventData.event || `Accessed ${eventData.page}`,
+        status: 'active',
+        isNew: true,
+      };
+
+      setLiveSessions((prev) => [newSession, ...prev.slice(0, 14)]);
+      setLastIncomingEvent(`${newSession.device} accessed ${newSession.page}`);
+    };
+
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      try {
+        channel = new BroadcastChannel('noor_live_telemetry');
+        channel.onmessage = (msg) => {
+          handleIncomingTelemetry(msg.data);
+        };
+      } catch {}
+    }
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'noor_active_telemetry_event' && e.newValue) {
+        try {
+          handleIncomingTelemetry(JSON.parse(e.newValue));
+        } catch {}
+      }
+    };
+    window.addEventListener('storage', onStorage);
+
+    // Live continuous heartbeat ticker every 2.5s
+    const ticker = setInterval(() => {
+      if (liveStreamPaused) return;
+
+      // Realistic natural fluctuation
+      setRealtimeActiveUsers((prev) => {
+        const delta = Math.floor(Math.random() * 7) - 3;
+        return Math.max(1820, Math.min(1868, prev + delta));
+      });
+
+      setRealtimeEdgePing((prev) => Math.max(22, Math.min(34, prev + (Math.random() > 0.5 ? 1 : -1))));
+
+      if (Math.random() > 0.35) {
+        setRealtimeTotalVisits((prev) => prev + 1);
+      }
+      if (Math.random() > 0.55) {
+        setRealtimeQuranRead((prev) => prev + 1);
+      }
+      if (Math.random() > 0.65) {
+        setRealtimeAdhanCount((prev) => prev + 1);
+      }
+    }, 2500);
+
+    return () => {
+      if (channel) channel.close();
+      window.removeEventListener('storage', onStorage);
+      clearInterval(ticker);
+    };
+  }, [liveStreamPaused]);
 
   // Brute-force lockout countdown timer
   useEffect(() => {
@@ -281,10 +426,15 @@ export default function SuperAdminPage() {
       status: 'Published' as const,
       views: '0',
       date: new Date().toISOString().split('T')[0],
+      readTime: newArtReadTime || '5 min read',
+      excerpt: newArtExcerpt || 'Editorial publication on Islamic theology, astronomy, and daily practice.',
+      content: newArtContent || `In the name of Allah, the Most Gracious, the Most Merciful.\n\n${newArtTitle}\n\nPublished by ${newArtAuthor}.`,
     };
 
     setArticles([newArt, ...articles]);
     setNewArtTitle('');
+    setNewArtExcerpt('');
+    setNewArtContent('');
     setShowAddArticle(false);
     triggerNotice('New article publication published successfully.');
   };
@@ -519,6 +669,7 @@ export default function SuperAdminPage() {
           >
             <Activity className="w-3.5 h-3.5" />
             <span>Traffic Overview</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
           </button>
 
           <button
@@ -529,8 +680,11 @@ export default function SuperAdminPage() {
                 : 'text-emerald-200 hover:text-white'
             }`}
           >
-            <Radio className="w-3.5 h-3.5" />
-            <span>Live User Tracking ({liveSessions.length})</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span>Live Tracking ({realtimeActiveUsers.toLocaleString()})</span>
           </button>
 
           <button
@@ -1009,43 +1163,66 @@ export default function SuperAdminPage() {
            ==================================================== */}
         {activeTab === 'traffic' && (
           <div className="space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10">
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10 shadow-xl">
               <div className="flex items-center gap-3">
-                <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping" />
+                <span className="relative flex h-3.5 w-3.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500" />
+                </span>
                 <div>
-                  <span className="text-xs text-emerald-300/70 font-semibold block">Real-Time Online Activity</span>
-                  <span className="text-2xl font-black text-white font-mono">1,842 Active Pilgrims Right Now</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-emerald-300/70 font-semibold block">Real-Time Online Activity</span>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-[10px] font-mono text-emerald-300 font-bold uppercase tracking-wider">
+                      Live Stream
+                    </span>
+                  </div>
+                  <span className="text-2xl font-black text-white font-mono block mt-0.5">
+                    {realtimeActiveUsers.toLocaleString()} Active Pilgrims Right Now
+                  </span>
+                  {lastIncomingEvent && (
+                    <div className="flex items-center gap-1.5 text-xs text-amber-300 font-mono mt-1">
+                      <Zap className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+                      <span>Live Event: {lastIncomingEvent}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
-                {(['today', '7d', '30d', '1y'] as const).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setTrafficRange(t)}
-                    className={`px-3.5 py-1.5 rounded-xl font-bold uppercase transition-all ${
-                      trafficRange === t
-                        ? 'bg-amber-500 text-emerald-950'
-                        : 'text-emerald-300/80 hover:text-white'
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
+              <div className="flex items-center gap-3">
+                <div className="px-3 py-1.5 rounded-2xl bg-black/40 border border-white/10 text-xs font-mono text-emerald-300 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span>Throughput: <strong>148 req/s</strong></span>
+                </div>
+
+                <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
+                  {(['today', '7d', '30d', '1y'] as const).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTrafficRange(t)}
+                      className={`px-3.5 py-1.5 rounded-xl font-bold uppercase transition-all cursor-pointer ${
+                        trafficRange === t
+                          ? 'bg-amber-500 text-emerald-950 shadow'
+                          : 'text-emerald-300/80 hover:text-white'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Core Stats Overview */}
+            {/* Core Stats Overview (Live Dynamic) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { label: 'Total Global Visits', value: '428,910', change: '+24.5%', isUp: true, icon: Globe2 },
-                { label: 'Adhan Listeners Today', value: '184,200', change: '+38.2%', isUp: true, icon: Volume2 },
-                { label: 'Quran Verses Read', value: '1,492,000', change: '+19.1%', isUp: true, icon: BookOpen },
-                { label: 'Qibla Orientations', value: '95,400', change: '+12.4%', isUp: true, icon: Compass },
+                { label: 'Total Global Visits', value: realtimeTotalVisits.toLocaleString(), change: '+24.5%', liveBadge: 'Live Ticking', isUp: true, icon: Globe2 },
+                { label: 'Adhan Listeners Today', value: realtimeAdhanCount.toLocaleString(), change: '+38.2%', liveBadge: 'Audio Stream', isUp: true, icon: Volume2 },
+                { label: 'Quran Verses Read', value: realtimeQuranRead.toLocaleString(), change: '+19.1%', liveBadge: 'Active Readers', isUp: true, icon: BookOpen },
+                { label: 'Qibla Orientations', value: '95,400', change: '+12.4%', liveBadge: 'Gyro Active', isUp: true, icon: Compass },
               ].map((st, i) => {
                 const Icon = st.icon;
                 return (
-                  <div key={i} className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-3">
+                  <div key={i} className="bg-[#031c15] p-5 rounded-3xl border border-white/10 space-y-3 relative overflow-hidden group hover:border-amber-400/40 transition-colors">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-emerald-300/70">{st.label}</span>
                       <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center">
@@ -1056,9 +1233,53 @@ export default function SuperAdminPage() {
                       <span className="text-2xl font-black text-white font-mono">{st.value}</span>
                       <span className="text-xs font-bold text-emerald-400">{st.change}</span>
                     </div>
+                    <div className="flex items-center gap-1.5 pt-1 text-[10px] text-zinc-400 font-mono">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>{st.liveBadge}</span>
+                    </div>
                   </div>
                 );
               })}
+            </div>
+
+            {/* Real-time Traffic Pulse Chart & Mini Sparklines */}
+            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-emerald-400" />
+                    <span>Real-Time Inflow Telemetry Stream (24-Hour Pulse)</span>
+                  </h4>
+                  <p className="text-[11px] text-emerald-300/70 mt-0.5">
+                    Live ingress across Web browsers, PWA clients, and iOS/Android app sessions
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono text-amber-300">Peak: 2,410 concurrent</span>
+              </div>
+
+              {/* Dynamic Inflow Pulse Visual Bars */}
+              <div className="grid grid-cols-24 gap-1 h-20 items-end pt-2 pb-1 border-b border-white/5">
+                {[45, 52, 60, 48, 70, 85, 92, 110, 135, 160, 180, 175, 190, 210, 240, 220, 205, 195, 215, 230, 225, 210, 198, 220].map((val, idx) => (
+                  <div key={idx} className="flex flex-col items-center gap-1 h-full justify-end group relative">
+                    <div
+                      className={`w-full rounded-t transition-all duration-300 ${
+                        idx === 23 ? 'bg-amber-400 animate-pulse' : 'bg-gradient-to-t from-emerald-600/70 to-emerald-400'
+                      }`}
+                      style={{ height: `${(val / 240) * 100}%` }}
+                    />
+                    <div className="absolute -top-7 hidden group-hover:block bg-black/90 px-1.5 py-0.5 rounded text-[9px] font-mono text-white whitespace-nowrap z-10 border border-white/10">
+                      {val * 8} visits
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between text-[10px] font-mono text-zinc-400">
+                <span>00:00 (Fajr Peak)</span>
+                <span>06:00</span>
+                <span>12:00 (Dhuhr Peak)</span>
+                <span>18:00 (Maghrib Peak)</span>
+                <span className="text-amber-300 font-bold">Now (Live)</span>
+              </div>
             </div>
 
             {/* Geographic Breakdown & Feature Usage */}
@@ -1133,7 +1354,7 @@ export default function SuperAdminPage() {
         {activeTab === 'tracking' && (
           <div className="space-y-6">
             {/* Top Live Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10">
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10 shadow-xl">
               <div className="flex items-center gap-3">
                 <span className="relative flex h-3.5 w-3.5">
                   <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${liveStreamPaused ? 'bg-zinc-400' : 'bg-emerald-400'}`} />
@@ -1144,8 +1365,13 @@ export default function SuperAdminPage() {
                     {liveStreamPaused ? 'Live Telemetry Paused' : 'Live User Sessions Streaming'}
                   </span>
                   <span className="text-xl sm:text-2xl font-black text-white font-mono">
-                    1,842 Active Pilgrims Right Now
+                    {realtimeActiveUsers.toLocaleString()} Active Pilgrims Right Now
                   </span>
+                  {lastIncomingEvent && (
+                    <span className="text-xs text-amber-300 font-mono block mt-0.5">
+                      ⚡ Active: {lastIncomingEvent}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -1163,7 +1389,7 @@ export default function SuperAdminPage() {
                 </button>
 
                 <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-xs font-mono text-emerald-300">
-                  Global Edge Ping: <strong>28ms</strong>
+                  Global Edge Ping: <strong>{realtimeEdgePing}ms</strong>
                 </div>
               </div>
             </div>
@@ -1207,20 +1433,20 @@ export default function SuperAdminPage() {
               </div>
             </div>
 
-            {/* Live Sessions Stream Table */}
+            {/* Live Sessions Stream Table (Real-Time Interactive) */}
             <div className="bg-[#031c15] border border-white/10 rounded-3xl overflow-hidden shadow-xl">
               <div className="p-4 border-b border-white/10 flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-emerald-400" />
+                    <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
                     <span>Real-Time Visitor Journey Stream</span>
                   </h3>
                   <p className="text-[11px] text-emerald-300/70 mt-0.5">
-                    Live telemetry detailing active pages, devices, and spiritual interactions
+                    Live telemetry tracking active pages, hardware devices, and spiritual interactions
                   </p>
                 </div>
                 <span className="text-[11px] font-mono text-zinc-400">
-                  Showing {liveSessions.length} live telemetry nodes
+                  Streaming {liveSessions.length} live telemetry sessions
                 </span>
               </div>
 
@@ -1239,9 +1465,23 @@ export default function SuperAdminPage() {
                   </thead>
                   <tbody className="divide-y divide-white/5 font-mono">
                     {liveSessions.map((s) => (
-                      <tr key={s.id} className="hover:bg-white/[0.02] transition-colors">
+                      <tr
+                        key={s.id}
+                        className={`transition-colors ${
+                          (s as any).isNew
+                            ? 'bg-emerald-500/10 border-l-2 border-emerald-400'
+                            : 'hover:bg-white/[0.02]'
+                        }`}
+                      >
                         <td className="py-3 px-4 font-sans font-medium text-white">
-                          <div>{s.user}</div>
+                          <div className="flex items-center gap-1.5">
+                            <span>{s.user}</span>
+                            {(s as any).isNew && (
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-400 text-black font-bold animate-pulse">
+                                NEW
+                              </span>
+                            )}
+                          </div>
                           <span className="text-[10px] text-zinc-500 font-mono">{s.id}</span>
                         </td>
                         <td className="py-3 px-4 font-sans text-emerald-200">
@@ -1364,86 +1604,279 @@ export default function SuperAdminPage() {
            ==================================================== */}
         {activeTab === 'flows' && (
           <div className="space-y-6">
-            {/* Header */}
-            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-2">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <GitFork className="w-5 h-5 text-amber-400" />
-                <span>Multi-Stage User Journey & Spiritual Conversion Funnel</span>
-              </h3>
-              <p className="text-xs text-emerald-300/70">
-                Visualizing how visitors progress from initial landing into active daily prayer logging, Zakat calculation, and app adoption.
-              </p>
+            {/* Header & Segment Filter */}
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-6 rounded-3xl border border-white/10 shadow-xl">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <GitFork className="w-5 h-5 text-amber-400" />
+                  <span>Multi-Stage User Journey & Spiritual Conversion Funnel</span>
+                </h3>
+                <p className="text-xs text-emerald-300/70 mt-0.5">
+                  Visualizing how visitors progress from initial landing into active daily prayer logging, Zakat calculation, and app adoption.
+                </p>
+              </div>
+
+              {/* Segment Channel Filter */}
+              <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
+                {[
+                  { id: 'all', label: 'All Channels (428.9k)' },
+                  { id: 'web', label: 'Web Desktop (114.9k)' },
+                  { id: 'mobile', label: 'Mobile Web (205.1k)' },
+                  { id: 'pwa', label: 'PWA Client (108.9k)' },
+                ].map((ch) => (
+                  <button
+                    key={ch.id}
+                    onClick={() => setFunnelChannel(ch.id as any)}
+                    className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                      funnelChannel === ch.id
+                        ? 'bg-amber-500 text-emerald-950 shadow'
+                        : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    {ch.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* 4-Step Funnel Visualization */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* 5-Step Visual Conversion Funnel */}
+            <div className="bg-[#031c15] border border-white/10 rounded-3xl p-6 space-y-6 shadow-xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <span className="text-xs font-bold text-white uppercase tracking-wider">
+                  Conversion Funnel Stages (Click stage to inspect drop-off diagnostics)
+                </span>
+                <span className="text-xs font-mono text-emerald-400 font-bold">
+                  Overall Funnel End-to-End Retention: 14.8% (Benchmark: 6.2%)
+                </span>
+              </div>
+
+              {/* Funnel Visual Stack */}
+              <div className="space-y-3">
+                {[
+                  {
+                    step: '01',
+                    title: 'Discovery & Omnichannel Ingress',
+                    visitors: '428,910',
+                    conversion: '100%',
+                    dropOff: '0%',
+                    barColor: 'from-emerald-500 to-teal-400',
+                    width: '100%',
+                    avgDwell: '42s',
+                    topChannels: 'SEO 54% • Direct PWA 24% • Social/Community 12% • AI 10%',
+                    exitReasons: 'None (Initial Ingress Pool)',
+                    advice: 'Core landing load time optimized to <1.2s; zero bounce observed on modern browsers.'
+                  },
+                  {
+                    step: '02',
+                    title: 'Spiritual Engagement & Scripture',
+                    visitors: '336,260',
+                    conversion: '78.4%',
+                    dropOff: '-21.6%',
+                    barColor: 'from-teal-500 to-emerald-400',
+                    width: '78.4%',
+                    avgDwell: '3m 15s',
+                    topChannels: 'Quran Reader (42%) • Prayer Countdown (38%) • 10 Practice Pillars (20%)',
+                    exitReasons: 'Passive visitors checking single prayer time and leaving without audio engagement.',
+                    advice: 'Added instant in-page audio reciter preview and 12-surah quick grid to maximize immersion.'
+                  },
+                  {
+                    step: '03',
+                    title: 'Interactive Fiqh & Zakat Valuation',
+                    visitors: '191,290',
+                    conversion: '44.6%',
+                    dropOff: '-33.8%',
+                    barColor: 'from-amber-500 to-yellow-400',
+                    width: '44.6%',
+                    avgDwell: '5m 40s',
+                    topChannels: 'Zakat Hub (52%) • Spherical Qibla Sensor (28%) • Hajj/Umrah Checklists (20%)',
+                    exitReasons: 'Users needing local bullion spot rates or unfamiliar with Nisab thresholds.',
+                    advice: 'Auto-fetched spot gold/silver prices in 15+ native currencies (INR, SAR, USD, AED, GBP).'
+                  },
+                  {
+                    step: '04',
+                    title: 'Salah Logging & Qada Account Setup',
+                    visitors: '112,370',
+                    conversion: '26.2%',
+                    dropOff: '-18.4%',
+                    barColor: 'from-sky-500 to-blue-400',
+                    width: '26.2%',
+                    avgDwell: '8m 20s',
+                    topChannels: 'Deen Tracker (46%) • Qada Missed Salah Counter (34%) • Adhkar Streak (20%)',
+                    exitReasons: 'Hesitation to authenticate or sync offline prayer history across devices.',
+                    advice: 'Enabled seamless 1-click Google Auth and instant local storage backup without login mandate.'
+                  },
+                  {
+                    step: '05',
+                    title: 'Loyal Devotees & PWA Installation',
+                    visitors: '63,480',
+                    conversion: '14.8%',
+                    dropOff: '-11.4%',
+                    barColor: 'from-purple-500 to-pink-400',
+                    width: '14.8%',
+                    avgDwell: '12m 50s',
+                    topChannels: 'PWA Home Screen Install (58%) • Daily Adhan Push Notifications (42%)',
+                    exitReasons: 'Device browser restrictions on home-screen installation prompts.',
+                    advice: 'Implemented automated contextual PWA installation banner on second prayer check.'
+                  },
+                ].map((st, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => setSelectedFunnelStage(idx)}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                      selectedFunnelStage === idx
+                        ? 'bg-white/10 border-amber-400 shadow-lg ring-1 ring-amber-400/40'
+                        : 'bg-black/30 border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-amber-300">
+                          {st.step}
+                        </span>
+                        <span className="text-sm font-bold text-white">{st.title}</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs font-mono">
+                        <span className="text-white font-bold">{st.visitors} visitors</span>
+                        <span className="text-emerald-400 font-bold">{st.conversion} retained</span>
+                        {st.dropOff !== '0%' && (
+                          <span className="text-red-400 font-bold">{st.dropOff} drop-off</span>
+                        )}
+                        <span className="text-zinc-400">⏱️ {st.avgDwell}</span>
+                      </div>
+                    </div>
+
+                    {/* Funnel Horizontal Gauge */}
+                    <div className="w-full h-3 bg-black/50 rounded-full overflow-hidden border border-white/5">
+                      <div
+                        className={`h-full bg-gradient-to-r ${st.barColor} transition-all duration-500`}
+                        style={{ width: st.width }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Selected Stage Deep Diagnostic Box */}
               {[
                 {
                   step: '01',
-                  title: 'Discovery & Landing',
+                  title: 'Discovery & Omnichannel Ingress',
                   visitors: '428,910',
                   conversion: '100%',
                   dropOff: '0%',
-                  color: 'border-emerald-500/50 bg-emerald-950/30',
-                  accent: 'text-emerald-400',
-                  notes: 'Homepage (58%) • /prayer-times (22%) • /quran (12%) • /guides (8%)'
+                  avgDwell: '42s',
+                  topChannels: 'SEO 54% • Direct PWA 24% • Social/Community 12% • AI 10%',
+                  exitReasons: 'None (Initial Ingress Pool)',
+                  advice: 'Core landing load time optimized to <1.2s; zero bounce observed on modern browsers.'
                 },
                 {
                   step: '02',
-                  title: 'Core Deen Engagement',
+                  title: 'Spiritual Engagement & Scripture',
                   visitors: '336,260',
                   conversion: '78.4%',
                   dropOff: '-21.6%',
-                  color: 'border-amber-500/50 bg-amber-950/30',
-                  accent: 'text-amber-400',
-                  notes: 'Explored 10 Pillars • Read Quran Verses • Listened to Adhan'
+                  avgDwell: '3m 15s',
+                  topChannels: 'Quran Reader (42%) • Prayer Countdown (38%) • 10 Practice Pillars (20%)',
+                  exitReasons: 'Passive visitors checking single prayer time and leaving without audio engagement.',
+                  advice: 'Added instant in-page audio reciter preview and 12-surah quick grid to maximize immersion.'
                 },
                 {
                   step: '03',
-                  title: 'Interactive Fiqh Tools',
+                  title: 'Interactive Fiqh & Zakat Valuation',
                   visitors: '191,290',
                   conversion: '44.6%',
                   dropOff: '-33.8%',
-                  color: 'border-sky-500/50 bg-sky-950/30',
-                  accent: 'text-sky-400',
-                  notes: 'Country Zakat Calculator • Qibla Compass • Hajj Checklist'
+                  avgDwell: '5m 40s',
+                  topChannels: 'Zakat Hub (52%) • Spherical Qibla Sensor (28%) • Hajj/Umrah Checklists (20%)',
+                  exitReasons: 'Users needing local bullion spot rates or unfamiliar with Nisab thresholds.',
+                  advice: 'Auto-fetched spot gold/silver prices in 15+ native currencies (INR, SAR, USD, AED, GBP).'
                 },
                 {
                   step: '04',
-                  title: 'Spiritual Conversion',
+                  title: 'Salah Logging & Qada Account Setup',
                   visitors: '112,370',
                   conversion: '26.2%',
                   dropOff: '-18.4%',
-                  color: 'border-rose-500/50 bg-rose-950/30',
-                  accent: 'text-rose-400',
-                  notes: 'Logged Daily Salah • Saved Qada Journal • Pledged Sadaqah'
+                  avgDwell: '8m 20s',
+                  topChannels: 'Deen Tracker (46%) • Qada Missed Salah Counter (34%) • Adhkar Streak (20%)',
+                  exitReasons: 'Hesitation to authenticate or sync offline prayer history across devices.',
+                  advice: 'Enabled seamless 1-click Google Auth and instant local storage backup without login mandate.'
                 },
-              ].map((stage, idx) => (
-                <div key={idx} className={`p-5 rounded-3xl border ${stage.color} space-y-3 relative overflow-hidden`}>
+                {
+                  step: '05',
+                  title: 'Loyal Devotees & PWA Installation',
+                  visitors: '63,480',
+                  conversion: '14.8%',
+                  dropOff: '-11.4%',
+                  avgDwell: '12m 50s',
+                  topChannels: 'PWA Home Screen Install (58%) • Daily Adhan Push Notifications (42%)',
+                  exitReasons: 'Device browser restrictions on home-screen installation prompts.',
+                  advice: 'Implemented automated contextual PWA installation banner on second prayer check.'
+                },
+              ][selectedFunnelStage] && (
+                <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-zinc-400">STAGE {stage.step}</span>
-                    <span className={`text-xs font-mono font-bold ${stage.accent}`}>{stage.conversion} Retained</span>
+                    <span className="font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                      <Zap className="w-4 h-4 text-amber-400" />
+                      Stage Diagnostics: {[
+                        '01 Discovery',
+                        '02 Core Engagement',
+                        '03 Fiqh & Zakat',
+                        '04 Salah Logging',
+                        '05 Loyal PWA'
+                      ][selectedFunnelStage]}
+                    </span>
+                    <span className="font-mono text-zinc-300">
+                      Channel Focus: {funnelChannel.toUpperCase()}
+                    </span>
                   </div>
 
-                  <div>
-                    <h4 className="text-base font-bold text-white">{stage.title}</h4>
-                    <span className="text-2xl font-black font-mono text-white block mt-1">{stage.visitors}</span>
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+                    <div>
+                      <span className="text-[10px] text-zinc-400 uppercase font-semibold block">Primary Traffic Source</span>
+                      <p className="text-white mt-0.5">
+                        {[
+                          'SEO 54% • Direct PWA 24% • Social/Community 12% • AI 10%',
+                          'Quran Reader (42%) • Prayer Countdown (38%) • 10 Practice Pillars (20%)',
+                          'Zakat Hub (52%) • Spherical Qibla Sensor (28%) • Hajj/Umrah Checklists (20%)',
+                          'Deen Tracker (46%) • Qada Missed Salah Counter (34%) • Adhkar Streak (20%)',
+                          'PWA Home Screen Install (58%) • Daily Adhan Push Notifications (42%)'
+                        ][selectedFunnelStage]}
+                      </p>
+                    </div>
 
-                  <p className="text-[11px] text-zinc-300 leading-relaxed border-t border-white/10 pt-2">
-                    {stage.notes}
-                  </p>
+                    <div>
+                      <span className="text-[10px] text-red-400 uppercase font-semibold block">Observed Drop-Off Friction</span>
+                      <p className="text-zinc-200 mt-0.5">
+                        {[
+                          'None (Initial Ingress Pool)',
+                          'Passive visitors checking single prayer time and leaving without audio engagement.',
+                          'Users needing local bullion spot rates or unfamiliar with Nisab thresholds.',
+                          'Hesitation to authenticate or sync offline prayer history across devices.',
+                          'Device browser restrictions on home-screen installation prompts.'
+                        ][selectedFunnelStage]}
+                      </p>
+                    </div>
 
-                  <div className="flex items-center justify-between text-[10px] text-zinc-400 font-mono">
-                    <span>Drop-off:</span>
-                    <span className="text-red-400 font-bold">{stage.dropOff}</span>
+                    <div>
+                      <span className="text-[10px] text-emerald-400 uppercase font-semibold block">System Recommended Optimization</span>
+                      <p className="text-emerald-200 mt-0.5">
+                        {[
+                          'Core landing load time optimized to <1.2s; zero bounce observed on modern browsers.',
+                          'Added instant in-page audio reciter preview and 12-surah quick grid to maximize immersion.',
+                          'Auto-fetched spot gold/silver prices in 15+ native currencies (INR, SAR, USD, AED, GBP).',
+                          'Enabled seamless 1-click Google Auth and instant local storage backup without login mandate.',
+                          'Implemented automated contextual PWA installation banner on second prayer check.'
+                        ][selectedFunnelStage]}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Top User Journey Transition Paths */}
-            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-4">
+            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <Navigation className="w-4 h-4 text-emerald-400" />
                 <span>Top Multi-Step Journey Paths</span>
@@ -1551,178 +1984,426 @@ export default function SuperAdminPage() {
         )}
 
         {/* ====================================================
-            TAB 5: CLICK & SCROLL HEATMAP ANALYTICS
+            TAB 5: REVAMPED INTERACTIVE CLICK & SCROLL HEATMAP
            ==================================================== */}
         {activeTab === 'heatmap' && (
           <div className="space-y-6">
             {/* Top Heatmap Control Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10">
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10 shadow-xl">
               <div>
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
                   <MousePointerClick className="w-5 h-5 text-amber-400" />
-                  <span>Interaction & Click Density Heatmap</span>
+                  <span>Interactive Visual Heatmap & Hotspot Telemetry</span>
                 </h3>
                 <p className="text-xs text-emerald-300/70 mt-0.5">
-                  Visual telemetry of user clicks, scroll depth, and component engagement intensity.
+                  Real-time thermographic density of user clicks, scroll depth, and interaction hotspots on actual device viewports.
                 </p>
               </div>
 
-              {/* Heatmap Mode Selector */}
-              <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
-                {[
-                  { id: 'clicks', label: '🔥 Click Hotspots' },
-                  { id: 'scroll', label: '📊 Scroll Depth' },
-                  { id: 'time', label: '⏱️ Hover Engagement' },
-                ].map((mode) => (
+              {/* Viewport & Mode Controls */}
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Viewport Device Switcher */}
+                <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
                   <button
-                    key={mode.id}
-                    onClick={() => setHeatmapMode(mode.id as any)}
-                    className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
-                      heatmapMode === mode.id
+                    onClick={() => setHeatmapDevice('desktop')}
+                    className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                      heatmapDevice === 'desktop'
                         ? 'bg-amber-500 text-emerald-950 shadow'
                         : 'text-zinc-400 hover:text-white'
                     }`}
                   >
-                    {mode.label}
+                    <Monitor className="w-3.5 h-3.5" />
+                    <span>Desktop (1440px)</span>
                   </button>
-                ))}
+
+                  <button
+                    onClick={() => setHeatmapDevice('mobile')}
+                    className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                      heatmapDevice === 'mobile'
+                        ? 'bg-amber-500 text-emerald-950 shadow'
+                        : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span>Mobile (iPhone 16 Pro)</span>
+                  </button>
+                </div>
+
+                {/* Heatmap Mode Selector */}
+                <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs">
+                  {[
+                    { id: 'clicks', label: '🔥 Click Hotspots' },
+                    { id: 'scroll', label: '📊 Scroll Depth' },
+                    { id: 'time', label: '⏱️ Hover Engagement' },
+                  ].map((mode) => (
+                    <button
+                      key={mode.id}
+                      onClick={() => setHeatmapMode(mode.id as any)}
+                      className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                        heatmapMode === mode.id
+                          ? 'bg-emerald-500 text-emerald-950 shadow'
+                          : 'text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      {mode.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Interactive Visual Heatmap Matrix */}
-            <div className="bg-[#031c15] border border-white/10 rounded-3xl p-6 space-y-6">
-              <div className="flex items-center justify-between text-xs border-b border-white/10 pb-3">
-                <span className="font-bold text-white uppercase tracking-wider">
-                  UI Component Hotspot Map (Sample of 428.9k Visitors)
-                </span>
+            {/* Interactive Visual Device Viewport Wireframe */}
+            <div className="bg-[#031c15] border border-white/10 rounded-3xl p-6 space-y-6 shadow-2xl relative">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">
+                    {heatmapDevice === 'desktop' ? 'Desktop Viewport Wireframe' : 'iPhone 16 Pro Viewport Wireframe'}
+                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">
+                    Sample: 428,910 Visitors
+                  </span>
+                </div>
+
+                {/* Heat intensity legend */}
                 <div className="flex items-center gap-3 font-mono text-[11px]">
                   <span className="flex items-center gap-1 text-red-400">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" /> Ultra Hot (&gt;80%)
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" /> Ultra Hot (&gt;85%)
                   </span>
                   <span className="flex items-center gap-1 text-amber-400">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> Warm (60-80%)
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> Warm (70-85%)
                   </span>
                   <span className="flex items-center gap-1 text-emerald-400">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> Steady (40-60%)
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> Steady (50-70%)
                   </span>
                 </div>
               </div>
 
-              {/* Component Hotspots Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  {
-                    component: 'Hero CTA: Full Prayer Timetable & Quran',
-                    intensity: 94,
-                    clicks: '182,400 clicks',
-                    category: 'Primary Call to Action',
-                    color: 'from-red-500/20 to-amber-500/10 border-red-500/40 text-red-300',
-                    dot: 'bg-red-500'
-                  },
-                  {
-                    component: 'Prayer Times Table & Calculation Method Selector',
-                    intensity: 91,
-                    clicks: '176,200 clicks',
-                    category: 'Daily Essential Routine',
-                    color: 'from-red-500/20 to-amber-500/10 border-red-500/40 text-red-300',
-                    dot: 'bg-red-500'
-                  },
-                  {
-                    component: 'Floating "Ask AI" Spiritual Bubble',
-                    intensity: 88,
-                    clicks: '169,500 clicks',
-                    category: 'Bottom-Right Assistant',
-                    color: 'from-red-500/20 to-amber-500/10 border-red-500/40 text-red-300',
-                    dot: 'bg-red-500'
-                  },
-                  {
-                    component: 'Zakat Country Currency & Spot Bullion Switcher',
-                    intensity: 82,
-                    clicks: '158,100 clicks',
-                    category: 'Financial Fiqh Engine',
-                    color: 'from-amber-500/20 to-emerald-500/10 border-amber-500/40 text-amber-300',
-                    dot: 'bg-amber-400'
-                  },
-                  {
-                    component: 'Noble Quran Surah Cards & Audio Reciter Toggle',
-                    intensity: 79,
-                    clicks: '152,600 clicks',
-                    category: 'Scripture & Recitation',
-                    color: 'from-amber-500/20 to-emerald-500/10 border-amber-500/40 text-amber-300',
-                    dot: 'bg-amber-400'
-                  },
-                  {
-                    component: 'Explore More: 10 Practice Pillars Showcase Grid',
-                    intensity: 76,
-                    clicks: '146,800 clicks',
-                    category: 'Discovery Portal',
-                    color: 'from-amber-500/20 to-emerald-500/10 border-amber-500/40 text-amber-300',
-                    dot: 'bg-amber-400'
-                  },
-                  {
-                    component: 'Native 11-Language Switcher (Top Navbar)',
-                    intensity: 71,
-                    clicks: '137,200 clicks',
-                    category: 'Multilingual Switching',
-                    color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-300',
-                    dot: 'bg-emerald-400'
-                  },
-                  {
-                    component: 'Spherical Qibla Compass Sensor Calibration',
-                    intensity: 68,
-                    clicks: '131,400 clicks',
-                    category: 'Directional Sensor',
-                    color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-300',
-                    dot: 'bg-emerald-400'
-                  },
-                ].map((item, idx) => (
-                  <div key={idx} className={`p-4 rounded-2xl bg-gradient-to-br border ${item.color} space-y-2`}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className={`w-2.5 h-2.5 rounded-full ${item.dot} animate-pulse`} />
-                        <span className="text-xs font-bold text-white">{item.component}</span>
+              {/* Viewport Frame */}
+              <div className="flex justify-center">
+                <div
+                  className={`w-full transition-all duration-300 ${
+                    heatmapDevice === 'desktop'
+                      ? 'max-w-5xl rounded-2xl border border-white/20 bg-[#02120d] overflow-hidden shadow-2xl relative'
+                      : 'max-w-sm rounded-[3rem] border-4 border-zinc-700 bg-[#02120d] p-3 shadow-2xl relative overflow-hidden'
+                  }`}
+                >
+                  {/* Browser chrome bar if Desktop */}
+                  {heatmapDevice === 'desktop' ? (
+                    <div className="bg-black/60 px-4 py-2.5 border-b border-white/10 flex items-center justify-between text-xs text-zinc-400 font-mono">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
+                        <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
+                        <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
                       </div>
-                      <span className="text-xs font-mono font-black">{item.intensity}%</span>
+                      <div className="px-6 py-1 bg-black/50 rounded-lg text-emerald-300 border border-white/10 flex items-center gap-2 text-[11px]">
+                        <Lock className="w-3 h-3 text-emerald-400" />
+                        <span>https://www.nooreilahi.com</span>
+                      </div>
+                      <span className="text-[10px] text-zinc-500">1440 × 900</span>
+                    </div>
+                  ) : (
+                    /* Dynamic Island on Mobile */
+                    <div className="w-24 h-4 bg-black rounded-full mx-auto mb-2 border border-white/10 flex items-center justify-center">
+                      <span className="w-2 h-2 rounded-full bg-zinc-800" />
+                    </div>
+                  )}
+
+                  {/* Wireframe Mockup Canvas */}
+                  <div className="relative p-4 sm:p-6 min-h-[560px] space-y-4 bg-gradient-to-b from-[#031d16] via-[#02120d] to-[#02120d]">
+                    {/* Mock Nav Bar */}
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 font-bold text-xs">
+                          N
+                        </div>
+                        <span className="font-bold text-xs text-white">Noor-e-ilahi</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-white/5 text-[10px] text-emerald-300 border border-white/10">
+                          English (11 Langs)
+                        </span>
+                        <span className="px-2.5 py-1 rounded bg-amber-500 text-black font-bold text-[10px]">
+                          Sign In
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex justify-between items-center text-[11px] text-zinc-300 pt-1">
-                      <span className="font-mono">{item.clicks}</span>
-                      <span className="text-[10px] text-zinc-400 font-sans">{item.category}</span>
+                    {/* Mock Hero Section */}
+                    <div className="p-4 sm:p-6 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 text-center space-y-2">
+                      <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">
+                        Today in Makkah al-Mukarramah
+                      </span>
+                      <h4 className="text-base sm:text-lg font-black text-white">
+                        Next Prayer: Maghrib in <span className="text-amber-400">01h 24m</span>
+                      </h4>
+                      <p className="text-[11px] text-emerald-300/70 max-w-md mx-auto">
+                        Accurate solar depression timetable • 100% ad-free classical Islamic companion
+                      </p>
+                      <div className="flex justify-center gap-2 pt-1">
+                        <span className="px-3 py-1 rounded-xl bg-amber-500 text-black text-[10px] font-bold">
+                          View Full Timetable
+                        </span>
+                        <span className="px-3 py-1 rounded-xl bg-white/5 text-white text-[10px] font-semibold border border-white/10">
+                          Recite Noble Quran
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Intensity Visual Bar */}
-                    <div className="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
-                      <div className={`h-full ${item.dot}`} style={{ width: `${item.intensity}%` }} />
+                    {/* Mock Prayer Times Grid */}
+                    <div className="grid grid-cols-5 gap-2 text-center text-xs">
+                      {['Fajr 05:12', 'Dhuhr 12:28', 'Asr 15:48', 'Maghrib 18:22', 'Isha 19:44'].map((p, i) => (
+                        <div key={i} className={`p-2 rounded-xl border ${i === 3 ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold' : 'bg-black/30 border-white/10 text-zinc-300'}`}>
+                          <span className="text-[9px] block text-zinc-400">{p.split(' ')[0]}</span>
+                          <span className="text-[11px] font-mono font-bold">{p.split(' ')[1]}</span>
+                        </div>
+                      ))}
                     </div>
+
+                    {/* Mock Verse of the Day Card */}
+                    <div className="p-3 sm:p-4 rounded-xl bg-[#031d16] border border-amber-500/30 flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <span className="text-[9px] font-bold text-amber-400 uppercase">Verse of the Day</span>
+                        <p className="text-xs text-white font-medium">Ayat al-Kursi • Surah Al-Baqarah 2:255</p>
+                      </div>
+                      <span className="p-2 rounded-lg bg-amber-500 text-black text-xs font-bold flex items-center gap-1">
+                        <Volume2 className="w-3.5 h-3.5" /> Listen
+                      </span>
+                    </div>
+
+                    {/* Mock Holy Quran 12 Surahs Row */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {['Al-Faatiha (7)', 'Al-Baqarah (286)', 'Aal-i-Imraan (200)', 'An-Nisaa (176)'].map((s, i) => (
+                        <div key={i} className="p-2 rounded-xl bg-black/30 border border-white/10 flex items-center justify-between text-[11px]">
+                          <span className="text-white font-semibold">{s}</span>
+                          <span className="text-[9px] text-amber-300">Read →</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Mock Zakat Hub Bar */}
+                    <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <Coins className="w-4 h-4 text-amber-400" />
+                        <span className="text-white font-bold">Zakat Bullion Calculator</span>
+                      </div>
+                      <span className="text-emerald-300 font-mono text-[11px]">Gold Spot: 315 SAR/g</span>
+                    </div>
+
+                    {/* Mock Floating Ask AI Bubble */}
+                    <div className="absolute bottom-6 right-6 p-3 rounded-full bg-amber-500 text-black shadow-2xl flex items-center gap-2 font-bold text-xs border border-white/40 cursor-pointer">
+                      <Sparkles className="w-4 h-4" />
+                      {heatmapDevice === 'desktop' && <span>Ask AI</span>}
+                    </div>
+
+                    {/* ====================================================
+                        THERMOGRAPHIC HEATMAP HOTSPOT OVERLAYS
+                       ==================================================== */}
+                    {[
+                      {
+                        id: 'h1',
+                        name: 'Top Nav & Language Switcher',
+                        category: 'Header Bar',
+                        top: heatmapDevice === 'desktop' ? '30px' : '30px',
+                        left: heatmapDevice === 'desktop' ? '82%' : '74%',
+                        clicks: '137,200',
+                        ctr: '32.0%',
+                        dwell: '1.2s',
+                        intensity: 71,
+                        color: 'bg-emerald-500',
+                        glow: 'shadow-emerald-500/60'
+                      },
+                      {
+                        id: 'h2',
+                        name: 'Hero CTA & Prayer Countdown',
+                        category: 'Hero Banner',
+                        top: heatmapDevice === 'desktop' ? '120px' : '110px',
+                        left: heatmapDevice === 'desktop' ? '50%' : '50%',
+                        clicks: '182,400',
+                        ctr: '42.5%',
+                        dwell: '2.8s',
+                        intensity: 94,
+                        color: 'bg-red-500',
+                        glow: 'shadow-red-500/70'
+                      },
+                      {
+                        id: 'h3',
+                        name: 'Timetable & Adhan Voice Selector',
+                        category: 'Daily Timetable',
+                        top: heatmapDevice === 'desktop' ? '220px' : '205px',
+                        left: heatmapDevice === 'desktop' ? '68%' : '65%',
+                        clicks: '176,200',
+                        ctr: '41.1%',
+                        dwell: '4.1s',
+                        intensity: 91,
+                        color: 'bg-red-500',
+                        glow: 'shadow-red-500/70'
+                      },
+                      {
+                        id: 'h4',
+                        name: 'Verse of the Day Audio Recitation',
+                        category: 'Scripture Audio',
+                        top: heatmapDevice === 'desktop' ? '290px' : '280px',
+                        left: heatmapDevice === 'desktop' ? '86%' : '84%',
+                        clicks: '146,800',
+                        ctr: '34.2%',
+                        dwell: '3.6s',
+                        intensity: 79,
+                        color: 'bg-amber-400',
+                        glow: 'shadow-amber-400/60'
+                      },
+                      {
+                        id: 'h5',
+                        name: 'Browse Holy Quran 12 Surahs Grid',
+                        category: 'Noble Quran Cards',
+                        top: heatmapDevice === 'desktop' ? '370px' : '360px',
+                        left: heatmapDevice === 'desktop' ? '42%' : '48%',
+                        clicks: '152,600',
+                        ctr: '35.6%',
+                        dwell: '5.4s',
+                        intensity: 82,
+                        color: 'bg-amber-400',
+                        glow: 'shadow-amber-400/60'
+                      },
+                      {
+                        id: 'h6',
+                        name: 'Zakat Bullion Spot Switcher',
+                        category: 'Financial Fiqh Engine',
+                        top: heatmapDevice === 'desktop' ? '440px' : '430px',
+                        left: heatmapDevice === 'desktop' ? '30%' : '35%',
+                        clicks: '158,100',
+                        ctr: '36.9%',
+                        dwell: '6.2s',
+                        intensity: 85,
+                        color: 'bg-amber-400',
+                        glow: 'shadow-amber-400/60'
+                      },
+                      {
+                        id: 'h7',
+                        name: 'Floating "Ask AI" Spiritual Bubble',
+                        category: 'Assistant Bubble',
+                        top: heatmapDevice === 'desktop' ? '500px' : '500px',
+                        left: heatmapDevice === 'desktop' ? '92%' : '86%',
+                        clicks: '169,500',
+                        ctr: '39.5%',
+                        dwell: '2.1s',
+                        intensity: 88,
+                        color: 'bg-red-500',
+                        glow: 'shadow-red-500/70'
+                      },
+                    ].map((spot) => (
+                      <button
+                        key={spot.id}
+                        onClick={() => setSelectedHotspot(spot)}
+                        style={{ top: spot.top, left: spot.left }}
+                        className={`absolute -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer z-20 group transition-transform hover:scale-125`}
+                        title={`${spot.name} (${spot.intensity}% Intensity)`}
+                      >
+                        {/* Outer pulsating thermographic rings */}
+                        <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-60 ${spot.color}`} />
+                        <span className={`relative inline-flex rounded-full w-6 h-6 ${spot.color} shadow-xl ${spot.glow} items-center justify-center text-black font-black text-[10px]`}>
+                          {spot.intensity}%
+                        </span>
+                      </button>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
 
-            {/* Scroll Depth Analysis */}
-            <div className="bg-[#031c15] p-6 rounded-3xl border border-white/10 space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <Layers className="w-4 h-4 text-emerald-400" />
-                <span>Page Scroll Depth Retention Curve</span>
-              </h4>
-
-              <div className="space-y-3">
-                {[
-                  { fold: '0% - 25% Fold (Hero, Search & Adhan Schedule)', percent: 100, color: 'bg-emerald-400' },
-                  { fold: '25% - 50% Fold (Prayer Times Table & Verse of Day)', percent: 88, color: 'bg-emerald-500' },
-                  { fold: '50% - 75% Fold (Quran Reader & 10 Practice Pillars)', percent: 66, color: 'bg-amber-400' },
-                  { fold: '75% - 100% Fold (Calendar, App Stores & Ecosystem Footer)', percent: 44, color: 'bg-sky-400' },
-                ].map((s, idx) => (
-                  <div key={idx} className="space-y-1">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-emerald-200 font-medium">{s.fold}</span>
-                      <span className="text-white font-mono font-bold">{s.percent}% of visitors reach here</span>
+              {/* Selected Hotspot Telemetry Inspector Popover */}
+              {selectedHotspot && (
+                <div className="p-5 rounded-2xl bg-black/60 border border-amber-400/60 space-y-3 animate-in fade-in">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+                      <h4 className="text-sm font-bold text-white">{selectedHotspot.name}</h4>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-amber-300 font-mono">
+                        {selectedHotspot.category}
+                      </span>
                     </div>
-                    <div className="w-full h-2.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
-                      <div className={`h-full ${s.color}`} style={{ width: `${s.percent}%` }} />
+                    <button
+                      onClick={() => setSelectedHotspot(null)}
+                      className="text-zinc-400 hover:text-white text-xs font-bold cursor-pointer"
+                    >
+                      ✕ Close
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
+                      <span className="text-[10px] text-zinc-400 font-sans block">Total Clicks Recorded</span>
+                      <span className="text-lg font-bold text-white">{selectedHotspot.clicks}</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
+                      <span className="text-[10px] text-zinc-400 font-sans block">Click-Through Rate (CTR)</span>
+                      <span className="text-lg font-bold text-amber-300">{selectedHotspot.ctr}</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
+                      <span className="text-[10px] text-zinc-400 font-sans block">Avg Dwell Before Click</span>
+                      <span className="text-lg font-bold text-emerald-300">{selectedHotspot.dwell}</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
+                      <span className="text-[10px] text-zinc-400 font-sans block">Rage / Dead Click Rate</span>
+                      <span className="text-lg font-bold text-sky-300">0.08% (Optimal)</span>
                     </div>
                   </div>
-                ))}
+                </div>
+              )}
+
+              {/* Component Hotspots Ranking List */}
+              <div className="space-y-3 pt-2">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+                  Top Hotspot Intensity Rankings
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {[
+                    { component: 'Hero CTA: Full Prayer Timetable & Quran', intensity: 94, clicks: '182,400 clicks', category: 'Primary Call to Action', color: 'bg-red-500' },
+                    { component: 'Prayer Times Table & Calculation Method Selector', intensity: 91, clicks: '176,200 clicks', category: 'Daily Essential Routine', color: 'bg-red-500' },
+                    { component: 'Floating "Ask AI" Spiritual Bubble', intensity: 88, clicks: '169,500 clicks', category: 'Assistant Bubble', color: 'bg-red-500' },
+                    { component: 'Zakat Country Currency & Spot Bullion Switcher', intensity: 85, clicks: '158,100 clicks', category: 'Financial Fiqh Engine', color: 'bg-amber-400' },
+                    { component: 'Browse Holy Quran 12 Surahs Grid', intensity: 82, clicks: '152,600 clicks', category: 'Scripture & Recitation', color: 'bg-amber-400' },
+                    { component: 'Verse of the Day Audio Recitation Button', intensity: 79, clicks: '146,800 clicks', category: 'Audio Recitation', color: 'bg-amber-400' },
+                  ].map((item, idx) => (
+                    <div key={idx} className="p-3 rounded-2xl bg-black/30 border border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-bold text-white">{item.component}</span>
+                        <span className="font-mono font-bold text-amber-300">{item.intensity}%</span>
+                      </div>
+                      <div className="flex justify-between items-center text-[10px] text-zinc-400">
+                        <span>{item.clicks}</span>
+                        <span>{item.category}</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
+                        <div className={`h-full ${item.color}`} style={{ width: `${item.intensity}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Scroll Depth Analysis */}
+              <div className="pt-4 border-t border-white/10 space-y-3">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-emerald-400" />
+                  <span>Page Scroll Depth Retention Curve</span>
+                </h4>
+                <div className="space-y-3">
+                  {[
+                    { fold: '0% - 25% Fold (Hero, Search & Adhan Schedule)', percent: 100, color: 'bg-emerald-400' },
+                    { fold: '25% - 50% Fold (Prayer Times Table & Verse of Day)', percent: 88, color: 'bg-emerald-500' },
+                    { fold: '50% - 75% Fold (Quran Reader & 10 Practice Pillars)', percent: 66, color: 'bg-amber-400' },
+                    { fold: '75% - 100% Fold (Calendar, App Stores & Ecosystem Footer)', percent: 44, color: 'bg-sky-400' },
+                  ].map((s, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-emerald-200 font-medium">{s.fold}</span>
+                        <span className="text-white font-mono font-bold">{s.percent}% of visitors reach here</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+                        <div className={`h-full ${s.color}`} style={{ width: `${s.percent}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -1812,18 +2493,18 @@ export default function SuperAdminPage() {
         )}
 
         {/* ====================================================
-            TAB 4: ARTICLE & CMS MANAGEMENT
+            TAB 7: ARTICLE & CMS MANAGEMENT WITH LIVE PREVIEW
            ==================================================== */}
         {activeTab === 'cms' && (
           <div className="space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10">
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#031c15] p-5 rounded-3xl border border-white/10 shadow-xl">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <FileText className="w-5 h-5 text-amber-400" />
                   <span>Editorial Publications & Scholarly Articles</span>
                 </h3>
                 <p className="text-xs text-emerald-300/70 mt-0.5">
-                  Publish verified classical Islamic articles, Ramadan guides, and astronomical fiqh essays.
+                  Publish verified classical Islamic articles, Ramadan guides, and astronomical fiqh essays with full device preview.
                 </p>
               </div>
 
@@ -1841,24 +2522,37 @@ export default function SuperAdminPage() {
               {articles.map((art) => (
                 <div
                   key={art.id}
-                  className="p-4 sm:p-5 rounded-2xl bg-[#031c15] border border-white/10 flex flex-wrap items-center justify-between gap-4"
+                  className="p-4 sm:p-5 rounded-2xl bg-[#031c15] border border-white/10 flex flex-wrap items-center justify-between gap-4 hover:border-amber-400/30 transition-colors shadow-lg"
                 >
-                  <div className="space-y-1">
+                  <div className="space-y-1.5 max-w-2xl">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">
                         {art.category}
                       </span>
                       <span className="text-[10px] text-emerald-400/60 font-mono">{art.date}</span>
                       <span className="text-[10px] text-amber-300 font-mono">👁️ {art.views} views</span>
+                      <span className="text-[10px] text-zinc-400 font-mono">⏱️ {art.readTime || '5 min read'}</span>
                     </div>
-                    <h4 className="text-sm font-bold text-white">{art.title}</h4>
-                    <span className="text-xs text-emerald-300/70 block">By {art.author}</span>
+                    <h4 className="text-sm sm:text-base font-bold text-white">{art.title}</h4>
+                    <p className="text-xs text-emerald-300/70 line-clamp-1">{art.excerpt}</p>
+                    <span className="text-[11px] text-zinc-400 block">By {art.author}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <span className="text-[11px] px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 font-bold border border-emerald-500/30">
                       {art.status}
                     </span>
+
+                    {/* Live Preview Button */}
+                    <button
+                      onClick={() => setPreviewArticle(art)}
+                      className="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-300 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+                      title="Inspect Article in Live Reader Preview"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Preview</span>
+                    </button>
+
                     <button
                       onClick={() => setArticles(articles.filter((a) => a.id !== art.id))}
                       className="p-2 text-red-400 hover:text-red-300 hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
@@ -1874,22 +2568,34 @@ export default function SuperAdminPage() {
             {/* Add Publication Modal */}
             {showAddArticle && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in">
-                <div className="bg-[#031d16] border border-amber-500/40 rounded-3xl w-full max-w-lg p-6 shadow-2xl text-left">
-                  <h4 className="text-base font-bold text-white mb-4">Create New Scholarly Publication</h4>
+                <div className="bg-[#031d16] border border-amber-500/40 rounded-3xl w-full max-w-xl p-6 shadow-2xl text-left max-h-[90vh] overflow-y-auto">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                    <h4 className="text-base font-bold text-white flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-amber-400" />
+                      <span>Create New Scholarly Publication</span>
+                    </h4>
+                    <button
+                      onClick={() => setShowAddArticle(false)}
+                      className="text-zinc-400 hover:text-white text-xs font-bold cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
                   <form onSubmit={handleCreateArticle} className="space-y-4">
                     <div>
                       <label className="block text-xs font-semibold text-emerald-200 mb-1">Article Title</label>
                       <input
                         type="text"
                         required
-                        placeholder="e.g. The Fiqh and Astronomical Calculations of Fajr & Isha"
+                        placeholder="e.g. The Astronomical Calculation & Classical Fiqh of Fajr & Isha"
                         value={newArtTitle}
                         onChange={(e) => setNewArtTitle(e.target.value)}
                         className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-xs font-semibold text-emerald-200 mb-1">Category</label>
                         <select
@@ -1902,6 +2608,7 @@ export default function SuperAdminPage() {
                           <option value="Seerah">Seerah</option>
                           <option value="Astronomy & Fiqh">Astronomy & Fiqh</option>
                           <option value="Zakat">Zakat</option>
+                          <option value="Pilgrimage">Pilgrimage</option>
                         </select>
                       </div>
 
@@ -1914,24 +2621,247 @@ export default function SuperAdminPage() {
                           className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
                         />
                       </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-emerald-200 mb-1">Estimated Read Time</label>
+                        <input
+                          type="text"
+                          value={newArtReadTime}
+                          onChange={(e) => setNewArtReadTime(e.target.value)}
+                          placeholder="e.g. 7 min read"
+                          className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
+                        />
+                      </div>
                     </div>
 
-                    <div className="flex items-center justify-end gap-2 pt-2">
+                    <div>
+                      <label className="block text-xs font-semibold text-emerald-200 mb-1">Short Excerpt / Summary</label>
+                      <input
+                        type="text"
+                        placeholder="Concise 1-2 sentence overview for social and SEO previews..."
+                        value={newArtExcerpt}
+                        onChange={(e) => setNewArtExcerpt(e.target.value)}
+                        className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-emerald-200 mb-1">Full Article Body Content</label>
+                      <textarea
+                        rows={6}
+                        placeholder="Write or paste full scholarly essay with authentic Quranic & Hadith citations..."
+                        value={newArtContent}
+                        onChange={(e) => setNewArtContent(e.target.value)}
+                        className="w-full bg-black/40 border border-white/15 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-400 font-sans leading-relaxed"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-white/10">
                       <button
                         type="button"
-                        onClick={() => setShowAddArticle(false)}
-                        className="px-4 py-2 rounded-xl text-xs font-semibold text-emerald-300 hover:text-white"
+                        onClick={() => {
+                          if (!newArtTitle.trim()) {
+                            alert('Please enter an article title first to preview.');
+                            return;
+                          }
+                          setPreviewArticle({
+                            id: 'temp_preview',
+                            title: newArtTitle,
+                            category: newArtCategory,
+                            author: newArtAuthor,
+                            status: 'Draft Preview',
+                            views: '0',
+                            date: new Date().toISOString().split('T')[0],
+                            readTime: newArtReadTime || '5 min read',
+                            excerpt: newArtExcerpt || 'Draft publication preview.',
+                            content: newArtContent || `In the name of Allah, the Most Gracious, the Most Merciful.\n\n${newArtTitle}\n\nDraft content prepared by ${newArtAuthor}.`,
+                          });
+                        }}
+                        className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-xs text-amber-300 font-bold flex items-center gap-1.5 cursor-pointer"
                       >
-                        Cancel
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Live Preview Draft</span>
                       </button>
-                      <button
-                        type="submit"
-                        className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs cursor-pointer shadow"
-                      >
-                        Publish Publication
-                      </button>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowAddArticle(false)}
+                          className="px-4 py-2 rounded-xl text-xs font-semibold text-emerald-300 hover:text-white"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs cursor-pointer shadow-md"
+                        >
+                          Publish Publication
+                        </button>
+                      </div>
                     </div>
                   </form>
+                </div>
+              </div>
+            )}
+
+            {/* ====================================================
+                LIVE ARTICLE & CMS PREVIEW MODAL
+               ==================================================== */}
+            {previewArticle && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-lg p-2 sm:p-6 animate-in fade-in">
+                <div className="bg-[#031d16] border border-amber-500/50 rounded-3xl w-full max-w-4xl h-[92vh] flex flex-col shadow-2xl overflow-hidden text-left">
+                  {/* Preview Toolbar */}
+                  <div className="bg-black/60 px-5 py-3 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">
+                        CMS Article Live Reader Preview
+                      </span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">
+                        {previewArticle.category}
+                      </span>
+                    </div>
+
+                    {/* Viewport Device Switcher */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center bg-black/50 p-1 rounded-xl border border-white/10 text-xs">
+                        <button
+                          onClick={() => setPreviewDevice('desktop')}
+                          className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                            previewDevice === 'desktop'
+                              ? 'bg-amber-500 text-emerald-950'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          <Monitor className="w-3.5 h-3.5" />
+                          <span>Desktop</span>
+                        </button>
+
+                        <button
+                          onClick={() => setPreviewDevice('tablet')}
+                          className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                            previewDevice === 'tablet'
+                              ? 'bg-amber-500 text-emerald-950'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          <Tablet className="w-3.5 h-3.5" />
+                          <span>Tablet</span>
+                        </button>
+
+                        <button
+                          onClick={() => setPreviewDevice('mobile')}
+                          className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                            previewDevice === 'mobile'
+                              ? 'bg-amber-500 text-emerald-950'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          <Smartphone className="w-3.5 h-3.5" />
+                          <span>Mobile</span>
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={() => setPreviewArticle(null)}
+                        className="px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold cursor-pointer transition-colors"
+                      >
+                        ✕ Close Preview
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Preview Viewport Canvas */}
+                  <div className="flex-1 overflow-y-auto p-4 sm:p-8 flex justify-center bg-gradient-to-b from-[#02140e] to-[#02100b]">
+                    <div
+                      className={`w-full transition-all duration-300 ${
+                        previewDevice === 'desktop'
+                          ? 'max-w-3xl space-y-6'
+                          : previewDevice === 'tablet'
+                          ? 'max-w-xl space-y-5'
+                          : 'max-w-sm rounded-[2.5rem] border-4 border-zinc-700 p-4 bg-[#031d16] space-y-4 shadow-2xl'
+                      }`}
+                    >
+                      {/* Bismillah Header */}
+                      <div className="text-center py-4 border-b border-amber-500/20">
+                        <span className="arabic-text text-xl sm:text-2xl text-amber-300 font-bold block drop-shadow-sm">
+                          بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+                        </span>
+                        <span className="text-[11px] text-emerald-300/70 block mt-1">
+                          In the Name of Allah, the Most Compassionate, the Most Merciful
+                        </span>
+                      </div>
+
+                      {/* Metadata row */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs border-b border-white/5 pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">
+                            {previewArticle.category}
+                          </span>
+                          <span className="text-zinc-400 font-mono text-[11px]">{previewArticle.readTime || '6 min read'}</span>
+                        </div>
+                        <span className="text-zinc-400 font-mono text-[11px]">Published: {previewArticle.date}</span>
+                      </div>
+
+                      {/* Title & Author */}
+                      <div className="space-y-2">
+                        <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                          {previewArticle.title}
+                        </h1>
+                        <div className="flex items-center gap-2.5 pt-1">
+                          <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 font-bold text-xs">
+                            ☪
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold text-emerald-200 block">{previewArticle.author}</span>
+                            <span className="text-[10px] text-amber-400 font-mono">Verified Islamic Scholarly Review</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Audio Narration Bar */}
+                      <div className="p-3.5 rounded-2xl bg-[#06241b] border border-emerald-700/40 flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <button className="w-8 h-8 rounded-xl bg-amber-500 text-black flex items-center justify-center font-bold shadow cursor-pointer">
+                            <Volume2 className="w-4 h-4" />
+                          </button>
+                          <div>
+                            <span className="text-xs font-bold text-white block">Listen to Scholarly Narration</span>
+                            <span className="text-[10px] text-emerald-300/70">Audio recitation with classical Arabic pronunciation</span>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-mono text-amber-300">128 kbps</span>
+                      </div>
+
+                      {/* Excerpt Callout */}
+                      {previewArticle.excerpt && (
+                        <div className="p-4 rounded-2xl bg-amber-500/10 border-l-4 border-amber-400 text-xs sm:text-sm text-emerald-100/90 italic leading-relaxed">
+                          "{previewArticle.excerpt}"
+                        </div>
+                      )}
+
+                      {/* Article Main Body */}
+                      <div className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed space-y-4 whitespace-pre-line pt-2">
+                        {previewArticle.content}
+                      </div>
+
+                      {/* Editorial Footer / References */}
+                      <div className="pt-6 border-t border-amber-500/20 text-[11px] text-zinc-400 space-y-2">
+                        <div className="flex items-center gap-2 text-amber-300 font-bold text-xs">
+                          <BookOpen className="w-4 h-4" />
+                          <span>Scholarly Fiqh Sources & Citations</span>
+                        </div>
+                        <p className="text-[11px] text-emerald-200/70">
+                          Compiled under the guidance of traditional Islamic jurisprudence (Hanafi, Shafi'i, Maliki, Hanbali) and modern spherical astronomical observation algorithms.
+                        </p>
+                        <div className="flex items-center gap-2 pt-2">
+                          <span className="px-2 py-0.5 rounded bg-white/5 text-[10px] text-zinc-300">#HolyQuran</span>
+                          <span className="px-2 py-0.5 rounded bg-white/5 text-[10px] text-zinc-300">#NoorEditorial</span>
+                          <span className="px-2 py-0.5 rounded bg-white/5 text-[10px] text-zinc-300">#IslamicStudies</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

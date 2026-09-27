@@ -2,28 +2,53 @@
 
 // ============================================================
 // NOOR Web — Verse of the Day (Ayat al-Yawm)
+// Automatically updates daily with authentic rotating Ayahs & audio
 // ============================================================
 
-import React, { useState } from 'react';
-import { BookOpen, Volume2, VolumeX, Share2, Bookmark, Check, Info } from 'lucide-react';
-import { FEATURED_AYAH } from '../lib/quranData';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Volume2, VolumeX, Share2, Bookmark, Check, Info, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import { getDailyAyah } from '../lib/quranData';
 import { useLanguage } from '../context/LanguageContext';
 
 export const DailyAyahSection: React.FC = () => {
   const { t, language } = useLanguage();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [dayOffset, setDayOffset] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  const [showUrdu, setShowUrdu] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [showTafsir, setShowTafsir] = useState(false);
+  const [showUrdu, setShowUrdu] = useState<boolean>(false);
+  const [bookmarked, setBookmarked] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
+  const [showTafsir, setShowTafsir] = useState<boolean>(false);
+
+  // Compute displayed date based on dayOffset
+  const displayedDate = new Date();
+  displayedDate.setDate(displayedDate.getDate() + dayOffset);
+  const currentAyah = getDailyAyah(displayedDate);
+
+  // Stop audio whenever date changes
+  const handleDateChange = (newOffset: number) => {
+    if (audio) {
+      audio.pause();
+      setIsPlaying(false);
+    }
+    setDayOffset(newOffset);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (audio) {
+        audio.pause();
+      }
+    };
+  }, [audio]);
 
   const toggleAudio = () => {
     if (isPlaying && audio) {
       audio.pause();
       setIsPlaying(false);
     } else {
-      const a = new Audio(FEATURED_AYAH.audioUrl);
+      if (audio) audio.pause();
+      const a = new Audio(currentAyah.audioUrl);
       a.play().catch(e => console.log('Audio playback error', e));
       a.onended = () => setIsPlaying(false);
       setAudio(a);
@@ -32,15 +57,24 @@ export const DailyAyahSection: React.FC = () => {
   };
 
   const currentTranslation = showUrdu
-    ? FEATURED_AYAH.translationUr
-    : (language === 'hi' ? ((FEATURED_AYAH as any).translationHi || FEATURED_AYAH.translationEn) : FEATURED_AYAH.translationEn);
+    ? (currentAyah.translationUr || currentAyah.translationEn)
+    : (language === 'hi' ? (currentAyah.translationHi || currentAyah.translationEn) : currentAyah.translationEn);
 
   const handleCopy = () => {
-    const text = `${FEATURED_AYAH.arabic}\n\n${currentTranslation}\n\n— ${FEATURED_AYAH.reference} (via NOOR)`;
+    const text = `${currentAyah.arabic}\n\n${currentTranslation}\n\n— ${currentAyah.reference} (via NOOR)`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // Format date label
+  const formattedDateLabel = dayOffset === 0
+    ? 'Today'
+    : dayOffset === -1
+    ? 'Yesterday'
+    : dayOffset === 1
+    ? 'Tomorrow'
+    : displayedDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
     <section className="w-full py-12 px-4 lg:px-8 max-w-7xl mx-auto">
@@ -69,20 +103,57 @@ export const DailyAyahSection: React.FC = () => {
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">{t('verseOfTheDay')}</span>
-              <h3 className="text-xl font-bold text-white">
-                {FEATURED_AYAH.surahName} <span className="text-sm text-emerald-300/80 font-normal">({FEATURED_AYAH.reference})</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">{t('verseOfTheDay')}</span>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[10px] font-mono text-amber-300 font-bold">
+                  <Calendar className="w-2.5 h-2.5" />
+                  {formattedDateLabel}
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-white mt-0.5">
+                {currentAyah.surahName} <span className="text-sm text-emerald-300/80 font-normal">({currentAyah.reference})</span>
               </h3>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-2">
+          {/* Action Buttons & Day Navigation */}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Day Cycler */}
+            <div className="flex items-center bg-[#06241b] rounded-xl border border-emerald-700/50 p-0.5 mr-1">
+              <button
+                onClick={() => handleDateChange(dayOffset - 1)}
+                className="p-1.5 text-emerald-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                title="Previous Day's Verse"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              {dayOffset !== 0 ? (
+                <button
+                  onClick={() => handleDateChange(0)}
+                  className="px-2 py-1 text-[11px] font-bold text-amber-300 hover:text-amber-200 transition-colors cursor-pointer"
+                  title="Return to Today"
+                >
+                  Today
+                </button>
+              ) : (
+                <span className="px-2 py-1 text-[11px] font-bold text-emerald-400">
+                  Daily
+                </span>
+              )}
+              <button
+                onClick={() => handleDateChange(dayOffset + 1)}
+                className="p-1.5 text-emerald-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                title="Next Day's Verse"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
             <button
               onClick={() => setShowUrdu(!showUrdu)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                 showUrdu
-                  ? 'bg-amber-500 text-emerald-950 border-amber-400'
+                  ? 'bg-amber-500 text-emerald-950 border-amber-400 font-bold'
                   : 'bg-emerald-950/60 border-emerald-700/40 text-emerald-200 hover:text-amber-300'
               }`}
             >
@@ -91,7 +162,7 @@ export const DailyAyahSection: React.FC = () => {
 
             <button
               onClick={toggleAudio}
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-2 rounded-xl border transition-all cursor-pointer ${
                 isPlaying
                   ? 'bg-amber-500 text-emerald-950 border-amber-400 animate-pulse'
                   : 'bg-emerald-950/60 border-emerald-700/40 text-emerald-300 hover:text-amber-300'
@@ -103,7 +174,7 @@ export const DailyAyahSection: React.FC = () => {
 
             <button
               onClick={handleCopy}
-              className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 hover:text-amber-300 transition-all"
+              className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 hover:text-amber-300 transition-all cursor-pointer"
               title={t('copyVerse')}
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
@@ -111,7 +182,7 @@ export const DailyAyahSection: React.FC = () => {
 
             <button
               onClick={() => setBookmarked(!bookmarked)}
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-2 rounded-xl border transition-all cursor-pointer ${
                 bookmarked
                   ? 'bg-amber-500 text-emerald-950 border-amber-400'
                   : 'bg-emerald-950/60 border-emerald-700/40 text-emerald-300 hover:text-amber-300'
@@ -123,7 +194,7 @@ export const DailyAyahSection: React.FC = () => {
 
             <button
               onClick={() => setShowTafsir(!showTafsir)}
-              className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 hover:text-amber-300 transition-all"
+              className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 hover:text-amber-300 transition-all cursor-pointer"
               title={t('readTafsir')}
             >
               <Info className="w-4 h-4" />
@@ -134,13 +205,13 @@ export const DailyAyahSection: React.FC = () => {
         {/* Arabic Verse */}
         <div className="my-8 text-center px-2 sm:px-8">
           <p className="arabic-text text-2xl sm:text-3xl lg:text-4xl text-amber-200 font-bold leading-[2.2] tracking-wide drop-shadow-sm">
-            {FEATURED_AYAH.arabic}
+            {currentAyah.arabic}
           </p>
         </div>
 
         {/* Transliteration */}
         <div className="text-center text-xs text-emerald-300/70 italic font-sans max-w-3xl mx-auto mb-4">
-          "{FEATURED_AYAH.transliteration}"
+          "{currentAyah.transliteration}"
         </div>
 
         {/* Translation */}

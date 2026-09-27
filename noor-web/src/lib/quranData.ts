@@ -2713,16 +2713,188 @@ export async function fetchSurahVerses(surahNumber: number): Promise<AyahItem[]>
   return fallbackList;
 }
 
-export const FEATURED_AYAH = {
-  surahNumber: 2,
-  ayahNumber: 255,
-  surahName: 'Al-Baqarah',
-  arabicName: 'البقرة',
-  arabic: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ',
-  transliteration: 'Allahu la ilaha illa Huwa, Al-Hayyul-Qayyum. La ta\'khudhuhu sinatun wa la nawm. Lahu ma fis-samawati wa ma fil-ard. Man dhal-ladhi yashfa\'u \'indahu illa bi-idhnih. Ya\'lamu ma bayna aydihim wa ma khalfahum, wa la yuhituna bi-shay\'im-min \'ilmihi illa bima sha\'. Wasi\'a kursiyyuhus-samawati wal-ard, wa la ya\'uduhu hifzuhuma, wa Huwal-\'Aliyyul-\'Azeem.',
-  translationEn: 'Allah! There is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.',
-  translationUr: 'اللہ، اس کے سوا کوئی عبادت کے لائق نہیں، وہ زندہ ہے سب کا تھامنے والا، نہ اس کو اونگھ آتی ہے نہ نیند، جو کچھ آسمانوں میں اور جو کچھ زمین میں ہے سب اسی کا ہے۔',
-  translationHi: 'अल्लाह! उसके सिवा कोई पूज्य नहीं, वह सदैव जीवित और सब का थामने वाला है। न उसे ऊंघ आती है और न नींद। जो कुछ आकाशों में है और जो कुछ धरती में है, सब उसी का है। कौन है जो उसकी अनुमति के बिना उसके समक्ष सिफारिश कर सके? वह जानता है जो कुछ उनके सामने है और जो उनके पीछे है, और वे उसके ज्ञान में से किसी चीज़ को अपने नियंत्रण में नहीं ले सकते सिवाय इसके जो वह चाहे। उसकी बादशाही (कुर्सी) आकाशों और धरती को घेरे हुए है, और उन दोनों की सुरक्षा उसे थकाती नहीं। वह सर्वोच्च, महान है।',
-  reference: 'Surah Al-Baqarah 2:255 (Ayat al-Kursi)',
-  audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002255.mp3'
-};
+export interface DailyAyahItem {
+  surahNumber: number;
+  ayahNumber: number;
+  surahName: string;
+  arabicName: string;
+  arabic: string;
+  transliteration: string;
+  translationEn: string;
+  translationUr: string;
+  translationHi: string;
+  reference: string;
+  audioUrl: string;
+}
+
+export const DAILY_AYAHS_COLLECTION: DailyAyahItem[] = [
+  {
+    surahNumber: 2,
+    ayahNumber: 255,
+    surahName: 'Al-Baqarah',
+    arabicName: 'البقرة',
+    arabic: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ',
+    transliteration: 'Allahu la ilaha illa Huwa, Al-Hayyul-Qayyum. La ta\'khudhuhu sinatun wa la nawm. Lahu ma fis-samawati wa ma fil-ard. Man dhal-ladhi yashfa\'u \'indahu illa bi-idhnih. Ya\'lamu ma bayna aydihim wa ma khalfahum, wa la yuhituna bi-shay\'im-min \'ilmihi illa bima sha\'. Wasi\'a kursiyyuhus-samawati wal-ard, wa la ya\'uduhu hifzuhuma, wa Huwal-\'Aliyyul-\'Azeem.',
+    translationEn: 'Allah! There is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.',
+    translationUr: 'اللہ، اس کے سوا کوئی عبادت کے لائق نہیں، وہ زندہ ہے سب کا تھامنے والا، نہ اس کو اونگھ آتی ہے نہ نیند، جو کچھ آسمانوں میں اور جو کچھ زمین میں ہے سب اسی کا ہے۔',
+    translationHi: 'अल्लाह! उसके सिवा कोई पूज्य नहीं, वह सदैव जीवित और सब का थामने वाला है। न उसे ऊंघ आती है और न नींद। जो कुछ आकाशों में है और जो कुछ धरती में है, सब उसी का है। कौन है जो उसकी अनुमति के बिना उसके समक्ष सिफारिश कर सके? वह जानता है जो कुछ उनके सामने है और जो उनके पीछे है, और वे उसके ज्ञान में से किसी चीज़ को अपने नियंत्रण में नहीं ले सकते सिवाय इसके जो वह चाहे। उसकी बादशाही (कुर्सी) आकाशों और धरती को घेरे हुए है, और उन दोनों की सुरक्षा उसे थकाती नहीं। वह सर्वोच्च, महान है।',
+    reference: 'Surah Al-Baqarah 2:255 (Ayat al-Kursi)',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002255.mp3'
+  },
+  {
+    surahNumber: 24,
+    ayahNumber: 35,
+    surahName: 'An-Nur',
+    arabicName: 'النور',
+    arabic: 'اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ ۚ مَثَلُ نُورِهِ كَمِشْكَاةٍ فِيهَا مِصْبَاحٌ ۖ الْمِصْبَاحُ فِي زُجَاجَةٍ ۖ الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ يُوقَدُ مِن شَجَرَةٍ مُّبَارَكَةٍ زَيْتُونَةٍ لَّا شَرْقِيَّةٍ وَلَا غَرْبِيَّةٍ يَكَادُ زَيْتُهَا يُضِيءُ وَلَوْ لَمْ تَمْسَسْهُ نَارٌ ۚ نُّورٌ عَلَىٰ نُورٍ ۗ يَهْدِي اللَّهُ لِنُورِهِ مَن يَشَاءُ',
+    transliteration: 'Allahu noorus-samawati wal-ard. Mathalu noorihi kamishkatin feeha misbah. Al-misbahu fee zujajah. Az-zujajatu ka\'annaha kawkabun durriyyun yooqadu min shajaratim-mubarakatin zaytunatin la sharqiyyatin wa la gharbiyyah, yakadu zaytuha yudee\'u wa law lam tamsas-hu nar. Noorun \'ala noor. Yahdillahu linoorihi man yasha\'.',
+    translationEn: 'Allah is the Light of the heavens and the earth. The example of His light is like a niche within which is a lamp; the lamp is within glass, the glass as if it were a pearly star lit from a blessed olive tree, neither of the east nor of the west, whose oil would almost glow even if untouched by fire. Light upon light. Allah guides to His light whom He wills.',
+    translationUr: 'اللہ آسمانوں اور زمین کا نور ہے۔ اس کے نور کی مثال ایسی ہے جیسے ایک طاق جس میں چراغ ہو، چراغ شیشے میں ہو، شیشہ گویا موتی سا چمکتا تارہ ہو۔ نور پر نور! اللہ جسے چاہے اپنے نور کی ہدایت فرماتا ہے۔',
+    translationHi: 'अल्लाह आकाशों और धरती का प्रकाश (नूर) है। उसके प्रकाश की उपमा ऐसी है जैसे एक ताक़ हो जिसमें एक चिराग़ हो। चिराग़ एक शीशे के फ़ानूस में हो, शीशा ऐसा मानो चमकता हुआ मोती जैसा तारा हो। नूर पर नूर! अल्लाह जिसे चाहता है अपने नूर का मार्ग दिखाता है।',
+    reference: 'Surah An-Nur 24:35 (Ayat an-Nur)',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/024035.mp3'
+  },
+  {
+    surahNumber: 94,
+    ayahNumber: 5,
+    surahName: 'Ash-Sharh',
+    arabicName: 'الشرح',
+    arabic: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ فَإِذَا فَرَغْتَ فَانصَبْ ۝ وَإِلَىٰ رَبِّكَ فَارْغَب',
+    transliteration: 'Fa\'inna ma\'al-\'usri yusra. Inna ma\'al-\'usri yusra. Fa\'idha faraghta fansab. Wa ila Rabbika farghab.',
+    translationEn: 'For indeed, with hardship [will be] ease. Indeed, with hardship [will be] ease. So when you have finished [your duties], then stand up [for worship]. And to your Lord direct [your] longing.',
+    translationUr: 'پس یقیناً مشکل کے ساتھ آسانی ہے، بے شک مشکل کے ساتھ آسانی ہے۔ پس جب تم فارغ ہو تو عبادت میں محنت کرو، اور اپنے رب ہی کی طرف رغبت رکھو۔',
+    translationHi: 'अतः निश्चय ही तंगी के साथ आसानी है। निश्चय ही तंगी के साथ आसानी है! अतः जब तुम फ़ारिग़ हो जाओ, तो इबादत में मशगूल हो जाओ, और अपने रब ही की ओर लौ लगाओ।',
+    reference: 'Surah Ash-Sharh 94:5-8',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/094005.mp3'
+  },
+  {
+    surahNumber: 2,
+    ayahNumber: 186,
+    surahName: 'Al-Baqarah',
+    arabicName: 'البقرة',
+    arabic: 'وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ ۖ فَلْيَسْتَجِيبُوا لِي وَلْيُؤْمِنُوا بِي لَعَلَّهُمْ يَرْشُدُونَ',
+    transliteration: 'Wa idha sa\'alaka \'ibadi \'anni fa\'innee qareeb, ujeebu da\'watad-da\'i idha da\'an, falyastajeeboo lee walyu\'minoo bee la\'allahum yarshudoon.',
+    translationEn: 'And when My servants ask you concerning Me, indeed I am near. I respond to the invocation of the supplicant when he calls upon Me. So let them respond to Me [by obedience] and believe in Me that they may be [rightly] guided.',
+    translationUr: 'اور جب میرے بندے آپ سے میرے متعلق پوچھیں تو کہہ دیجئے کہ میں قریب ہوں۔ جب پکارنے والا مجھے پکارتا ہے تو میں اس کی پکار سنتا ہوں۔',
+    translationHi: 'और जब मेरे बन्दे तुमसे मेरे सम्बन्ध में पूछें, तो मैं वास्तव में निकट हूँ। मैं पुकारने वाले की पुकार सुनता हूँ जब वह मुझे पुकारता है। अतः उन्हें चाहिए कि मेरी आज्ञा स्वीकार करें और मुझ पर ईमान लाएं ताकि वे सही मार्ग पा सकें।',
+    reference: 'Surah Al-Baqarah 2:186',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002186.mp3'
+  },
+  {
+    surahNumber: 39,
+    ayahNumber: 53,
+    surahName: 'Az-Zumar',
+    arabicName: 'الزمر',
+    arabic: 'قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا ۚ إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ',
+    transliteration: 'Qul ya \'ibadiyal-ladheena asrafoo \'ala anfusihim la taqnatoo mir-rahmatillah. Innal-laha yaghfirudh-dhunooba jamee\'a. Innahoo Huwal-Ghafoorur-Raheem.',
+    translationEn: 'Say: "O My servants who have transgressed against themselves [by sinning], do not despair of the mercy of Allah. Indeed, Allah forgives all sins. Indeed, it is He who is the Forgiving, the Merciful."',
+    translationUr: 'آپ فرما دیجئے: اے میرے بندو جنہوں نے اپنی جانوں پر زیادتی کی ہے! اللہ کی رحمت سے ناامید مت ہو۔ بے شک اللہ تمام گناہوں کو بخش دیتا ہے، وہ بڑا بخشنے والا نہایت رحم کرنے والا ہے۔',
+    translationHi: 'कह दो: "ऐ मेरे बन्दों, जिन्होंने अपने प्राणों पर ज़्यादती की है! अल्लाह की दया से निराश न हो। निश्चय ही अल्लाह सारे गुनाहों को माफ़ कर देता है। वास्तव में वह बड़ा क्षमाशील, अत्यंत दयावान है।"',
+    reference: 'Surah Az-Zumar 39:53',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/039053.mp3'
+  },
+  {
+    surahNumber: 3,
+    ayahNumber: 139,
+    surahName: 'Ali \'Imran',
+    arabicName: 'آل عمران',
+    arabic: 'وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ',
+    transliteration: 'Wa la tahinoo wa la tahzanoo wa antumul-a\'lawna in kuntum mu\'mineen.',
+    translationEn: 'So do not weaken and do not grieve, and you will be superior if you are [true] believers.',
+    translationUr: 'اور نہ کمزور پڑو اور نہ غمگین ہو، تم ہی غالب رہو گے اگر تم مومن ہو۔',
+    translationHi: 'और न हिम्मत हारो और न दुखी हो, तुम्हीं विजयी रहोगे यदि तुम सच्चे ईमान वाले हो।',
+    reference: 'Surah Ali \'Imran 3:139',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/003139.mp3'
+  },
+  {
+    surahNumber: 59,
+    ayahNumber: 22,
+    surahName: 'Al-Hashr',
+    arabicName: 'الحشر',
+    arabic: 'هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ ۖ عَالِمُ الْغَيْبِ وَالشَّهَادَةِ ۖ هُوَ الرَّحْمَٰنُ الرَّحِيمُ ۝ هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْمَلِكُ الْقُدُّوسُ السَّلَامُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ ۚ سُبْحَانَ اللَّهِ عَمَّا يُشْرِكُونَ',
+    transliteration: 'Huwal-lahul-ladhee la ilaha illa Huwa, \'Alimul-ghaybi wash-shahadah, Huwar-Rahmanur-Raheem. Huwal-lahul-ladhee la ilaha illa Huwal-Malikul-Quddoosus-Salamul-Mu\'minul-Muhayminul-\'Azeezul-Jabbarul-Mutakabbir. Subhanallahi \'amma yushrikoon.',
+    translationEn: 'He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful. He is Allah, the Sovereign, the Pure, the Perfection, the Bestower of Faith, the Overseer, the Exalted in Might, the Compeller, the Superior. Exalted is Allah far above whatever they associate with Him.',
+    translationUr: 'وہی اللہ ہے جس کے سوا کوئی عبادت کے لائق نہیں، چھپے اور کھلے کا جاننے والا، وہی بڑا مہربان نہایت رحم والا ہے۔ وہی بادشاہ، پاک ذات، سلامتی والا، امن دینے والا، نگہبان، زبردست، دباؤ والا اور بڑائی والا ہے۔',
+    translationHi: 'वही अल्लाह है जिसके सिवा कोई पूज्य नहीं। परोक्ष और प्रत्यक्ष का जानने वाला है। वही बड़ा कृपालु, अत्यंत दयावान है। वही संप्रभु, अत्यंत पवित्र, शांति देने वाला, सुरक्षा प्रदान करने वाला, रक्षक, प्रभुत्वशाली, सर्वशक्तिमान और महान है।',
+    reference: 'Surah Al-Hashr 59:22-23',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/059022.mp3'
+  },
+  {
+    surahNumber: 13,
+    ayahNumber: 28,
+    surahName: 'Ar-Ra\'d',
+    arabicName: 'الرعد',
+    arabic: 'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',
+    transliteration: 'Al-ladheena amanoo wa tatma\'innu quloobuhum bidhikril-lah. Ala bidhikril-lahi tatma\'innul-quloob.',
+    translationEn: 'Those who have believed and whose hearts are assured by the remembrance of Allah. Unquestionably, by the remembrance of Allah hearts are assured.',
+    translationUr: 'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے سکون پاتے ہیں، سن لو! اللہ ہی کے ذکر سے دلوں کو اطمینان نصیب ہوتا ہے۔',
+    translationHi: 'जो लोग ईमान लाए और जिनके दिलों को अल्लाह के स्मरण से चैन मिलता है। सुनो! अल्लाह के स्मरण ही से दिलों को चैन और सुकून प्राप्त होता है।',
+    reference: 'Surah Ar-Ra\'d 13:28',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/013028.mp3'
+  },
+  {
+    surahNumber: 14,
+    ayahNumber: 7,
+    surahName: 'Ibrahim',
+    arabicName: 'إبراهيم',
+    arabic: 'وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ',
+    transliteration: 'Wa idh ta\'adh-dhana Rabbukum la\'in shakartum la\'azeedannakum wa la\'in kafartum inna \'adhabee lashadeed.',
+    translationEn: 'And [remember] when your Lord proclaimed, "If you are grateful, I will surely increase you [in favor]; but if you deny, indeed, My punishment is severe."',
+    translationUr: 'اور یاد کرو جب تمہارے پروردگار نے آگاہ فرمایا کہ اگر تم شکر کرو گے تو میں تمہیں اور زیادہ دوں گا، اور اگر تم نے ناشکری کی تو یقیناً میرا عذاب بہت سخت ہے۔',
+    translationHi: 'और याद करो जब तुम्हारे रब ने सावधान कर दिया था: "यदि तुम कृतज्ञ बनोगे तो मैं तुम्हें और अधिक दूंगा, और यदि तुमने कृतघ्नता दिखाई तो निश्चय ही मेरा दंड बड़ा कठोर है।"',
+    reference: 'Surah Ibrahim 14:7',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/014007.mp3'
+  },
+  {
+    surahNumber: 21,
+    ayahNumber: 87,
+    surahName: 'Al-Anbiya',
+    arabicName: 'الأنبياء',
+    arabic: 'لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',
+    transliteration: 'La ilaha illa Anta subhanaka innee kuntu minadh-dhalimeen.',
+    translationEn: 'There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.',
+    translationUr: 'تیرے سوا کوئی معبود نہیں، تو پاک ہے، بے شک میں ہی قصورواروں میں سے تھا۔',
+    translationHi: 'तेरे सिवा कोई पूज्य नहीं, तू अत्यंत पवित्र है। निश्चय ही मैं ही अत्याचारियों में से था।',
+    reference: 'Surah Al-Anbiya 21:87 (Ayat al-Kareemah)',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/021087.mp3'
+  },
+  {
+    surahNumber: 67,
+    ayahNumber: 2,
+    surahName: 'Al-Mulk',
+    arabicName: 'الملك',
+    arabic: 'الَّذِي خَلَقَ الْمَوْتَ وَالْحَيَاةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ الْعَزِيزُ الْغَفُورُ',
+    transliteration: 'Al-ladhee khalaqal-mawta wal-hayata liyabluwakum ayyukum ahsanu \'amala, wa Huwal-\'Azeezul-Ghafoor.',
+    translationEn: '[He] who created death and life to test you [as to] which of you is best in deed — and He is the Exalted in Might, the Forgiving.',
+    translationUr: 'جس نے موت اور زندگی کو پیدا کیا تاکہ تمہیں آزمائے کہ تم میں سے اچھے عمل والا کون ہے، اور وہ زبردست بخشنے والا ہے۔',
+    translationHi: 'जिसने मृत्यु और जीवन को पैदा किया ताकि तुम्हारी परीक्षा ले कि तुममें कर्म के विचार से कौन सबसे अच्छा है, और वह प्रभुत्वशाली, क्षमाशील है।',
+    reference: 'Surah Al-Mulk 67:2',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/067002.mp3'
+  },
+  {
+    surahNumber: 93,
+    ayahNumber: 3,
+    surahName: 'Ad-Duha',
+    arabicName: 'الضحى',
+    arabic: 'مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ ۝ وَلَلْآخِرَةُ خَيْرٌ لَّكَ مِنَ الْأُولَىٰ ۝ وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ',
+    transliteration: 'Ma wadda\'aka Rabbuka wa ma qala. Wa lal-akhiratu khayrul-laka minal-oola. Wa lasawfa yu\'teeka Rabbuka fatarda.',
+    translationEn: 'Your Lord has not taken leave of you, [O Muhammad], nor has He detested [you]. And the Hereafter is better for you than the first [life]. And your Lord is going to give you, and you will be satisfied.',
+    translationUr: 'تمہارے رب نے نہ تو تمہیں چھوڑا ہے اور نہ بیزار ہوا ہے۔ اور یقیناً آخرت تمہارے لیے دنیا سے کہیں بہتر ہے۔ اور عنقریب تمہارا رب تمہیں اتنا عطا فرمائے گا کہ تم خوش ہو جاؤ گے۔',
+    translationHi: 'तुम्हारे रब ने न तुम्हें छोड़ा है और न अप्रसन्न हुआ है। और निश्चय ही बाद की अवस्था (आख़िरत) तुम्हारे लिए पहली अवस्था (दुनिया) से कहीं उत्तम है। और शीघ्र ही तुम्हारा रब तुम्हें इतना देगा कि तुम प्रसन्न हो जाओगे।',
+    reference: 'Surah Ad-Duha 93:3-5',
+    audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/093003.mp3'
+  }
+];
+
+export function getDailyAyah(date: Date = new Date()): DailyAyahItem {
+  // Compute continuous day-of-year index that changes every calendar day
+  const year = date.getFullYear();
+  const start = new Date(year, 0, 1);
+  const diff = date.getTime() - start.getTime();
+  const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const safeIndex = Math.abs(dayOfYear) % DAILY_AYAHS_COLLECTION.length;
+  return DAILY_AYAHS_COLLECTION[safeIndex];
+}
+
+export const FEATURED_AYAH = DAILY_AYAHS_COLLECTION[0];
+

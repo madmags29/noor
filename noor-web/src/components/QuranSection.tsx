@@ -29,6 +29,8 @@ export const QuranSection: React.FC = () => {
     return matchSearch && matchRev;
   });
 
+  const [visibleCount, setVisibleCount] = useState<number>(12);
+
   return (
     <section id="quran" className="relative w-full py-16 px-4 lg:px-8 max-w-7xl mx-auto">
       {/* Subtle Illuminated Quran Background Texture */}
@@ -69,7 +71,10 @@ export const QuranSection: React.FC = () => {
               type="text"
               placeholder={t('searchSurahPlaceholder')}
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setVisibleCount(12);
+              }}
               className="pl-9 pr-4 py-2 bg-[#06241b] border border-emerald-800/60 rounded-xl text-xs text-white placeholder-emerald-400/50 focus:outline-none focus:border-amber-400 w-52 sm:w-60"
             />
           </div>
@@ -79,8 +84,11 @@ export const QuranSection: React.FC = () => {
             {(['All', 'Meccan', 'Medinan'] as const).map(tab => (
               <button
                 key={tab}
-                onClick={() => setSelectedRevelation(tab)}
-                className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                onClick={() => {
+                  setSelectedRevelation(tab);
+                  setVisibleCount(12);
+                }}
+                className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                   selectedRevelation === tab
                     ? 'bg-amber-500 text-emerald-950 font-bold'
                     : 'text-emerald-300 hover:text-white'
@@ -102,9 +110,9 @@ export const QuranSection: React.FC = () => {
         </div>
       </div>
 
-      {/* 114 Surahs Grid — Direct In-Page Reader Navigation (Zero Popup Modals!) */}
+      {/* 114 Surahs Grid — 12 Surahs in One View */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {filteredSurahs.slice(0, 24).map((surah) => (
+        {filteredSurahs.slice(0, visibleCount).map((surah) => (
           <Link
             key={surah.number}
             href={`/quran?surah=${surah.number}`}
@@ -139,11 +147,27 @@ export const QuranSection: React.FC = () => {
         ))}
       </div>
 
-      {/* Bottom Link to View Remaining Surahs */}
-      <div className="mt-8 text-center">
+      {/* Bottom Controls: Show More (Next 12) & Explore All 114 Surahs */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {visibleCount < filteredSurahs.length && (
+          <button
+            onClick={() => setVisibleCount((prev) => Math.min(prev + 12, filteredSurahs.length))}
+            className="px-5 py-3 rounded-2xl liquid-glass border border-emerald-600/40 text-emerald-200 hover:text-white font-bold text-xs hover:border-emerald-400 transition-all cursor-pointer"
+          >
+            Show More (Next 12 Surahs)
+          </button>
+        )}
+        {visibleCount > 12 && (
+          <button
+            onClick={() => setVisibleCount(12)}
+            className="px-4 py-3 rounded-2xl liquid-glass border border-white/10 text-zinc-400 hover:text-white font-bold text-xs transition-all cursor-pointer"
+          >
+            Show 12 Only
+          </button>
+        )}
         <Link
           href="/quran"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl liquid-glass border border-amber-500/30 text-amber-300 hover:text-white font-bold text-xs hover:border-amber-400 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-300 hover:text-white font-bold text-xs hover:border-amber-400 transition-all"
         >
           <span>Explore All 114 Surahs with Full Audio & Translations</span>
           <ArrowRight className="w-4 h-4" />

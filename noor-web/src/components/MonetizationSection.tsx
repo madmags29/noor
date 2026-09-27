@@ -47,16 +47,7 @@ export const MonetizationSection: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3 pt-3">
               <Link
                 href="/app-preview"
-                className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 font-black text-xs shadow-xl shadow-amber-500/30 transition-all flex items-center gap-2 border border-white/25 hover:scale-[1.02] whitespace-nowrap"
-              >
-                <Smartphone className="w-4 h-4" />
-                <span>{t('openSimulator')}</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <Link
-                href="/app-preview"
-                className="liquid-pill px-5 py-3.5 rounded-2xl text-xs font-bold text-white hover:text-amber-300 flex items-center gap-2 whitespace-nowrap"
+                className="liquid-pill px-5 py-3.5 rounded-2xl text-xs font-bold text-white hover:text-amber-300 flex items-center gap-2 whitespace-nowrap bg-emerald-900/60 border border-emerald-500/40 hover:border-amber-400/60 shadow-lg transition-all"
               >
                 <Apple className="w-4 h-4" />
                 <span>{t('appStoreDetails')}</span>

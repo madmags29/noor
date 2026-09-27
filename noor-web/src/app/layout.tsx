@@ -221,6 +221,7 @@ export const viewport = {
 
 import Script from 'next/script';
 import { LanguageProvider } from '../context/LanguageContext';
+import TelemetryClient from '../components/TelemetryClient';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-6VEVYV7DX2';
 
@@ -271,6 +272,7 @@ export default function RootLayout({
         </Script>
 
         <LanguageProvider>
+          <TelemetryClient />
           {children}
         </LanguageProvider>
       </body>
