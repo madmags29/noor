@@ -34,8 +34,12 @@ export const QuranSection: React.FC = () => {
       {/* Subtle Illuminated Quran Background Texture */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden rounded-[3rem]">
         <img
-          src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=60"
           alt="Noble Quran Calligraphy"
+          width={800}
+          height={500}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-top opacity-[0.06] mix-blend-luminosity filter saturate-150"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#02120d] via-[#02120d]/85 to-[#02120d]" />

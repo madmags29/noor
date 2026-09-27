@@ -5,6 +5,7 @@
 // ============================================================
 
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Sparkles } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 import { HeroSection } from '../components/HeroSection';
@@ -13,15 +14,55 @@ import { DailyAyahSection } from '../components/DailyAyahSection';
 import { QuranSection } from '../components/QuranSection';
 import { DuasSection } from '../components/DuasSection';
 import { QiblaSection } from '../components/QiblaSection';
-import { PixabayMediaSection } from '../components/PixabayMediaSection';
 import { CalendarSection } from '../components/CalendarSection';
 import { ExploreMoreSection } from '../components/ExploreMoreSection';
-import { MonetizationSection } from '../components/MonetizationSection';
-import { AuthModal, AuthUser } from '../components/AuthModal';
-import { AiAssistantModal } from '../components/AiAssistantModal';
-import { SearchModal } from '../components/SearchModal';
-import { DashboardModal } from '../components/DashboardModal';
+import type { AuthUser } from '../components/AuthModal';
 import { Footer } from '../components/Footer';
+
+// Defer heavy below-the-fold and modal modules to reduce DOM nodes, TBT and initial load time
+const PixabayMediaSection = dynamic(
+  () => import('../components/PixabayMediaSection').then((mod) => mod.PixabayMediaSection),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full py-16 px-4 max-w-7xl mx-auto flex items-center justify-center min-h-[220px]">
+        <div className="w-6 h-6 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
+      </div>
+    )
+  }
+);
+
+const AuthModal = dynamic(
+  () => import('../components/AuthModal').then((mod) => mod.AuthModal),
+  { ssr: false }
+);
+
+const AiAssistantModal = dynamic(
+  () => import('../components/AiAssistantModal').then((mod) => mod.AiAssistantModal),
+  { ssr: false }
+);
+
+const SearchModal = dynamic(
+  () => import('../components/SearchModal').then((mod) => mod.SearchModal),
+  { ssr: false }
+);
+
+const DashboardModal = dynamic(
+  () => import('../components/DashboardModal').then((mod) => mod.DashboardModal),
+  { ssr: false }
+);
+
+const MonetizationSection = dynamic(
+  () => import('../components/MonetizationSection').then((mod) => mod.MonetizationSection),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full py-12 px-4 max-w-7xl mx-auto flex items-center justify-center min-h-[160px]">
+        <div className="w-5 h-5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
+      </div>
+    )
+  }
+);
 
 import { DEFAULT_LOCATION, CityLocation, detectUserLocation, saveUserLocation } from '../lib/locationService';
 import { calculateDayPrayerTimes, PrayerTimeItem } from '../lib/prayerService';

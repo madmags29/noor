@@ -70,8 +70,12 @@ export const DuasSection: React.FC = () => {
       {/* Serene Prophet's Mosque Madinah Atmosphere Backdrop */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden rounded-[3rem]">
         <img
-          src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=1920&q=85"
+          src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=60"
           alt="Al-Masjid an-Nabawi Madinah Munawwarah"
+          width={800}
+          height={500}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-center opacity-[0.08] filter saturate-125"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#02120d] via-[#02120d]/80 to-[#02120d]" />

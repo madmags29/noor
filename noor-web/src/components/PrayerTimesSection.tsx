@@ -65,8 +65,12 @@ export const PrayerTimesSection: React.FC<PrayerTimesSectionProps> = ({
       {/* Subtle Islamic Architectural Atmosphere Backdrop */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden rounded-[3rem]">
         <img
-          src="https://images.unsplash.com/photo-1564769625905-50e93615e769?w=1920&q=85"
+          src="https://images.unsplash.com/photo-1564769625905-50e93615e769?w=800&q=60"
           alt="Islamic Architecture Minarets"
+          width={800}
+          height={500}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-center opacity-10 filter saturate-125"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#02120d] via-[#02120d]/80 to-[#02120d]" />

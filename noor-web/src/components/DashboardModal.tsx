@@ -245,6 +245,8 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
                       <img
                         src={currentUser.picture}
                         alt={currentUser.name}
+                        width={64}
+                        height={64}
                         className="w-16 h-16 rounded-2xl object-cover border-2 border-amber-400 shadow-lg shadow-amber-500/20"
                       />
                     ) : (

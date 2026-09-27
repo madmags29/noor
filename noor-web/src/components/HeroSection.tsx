@@ -277,8 +277,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Subtle background photo texture of Madinah Green Dome */}
               <div className="absolute inset-0 -z-10 opacity-15 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=480&q=65"
                   alt="Madinah Munawwarah"
+                  width={480}
+                  height={320}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -371,42 +375,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               label: t('pillarPrayersTitle'),
               desc: t('pillarPrayersDesc'),
               href: '/prayer-times',
-              img: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600&q=80',
+              img: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=360&q=75',
               badge: t('pillarPrayersBadge')
             },
             {
               label: t('pillarQuranTitle'),
               desc: t('pillarQuranDesc'),
               href: '/quran',
-              img: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=600&q=80',
+              img: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=360&q=75',
               badge: t('pillarQuranBadge')
             },
             {
               label: t('pillarDuasTitle'),
               desc: t('pillarDuasDesc'),
               href: '/duas',
-              img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=600&q=80',
+              img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=360&q=75',
               badge: t('pillarDuasBadge')
             },
             {
               label: t('pillarQiblaTitle'),
               desc: t('pillarQiblaDesc'),
               href: '/qibla',
-              img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=600&q=80',
+              img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=360&q=75',
               badge: t('pillarQiblaBadge')
             },
             {
               label: t('pillarMediaTitle'),
               desc: t('pillarMediaDesc'),
               href: '/media',
-              img: 'https://images.unsplash.com/photo-1585036156171-384164a8c675?w=600&q=80',
+              img: 'https://images.unsplash.com/photo-1585036156171-384164a8c675?w=360&q=75',
               badge: t('pillarMediaBadge')
             },
             {
               label: t('pillarCalendarTitle'),
               desc: t('pillarCalendarDesc'),
               href: '/calendar',
-              img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=600&q=80',
+              img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=360&q=75',
               badge: t('pillarCalendarBadge')
             },
           ].map((item, i) => (
@@ -418,9 +422,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <img
                 src={item.img}
                 alt={item.label}
+                width={360}
+                height={450}
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=600&q=80';
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=360&q=75';
                 }}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />

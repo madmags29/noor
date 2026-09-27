@@ -492,6 +492,8 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                     <img
                       src={currentUser.picture}
                       alt={currentUser.name}
+                      width={20}
+                      height={20}
                       className="w-5 h-5 rounded-full object-cover border border-amber-400/40"
                     />
                   ) : (
@@ -513,6 +515,8 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                         <img
                           src={currentUser.picture}
                           alt={currentUser.name}
+                          width={36}
+                          height={36}
                           className="w-9 h-9 rounded-full object-cover border border-amber-400"
                         />
                       ) : (
@@ -651,7 +655,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                 <div className="flex-1 p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-2 min-w-0">
                     {currentUser.picture ? (
-                      <img src={currentUser.picture} alt={currentUser.name} className="w-6 h-6 rounded-full object-cover" />
+                      <img src={currentUser.picture} alt={currentUser.name} width={24} height={24} className="w-6 h-6 rounded-full object-cover" />
                     ) : (
                       <div className="w-6 h-6 rounded-full bg-amber-500 text-emerald-950 font-bold flex items-center justify-center text-[10px]">
                         {currentUser.name.charAt(0).toUpperCase()}

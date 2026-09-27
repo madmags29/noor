@@ -48,8 +48,12 @@ export const DailyAyahSection: React.FC = () => {
         {/* Authentic Quran Manuscript Illumination Background */}
         <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=1600&q=80"
+            src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=60"
             alt="Noble Quran Manuscript Illumination"
+            width={800}
+            height={400}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover object-center opacity-10 mix-blend-luminosity filter saturate-150"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#031e15]/95 via-[#031e15]/85 to-[#031e15]/95" />

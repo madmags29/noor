@@ -25,11 +25,16 @@ export const PixabayMediaSection: React.FC = () => {
   const [previewItem, setPreviewItem] = useState<PixabayImageItem | PixabayVideoItem | null>(null);
 
   useEffect(() => {
+    // Skip initial network fetch if using default photos query (FALLBACK_IMAGES already loaded)
+    if (mediaType === 'photos' && searchQuery === 'islamic architecture') {
+      return;
+    }
+
     let isMounted = true;
     setLoading(true);
 
     if (mediaType === 'photos') {
-      fetchPixabayImages(searchQuery || 'islamic architecture', 12)
+      fetchPixabayImages(searchQuery || 'islamic architecture', 8)
         .then(res => {
           if (isMounted) setImages(res);
         })
@@ -37,7 +42,7 @@ export const PixabayMediaSection: React.FC = () => {
           if (isMounted) setLoading(false);
         });
     } else {
-      fetchPixabayVideos(searchQuery || 'islamic mosque', 8)
+      fetchPixabayVideos(searchQuery || 'islamic mosque', 6)
         .then(res => {
           if (isMounted) setVideos(res);
         })
@@ -129,11 +134,14 @@ export const PixabayMediaSection: React.FC = () => {
               <img
                 src={img.webformatUrl || img.previewUrl}
                 alt={img.title}
+                width={400}
+                height={300}
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   e.currentTarget.src = 'https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?w=800&q=85';
                 }}
-                loading="lazy"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
@@ -162,6 +170,10 @@ export const PixabayMediaSection: React.FC = () => {
                 <img
                   src={vid.thumbnail}
                   alt={vid.title}
+                  width={400}
+                  height={225}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (

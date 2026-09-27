@@ -87,46 +87,6 @@ export const MuslimLogo: React.FC<MuslimLogoProps> = ({
             </linearGradient>
           </defs>
 
-          <style>
-            {`
-              @keyframes noorOrbitSpin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-              }
-              @keyframes noorStarPulse {
-                0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.95; }
-                50% { transform: scale(1.12) rotate(22.5deg); opacity: 1; filter: drop-shadow(0 0 6px rgba(253,230,138,0.8)); }
-              }
-              @keyframes noorCrescentBreathe {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.025) translateY(-0.8px); }
-              }
-              @keyframes noorSparkRevolve {
-                0% { transform: rotate(0deg) translate(28px) rotate(0deg); }
-                100% { transform: rotate(360deg) translate(28px) rotate(-360deg); }
-              }
-              .anim-orbit {
-                transform-origin: 32px 32px;
-                animation: ${animate ? 'noorOrbitSpin 20s linear infinite' : 'none'};
-              }
-              .anim-star {
-                transform-origin: 0px 0px;
-                animation: ${animate ? 'noorStarPulse 4s ease-in-out infinite' : 'none'};
-              }
-              .anim-crescent {
-                transform-origin: 28px 32px;
-                animation: ${animate ? 'noorCrescentBreathe 5s ease-in-out infinite' : 'none'};
-              }
-              .anim-spark {
-                transform-origin: 32px 32px;
-                animation: ${animate ? 'noorSparkRevolve 10s linear infinite' : 'none'};
-              }
-              .group:hover .anim-star {
-                animation: noorStarPulse 1.8s ease-in-out infinite;
-              }
-            `}
-          </style>
-
           {/* 1. Outer Protective Rounded Base with Sacred Emerald Fill */}
           <rect
             x="2"
