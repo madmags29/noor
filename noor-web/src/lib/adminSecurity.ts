@@ -6,9 +6,9 @@
 import crypto from 'crypto';
 
 export const SUPER_ADMIN_EMAIL = process.env.SUPER_ADMIN_EMAIL || 'noor@nooreilahi.com';
-export const SUPER_ADMIN_PASSWORD = process.env.SUPER_ADMIN_PASSWORD || 'Majid5426!@#';
+export const SUPER_ADMIN_PASSWORD = process.env.SUPER_ADMIN_PASSWORD || '';
 const ADMIN_SECRET =
-  process.env.SUPER_ADMIN_JWT_SECRET || 'noor_super_admin_ultra_secure_secret_2026_majid_khan_786';
+  process.env.SUPER_ADMIN_JWT_SECRET || 'noor_super_admin_default_sec_jwt_key_99';
 
 const SESSION_EXPIRY_MS = 2 * 60 * 60 * 1000; // 2 hours
 const MAX_FAILED_ATTEMPTS = 5;
@@ -120,6 +120,10 @@ function safeCompare(a: string, b: string): boolean {
  */
 export function verifySuperAdminCredentials(emailInput: string, passwordInput: string): boolean {
   if (!emailInput || !passwordInput) return false;
+  if (!SUPER_ADMIN_PASSWORD) {
+    console.error('[adminSecurity] SUPER_ADMIN_PASSWORD is not set in environment variables.');
+    return false;
+  }
   const normalizedEmail = emailInput.trim().toLowerCase();
   const targetEmail = SUPER_ADMIN_EMAIL.toLowerCase();
 

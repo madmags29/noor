@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const OPENAI_API_KEY =
   process.env.OPENAI_API_KEY ||
   process.env.NEXT_PUBLIC_OPENAI_API_KEY ||
-  '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';
+  '';
 
 const ISLAMIC_SYSTEM_PROMPT = `
 You are Noor AI (نور إلهي), a scholarly, compassionate Islamic knowledge companion designed to guide believers in their daily Deen.
@@ -33,6 +33,14 @@ export async function POST(req: NextRequest) {
       ...(Array.isArray(history) ? history.slice(-4) : []),
       { role: 'user', content: question.trim() }
     ];
+
+    if (!OPENAI_API_KEY) {
+      return NextResponse.json({
+        answer: getFallbackAnswer(question),
+        reference: 'Sahih al-Bukhari & Hisn al-Muslim (Verified Classical Archive)',
+        source: 'fallback'
+      });
+    }
 
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',

@@ -2,8 +2,7 @@
 // NOOR Mobile — OpenAI Knowledge Companion Service
 // ============================================================
 
-const OPENAI_API_KEY =
-  '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';
+const OPENAI_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
 
 const ISLAMIC_SYSTEM_PROMPT = `
 You are Noor AI (نور إلهي), a scholarly, compassionate Islamic knowledge companion designed to guide believers in their daily Deen.
@@ -23,6 +22,9 @@ export interface AiResponse {
 }
 
 export async function askNoorAi(question: string): Promise<AiResponse> {
+  if (!OPENAI_API_KEY) {
+    return getLocalAiFallback(question);
+  }
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',

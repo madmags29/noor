@@ -11,16 +11,20 @@ interface SendContactEmailParams {
   message: string;
 }
 
-const SMTP_HOST = process.env.SMTP_HOST || 'in10.fastwebhost.com';
+const SMTP_HOST = process.env.SMTP_HOST || '';
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465', 10);
 const SMTP_SECURE = process.env.SMTP_SECURE !== 'false';
-const SMTP_USER = process.env.SMTP_USER || 'salam@nooreilahi.com';
-const SMTP_PASS = process.env.SMTP_PASS || 'Majid5426!@';
-const SMTP_FROM = process.env.SMTP_FROM || `"Noor-e-ilahi" <${SMTP_USER}>`;
+const SMTP_USER = process.env.SMTP_USER || '';
+const SMTP_PASS = process.env.SMTP_PASS || '';
+const SMTP_FROM = process.env.SMTP_FROM || (SMTP_USER ? `"Noor-e-ilahi" <${SMTP_USER}>` : '"Noor-e-ilahi" <salam@nooreilahi.com>');
 
 let transporter: Transporter | null = null;
 
-function getTransporter(): Transporter {
+function getTransporter(): Transporter | null {
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+    console.warn('[mailer] SMTP credentials not configured in environment variables.');
+    return null;
+  }
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: SMTP_HOST,
@@ -45,6 +49,13 @@ export async function sendContactInquiryEmails(params: SendContactEmailParams): 
   error?: string;
 }> {
   const mailer = getTransporter();
+  if (!mailer) {
+    return {
+      adminSent: false,
+      userSent: false,
+      error: 'SMTP mailer is not configured in server environment.'
+    };
+  }
   let adminSent = false;
   let userSent = false;
 
