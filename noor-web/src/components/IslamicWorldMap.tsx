@@ -25,7 +25,7 @@ import {
   IslamicMapPoint,
   MapPointType
 } from '../data/islamicMapData';
-import { NOOR_FALLBACK_SVG } from './NoorPlaceholderImage';
+import { NOOR_FALLBACK_SVG, NoorPlaceholderImage } from './NoorPlaceholderImage';
 import { calculateHaversineDistance } from '../lib/ziyaratService';
 
 interface IslamicWorldMapProps {
@@ -127,20 +127,9 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
   }, []);
 
   // Switch Tile Layer
+  // Switch Tile Layer — 100% Free OpenStreetMap (NO API KEY REQUIRED)
   useEffect(() => {
     if (!mapInstanceRef.current) return;
-
-    let tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-    let attribution =
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>';
-
-    if (tileTheme === 'osm') {
-      tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-      attribution =
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-    } else if (tileTheme === 'voyager') {
-      tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-    }
 
     // Remove existing tile layer
     mapInstanceRef.current.eachLayer((layer: any) => {
@@ -150,13 +139,20 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
     });
 
     const L = (window as any).L;
-    if (L) {
-      L.tileLayer(tileUrl, {
-        attribution,
-        maxZoom: 19,
-        subdomains: 'abcd'
-      }).addTo(mapInstanceRef.current);
-    }
+    if (!L) return;
+
+    // Official Free OpenStreetMap Tile Server
+    const tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const attribution =
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors';
+
+    const tileClassName = tileTheme === 'carto-dark' ? 'noor-dark-osm-tiles' : '';
+
+    L.tileLayer(tileUrl, {
+      attribution,
+      maxZoom: 19,
+      className: tileClassName
+    }).addTo(mapInstanceRef.current);
   }, [tileTheme, mapLoaded]);
 
   // Update Markers
@@ -476,15 +472,23 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
             <div className="rounded-3xl bg-[#021711]/98 border border-white/20 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden">
               {/* Header Image with Fallback */}
               <div className="relative h-44 w-full bg-black/60 overflow-hidden">
-                <img
-                  src={selectedPoint.thumbnailUrl || NOOR_FALLBACK_SVG}
-                  alt={selectedPoint.name}
-                  onError={(e) => {
-                    e.currentTarget.src = NOOR_FALLBACK_SVG;
-                  }}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#021711] via-[#021711]/30 to-transparent" />
+                {selectedPoint.thumbnailUrl ? (
+                  <img
+                    src={selectedPoint.thumbnailUrl}
+                    alt={selectedPoint.name}
+                    onError={(e) => {
+                      e.currentTarget.src = NOOR_FALLBACK_SVG;
+                    }}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                ) : (
+                  <NoorPlaceholderImage
+                    title={selectedPoint.name}
+                    type={selectedPoint.type}
+                    className="w-full h-full"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#021711] via-[#021711]/30 to-transparent pointer-events-none" />
 
                 {/* Close Button */}
                 <button
@@ -629,15 +633,23 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
               >
                 {/* Thumbnail */}
                 <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black/40 border border-white/10 relative">
-                  <img
-                    src={point.thumbnailUrl || NOOR_FALLBACK_SVG}
-                    alt={point.name}
-                    onError={(e) => {
-                      e.currentTarget.src = NOOR_FALLBACK_SVG;
-                    }}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute bottom-0 right-0 p-0.5 bg-black/70 rounded-tl text-[9px]">
+                  {point.thumbnailUrl ? (
+                    <img
+                      src={point.thumbnailUrl}
+                      alt={point.name}
+                      onError={(e) => {
+                        e.currentTarget.src = NOOR_FALLBACK_SVG;
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  ) : (
+                    <NoorPlaceholderImage
+                      title=""
+                      type={point.type}
+                      className="w-full h-full p-1"
+                    />
+                  )}
+                  <div className="absolute bottom-0 right-0 p-0.5 bg-black/70 rounded-tl text-[9px] z-10">
                     {point.type === 'mosque' ? '🕌' : point.type === 'holy_site' ? '🕋' : '🏛️'}
                   </div>
                 </div>
@@ -670,6 +682,13 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
           })}
         </div>
       </div>
+
+      {/* Global CSS for 100% Free Dark Mode OpenStreetMap Tiles */}
+      <style jsx global>{`
+        .noor-dark-osm-tiles {
+          filter: brightness(0.65) invert(1) contrast(2.8) hue-rotate(195deg) saturate(0.3) brightness(0.8) !important;
+        }
+      `}</style>
     </div>
   );
 };

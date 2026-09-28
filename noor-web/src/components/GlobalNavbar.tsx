@@ -383,9 +383,16 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                               </span>
                             </div>
                             <div className="flex flex-col min-w-0">
-                              <span className="text-xs font-semibold leading-tight group-hover:text-amber-300 transition-colors">
-                                {item.label}
-                              </span>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-semibold leading-tight group-hover:text-amber-300 transition-colors">
+                                  {item.label}
+                                </span>
+                                {item.href === '/map' && (
+                                  <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-amber-400/25 text-amber-300 border border-amber-400/40 uppercase tracking-wider">
+                                    MAP
+                                  </span>
+                                )}
+                              </div>
                               <span className="text-[10px] text-emerald-300/60 leading-tight mt-0.5 line-clamp-1">
                                 {item.desc}
                               </span>

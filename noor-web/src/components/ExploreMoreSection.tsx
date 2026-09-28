@@ -47,6 +47,20 @@ export const ExploreMoreSection: React.FC = () => {
 
   const pillars: PillarItem[] = [
     {
+      id: 'map',
+      category: 'journeys',
+      icon3d: '🗺️',
+      titleKey: 'islamicMap',
+      titleFallback: 'Global Islamic Map (OpenStreetMap)',
+      descKey: 'islamicMapDesc',
+      descFallback: 'Interactive world map featuring 36+ revered dargahs, holy ziyarat points, and historic mosques with live GPS navigation.',
+      href: '/map',
+      badgeKeys: ['openStreetMap', 'worldDargahs', 'historicMosques'],
+      badges: ['OpenStreetMap Free', 'World Dargahs', 'Historic Mosques'],
+      gradient: 'from-amber-500/10 via-emerald-600/5 to-transparent',
+      accentBorder: 'hover:border-amber-400/50'
+    },
+    {
       id: 'guides',
       category: 'worship',
       icon3d: '🧎‍♂️',

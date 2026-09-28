@@ -367,6 +367,16 @@ export default function ZiyaratPage() {
               </button>
             </div>
 
+            {/* World Map Direct Link Button */}
+            <Link
+              href="/map"
+              className="px-3 py-1 rounded-full text-xs font-bold text-amber-300 bg-amber-500/15 border border-amber-400/40 hover:bg-amber-500/25 flex items-center gap-1.5 transition-all shadow-sm"
+              title="Open Global OpenStreetMap of World Dargahs & Mosques"
+            >
+              <span>🗺️</span>
+              <span className="hidden sm:inline">World Map</span>
+            </Link>
+
             {/* Contribute Dargah Button */}
             <button
               onClick={() => setIsSubmitExpanded(!isSubmitExpanded)}
