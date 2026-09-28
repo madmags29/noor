@@ -1,0 +1,9 @@
+Initial release of Noor-e-ilahi (v1.0.0):
+• Complete Noble Quran (114 Surahs) with Mushaf Tilawat ("Read in One Go") and Verse-by-Verse recitation.
+• High-definition audio streaming from world-class Qaris (Mishary Alafasy, Abdul Basit, Sudais, Ghamdi).
+• Precision astronomical prayer times with Makkah and Madinah Adhans and Qada logger.
+• Jitter-free, fluid-damped spherical Qibla compass with Kaaba alignment haptic feedback.
+• Live Zakat & 2.5% Nisab valuation engine across 30+ currencies with spot bullion rates.
+• Authentic Hisn al-Muslim supplications, Nikah guidance, Islamic etiquette (Adab), and Wudu/Salah guides.
+• Multilingual support: English, Urdu, and Hindi.
+• 0% Ads and complete location privacy.

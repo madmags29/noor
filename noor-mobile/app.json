@@ -20,10 +20,17 @@
       ]
     },
     "android": {
+      "package": "com.noor.app",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "VIBRATE",
+        "INTERNET"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#031712"
       },
-      "package": "com.noor.app",
       "intentFilters": [
         {
           "action": "VIEW",

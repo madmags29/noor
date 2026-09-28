@@ -1,0 +1,49 @@
+{
+  "app_details": {
+    "app_name": "Noor-e-ilahi: Daily Islamic App",
+    "package_name": "com.noor.app",
+    "version_name": "1.0.0",
+    "version_code": 1,
+    "default_language": "en-US",
+    "app_type": "App",
+    "price": "Free",
+    "category": "Books & Reference / Lifestyle"
+  },
+  "store_presence": {
+    "short_description": "Precision prayer times, 114 Surahs Quran, fluid Qibla & authentic duas.",
+    "website_url": "https://www.nooreilahi.com",
+    "support_email": "salam@nooreilahi.com",
+    "privacy_policy_url": "https://www.nooreilahi.com/privacy",
+    "app_icon_asset": "playstore-assets/app-icon-512x512.png",
+    "feature_graphic_asset": "playstore-assets/feature-graphic-1024x500.png",
+    "screenshots_dir": "playstore-assets/screenshots"
+  },
+  "content_rating_answers": {
+    "category": "Reference, News, or Educational",
+    "violence": "No",
+    "sexuality": "No",
+    "profanity": "No",
+    "controlled_substances": "No",
+    "gambling": "No",
+    "user_interaction": "No",
+    "shares_physical_location": "No (location is processed strictly locally for prayer times)",
+    "digital_purchases": "No"
+  },
+  "data_safety_declaration": {
+    "data_collected": [
+      {
+        "data_type": "Approximate and Precise Location",
+        "purpose": "App functionality (calculating local astronomical prayer timetables and spherical Qibla direction)",
+        "is_optional": false,
+        "is_shared_with_third_parties": false,
+        "is_ephemeral": true,
+        "is_encrypted_in_transit": true
+      }
+    ],
+    "data_security": {
+      "encrypted_in_transit": true,
+      "user_can_request_deletion": true
+    },
+    "ads_declaration": "No, my app does not contain ads"
+  }
+}

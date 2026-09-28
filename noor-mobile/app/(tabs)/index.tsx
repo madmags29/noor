@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { THEME } from '../../src/theme';
 import { POPULAR_CITIES, MobileCity, LocationPickerModal } from '../../src/components/LocationPickerModal';
+
 import { QiblaModal } from '../../src/components/QiblaModal';
 import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
@@ -21,6 +22,9 @@ import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { AdhanVoiceModal, ADHAN_VOICES, AdhanVoice } from '../../src/components/AdhanVoiceModal';
 import { useLanguage } from '../../src/context/LanguageContext';
 import { LanguageModal } from '../../src/components/LanguageModal';
+import { SearchModal } from '../../src/components/SearchModal';
+import { getDailyAyah, DailyAyahItem } from '../../src/data/quranData';
+import { useAudioPlayer } from 'expo-audio';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -28,6 +32,7 @@ export default function HomeScreen() {
   const [currentCity, setCurrentCity] = useState<MobileCity>(POPULAR_CITIES[0]); // Makkah default
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [showQiblaModal, setShowQiblaModal] = useState(false);
   const [showAiModal, setShowAiModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -40,6 +45,28 @@ export default function HomeScreen() {
     isLoggedIn: true,
     streakDays: 14,
   });
+
+  // Dynamic Rotating Verse of the Day
+  const [dayOffset, setDayOffset] = useState(0);
+  const displayedDate = React.useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + dayOffset);
+    return d;
+  }, [dayOffset]);
+  const dailyAyah: DailyAyahItem = React.useMemo(() => getDailyAyah(displayedDate), [displayedDate]);
+  const ayahPlayer = useAudioPlayer(dailyAyah.audioUrl);
+  const [isDailyAyahPlaying, setIsDailyAyahPlaying] = useState(false);
+
+  const toggleDailyAyahAudio = () => {
+    if (isDailyAyahPlaying) {
+      ayahPlayer.pause();
+      setIsDailyAyahPlaying(false);
+    } else {
+      ayahPlayer.replace(dailyAyah.audioUrl);
+      ayahPlayer.play();
+      setIsDailyAyahPlaying(true);
+    }
+  };
 
   // Live countdown simulation
   const [secondsLeft, setSecondsLeft] = useState(2535); // ~42 mins
@@ -69,6 +96,16 @@ export default function HomeScreen() {
           </TouchableOpacity>
 
           <View style={styles.headerRightActions}>
+            {/* Universal Instant Search Button */}
+            <TouchableOpacity
+              style={styles.searchHeaderBtn}
+              onPress={() => setShowSearchModal(true)}
+              activeOpacity={0.8}
+              accessibilityLabel="Search"
+            >
+              <Ionicons name="search" size={16} color={THEME.colors.goldPrimary} />
+            </TouchableOpacity>
+
             {/* Location Selector Pill (Dynamic width, never cut off) */}
             <TouchableOpacity
               style={styles.locationPill}
@@ -292,6 +329,78 @@ export default function HomeScreen() {
 
           <TouchableOpacity
             style={styles.gridCard}
+            onPress={() => router.push('/nikah')}
+            activeOpacity={0.8}
+          >
+            <View style={[styles.gridIconCircle, { backgroundColor: 'rgba(244, 63, 94, 0.15)' }]}>
+              <Ionicons name="heart-circle-outline" size={20} color="#f43f5e" />
+            </View>
+            <Text style={styles.gridCardTitle}>Nikah & Family</Text>
+            <Text style={styles.gridCardSub}>Pillars, Rights & Duas</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.gridCard}
+            onPress={() => router.push('/etiquette')}
+            activeOpacity={0.8}
+          >
+            <View style={[styles.gridIconCircle, { backgroundColor: 'rgba(52, 211, 153, 0.15)' }]}>
+              <Ionicons name="sparkles-outline" size={20} color="#34d399" />
+            </View>
+            <Text style={styles.gridCardTitle}>Etiquette (Adab)</Text>
+            <Text style={styles.gridCardSub}>Sunnah Daily Manners</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.gridCard}
+            onPress={() => router.push('/watch')}
+            activeOpacity={0.8}
+          >
+            <View style={[styles.gridIconCircle, { backgroundColor: 'rgba(239, 68, 68, 0.15)' }]}>
+              <Ionicons name="videocam-outline" size={20} color="#ef4444" />
+            </View>
+            <Text style={styles.gridCardTitle}>Sacred Watch</Text>
+            <Text style={styles.gridCardSub}>24/7 Haramain Live</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.gridCard}
+            onPress={() => router.push('/zakat')}
+            activeOpacity={0.8}
+          >
+            <View style={[styles.gridIconCircle, { backgroundColor: 'rgba(245, 158, 11, 0.15)' }]}>
+              <Ionicons name="cash-outline" size={20} color="#fbbf24" />
+            </View>
+            <Text style={styles.gridCardTitle}>Zakat Calculator</Text>
+            <Text style={styles.gridCardSub}>2.5% Live Nisab</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.gridCard}
+            onPress={() => router.push('/guides')}
+            activeOpacity={0.8}
+          >
+            <View style={[styles.gridIconCircle, { backgroundColor: 'rgba(52, 211, 153, 0.15)' }]}>
+              <Ionicons name="shield-checkmark-outline" size={20} color="#34d399" />
+            </View>
+            <Text style={styles.gridCardTitle}>Prayer Guides</Text>
+            <Text style={styles.gridCardSub}>Wudu, Ghusl & Salah</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.gridCard}
+            onPress={() => router.push('/hajj-umrah')}
+            activeOpacity={0.8}
+          >
+            <View style={[styles.gridIconCircle, { backgroundColor: 'rgba(245, 158, 11, 0.15)' }]}>
+              <Ionicons name="navigate-outline" size={20} color="#f59e0b" />
+            </View>
+            <Text style={styles.gridCardTitle}>Hajj & Umrah</Text>
+            <Text style={styles.gridCardSub}>Field Guide & Checklist</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.gridCard}
             onPress={() => router.push('/giving')}
             activeOpacity={0.8}
           >
@@ -315,28 +424,72 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* 5. Verse of the Day */}
-        <Text style={styles.sectionHeading}>{t('dailyVerse')}</Text>
+        {/* 5. Verse of the Day (Dynamic Daily Rotation) */}
+        <View style={styles.ayahSectionHeaderRow}>
+          <Text style={styles.sectionHeading}>{t('dailyVerse')}</Text>
+          <View style={styles.ayahDateSwitcher}>
+            <TouchableOpacity
+              onPress={() => setDayOffset(prev => prev - 1)}
+              style={styles.daySwitchBtn}
+            >
+              <Ionicons name="chevron-back" size={13} color="#6ee7b7" />
+            </TouchableOpacity>
+            <Text style={styles.daySwitchLabel}>
+              {dayOffset === 0 ? 'Today' : dayOffset === -1 ? 'Yesterday' : dayOffset === 1 ? 'Tomorrow' : displayedDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+            </Text>
+            <TouchableOpacity
+              onPress={() => setDayOffset(prev => prev + 1)}
+              style={styles.daySwitchBtn}
+            >
+              <Ionicons name="chevron-forward" size={13} color="#6ee7b7" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <View style={styles.ayahCard}>
           <View style={styles.ayahTopRow}>
-            <Text style={styles.ayahBismillah}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</Text>
-            <Text style={styles.ayahSurahTag}>Surah Al-Baqarah 2:255</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.ayahBismillah}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</Text>
+              <Text style={styles.ayahSurahTag}>{dailyAyah.surahName} • {dailyAyah.reference}</Text>
+            </View>
+
+            {/* Audio Recitation Button */}
+            <TouchableOpacity
+              style={[styles.ayahAudioBtn, isDailyAyahPlaying && styles.ayahAudioBtnActive]}
+              onPress={toggleDailyAyahAudio}
+              activeOpacity={0.8}
+            >
+              <Ionicons
+                name={isDailyAyahPlaying ? 'pause' : 'play'}
+                size={13}
+                color={isDailyAyahPlaying ? '#031712' : '#f59e0b'}
+              />
+              <Text style={[styles.ayahAudioBtnText, isDailyAyahPlaying && styles.ayahAudioBtnTextActive]}>
+                {isDailyAyahPlaying ? 'Pause' : 'Recite'}
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.ayahArabicText}>
-            اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْमٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَमَا فِي الْأَرْضِ
+            {dailyAyah.arabic}
           </Text>
+
+          {dailyAyah.transliteration ? (
+            <Text style={styles.ayahTranslitText}>
+              {dailyAyah.transliteration}
+            </Text>
+          ) : null}
 
           <Text style={styles.ayahEnglishText}>
             {language === 'hi'
-              ? 'अल्लाह — उसके सिवा कोई इबादत के लायक़ नहीं, वह हमेशा ज़िंदा रहने वाला और सब कुछ संभालने वाला है। न उसे ऊंघ आती है और न नींद। जो कुछ आसमानों में है और जो कुछ ज़मीन में है, सब उसी का है।'
+              ? (dailyAyah.translationHi || dailyAyah.translationEn)
               : language === 'ur'
-              ? 'اللہ کے سوا کوئی معبود نہیں، وہ ہمیشہ زندہ رہنے والا اور سب کو سنبھالنے والا ہے۔ نہ اسے اونگھ آتی ہے نہ نیند۔'
-              : '"Allah! There is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth."'}
+              ? (dailyAyah.translationUr || dailyAyah.translationEn)
+              : dailyAyah.translationEn}
           </Text>
 
           <View style={styles.ayahFooter}>
-            <Text style={styles.ayahFooterBadge}>Ayat al-Kursi (2:255)</Text>
+            <Text style={styles.ayahFooterBadge}>{dailyAyah.surahName} {dailyAyah.surahNumber}:{dailyAyah.ayahNumber}</Text>
             <TouchableOpacity onPress={() => router.push('/(tabs)/quran')}>
               <Text style={styles.ayahFooterLink}>{t('readQuranCta')}</Text>
             </TouchableOpacity>
@@ -421,6 +574,12 @@ export default function HomeScreen() {
       <LanguageModal
         visible={showLanguageModal}
         onClose={() => setShowLanguageModal(false)}
+      />
+
+      {/* Universal Search Modal */}
+      <SearchModal
+        visible={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
       />
     </SafeAreaView>
   );
@@ -887,5 +1046,69 @@ const styles = StyleSheet.create({
   hadithNarrator: {
     fontSize: 10,
     color: THEME.colors.emeraldSubtle,
+  },
+  searchHeaderBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.35)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ayahSectionHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: -4,
+  },
+  ayahDateSwitcher: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(16, 185, 129, 0.2)',
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 12,
+  },
+  daySwitchBtn: {
+    padding: 2,
+  },
+  daySwitchLabel: {
+    color: '#6ee7b7',
+    fontSize: 10,
+    fontWeight: '700',
+    paddingHorizontal: 2,
+  },
+  ayahAudioBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.35)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  ayahAudioBtnActive: {
+    backgroundColor: '#f59e0b',
+  },
+  ayahAudioBtnText: {
+    color: '#f59e0b',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  ayahAudioBtnTextActive: {
+    color: '#031712',
+  },
+  ayahTranslitText: {
+    fontSize: 11,
+    color: '#6ee7b7',
+    fontStyle: 'italic',
+    lineHeight: 16,
   },
 });

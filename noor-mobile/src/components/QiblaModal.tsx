@@ -80,6 +80,10 @@ function getCardinal(deg: number): string {
   return 'NW';
 }
 
+function getShortestAngleDelta(target: number, current: number): number {
+  return ((target - (current % 360) + 540) % 360) - 180;
+}
+
 export const QiblaModal: React.FC<QiblaModalProps> = ({
   visible,
   onClose,
@@ -99,37 +103,26 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
   const [isSensorActive, setIsSensorActive] = useState<boolean>(false);
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [isAligned, setIsAligned] = useState<boolean>(false);
+
+  // Unwrapped continuous heading tracking & EMA low-pass filter refs to eliminate boundary flip and sensor noise
+  const unwrappedHeadingRef = useRef<number>(0);
+  const smoothedHeadingRef = useRef<number>(0);
+  const lastUiUpdateRef = useRef<number>(0);
+  const lastHapticRef = useRef<number>(0);
 
   // Animated rotation value for buttery smooth movement
   const animatedHeading = useRef(new Animated.Value(0)).current;
-  const lastHapticRef = useRef<number>(0);
 
-  // Calculate relative angle to Kaaba
+  // Relative angle to Kaaba
   const relativeAngle = ((qiblaBearing - heading + 360) % 360);
-  const isAligned = relativeAngle <= 4 || relativeAngle >= 356;
 
-  // Trigger haptic vibration upon Kaaba alignment
-  useEffect(() => {
-    if (isAligned && visible) {
-      const now = Date.now();
-      if (now - lastHapticRef.current > 1500) {
-        lastHapticRef.current = now;
-        try {
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        } catch (_) {}
-      }
-    }
-  }, [isAligned, visible]);
-
-  // Smoothly animate compass heading transitions
-  useEffect(() => {
-    Animated.timing(animatedHeading, {
-      toValue: heading,
-      duration: 180,
-      easing: Easing.out(Easing.quad),
-      useNativeDriver: true,
-    }).start();
-  }, [heading]);
+  // Hysteresis alignment check to prevent border & banner blinking
+  const checkAlignment = (currentHeading: number, currentlyAligned: boolean): boolean => {
+    const rel = (qiblaBearing - currentHeading + 360) % 360;
+    const angleDiff = rel > 180 ? 360 - rel : rel;
+    return currentlyAligned ? angleDiff <= 6.0 : angleDiff <= 4.0;
+  };
 
   // Watch hardware compass/gyroscope sensors
   useEffect(() => {
@@ -156,10 +149,56 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
           // Subscribe to hardware compass/magnetometer/gyroscope
           sub = await Location.watchHeadingAsync((headingData) => {
             if (!isMounted || isSimulating) return;
-            const h = headingData.trueHeading >= 0 ? headingData.trueHeading : headingData.magHeading;
-            setHeading(Math.round(h));
-            setAccuracy(headingData.accuracy);
-            setIsSensorActive(true);
+            const raw = headingData.trueHeading >= 0 ? headingData.trueHeading : headingData.magHeading;
+            if (isNaN(raw) || raw < 0) return;
+
+            // Calculate shortest path delta from currently smoothed heading
+            const delta = getShortestAngleDelta(raw, smoothedHeadingRef.current);
+
+            // 1. Deadband filter: ignore micro-tremors below 0.35° when device is steady
+            if (Math.abs(delta) < 0.35) {
+              return;
+            }
+
+            // 2. Adaptive Low-Pass Filter (EMA):
+            // Smooth small vibrations heavily (alpha = 0.22), while responding promptly to intentional turns (alpha = 0.55)
+            const alpha = Math.abs(delta) > 15 ? 0.6 : Math.abs(delta) > 5 ? 0.38 : 0.22;
+            const smoothedDelta = delta * alpha;
+
+            smoothedHeadingRef.current = (smoothedHeadingRef.current + smoothedDelta + 360) % 360;
+            unwrappedHeadingRef.current = unwrappedHeadingRef.current + smoothedDelta;
+
+            // 3. Ultra-smooth GPU-driven continuous animation (no 360° flip)
+            Animated.timing(animatedHeading, {
+              toValue: unwrappedHeadingRef.current,
+              duration: 90,
+              easing: Easing.out(Easing.quad),
+              useNativeDriver: true,
+            }).start();
+
+            // 4. Throttle React state & text re-renders to max once per 80ms
+            const now = Date.now();
+            if (now - lastUiUpdateRef.current > 80) {
+              lastUiUpdateRef.current = now;
+              const roundedHeading = Math.round((smoothedHeadingRef.current + 360) % 360);
+              setHeading(roundedHeading);
+              setAccuracy(headingData.accuracy);
+              setIsSensorActive(true);
+
+              setIsAligned((prevAligned) => {
+                const nextAligned = checkAlignment(roundedHeading, prevAligned);
+                if (nextAligned && !prevAligned) {
+                  const hapticNow = Date.now();
+                  if (hapticNow - lastHapticRef.current > 1500) {
+                    lastHapticRef.current = hapticNow;
+                    try {
+                      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                    } catch (_) {}
+                  }
+                }
+                return nextAligned;
+              });
+            }
           });
         }
       } catch (err) {
@@ -182,23 +221,53 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
   // Manual Gyroscope Stepper for testing / simulation
   const adjustHeading = (delta: number) => {
     setIsSimulating(true);
-    setHeading((prev) => (prev + delta + 360) % 360);
+    const newHeading = (heading + delta + 360) % 360;
+    unwrappedHeadingRef.current = unwrappedHeadingRef.current + delta;
+    smoothedHeadingRef.current = newHeading;
+    setHeading(newHeading);
+
+    Animated.timing(animatedHeading, {
+      toValue: unwrappedHeadingRef.current,
+      duration: 180,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: true,
+    }).start();
+
+    setIsAligned((prev) => checkAlignment(newHeading, prev));
   };
 
   const snapToQibla = () => {
     setIsSimulating(true);
-    setHeading(Math.round(qiblaBearing));
+    const target = Math.round(qiblaBearing);
+    const delta = getShortestAngleDelta(target, unwrappedHeadingRef.current);
+    unwrappedHeadingRef.current = unwrappedHeadingRef.current + delta;
+    smoothedHeadingRef.current = target;
+    setHeading(target);
+
+    Animated.timing(animatedHeading, {
+      toValue: unwrappedHeadingRef.current,
+      duration: 250,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    }).start();
+
+    setIsAligned(true);
+    try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (_) {}
   };
 
-  // Interpolate rotation for dial & needle
+  // Interpolate rotation for dial & needle with extrapolate: 'extend' so unwrapped angles rotate continuously
   const dialRotation = animatedHeading.interpolate({
     inputRange: [0, 360],
     outputRange: ['0deg', '-360deg'],
+    extrapolate: 'extend',
   });
 
   const kaabaNeedleRotation = animatedHeading.interpolate({
     inputRange: [0, 360],
     outputRange: [`${qiblaBearing}deg`, `${qiblaBearing - 360}deg`],
+    extrapolate: 'extend',
   });
 
   return (

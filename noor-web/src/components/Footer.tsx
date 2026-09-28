@@ -191,11 +191,22 @@ export const Footer: React.FC = () => {
 
       </div>
 
-      {/* Bottom Bar: Copyright notice & Official Contact */}
-      <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-[11px] text-emerald-400/60 text-center sm:text-left">
+      {/* Bottom Bar: Copyright notice, Legal Links & Official Contact */}
+      <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="text-[11px] text-emerald-400/60 text-center md:text-left">
           {t('footerCopyright')}
         </p>
+
+        <div className="flex items-center gap-4 text-[11px] text-emerald-300/75 font-medium">
+          <Link href="/privacy" className="hover:text-amber-300 transition-colors">
+            Privacy Policy
+          </Link>
+          <span className="text-white/20">•</span>
+          <Link href="/terms" className="hover:text-amber-300 transition-colors">
+            Terms & Conditions
+          </Link>
+        </div>
+
         <Link href="/contact" className="text-[11px] text-amber-300/80 hover:text-amber-300 font-mono transition-colors flex items-center gap-1.5">
           <span>Official Inbox:</span>
           <span className="underline underline-offset-2">salam@nooreilahi.com</span>
