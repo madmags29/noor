@@ -50,7 +50,7 @@ export const DUAS_LIST: DuaItem[] = [
   {
     id: 'dua-protection-1',
     category: 'protection',
-    title: 'Dua against Harm (Recited 3 times)',
+    title: 'Dua for Protection from Harm',
     titleHi: 'हर बुराई और नुक्सान से हिफ़ाज़त की दुआ (3 बार)',
     titleUr: 'ہر قسم کے شر اور نقصان سے حفاظت کی دعا (3 بار)',
     arabic: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
@@ -65,7 +65,7 @@ export const DUAS_LIST: DuaItem[] = [
   {
     id: 'dua-hardship-1',
     category: 'hardship',
-    title: 'Dua of Prophet Yunus (AS) in Distress',
+    title: 'Dua of Prophet Yunus (AS) in Times of Distress',
     titleHi: 'संकट और कठिनाई में हज़रत यूनुस (अलैहिस्सलाम) की दुआ',
     titleUr: 'تکلیف و پریشانی میں حضرت یونس علیہ السلام کی دعا',
     arabic: 'لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',
@@ -110,8 +110,8 @@ export const DUAS_LIST: DuaItem[] = [
   {
     id: 'dua-sleep-1',
     category: 'sleep',
-    title: 'Before Sleeping: Seeking Rest in Allah’s Name',
-    titleHi: 'सोने से पहले की दुआ: अल्लाह के नाम से आराम पाना',
+    title: 'Dua Before Sleeping',
+    titleHi: 'सोने से पहले की दुआ',
     titleUr: 'سونے کی دعا: اللہ کے مبارک نام سے آرام',
     arabic: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ',
     transliteration: "Bismika Rabbi wada'tu janbi, wa bika arfa'uh, fa-in amsakta nafsi farhamha, wa in arsaltaha fahfazha bima tahfazu bihi 'ibadakas-salihin.",

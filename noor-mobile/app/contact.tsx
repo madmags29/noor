@@ -283,7 +283,7 @@ export default function ContactScreen() {
           <View style={styles.complianceCard}>
             <Ionicons name="shield-checkmark" size={16} color="#f59e0b" />
             <Text style={styles.complianceText}>
-              100% Shariah Compliant • Zero Data Sale • Direct Confidential Support
+              Source-Referenced Content • Zero Data Sale • Direct Confidential Support
             </Text>
           </View>
 

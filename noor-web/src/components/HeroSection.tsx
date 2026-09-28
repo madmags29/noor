@@ -19,7 +19,8 @@ import {
   Star,
   Quote,
   ShieldCheck,
-  Check
+  Check,
+  Calendar
 } from 'lucide-react';
 import { CityLocation } from '../lib/locationService';
 import { PrayerTimeItem } from '../lib/prayerService';
@@ -154,6 +155,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     day: 'numeric'
   });
 
+  let hijriDate = '17 Rabi al-Thani 1448 AH';
+  try {
+    hijriDate = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(currentTime);
+  } catch {
+    hijriDate = '17 Rabi al-Thani 1448 AH';
+  }
+
   return (
     <section className="relative w-full overflow-hidden pt-6 pb-20 px-4 lg:px-8">
       {/* 1. Cinematic Ambient Background Video with Dark Emerald Fluid Mask */}
@@ -181,9 +193,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Top Badges Row: Hijri Date, Rating Pill, Location */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="liquid-pill px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 flex items-center gap-2 shadow-sm border border-amber-500/30">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-              {t('ramadanNotice')}
+            <span className="liquid-pill px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 flex items-center gap-2 shadow-sm border border-amber-500/30" title="Dates may vary by one day depending on local moon sighting or calendar methodology">
+              <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              <span>{hijriDate}</span>
+              <span className="text-[10px] text-amber-400/80 font-normal hidden sm:inline">(Local sighting may vary ±1d)</span>
             </span>
             <span className="text-xs text-emerald-300/60 hidden sm:inline">•</span>
             <span className="text-xs text-emerald-200/80 font-medium hidden sm:inline">{formattedDate}</span>
@@ -223,26 +236,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2 liquid-pill px-4 py-1.5 rounded-full text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-400/40 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>{t('heroBadge')}</span>
+              <span>Pray • Read • Learn • Discover</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
-              {t('heroTitle1')}<br />
-              <span className="gold-gradient-text">{t('heroTitle2')}</span>
+              Your Deen.<br />
+              <span className="gold-gradient-text">Your Daily Companion.</span>
             </h1>
 
             <p className="text-base sm:text-lg text-emerald-100/85 max-w-xl font-normal leading-relaxed">
-              {t('heroDesc')}
+              A trusted Islamic companion for prayer, Qur'an, duas, Qibla, Islamic knowledge, Ziyarat and everyday Muslim life.
             </p>
 
-            {/* Quick Action Buttons */}
+            {/* Primary Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/prayer-times"
                 className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 font-black text-xs shadow-xl shadow-amber-500/30 hover:scale-[1.02] transition-all flex items-center gap-2 border border-white/30 whitespace-nowrap"
               >
                 <Clock className="w-4 h-4" />
-                <span>{t('ctaPrayerTimes')}</span>
+                <span>Explore NOOR</span>
               </Link>
 
               <Link
@@ -250,7 +263,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="liquid-pill px-6 py-3.5 rounded-2xl text-emerald-100 font-bold text-xs hover:border-amber-400/50 hover:text-amber-300 transition-all flex items-center gap-2 whitespace-nowrap"
               >
                 <BookOpen className="w-4 h-4 text-amber-400" />
-                <span>{t('ctaQuran')}</span>
+                <span>The Noble Qur'an</span>
               </Link>
 
               <Link
@@ -258,16 +271,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="liquid-pill px-5 py-3.5 rounded-2xl text-amber-300 font-bold text-xs hover:border-amber-400/60 transition-all flex items-center gap-2 border border-amber-500/30 whitespace-nowrap"
               >
                 <Smartphone className="w-4 h-4 text-amber-400" />
-                <span>{t('ctaMobileLab')}</span>
+                <span>Download App</span>
                 <ChevronRight className="w-3.5 h-3.5 text-amber-400" />
               </Link>
             </div>
 
-            {/* Trust Badges */}
+            {/* Factual Trust Badges */}
             <div className="flex flex-wrap items-center gap-4 pt-2 text-[11px] text-emerald-300/80 font-semibold">
-              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-400" /> {t('trustAuthentic')}</span>
-              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-amber-400" /> {t('trustShariah')}</span>
-              <span className="flex items-center gap-1.5"><Sparkles className="w-4 h-4 text-amber-400" /> {t('trustAdFree')}</span>
+              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Source-Referenced Content</span>
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-amber-400" /> Ad-Free Experience</span>
+              <span className="flex items-center gap-1.5"><Sparkles className="w-4 h-4 text-emerald-400" /> Privacy-First (No Tracking)</span>
             </div>
           </div>
 
@@ -333,14 +346,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
               </div>
 
+              {/* View Prayer Times & Quick Action */}
+              <div className="flex items-center gap-2 mb-3">
+                <Link
+                  href="/prayer-times"
+                  className="flex-1 py-3 px-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>View Prayer Times</span>
+                </Link>
+                <Link
+                  href="/qibla"
+                  className="py-3 px-4 rounded-xl liquid-pill text-emerald-200 text-xs font-semibold flex items-center gap-1.5 hover:border-amber-400 transition-colors"
+                >
+                  <Compass className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Qibla</span>
+                </Link>
+              </div>
+
               {/* Audio Azan Controller */}
               <div className="flex items-center gap-3">
                 <button
                   onClick={toggleAzan}
-                  className={`flex-1 py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2.5 font-bold text-xs transition-all border ${
+                  className={`flex-1 py-3 px-5 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs transition-all border ${
                     isPlayingAzan
                       ? 'bg-red-500/25 border-red-400/60 text-red-200 animate-pulse'
-                      : 'bg-amber-500/25 hover:bg-amber-500/35 border-amber-400/50 text-amber-300 shadow-lg'
+                      : 'bg-emerald-950/60 hover:bg-emerald-900/60 border-emerald-500/30 text-emerald-200 shadow-md'
                   }`}
                 >
                   {isPlayingAzan ? (
@@ -350,68 +381,60 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </>
                   ) : (
                     <>
-                      <Volume2 className="w-4 h-4" />
+                      <Volume2 className="w-4 h-4 text-amber-400" />
                       <span>{t('listenAdhanMakkah')}</span>
                     </>
                   )}
                 </button>
-
-                <Link
-                  href="/qibla"
-                  className="liquid-pill p-3.5 rounded-2xl text-amber-400 hover:text-amber-300 hover:scale-105 transition-all border border-white/15"
-                  title={t('openQiblaTooltip')}
-                >
-                  <Compass className="w-5 h-5" />
-                </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Liquid Glass Image-Backed Quick Navigation Pillars */}
+        {/* 6 Core User-Focused Action Pillars */}
         <div className="mt-16 pt-10 border-t border-white/10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
           {[
             {
-              label: t('pillarPrayersTitle'),
-              desc: t('pillarPrayersDesc'),
+              label: 'Prayer Times',
+              desc: 'Accurate Daily Schedule',
               href: '/prayer-times',
               img: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=360&q=75',
-              badge: t('pillarPrayersBadge')
+              badge: 'Prayer'
             },
             {
-              label: t('pillarQuranTitle'),
-              desc: t('pillarQuranDesc'),
+              label: 'The Noble Qur\'an',
+              desc: '114 Surahs & Reciters',
               href: '/quran',
               img: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=360&q=75',
-              badge: t('pillarQuranBadge')
+              badge: 'Qur\'an'
             },
             {
-              label: t('pillarDuasTitle'),
-              desc: t('pillarDuasDesc'),
-              href: '/duas',
-              img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=360&q=75',
-              badge: t('pillarDuasBadge')
-            },
-            {
-              label: t('pillarQiblaTitle'),
-              desc: t('pillarQiblaDesc'),
+              label: 'Qibla Direction',
+              desc: 'Accurate Kaaba Bearing',
               href: '/qibla',
               img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=360&q=75',
-              badge: t('pillarQiblaBadge')
+              badge: 'Qibla'
             },
             {
-              label: t('pillarMediaTitle'),
-              desc: t('pillarMediaDesc'),
-              href: '/media',
+              label: 'Duas & Adhkar',
+              desc: 'Hisn al-Muslim Collection',
+              href: '/duas',
+              img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=360&q=75',
+              badge: 'Duas'
+            },
+            {
+              label: 'Digital Tasbeeh',
+              desc: 'Daily Dhikr Counter',
+              href: '/duas',
               img: 'https://images.unsplash.com/photo-1585036156171-384164a8c675?w=360&q=75',
-              badge: t('pillarMediaBadge')
+              badge: 'Tasbeeh'
             },
             {
-              label: t('pillarCalendarTitle'),
-              desc: t('pillarCalendarDesc'),
+              label: 'Islamic Calendar',
+              desc: 'Hijri & Sacred Dates',
               href: '/calendar',
               img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=360&q=75',
-              badge: t('pillarCalendarBadge')
+              badge: 'Calendar'
             },
           ].map((item, i) => (
             <Link

@@ -33,7 +33,7 @@ export default function JsonLd() {
         },
         slogan: 'Your Deen. Your Daily Companion.',
         description:
-          'World-class global Islamic digital technology ecosystem offering precision astronomical prayer times, Noble Quran audio recitation with synchronized verse tracking, authentic Hisn al-Muslim duas, 3D spherical Qibla direction, and verified global Ziyarat chronicles across 12 nations.',
+          'A trusted, source-driven global Islamic platform providing accurate daily prayer times, the Qur\'an with audio and translations, authentic Duas & Adhkar, Qibla direction, Zakat calculator, Hajj & Umrah guides, and verified Islamic heritage directories.',
         knowsAbout: [
           { '@type': 'Thing', name: 'Islam', sameAs: 'https://www.wikidata.org/wiki/Q432' },
           { '@type': 'Thing', name: 'Quran', sameAs: 'https://www.wikidata.org/wiki/Q428' },
@@ -83,10 +83,6 @@ export default function JsonLd() {
           '@type': 'AdministrativeArea',
           name: 'Worldwide',
         },
-        award: [
-          'Top Islamic App of 2026',
-          'Best Islamic Technology Platform 2026',
-        ],
       },
 
       // ── 2. WebSite ─────────────────────────────────────────────
@@ -95,9 +91,9 @@ export default function JsonLd() {
         '@id': 'https://www.nooreilahi.com/#website',
         url: 'https://www.nooreilahi.com',
         name: 'Noor-e-ilahi — Your Deen. Your Daily Companion.',
-        alternateName: 'NOOR Islamic Ecosystem',
+        alternateName: 'NOOR Islamic Platform',
         description:
-          'The premier ad-free Islamic digital platform for astronomical prayer times, Noble Quran, Hisn al-Muslim duas, 3D Qibla compass, and global Ziyarat chronicles.',
+          'A trusted, source-driven global Islamic platform for daily prayer times, Qur\'an, Duas & Adhkar, Qibla direction, Islamic knowledge, and verified Ziyarat heritage.',
         publisher: { '@id': 'https://www.nooreilahi.com/#organization' },
         inLanguage: ['en', 'hi', 'ur', 'ar', 'bn', 'tr', 'id', 'ta', 'ml', 'mr', 'gu'],
         potentialAction: {
@@ -217,10 +213,10 @@ export default function JsonLd() {
         mainEntity: [
           {
             '@type': 'Question',
-            name: 'What is the best free Islamic app with no ads in 2026?',
+            name: 'What is a trusted free Islamic app with no ads in 2026?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Noor-e-ilahi is widely considered the premier 100% free and completely ad-free Islamic digital platform. It features precision astronomical prayer times, Noble Quran with 11-language audio, 3D Qibla compass, authentic Hisn al-Muslim duas, live Nisab Zakat calculator, Hajj & Umrah guide, Hijri calendar, and 31 verified global Ziyarat shrines without any subscriptions or commercial ads.',
+              text: 'NOOR (Noor-e-Ilahi) is a trusted, free, and ad-free Islamic platform built for Muslims worldwide. It features location-based daily prayer times, the Qur\'an with audio and translations, Qibla direction, authentic Duas & Adhkar from Hisn al-Muslim, a Nisab Zakat calculator, Hajj & Umrah guides, Hijri calendar, and source-referenced global Ziyarat shrines without commercial advertising.',
             },
           },
           {
@@ -244,7 +240,7 @@ export default function JsonLd() {
             name: 'What is Noor-e-ilahi?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Noor-e-ilahi (نُورِ اِلٰہی — meaning Divine Light) is an international, 100% ad-free Islamic digital technology ecosystem providing precision astronomical prayer times, high-fidelity Adhan broadcasts, the Noble Quran with word-by-word audio synchronisation, authentic Hisn al-Muslim supplications, a 3D spherical Qibla compass, a Zakat calculator, complete Hajj & Umrah guides, Salatul Janazah funeral guide, Islamic travel prayer rules, Hijri calendar, and the world\'s first academically audited Global Ziyarat & Dargahs directory across 12 countries.',
+              text: 'NOOR / Noor-e-Ilahi (Your Deen. Your Daily Companion.) is a global Islamic digital companion providing daily prayer times based on user location and calculation methodology, the Qur\'an with audio recitations, authentic Duas & Adhkar, Qibla direction, Zakat calculator, Hajj & Umrah guides, practical Islamic guides (Wudu, Ghusl, Salah, Janazah), and a source-referenced global Islamic heritage and Ziyarat directory.',
             },
           },
           {

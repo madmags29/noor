@@ -50,7 +50,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({ isOpen, onCl
     {
       id: 'welcome',
       sender: 'ai',
-      text: 'As-salamu alaykum wa rahmatullahi wa barakatuh. I am Noor AI, your Islamic knowledge companion. How can I assist you with Quran, prayer times, duas, or Islamic jurisprudence today?'
+      text: "As-salamu alaykum wa rahmatullahi wa barakatuh. I am Ask NOOR, an Islamic information assistant. I provide source-referenced information from the Qur'an, authentic Sunnah, and verified Islamic history. How can I assist your learning today?"
     }
   ]);
   const [input, setInput] = useState('');
@@ -136,13 +136,13 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({ isOpen, onCl
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <h3 className="text-base font-bold text-white">Noor AI Assistant</h3>
+                <h3 className="text-base font-bold text-white">Ask NOOR</h3>
                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">
-                  Verified Deen
+                  Information Assistant
                 </span>
               </div>
               <p className="text-xs text-emerald-300/70">
-                Grounding answers in the Noble Quran and authentic Sunnah
+                Source-referenced Islamic information • Not a source of religious rulings (fatwas)
               </p>
             </div>
           </div>
@@ -227,7 +227,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({ isOpen, onCl
           >
             <input
               type="text"
-              placeholder="Ask anything about Quran, Hadith, Salah, or Islamic Fiqh..."
+              placeholder="Ask a question (e.g. verses about patience, Friday sunnahs, dua for travel)..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 bg-[#06241b] border border-emerald-800/60 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-emerald-400/50 focus:outline-none focus:border-amber-400"

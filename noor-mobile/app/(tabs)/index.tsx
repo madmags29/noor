@@ -143,11 +143,23 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* 2. Hijri Calendar & Holy Month Status Pill */}
+        {/* 2. Hijri Calendar & Dynamic Date Status Pill */}
         <View style={styles.dateBar}>
           <View style={styles.dateLeft}>
             <Text style={styles.dateMoon}>🌙</Text>
-            <Text style={styles.dateText}>{t('ramadanNotice')}</Text>
+            <Text style={styles.dateText}>
+              {(() => {
+                try {
+                  return new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                  }).format(new Date()) + ' (Local sighting ±1d)';
+                } catch {
+                  return '17 Rabi al-Thani 1448 AH (Local sighting ±1d)';
+                }
+              })()}
+            </Text>
           </View>
           <TouchableOpacity onPress={() => router.push('/calendar')}>
             <Text style={styles.calendarLink}>{t('calendar')} →</Text>

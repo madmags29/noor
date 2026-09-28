@@ -17,173 +17,223 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="w-full bg-[#010e0a] border-t border-white/10 pt-16 pb-12 px-4 lg:px-8 mt-16 text-xs text-emerald-300/70">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-12 border-b border-white/10">
-        
-        {/* Column 1: Brand & Mobile Apps */}
-        <div className="space-y-4">
+      {/* Brand Header Banner */}
+      <div className="max-w-7xl mx-auto pb-10 mb-10 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2">
           <MuslimLogo size="lg" showText={true} />
-
-          <p className="text-xs text-emerald-200/75 leading-relaxed max-w-sm">
-            {t('footerAbout')}
+          <p className="text-sm font-bold text-amber-300 tracking-wide">
+            Your Deen. Your Daily Companion.
           </p>
-
-          <div className="flex items-center gap-3 pt-2">
-            <Link
-              href="/app-preview"
-              className="liquid-pill px-3 py-1.5 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold hover:border-amber-400 whitespace-nowrap transition-colors"
-            >
-              <Apple className="w-3.5 h-3.5" />
-              <span>{t('iosApp')}</span>
-            </Link>
-            <Link
-              href="/app-preview"
-              className="liquid-pill px-3 py-1.5 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold hover:border-amber-400 whitespace-nowrap transition-colors"
-            >
-              <Play className="w-3.5 h-3.5 fill-white" />
-              <span>{t('androidApp')}</span>
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-2 pt-2 text-[10px] text-emerald-400/80 font-mono">
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span>{t('shariahCompliantZeroAds') || '100% Shariah Compliant • Zero Obscene Ads'}</span>
-          </div>
-
-          <div className="pt-0.5 text-[11px] text-emerald-300/80 flex items-center gap-2">
-            <span className="text-amber-400">✉️</span>
-            <Link href="/contact" className="font-mono hover:text-amber-300 transition-colors">
-              salam@nooreilahi.com
-            </Link>
-          </div>
+          <p className="text-xs text-emerald-200/75 max-w-xl leading-relaxed">
+            A global Islamic platform for prayer, Qur'an, duas, Islamic knowledge, Ziyarat, heritage and everyday Muslim life.
+          </p>
         </div>
 
-        {/* Column 2: Core Islamic Worship */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <Link
+            href="/app-preview"
+            className="liquid-pill px-4 py-2 rounded-full text-xs text-white flex items-center gap-2 font-bold hover:border-amber-400 transition-colors"
+          >
+            <Apple className="w-4 h-4" />
+            <span>iOS App</span>
+          </Link>
+          <Link
+            href="/app-preview"
+            className="liquid-pill px-4 py-2 rounded-full text-xs text-white flex items-center gap-2 font-bold hover:border-amber-400 transition-colors"
+          >
+            <Play className="w-4 h-4 fill-white" />
+            <span>Android App</span>
+          </Link>
+          <div className="flex items-center gap-2 text-[11px] text-emerald-400/80 font-mono sm:pl-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>Source-Referenced • Ad-Free</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 5-Column Navigation Grid */}
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-12 border-b border-white/10">
+        
+        {/* Column 1: Worship */}
         <div>
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🕌</span>
-            <span>{t('worshipPillars') || 'Worship & Pillars'}</span>
+            <span>Worship</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
-              <Link href="/prayer-times" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🕌</span>
-                <span>{t('prayers')} ({t('prayerTimetable')})</span>
+              <Link href="/prayer-times" className="hover:text-amber-300 transition-colors">
+                Prayer Times
               </Link>
             </li>
             <li>
-              <Link href="/guides" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300">
-                <span>✨</span>
-                <span>{t('guidesGuides') || 'Wudu, Ghusl & Salah Guides'}</span>
+              <Link href="/quran" className="hover:text-amber-300 transition-colors">
+                Qur'an (114 Surahs)
               </Link>
             </li>
             <li>
-              <Link href="/quran" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📖</span>
-                <span>{t('quran')}</span>
+              <Link href="/duas" className="hover:text-amber-300 transition-colors">
+                Duas & Adhkar
               </Link>
             </li>
             <li>
-              <Link href="/duas" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🤲</span>
-                <span>{t('lifeDuasAdhkar') || '14 Life Duas & Adhkar'}</span>
+              <Link href="/qibla" className="hover:text-amber-300 transition-colors">
+                Qibla Direction
               </Link>
             </li>
             <li>
-              <Link href="/hajj-umrah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🕋</span>
-                <span>{t('hajjUmrahPilgrimageGuide') || 'Hajj & Umrah Pilgrimage Guide'}</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/zakat" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🪙</span>
-                <span>{t('zakatCalculatorSadaqah') || 'Zakat Calculator & 9 Sadaqah'}</span>
+              <Link href="/duas" className="hover:text-amber-300 transition-colors">
+                Digital Tasbeeh
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Column 3: Daily Life & Family */}
+        {/* Column 2: Learn */}
         <div>
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
-            <span>🌱</span>
-            <span>{t('familyLifeGuides') || 'Family & Life Guides'}</span>
+          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>📖</span>
+            <span>Learn</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
-              <Link href="/kids" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🧒</span>
-                <span>{t('kidsArabicLetters') || 'NOOR Kids & Arabic Letters'}</span>
+              <Link href="/duas" className="hover:text-amber-300 transition-colors">
+                Hadith & Sunnah
               </Link>
             </li>
             <li>
-              <Link href="/janazah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🕊️</span>
-                <span>{t('janazahBereavementGuide') || 'Janazah & Bereavement Guide'}</span>
+              <Link href="/guides" className="hover:text-amber-300 transition-colors">
+                Wudu, Ghusl & Salah
               </Link>
             </li>
             <li>
-              <Link href="/etiquette" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📜</span>
-                <span>{t('etiquetteAdabLibrary') || 'Islamic Etiquette (Adab) Library'}</span>
+              <Link href="/quran" className="hover:text-amber-300 transition-colors">
+                Tafsir & Translations
               </Link>
             </li>
             <li>
-              <Link href="/nikah" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>💍</span>
-                <span>{t('nikahFamilyEducation') || 'Nikah & Family Education'}</span>
+              <Link href="/kids" className="hover:text-amber-300 transition-colors">
+                Prophetic Stories & Seerah
               </Link>
             </li>
             <li>
-              <Link href="/travel" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>✈️</span>
-                <span>{t('travelModeQasrRules') || 'Travel Mode & Qasr Rules'}</span>
+              <Link href="/sources" className="hover:text-amber-300 transition-colors">
+                Islamic Knowledge Base
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Column 4: Explorer & Discovery */}
+        {/* Column 3: Discover */}
         <div>
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
-            <span>🔍</span>
-            <span>{t('ecosystemDiscover') || 'Search & Discovery'}</span>
+          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🏛️</span>
+            <span>Discover</span>
           </h4>
           <ul className="space-y-2.5">
             <li>
-              <Link href="/search" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-semibold">
-                <span>🔍</span>
-                <span>{t('search')}</span>
+              <Link href="/ziyarat" className="hover:text-amber-300 transition-colors">
+                Dargahs & Ziyarat
               </Link>
             </li>
             <li>
-              <Link href="/ziyarat" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🏛️</span>
-                <span>{t('ziyarat')}</span>
+              <Link href="/qibla" className="hover:text-amber-300 transition-colors">
+                Mosques & Qibla
               </Link>
             </li>
             <li>
-              <Link href="/watch" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>📺</span>
-                <span>{t('media')} (24/7 Haramain)</span>
+              <Link href="/ziyarat" className="hover:text-amber-300 transition-colors">
+                Islamic Heritage Sites
               </Link>
             </li>
             <li>
-              <Link href="/qibla" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🧭</span>
-                <span>{t('qibla')}</span>
+              <Link href="/watch" className="hover:text-amber-300 transition-colors">
+                Makkah & Madinah 24/7
               </Link>
             </li>
             <li>
-              <Link href="/calendar" className="hover:text-amber-300 transition-colors flex items-center gap-2">
-                <span>🌙</span>
-                <span>{t('calendar')}</span>
+              <Link href="/calendar" className="hover:text-amber-300 transition-colors">
+                Islamic Calendar & Events
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Column 4: Life */}
+        <div>
+          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🌿</span>
+            <span>Life</span>
+          </h4>
+          <ul className="space-y-2.5">
+            <li>
+              <Link href="/zakat" className="hover:text-amber-300 transition-colors">
+                Zakat Calculator & Nisab
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-amber-300 transition-colors flex items-center gap-2 text-amber-300 font-medium">
-                <span>✉️</span>
-                <span>{t('contact')}</span>
+              <Link href="/hajj-umrah" className="hover:text-amber-300 transition-colors">
+                Hajj & Umrah Guide
+              </Link>
+            </li>
+            <li>
+              <Link href="/nikah" className="hover:text-amber-300 transition-colors">
+                5 Pillars of Nikah
+              </Link>
+            </li>
+            <li>
+              <Link href="/janazah" className="hover:text-amber-300 transition-colors">
+                Salatul Janazah Guide
+              </Link>
+            </li>
+            <li>
+              <Link href="/etiquette" className="hover:text-amber-300 transition-colors">
+                Islamic Adab & Manners
+              </Link>
+            </li>
+            <li>
+              <Link href="/travel" className="hover:text-amber-300 transition-colors">
+                Travel Mode & Qasr
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Column 5: NOOR Platform */}
+        <div>
+          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+            <span>🛡️</span>
+            <span>NOOR</span>
+          </h4>
+          <ul className="space-y-2.5">
+            <li>
+              <Link href="/sources" className="hover:text-amber-300 transition-colors text-amber-300 font-semibold">
+                Sources & Methodology
+              </Link>
+            </li>
+            <li>
+              <Link href="/app-preview" className="hover:text-amber-300 transition-colors">
+                About NOOR
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-amber-300 transition-colors">
+                Contact & Inquiries
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-amber-300 transition-colors text-emerald-300">
+                Report an Issue / Correction
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy" className="hover:text-amber-300 transition-colors">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms" className="hover:text-amber-300 transition-colors">
+                Terms & Conditions
               </Link>
             </li>
           </ul>
@@ -194,10 +244,14 @@ export const Footer: React.FC = () => {
       {/* Bottom Bar: Copyright notice, Legal Links & Official Contact */}
       <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-[11px] text-emerald-400/60 text-center md:text-left">
-          {t('footerCopyright')}
+          © 2026 Noor-e-ilahi. Your Deen. Your Daily Companion. Sourced with Amanah. Ad-Free.
         </p>
 
         <div className="flex items-center gap-4 text-[11px] text-emerald-300/75 font-medium">
+          <Link href="/sources" className="hover:text-amber-300 transition-colors">
+            Methodology
+          </Link>
+          <span className="text-white/20">•</span>
           <Link href="/privacy" className="hover:text-amber-300 transition-colors">
             Privacy Policy
           </Link>

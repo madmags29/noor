@@ -461,7 +461,7 @@ export const VERIFIED_DARGAHS_DATABASE: DargahItem[] = [
     yearEstablishedGregorian: 1166,
     architecturalStyle: 'Abbasid & Ottoman Grand Dome with Glazed Blue Tiles and Huge Courtyard',
     historicalSummary:
-      'The global epicenter of the Qadiriyya spiritual path, where the preeminent Hanbali jurist, theologian, and spiritual master Sheikh Abdul Qadir Gilani taught and rests in central Baghdad.',
+      'A historically significant center associated with the Qadiriyya tradition, where the Hanbali jurist, theologian, and spiritual master Sheikh Abdul Qadir Gilani taught and rests in central Baghdad.',
     detailedChronicle:
       'Born in Gilan (1077 CE / 470 AH), Sheikh Abdul Qadir studied Hanbali jurisprudence in Baghdad under Abu Sa’d al-Mubarak al-Mukharrimi and hadith under prominent masters. For twenty-five years he lived in the desert outside Baghdad in ascetic retreat. Upon his return, his Friday discourses at the Bab al-Azaj madrasa attracted tens of thousands of students, scholars, and caliphs. His sermons are recorded in Al-Fath al-Rabbani and Futuh al-Ghayb. The Qadiri order founded through his lineage is today the most widespread spiritual order across Africa, the Middle East, Central Asia, and South Asia.',
     coordinates: {
@@ -2558,9 +2558,9 @@ export const VERIFIED_DARGAHS_DATABASE: DargahItem[] = [
     yearEstablishedGregorian: 1422,
     architecturalStyle: 'Bahmani-Deccani Architecture with Massive White Ribbed Dome, Calligraphic Stucco & Archways',
     historicalSummary:
-      'The premier Islamic heritage sanctuary of South India, resting place of Hazrat Khwaja Syed Muhammad al-Husayni Banda Nawaz Gesudaraz (RA), the great Chishti saint and intellectual titan who illuminated the Deccan.',
+      'A major historic Sufi shrine in the Deccan region, resting place of Hazrat Khwaja Syed Muhammad al-Husayni Banda Nawaz Gesudaraz (RA), the respected Chishti saint and scholar who taught in the Deccan.',
     detailedChronicle:
-      'Born in Delhi in 721 AH (1321 CE), Banda Nawaz was the prime disciple of Hazrat Nasiruddin Chirag-e-Dehli. Renowned for mastery in Arabic, Persian, and early Urdu (Dakhini), he authored over one hundred treatises on Sufism, Quranic commentary, and theology. In 1400 CE he migrated to the Deccan upon the invitation of Bahmani Sultan Tajuddin Firoz Shah, making Gulbarga the epicenter of spiritual and literary renaissance in South India.',
+      'Born in Delhi in 721 AH (1321 CE), Banda Nawaz was the prime disciple of Hazrat Nasiruddin Chirag-e-Dehli. Renowned for mastery in Arabic, Persian, and early Urdu (Dakhini), he authored over one hundred treatises on Sufism, Quranic commentary, and theology. In 1400 CE he migrated to the Deccan upon the invitation of Bahmani Sultan Tajuddin Firoz Shah, establishing Gulbarga as a major historical center of spiritual and literary learning in South India.',
     coordinates: {
       latitude: 17.3372,
       longitude: 76.8486,
@@ -2754,7 +2754,7 @@ export const VERIFIED_DARGAHS_DATABASE: DargahItem[] = [
     yearEstablishedGregorian: 1752,
     architecturalStyle: 'Sindhi Kashikari Blue & Turquoise Glazed Tilework with White Onion Dome & Carved Wooden Doors',
     historicalSummary:
-      'The sacred shrine of Hazrat Shah Abdul Latif Bhittai (RA), the greatest Sufi poet and philosopher of Sindh, whose monumental compilation "Shah Jo Risalo" weaves folk allegories with the deepest esoteric realities of Divine union.',
+      'The historic shrine of Hazrat Shah Abdul Latif Bhittai (RA), the renowned Sufi poet and philosopher of Sindh, whose monumental compilation "Shah Jo Risalo" weaves folk allegories with Islamic spiritual contemplation.',
     detailedChronicle:
       'Born in Hala Haveli in 1102 AH (1689 CE), Shah Latif wandered through the deserts, hills, and coastal regions of Sindh, Balochistan, and Lasbela with wandering ascetics before making his retreat on a sand dune (Bhit) near Hala. He invented the 5-stringed musical instrument "Danburo" and developed 30 distinct musical Surs (melodic modes) for singing praises of the Divine.',
     coordinates: {

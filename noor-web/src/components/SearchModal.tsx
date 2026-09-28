@@ -51,7 +51,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           <input
             type="text"
             autoFocus
-            placeholder={t('searchPlaceholderFull') || "Search across Quran, Duas, Hadith, Topics..."}
+            placeholder={t('searchPlaceholderFull') || "Search Islam — Qur'an, Duas, Hadith, Guides, Ziyarat..."}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="flex-1 bg-transparent text-sm sm:text-base text-white placeholder-emerald-400/50 focus:outline-none"
