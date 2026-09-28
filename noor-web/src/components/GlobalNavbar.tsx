@@ -348,14 +348,15 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                 )}
               </button>
 
-              {/* Flyout Card */}
+              {/* Flyout Card — Split in 2 Parts like Homepage */}
               {showExploreDropdown && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-80 z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
-                  <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-2 max-h-[75vh] overflow-y-auto no-scrollbar">
-                    <div className="px-2.5 py-1 text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider border-b border-white/5 mb-1 sticky top-0 bg-[#021711] z-10">
-                      {t('spiritualTools') || 'Spiritual Guides & Tools'}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 w-80 sm:w-[520px] md:w-[560px] z-[100] animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
+                  <div className="rounded-2xl bg-[#021711]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-3">
+                    <div className="flex items-center justify-between px-2.5 py-1 text-[10px] font-semibold text-amber-400/80 uppercase tracking-wider border-b border-white/5 mb-2">
+                      <span>{t('spiritualTools') || 'Spiritual Guides & Tools'}</span>
+                      <span className="font-mono text-[9px] text-emerald-400">{t('verifiedPillars') || 'Verified Pillars'}</span>
                     </div>
-                    <div className="space-y-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-[65vh] overflow-y-auto custom-scrollbar p-0.5">
                       {secondaryNavLinks.map((item) => {
                         const isActive = pathname === item.href || (linkIsActive(pathname, item.href));
 
@@ -364,7 +365,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                             key={item.href}
                             href={item.href}
                             onClick={() => setShowExploreDropdown(false)}
-                            className={`group flex items-start gap-3 p-2 rounded-xl transition-all ${
+                            className={`group flex items-start gap-2.5 p-2 rounded-xl transition-all ${
                               isActive
                                 ? 'bg-amber-400/15 text-amber-300'
                                 : 'hover:bg-white/5 text-emerald-100/90 hover:text-white'
@@ -379,7 +380,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                               <span className="text-xs font-semibold leading-tight group-hover:text-amber-300 transition-colors">
                                 {item.label}
                               </span>
-                              <span className="text-[10px] text-emerald-300/60 leading-tight mt-0.5 truncate">
+                              <span className="text-[10px] text-emerald-300/60 leading-tight mt-0.5 line-clamp-1">
                                 {item.desc}
                               </span>
                             </div>
