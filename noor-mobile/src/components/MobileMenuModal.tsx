@@ -63,7 +63,7 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
 
   const navigateTo = (route: string) => {
     onClose();
-    router.push(route as any);
+    router.navigate(route as any);
   };
 
   const MENU_ITEMS = [

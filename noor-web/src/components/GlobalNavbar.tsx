@@ -64,7 +64,20 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
   const locationRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
+  const exploreTimerRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useLanguage();
+
+  const handleExploreEnter = () => {
+    if (exploreTimerRef.current) clearTimeout(exploreTimerRef.current);
+    setShowExploreDropdown(true);
+  };
+
+  const handleExploreLeave = () => {
+    if (exploreTimerRef.current) clearTimeout(exploreTimerRef.current);
+    exploreTimerRef.current = setTimeout(() => {
+      setShowExploreDropdown(false);
+    }, 150);
+  };
 
   // Load saved location on mount
   useEffect(() => {
@@ -302,8 +315,8 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
             <div
               className="relative py-1 group"
               ref={exploreRef}
-              onMouseEnter={() => setShowExploreDropdown(true)}
-              onMouseLeave={() => setShowExploreDropdown(false)}
+              onMouseEnter={handleExploreEnter}
+              onMouseLeave={handleExploreLeave}
             >
               <button
                 onClick={() => setShowExploreDropdown(!showExploreDropdown)}

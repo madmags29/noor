@@ -70,7 +70,7 @@ export default function ZiyaratScreen() {
           <View style={styles.badgeRow}>
             <View style={styles.verifiedBadge}>
               <MaterialCommunityIcons name="shield-check" size={14} color={THEME.colors.goldPrimary} />
-              <Text style={styles.verifiedText}>100% SCHOLARLY VERIFIED</Text>
+              <Text style={styles.verifiedText}>VERIFIED SANCTUARIES</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
               <Text style={styles.countPill}>{filteredSanctuaries.length} Sanctuaries</Text>

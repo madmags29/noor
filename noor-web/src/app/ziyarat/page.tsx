@@ -92,7 +92,12 @@ export default function ZiyaratPage() {
   const [selectedLineage, setSelectedLineage] = useState<'All' | SpiritualLineage>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortByDistance, setSortByDistance] = useState(true);
-  const [userLocation, setUserLocation] = useState<CityLocation | null>(null);
+  const [userLocation, setUserLocation] = useState<CityLocation | null>(() => {
+    if (typeof window !== 'undefined') {
+      return getSavedUserLocation();
+    }
+    return null;
+  });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // In-Page Multi-Language Toggle (Applies across all cards on page)
@@ -129,17 +134,19 @@ export default function ZiyaratPage() {
     licenseConfirmation: false
   });
 
-  // Hydrate user location from storage or auto-detect
+  // Hydrate user location if not already loaded
   useEffect(() => {
-    const loc = getSavedUserLocation();
-    if (loc) {
-      setUserLocation(loc);
-    } else {
-      detectUserLocation(false)
-        .then((l) => setUserLocation(l))
-        .catch(() => {});
+    if (!userLocation) {
+      const loc = getSavedUserLocation();
+      if (loc) {
+        setUserLocation(loc);
+      } else {
+        detectUserLocation(false)
+          .then((l) => setUserLocation(l))
+          .catch(() => {});
+      }
     }
-  }, []);
+  }, [userLocation]);
 
   // Compute list of countries with dynamic counts
   const countryCounts = useMemo(() => {
@@ -312,7 +319,7 @@ export default function ZiyaratPage() {
       />
 
       {/* 2. Sub-Header & Breadcrumb Bar */}
-      <div className="border-b border-white/10 bg-[#031c15]/60 backdrop-blur-md px-3 sm:px-6 py-2.5 mt-1 sm:mt-2">
+      <div className="border-b border-white/10 bg-[#031c15]/60 backdrop-blur-md px-3 sm:px-6 py-2.5">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
           {/* Breadcrumb Trail */}
           <nav className="flex items-center gap-1.5 text-emerald-300/80">
@@ -381,7 +388,7 @@ export default function ZiyaratPage() {
           <div className="relative z-10 max-w-4xl space-y-3.5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              <span>100% Scholarly Verified • Zero Synthetic Inventions</span>
+              <span>Documented Historical Sources • Verified Sanctuaries</span>
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
