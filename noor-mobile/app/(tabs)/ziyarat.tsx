@@ -24,9 +24,13 @@ import { FloatingAiButton } from '../../src/components/FloatingAiButton';
 import { AiAssistantModal } from '../../src/components/AiAssistantModal';
 import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { useLanguage } from '../../src/context/LanguageContext';
+import { useRouter } from 'expo-router';
+import { NoorPlaceholderImage } from '../../src/components/NoorPlaceholderImage';
 
 export default function ZiyaratScreen() {
+  const router = useRouter();
   const { t } = useLanguage();
+  const [failedImageIds, setFailedImageIds] = useState<Record<string, boolean>>({});
   const [selectedCountry, setSelectedCountry] = useState('All Nations');
   const [selectedTariqa, setSelectedTariqa] = useState('All Lineages');
   const [searchQuery, setSearchQuery] = useState('');
@@ -68,9 +72,19 @@ export default function ZiyaratScreen() {
         {/* Top Header */}
         <View style={styles.header}>
           <View style={styles.badgeRow}>
-            <View style={styles.verifiedBadge}>
-              <MaterialCommunityIcons name="shield-check" size={14} color={THEME.colors.goldPrimary} />
-              <Text style={styles.verifiedText}>VERIFIED SANCTUARIES</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={styles.verifiedBadge}>
+                <MaterialCommunityIcons name="shield-check" size={14} color={THEME.colors.goldPrimary} />
+                <Text style={styles.verifiedText}>VERIFIED SANCTUARIES</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.worldMapBtn}
+                onPress={() => router.push('/map' as any)}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="map" size={12} color="#021711" />
+                <Text style={styles.worldMapBtnText}>World Map</Text>
+              </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
               <Text style={styles.countPill}>{filteredSanctuaries.length} Sanctuaries</Text>
@@ -184,11 +198,16 @@ export default function ZiyaratScreen() {
             >
               {/* Sanctuary Image */}
               <View style={styles.imageContainer}>
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                />
+                {!item.imageUrl || failedImageIds[item.id] ? (
+                  <NoorPlaceholderImage title={item.name} type="dargah" height={190} />
+                ) : (
+                  <Image
+                    source={{ uri: item.imageUrl }}
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                    onError={() => setFailedImageIds(prev => ({ ...prev, [item.id]: true }))}
+                  />
+                )}
                 <View style={styles.imageOverlay} />
 
                 {/* Badges on Image */}
@@ -287,11 +306,16 @@ export default function ZiyaratScreen() {
 
               <ScrollView contentContainerStyle={styles.modalScroll} showsVerticalScrollIndicator={false}>
                 {/* Hero Image */}
-                <Image
-                  source={{ uri: selectedSanctuary.imageUrl }}
-                  style={styles.modalHeroImage}
-                  resizeMode="cover"
-                />
+                {!selectedSanctuary.imageUrl || failedImageIds[selectedSanctuary.id] ? (
+                  <NoorPlaceholderImage title={selectedSanctuary.name} type="dargah" height={220} />
+                ) : (
+                  <Image
+                    source={{ uri: selectedSanctuary.imageUrl }}
+                    style={styles.modalHeroImage}
+                    resizeMode="cover"
+                    onError={() => setFailedImageIds(prev => ({ ...prev, [selectedSanctuary.id]: true }))}
+                  />
+                )}
 
                 {/* Arabic Calligraphy & Honorifics */}
                 <View style={styles.modalSection}>
@@ -414,6 +438,21 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: THEME.colors.goldLight,
     letterSpacing: 0.5,
+  },
+  worldMapBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#f59e0b',
+    paddingHorizontal: 9,
+    paddingVertical: 4.5,
+    borderRadius: 14,
+  },
+  worldMapBtnText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#021711',
+    letterSpacing: 0.3,
   },
   countPill: {
     fontSize: 12,

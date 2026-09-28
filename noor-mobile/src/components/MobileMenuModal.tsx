@@ -123,6 +123,14 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
       action: () => navigateTo('/quran'),
     },
     {
+      id: 'map',
+      label: t('islamicMap') || 'Islamic World Map',
+      icon: 'map-outline',
+      color: '#f59e0b',
+      badge: 'MAP',
+      action: () => navigateTo('/map'),
+    },
+    {
       id: 'ziyarat',
       label: t('ziyarat'),
       icon: 'business-outline',
@@ -284,6 +292,22 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
       badge: 'salam@nooreilahi.com',
       action: () => navigateTo('/contact'),
     },
+    {
+      id: 'privacy',
+      label: 'Privacy Policy',
+      icon: 'shield-checkmark-outline',
+      color: '#34d399',
+      badge: 'App & Web',
+      action: () => navigateTo('/privacy'),
+    },
+    {
+      id: 'terms',
+      label: 'Terms & Conditions',
+      icon: 'document-text-outline',
+      color: '#f59e0b',
+      badge: 'Shariah',
+      action: () => navigateTo('/terms'),
+    },
   ];
 
   return (
@@ -364,10 +388,19 @@ export const MobileMenuModal: React.FC<MobileMenuModalProps> = ({
             ))}
           </View>
 
-          {/* Footer Branding */}
+          {/* Footer Branding & Legal */}
           <View style={styles.footer}>
             <Text style={styles.footerBrand}>NOOR-E-ILAHI • نُورِ اِلٰہی</Text>
             <Text style={styles.footerTagline}>Global Classical Islamic Companion • v1.0.0 (SDK 57)</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 10 }}>
+              <TouchableOpacity onPress={() => navigateTo('/privacy')} activeOpacity={0.7}>
+                <Text style={{ fontSize: 11, color: '#34d399', textDecorationLine: 'underline' }}>Privacy Policy</Text>
+              </TouchableOpacity>
+              <Text style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.3)' }}>•</Text>
+              <TouchableOpacity onPress={() => navigateTo('/terms')} activeOpacity={0.7}>
+                <Text style={{ fontSize: 11, color: '#f59e0b', textDecorationLine: 'underline' }}>Terms & Conditions</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
 

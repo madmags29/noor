@@ -89,6 +89,52 @@ export default function SettingsScreen() {
           <Text style={[styles.settingValue, { color: '#f59e0b' }]}>Rate 5.0 ★ →</Text>
         </TouchableOpacity>
 
+        {/* Global Islamic World Map */}
+        <TouchableOpacity
+          style={styles.settingItem}
+          onPress={() => router.push('/map' as any)}
+          activeOpacity={0.8}
+        >
+          <View>
+            <Text style={styles.settingTitle}>Islamic World Map</Text>
+            <Text style={{ color: '#34d399', fontSize: 10, marginTop: 2 }}>
+              Dargahs, Mosques & Ziyarat Points • 100% Free
+            </Text>
+          </View>
+          <Text style={[styles.settingValue, { color: '#34d399' }]}>Explore Map →</Text>
+        </TouchableOpacity>
+
+        {/* Legal & Policy Section */}
+        <Text style={[styles.sectionHeader, { marginTop: 14 }]}>Legal & Sacred Amanah</Text>
+
+        <TouchableOpacity
+          style={styles.settingItem}
+          onPress={() => router.push('/privacy' as any)}
+          activeOpacity={0.8}
+        >
+          <View>
+            <Text style={styles.settingTitle}>Privacy Policy</Text>
+            <Text style={{ color: 'rgba(110, 231, 183, 0.6)', fontSize: 10, marginTop: 2 }}>
+              Zero Ads • Local Storage • App & Web
+            </Text>
+          </View>
+          <Text style={styles.settingValue}>Read Policy →</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.settingItem}
+          onPress={() => router.push('/terms' as any)}
+          activeOpacity={0.8}
+        >
+          <View>
+            <Text style={styles.settingTitle}>Terms & Conditions</Text>
+            <Text style={{ color: 'rgba(110, 231, 183, 0.6)', fontSize: 10, marginTop: 2 }}>
+              Shariah Compliant • Ethical Usage
+            </Text>
+          </View>
+          <Text style={styles.settingValue}>Read Terms →</Text>
+        </TouchableOpacity>
+
         {/* About NOOR Mobile */}
         <View style={styles.aboutCard}>
           <Text style={styles.aboutTitle}>NOOR Platform</Text>
