@@ -33,6 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/qibla', changeFrequency: 'weekly', priority: 0.95 },
     { path: '/duas', changeFrequency: 'daily', priority: 0.95 },
     { path: '/janazah', changeFrequency: 'weekly', priority: 0.94 },
+    { path: '/map', changeFrequency: 'daily', priority: 0.94 },
     { path: '/ziyarat', changeFrequency: 'daily', priority: 0.93 },
     { path: '/calendar', changeFrequency: 'daily', priority: 0.93 },
     { path: '/travel', changeFrequency: 'weekly', priority: 0.92 },

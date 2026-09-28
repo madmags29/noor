@@ -114,6 +114,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   // 2. Secondary Spiritual Tools (Inside sleek "Explore ▾" flyout with 3D Icons)
   const secondaryNavLinks = [
     {
+      label: t('islamicMap') || 'Global Islamic Map',
+      href: '/map',
+      desc: 'Interactive world map of dargahs, ziyarat points & mosques',
+      icon3d: '🗺️'
+    },
+    {
       label: t('guides') || 'Prayer Guides',
       href: '/guides',
       desc: t('guidesDesc') || 'Wudu, Ghusl, Salah step-by-step & Qada',
