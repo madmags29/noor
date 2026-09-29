@@ -42,10 +42,11 @@ Google Play requires an **Android App Bundle (`.aab`)**, not an `.apk`.
 > [!NOTE]
 > **Production App Bundle Built & Ready!**
 > The production `.aab` has been compiled and downloaded directly into your workspace:
-> 📦 **File Location**: [`playstore-assets/noor-e-ilahi-v1.0.0.aab`](file:///Users/Majid%20Desk/Noor/playstore-assets/noor-e-ilahi-v1.0.0.aab) (67.4 MB)
-> 🔗 **Expo Cloud Build**: [Build #8bf50259](https://expo.dev/accounts/nooreilahi/projects/noor-islamic-app/builds/8bf50259-e115-4e2f-b0e4-c6a675ad881a)
-> 🆔 **Android Package**: `com.noor_e_ilahi` (Version Code 3, Version 1.0.0)
+> 📦 **File Location**: [`playstore-assets/noor-e-ilahi-v1.0.0.aab`](file:///Users/Majid%20Desk/Noor/playstore-assets/noor-e-ilahi-v1.0.0.aab) (68.0 MB)
+> 🔗 **Expo Cloud Build**: [Build #90248ce7](https://expo.dev/accounts/nooreilahi/projects/noor-islamic-app/builds/90248ce7-ed11-45af-ae54-20b963c224c9)
+> 🆔 **Android Package**: `com.noor_e_ilahi` (Version Code 4, Version 1.0.0)
 > 🔑 **Keystore**: Generated and securely backed up to the `nooreilahi` Expo cloud account.
+> 🖼️ **App Launcher Icon**: Updated with the newly attached luxury Noor-e-ilahi archway emblem.
 
 To generate a new bundle in the future, navigate to `noor-mobile` and run:
 ```bash
