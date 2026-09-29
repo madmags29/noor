@@ -7,6 +7,7 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "primaryColor": "#059669",
+    "icon": "./assets/icon.png",
     "splash": {
       "backgroundColor": "#031712"
     },
@@ -20,7 +21,8 @@
       ]
     },
     "android": {
-      "package": "com.noor.app",
+      "package": "com.noor_e_ilahi",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 1,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
@@ -29,6 +31,7 @@
         "INTERNET"
       ],
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#031712"
       },
       "intentFilters": [
@@ -71,7 +74,12 @@
     ],
     "scheme": "noor",
     "extra": {
-      "gaMeasurementId": "G-6VEVYV7DX2"
-    }
+      "gaMeasurementId": "G-6VEVYV7DX2",
+      "router": {},
+      "eas": {
+        "projectId": "e0a57603-71f2-4b1d-9464-470aa48e6b69"
+      }
+    },
+    "owner": "nooreilahi"
   }
 }

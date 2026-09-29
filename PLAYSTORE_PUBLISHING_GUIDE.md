@@ -160,3 +160,38 @@ In the left menu, navigate to:
 6. If all green checkmarks are present with no errors, click **Start rollout to Production**.
 
 Google will review your application within **24 to 72 hours**. Once approved, it will be live worldwide on the Google Play Store!
+
+---
+
+### Appendix: Firebase & Google Services Integration
+
+#### For Managed Expo / EAS Build (Configured in Noor Mobile):
+In Expo, native Gradle files are generated automatically. We configure Google Services via `app.json`:
+```json
+"android": {
+  "package": "com.noor_e_ilahi",
+  "googleServicesFile": "./google-services.json"
+}
+```
+Expo automatically applies the `com.google.gms.google-services` plugin and injects `google-services.json` during the EAS cloud build.
+
+#### Reference: Bare Android Gradle Configuration:
+*Root-level (`build.gradle.kts`):*
+```kotlin
+plugins {
+  id("com.google.gms.google-services") version "4.5.0" apply false
+}
+```
+
+*App-level (`app/build.gradle.kts`):*
+```kotlin
+plugins {
+  id("com.android.application")
+  id("com.google.gms.google-services")
+}
+
+dependencies {
+  implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
+  implementation("com.google.firebase:firebase-analytics")
+}
+```
