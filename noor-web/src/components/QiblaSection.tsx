@@ -204,7 +204,7 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
             {/* Compass Container */}
             <div
-              className={`relative w-72 h-72 sm:w-84 sm:h-84 rounded-full border-4 bg-gradient-to-b from-[#062c21] via-[#031d16] to-[#01140e] flex items-center justify-center shadow-2xl p-4 transition-all duration-300 ${
+              className={`relative w-64 h-64 sm:w-80 sm:h-80 max-w-full rounded-full border-4 bg-gradient-to-b from-[#062c21] via-[#031d16] to-[#01140e] flex items-center justify-center shadow-2xl p-4 transition-all duration-300 ${
                 isAligned
                   ? 'border-emerald-400 shadow-[0_0_50px_rgba(16,185,129,0.5)] ring-4 ring-emerald-400/20'
                   : 'border-amber-400/50 shadow-emerald-950/80'

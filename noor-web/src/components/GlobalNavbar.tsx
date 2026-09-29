@@ -597,7 +597,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
 
         {/* Clean, Organized Mobile Drawer with 3D Icons */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute top-[52px] left-0 right-0 bg-[#021711]/98 border-b border-white/10 p-4 shadow-2xl backdrop-blur-2xl z-[100] animate-in fade-in slide-in-from-top-2">
+          <div className="lg:hidden absolute top-[52px] left-0 right-0 bg-[#021711]/98 border-b border-white/10 p-4 shadow-2xl backdrop-blur-2xl z-[100] max-h-[calc(100dvh-54px)] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
             <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10 text-xs">
               <span className="text-amber-300 font-bold flex items-center gap-1.5">
                 <MuslimLogo size={22} showText={false} />

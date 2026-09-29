@@ -14,6 +14,12 @@
 }
 
 @layer base {
+  html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: #02120d;
     background-image: 
@@ -26,6 +32,21 @@
     color: #f3f4f6;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Mobile Performance: Defer continuous expensive blur filters & transforms on small screens */
+@media (max-width: 768px) {
+  .animate-float-fluid,
+  .animate-float-fluid-reverse {
+    animation: none !important;
   }
 }
 

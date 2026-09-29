@@ -309,7 +309,7 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search world dargahs, mosques, or cities (e.g. Ajmer, Makkah, Istanbul)..."
+                placeholder="Search dargahs, mosques, or cities..."
                 className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-white/5 text-xs text-white placeholder:text-emerald-100/40 outline-none focus:bg-white/10 transition-colors"
               />
               {searchQuery && (
@@ -469,7 +469,7 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
         {/* Selected Sanctuary Floating Drawer / Card */}
         {selectedPoint && (
           <div className="absolute bottom-4 left-3 right-3 md:left-auto md:right-4 md:w-96 z-30 animate-in fade-in slide-in-from-bottom-4 duration-200">
-            <div className="rounded-3xl bg-[#021711]/98 border border-white/20 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden">
+            <div className="rounded-3xl bg-[#021711]/98 border border-white/20 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden max-h-[82vh] overflow-y-auto custom-scrollbar">
               {/* Header Image with Fallback */}
               <div className="relative h-44 w-full bg-black/60 overflow-hidden">
                 {selectedPoint.thumbnailUrl ? (

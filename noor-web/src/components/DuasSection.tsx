@@ -102,7 +102,7 @@ export const DuasSection: React.FC = () => {
             setTasbihCount(0);
             setActiveDua(DUAS_LIST[0]);
           }}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 text-xs font-bold shadow-lg shadow-amber-500/20 flex items-center gap-2 transition-all self-start md:self-auto whitespace-nowrap"
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 text-xs font-bold shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition-all self-stretch sm:self-auto whitespace-nowrap cursor-pointer"
         >
           <CircleDot className="w-4 h-4" />
           <span>{t('openDigitalTasbih')}</span>

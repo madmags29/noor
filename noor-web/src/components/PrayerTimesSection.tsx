@@ -188,7 +188,7 @@ export const PrayerTimesSection: React.FC<PrayerTimesSectionProps> = ({
       )}
 
       {/* Prayer Cards Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4">
         {prayerTimes.map((p) => {
           const isActive = p.id === activePrayerId;
           const isSunrise = p.id === 'sunrise';
@@ -196,22 +196,22 @@ export const PrayerTimesSection: React.FC<PrayerTimesSectionProps> = ({
           return (
             <div
               key={p.id}
-              className={`rounded-3xl p-5 relative overflow-hidden transition-all duration-300 flex flex-col justify-between ${
+              className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 relative overflow-hidden transition-all duration-300 flex flex-col justify-between ${
                 isActive
-                  ? 'liquid-glass-gold border-amber-400/80 shadow-2xl scale-[1.04] ring-1 ring-amber-400/40'
+                  ? 'liquid-glass-gold border-amber-400/80 shadow-2xl scale-[1.03] ring-1 ring-amber-400/40'
                   : 'liquid-glass border-white/10 hover:border-white/20'
               }`}
             >
               {isActive && (
-                <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-amber-500/25 text-amber-300 px-2 py-0.5 rounded-full text-[9px] font-black border border-amber-500/40">
+                <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 flex items-center gap-1 bg-amber-500/25 text-amber-300 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-black border border-amber-500/40">
                   <CheckCircle2 className="w-2.5 h-2.5" />
                   <span>{t('currentBadge')}</span>
                 </div>
               )}
 
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className={`text-xs font-black uppercase tracking-wider ${isActive ? 'text-amber-300' : 'text-emerald-300/80'}`}>
+                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                  <span className={`text-[11px] sm:text-xs font-black uppercase tracking-wider ${isActive ? 'text-amber-300' : 'text-emerald-300/80'}`}>
                     {t(p.id) || p.name}
                   </span>
                   {p.id === 'fajr' || p.id === 'isha' ? (
@@ -221,16 +221,16 @@ export const PrayerTimesSection: React.FC<PrayerTimesSectionProps> = ({
                   )}
                 </div>
 
-                <div className="text-xl font-bold text-emerald-200/90 font-serif mb-3">
+                <div className="text-lg sm:text-xl font-bold text-emerald-200/90 font-serif mb-2 sm:mb-3">
                   {p.arabicName}
                 </div>
               </div>
 
-              <div className="pt-2.5 border-t border-white/10">
-                <div className={`text-xl sm:text-2xl font-black font-mono tracking-tight ${isActive ? 'gold-gradient-text' : 'text-white'}`}>
+              <div className="pt-2 sm:pt-2.5 border-t border-white/10">
+                <div className={`text-lg sm:text-2xl font-black font-mono tracking-tight ${isActive ? 'gold-gradient-text' : 'text-white'}`}>
                   {p.time}
                 </div>
-                <div className="text-[10px] text-emerald-400/70 font-mono mt-0.5">
+                <div className="text-[9px] sm:text-[10px] text-emerald-400/70 font-mono mt-0.5 truncate">
                   {p.time24} {isSunrise ? `(${t('sunriseLabel')})` : `(${t('salaahLabel')})`}
                 </div>
               </div>
@@ -240,18 +240,18 @@ export const PrayerTimesSection: React.FC<PrayerTimesSectionProps> = ({
       </div>
 
       {/* Ramadan Holy Fasting Tracker Bar */}
-      <div className="mt-6 liquid-glass rounded-3xl p-5 border border-amber-500/30 flex flex-wrap items-center justify-between gap-4 shadow-lg">
+      <div className="mt-6 liquid-glass rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-lg">
+          <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-lg shrink-0">
             🌙
           </div>
           <div>
             <span className="text-[10px] font-black uppercase tracking-wider text-amber-400">
               {t('ramadanFastingTimes')}
             </span>
-            <div className="text-sm font-bold text-white flex items-center gap-3 mt-0.5">
+            <div className="text-xs sm:text-sm font-bold text-white flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-0.5">
               <span>{t('sehriEnds')} <strong className="text-amber-300 font-mono">{prayerTimes.find(p => p.id === 'fajr')?.time || '07:25 AM'}</strong></span>
-              <span className="text-white/30">•</span>
+              <span className="text-white/30 hidden sm:inline">•</span>
               <span>{t('iftarSunset')} <strong className="text-amber-300 font-mono">{prayerTimes.find(p => p.id === 'maghrib')?.time || '08:49 PM'}</strong></span>
             </div>
           </div>
@@ -259,7 +259,7 @@ export const PrayerTimesSection: React.FC<PrayerTimesSectionProps> = ({
 
         <a
           href="/prayer-times"
-          className="liquid-pill px-4 py-2 rounded-2xl text-xs font-bold text-amber-300 hover:border-amber-400/60 transition-all flex items-center gap-1.5 whitespace-nowrap"
+          className="liquid-pill px-4 py-2 rounded-2xl text-xs font-bold text-amber-300 hover:border-amber-400/60 transition-all flex items-center gap-1.5 whitespace-nowrap self-stretch sm:self-auto justify-center"
         >
           <span>{t('viewRamadanSchedule')}</span>
           <ChevronRight className="w-3.5 h-3.5 text-amber-400" />

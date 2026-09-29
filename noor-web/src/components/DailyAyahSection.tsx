@@ -77,8 +77,8 @@ export const DailyAyahSection: React.FC = () => {
     : displayedDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
-    <section className="w-full py-12 px-4 lg:px-8 max-w-7xl mx-auto">
-      <div className="glass-panel-gold rounded-3xl p-6 sm:p-10 border border-amber-500/30 relative overflow-hidden shadow-2xl">
+    <section className="w-full py-10 sm:py-12 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="glass-panel-gold rounded-2xl sm:rounded-3xl p-4 sm:p-10 border border-amber-500/30 relative overflow-hidden shadow-2xl">
         {/* Authentic Quran Manuscript Illumination Background */}
         <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
           <img
@@ -97,7 +97,7 @@ export const DailyAyahSection: React.FC = () => {
         <div className="absolute top-0 right-0 w-80 h-80 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-amber-500/20 pb-5 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-500/20 pb-5 mb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
               <BookOpen className="w-5 h-5" />

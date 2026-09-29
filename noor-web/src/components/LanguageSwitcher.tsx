@@ -24,6 +24,16 @@ export default function LanguageSwitcher({ compact = false, className = '' }: La
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Auto-dismiss the auto-set notice after 6 seconds so it doesn't cover mobile navigation
+  useEffect(() => {
+    if (showAutoNotice) {
+      const timer = setTimeout(() => {
+        dismissNotice();
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [showAutoNotice, dismissNotice]);
+
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       {/* Switcher Button */}
@@ -44,13 +54,13 @@ export default function LanguageSwitcher({ compact = false, className = '' }: La
 
       {/* Auto-detected small notice toast below the button on first arrival */}
       {showAutoNotice && !isOpen && detectedLocation && (
-        <div className="absolute top-full right-0 mt-2 w-64 p-2.5 rounded-2xl bg-[#021c15]/95 border border-amber-400/50 shadow-2xl backdrop-blur-xl z-50 text-[11px] text-emerald-100 animate-in fade-in slide-in-from-top-1">
+        <div className="absolute top-full right-0 mt-2 w-64 max-w-[calc(100vw-1.5rem)] p-2.5 rounded-2xl bg-[#021c15]/95 border border-amber-400/50 shadow-2xl backdrop-blur-xl z-50 text-[11px] text-emerald-100 animate-in fade-in slide-in-from-top-1">
           <div className="flex items-start justify-between gap-1.5">
             <div className="flex items-center gap-1.5 text-amber-300 font-bold text-xs">
               <MapPin className="w-3.5 h-3.5 text-amber-400" />
               <span>Native Language Auto-Set</span>
             </div>
-            <button onClick={dismissNotice} className="text-emerald-400 hover:text-white text-xs">✕</button>
+            <button onClick={dismissNotice} className="text-emerald-400 hover:text-white text-xs p-0.5">✕</button>
           </div>
           <p className="mt-1 text-emerald-200/90 text-[10px] leading-relaxed">
             Detected: <strong>{detectedLocation.region || detectedLocation.country}</strong>. Language set to <strong>{currentLanguageInfo.nativeName}</strong>. Tap here to change anytime.
