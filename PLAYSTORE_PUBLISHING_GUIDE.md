@@ -39,22 +39,18 @@ All assets required for the store listing have already been generated and organi
 
 Google Play requires an **Android App Bundle (`.aab`)**, not an `.apk`.
 
-1. Open your terminal and navigate to the mobile app directory:
-   ```bash
-   cd "/Users/Majid Desk/Noor/noor-mobile"
-   ```
-2. Log in to your Expo account:
-   ```bash
-   npx eas-cli login
-   ```
-3. Start the cloud production build:
-   ```bash
-   npm run build:aab
-   ```
-   *(or run: `npx eas-cli build -p android --profile production`)*
-4. During prompts:
-   * **Android Keystore**: Choose **"Generate a new Android Keystore"** (EAS will securely back it up to your Expo account).
-5. When the build completes (typically 5–10 minutes), copy the `.aab` download link from your terminal and **save the `.aab` file to your computer**.
+> [!NOTE]
+> **Production App Bundle Built & Ready!**
+> The production `.aab` has been compiled and downloaded directly into your workspace:
+> 📦 **File Location**: [`playstore-assets/noor-e-ilahi-v1.0.0.aab`](file:///Users/Majid%20Desk/Noor/playstore-assets/noor-e-ilahi-v1.0.0.aab) (67.4 MB)
+> 🔗 **Expo Cloud Build**: [Build #8bf50259](https://expo.dev/accounts/nooreilahi/projects/noor-islamic-app/builds/8bf50259-e115-4e2f-b0e4-c6a675ad881a)
+> 🆔 **Android Package**: `com.noor_e_ilahi` (Version Code 3, Version 1.0.0)
+> 🔑 **Keystore**: Generated and securely backed up to the `nooreilahi` Expo cloud account.
+
+To generate a new bundle in the future, navigate to `noor-mobile` and run:
+```bash
+npx eas-cli build -p android --profile production --non-interactive
+```
 
 ---
 

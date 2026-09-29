@@ -20,6 +20,8 @@ dist/
 */.expo/
 .expo-shared/
 web-build/
+*.aab
+*.apk
 
 # Operating System & Editors
 .DS_Store
