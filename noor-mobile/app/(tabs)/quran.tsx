@@ -174,36 +174,54 @@ export default function QuranScreen() {
 
   const toggleSurahAudio = () => {
     if (!selectedSurah) return;
-    if (isPlayingSurah) {
-      surahPlayer.pause();
-      setIsPlayingSurah(false);
-    } else {
-      if (playingAyahNum) {
-        ayahPlayer.pause();
-        setPlayingAyahNum(null);
+    try {
+      if (isPlayingSurah) {
+        surahPlayer.pause();
+        setIsPlayingSurah(false);
+      } else {
+        if (playingAyahNum) {
+          try {
+            ayahPlayer.pause();
+          } catch (_) {}
+          setPlayingAyahNum(null);
+        }
+        const url = getSurahAudioUrl(selectedSurah.number, selectedReciter.id);
+        if (url) {
+          surahPlayer.replace(url);
+          surahPlayer.play();
+          setIsPlayingSurah(true);
+        }
       }
-      const url = getSurahAudioUrl(selectedSurah.number, selectedReciter.id);
-      surahPlayer.replace(url);
-      surahPlayer.play();
-      setIsPlayingSurah(true);
+    } catch (err) {
+      console.warn('Surah playback error handled safely:', err);
+      setIsPlayingSurah(false);
     }
   };
 
   const playAyahAudio = (ayahNumber: number) => {
     if (!selectedSurah) return;
-    if (playingAyahNum === ayahNumber) {
-      ayahPlayer.pause();
-      setPlayingAyahNum(null);
-    } else {
-      if (isPlayingSurah) {
-        surahPlayer.pause();
-        setIsPlayingSurah(false);
+    try {
+      if (playingAyahNum === ayahNumber) {
+        ayahPlayer.pause();
+        setPlayingAyahNum(null);
+      } else {
+        if (isPlayingSurah) {
+          try {
+            surahPlayer.pause();
+          } catch (_) {}
+          setIsPlayingSurah(false);
+        }
+        const url = getAyahAudioUrl(selectedSurah.number, ayahNumber);
+        if (url) {
+          setCurrentAyahAudioUrl(url);
+          ayahPlayer.replace(url);
+          ayahPlayer.play();
+          setPlayingAyahNum(ayahNumber);
+        }
       }
-      const url = getAyahAudioUrl(selectedSurah.number, ayahNumber);
-      setCurrentAyahAudioUrl(url);
-      ayahPlayer.replace(url);
-      ayahPlayer.play();
-      setPlayingAyahNum(ayahNumber);
+    } catch (err) {
+      console.warn('Ayah playback error handled safely:', err);
+      setPlayingAyahNum(null);
     }
   };
 

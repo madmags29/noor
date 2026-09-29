@@ -43,9 +43,11 @@ export const AnimatedSplashScreen: React.FC<AnimatedSplashScreenProps> = ({
   const progressAnim = useRef(new Animated.Value(0)).current;
   const textFadeAnim = useRef(new Animated.Value(0)).current;
   const textSlideAnim = useRef(new Animated.Value(14)).current;
+  const isDismissingRef = useRef(false);
 
   useEffect(() => {
     if (!visible) return;
+    isDismissingRef.current = false;
 
     // Reset values
     fadeAnim.setValue(0);
@@ -167,9 +169,11 @@ export const AnimatedSplashScreen: React.FC<AnimatedSplashScreenProps> = ({
   }, [visible]);
 
   const handleDismiss = () => {
+    if (isDismissingRef.current) return;
+    isDismissingRef.current = true;
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 450,
+      duration: 350,
       easing: Easing.inOut(Easing.ease),
       useNativeDriver: true,
     }).start(() => {
@@ -504,9 +508,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1.2,
   },
   centerContent: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 'auto',
   },
   bismillahContainer: {
     alignItems: 'center',

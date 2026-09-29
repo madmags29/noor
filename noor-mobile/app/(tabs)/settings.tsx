@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '900',
     color: '#ffffff',
-    fontFamily: 'Courier',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     marginVertical: 4,
   },
   distanceText: {

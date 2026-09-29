@@ -23,7 +23,7 @@
     "android": {
       "package": "com.noor_e_ilahi",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 1,
+      "versionCode": 5,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
@@ -53,10 +53,6 @@
               "scheme": "https",
               "host": "noor.app",
               "pathPrefix": "/"
-            },
-            {
-              "scheme": "noor",
-              "host": "*"
             }
           ],
           "category": [
@@ -70,7 +66,26 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-audio",
+        {
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": true
+        }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsPictureInPicture": true
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Noor-e-ilahi to access your location to calculate accurate local prayer times and Qibla direction."
+        }
+      ]
     ],
     "scheme": "noor",
     "extra": {

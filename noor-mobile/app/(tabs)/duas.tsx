@@ -7,6 +7,7 @@ import {
   ScrollView,
   StatusBar,
   Share,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -703,7 +704,7 @@ const styles = StyleSheet.create({
     fontSize: 64,
     fontWeight: '900',
     color: '#f59e0b',
-    fontFamily: 'Courier',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   targetProgress: {
     fontSize: 12,

@@ -40,15 +40,21 @@ All assets required for the store listing have already been generated and organi
 Google Play requires an **Android App Bundle (`.aab`)**, not an `.apk`.
 
 > [!NOTE]
-> **Production App Bundle Built & Ready!**
-> The production `.aab` has been compiled and downloaded directly into your workspace:
-> 📦 **File Location**: [`playstore-assets/noor-e-ilahi-v1.0.0.aab`](file:///Users/Majid%20Desk/Noor/playstore-assets/noor-e-ilahi-v1.0.0.aab) (68.0 MB)
-> 🔗 **Expo Cloud Build**: [Build #90248ce7](https://expo.dev/accounts/nooreilahi/projects/noor-islamic-app/builds/90248ce7-ed11-45af-ae54-20b963c224c9)
-> 🆔 **Android Package**: `com.noor_e_ilahi` (Version Code 4, Version 1.0.0)
+> **Production App Bundle Ready for Release (Version Code 5)**
+> 🆔 **Android Package**: `com.noor_e_ilahi` (Version Code 5, Version 1.0.0)
 > 🔑 **Keystore**: Generated and securely backed up to the `nooreilahi` Expo cloud account.
-> 🖼️ **App Launcher Icon**: Updated with the newly attached luxury Noor-e-ilahi archway emblem.
+> 🛡️ **Play Store Crash Fixes Applied**:
+> • Configured `expo-audio` native config plugin in `app.json` with `AudioControlsService` `MediaSessionService` declaration and `FOREGROUND_SERVICE_MEDIA_PLAYBACK` permission (eliminates Android 14+ `SecurityException` / `RemoteServiceException` crashes).
+> • Removed unnecessary `RECORD_AUDIO` permission to satisfy Google Play Store sensitive permissions policy.
+> • Hardened audio playback callers against missing audio drivers on headless Google Play test crawlers with safe `try/catch` fallbacks.
+> • Fixed App Links `intent-filter` by removing custom schemes from `autoVerify="true"` block.
+> • Resolved sensor unmount subscription memory leaks in Qibla compass.
+> • Replaced non-existent Android system fonts (`Courier`, `Georgia`) with cross-platform monospace/serif fallbacks.
+> 🖼️ **App Launcher Icon Safe-Zone Fix**:
+> • Rebuilt 1024×1024 master icon and 512×512 store asset with the luxury Noor-e-ilahi archway emblem strictly contained within Android's 66% circular/squircle safe zone diameter.
+> • Zero cutting or clipping on Samsung OneUI, Google Pixel circular launcher, or Play Store squircle masks.
 
-To generate a new bundle in the future, navigate to `noor-mobile` and run:
+To generate the updated production `.aab` for Version Code 5, navigate to `noor-mobile` and run:
 ```bash
 npx eas-cli build -p android --profile production --non-interactive
 ```

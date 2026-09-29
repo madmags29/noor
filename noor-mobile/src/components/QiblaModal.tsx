@@ -147,7 +147,7 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
           }
 
           // Subscribe to hardware compass/magnetometer/gyroscope
-          sub = await Location.watchHeadingAsync((headingData) => {
+          const headingSub = await Location.watchHeadingAsync((headingData) => {
             if (!isMounted || isSimulating) return;
             const raw = headingData.trueHeading >= 0 ? headingData.trueHeading : headingData.magHeading;
             if (isNaN(raw) || raw < 0) return;
@@ -200,6 +200,12 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
               });
             }
           });
+
+          if (!isMounted) {
+            headingSub?.remove();
+            return;
+          }
+          sub = headingSub;
         }
       } catch (err) {
         if (isMounted) setIsSensorActive(false);
@@ -214,7 +220,9 @@ export const QiblaModal: React.FC<QiblaModalProps> = ({
 
     return () => {
       isMounted = false;
-      if (sub) sub.remove();
+      try {
+        sub?.remove();
+      } catch (_) {}
     };
   }, [visible, isSimulating]);
 

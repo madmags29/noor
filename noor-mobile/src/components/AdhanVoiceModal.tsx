@@ -128,19 +128,26 @@ export const AdhanVoiceModal: React.FC<AdhanVoiceModalProps> = ({
   const status = useAudioPlayerStatus(player);
 
   const handleTogglePlay = (item: AdhanVoice) => {
-    if (playingId === item.id) {
-      player.pause();
+    try {
+      if (playingId === item.id) {
+        player.pause();
+        setPlayingId(null);
+      } else {
+        setCurrentUrl(item.audioUrl);
+        player.replace(item.audioUrl);
+        player.play();
+        setPlayingId(item.id);
+      }
+    } catch (err) {
+      console.warn('Adhan preview error handled safely:', err);
       setPlayingId(null);
-    } else {
-      setCurrentUrl(item.audioUrl);
-      player.replace(item.audioUrl);
-      player.play();
-      setPlayingId(item.id);
     }
   };
 
   const handleStopAndClose = () => {
-    player.pause();
+    try {
+      player.pause();
+    } catch (_) {}
     setPlayingId(null);
     onClose();
   };

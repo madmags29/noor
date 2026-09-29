@@ -3,6 +3,8 @@
 // Matching the Web Platform Liquid-Glass Islamic Aesthetic
 // ============================================================
 
+import { Platform } from 'react-native';
+
 export const THEME = {
   colors: {
     // Deep Emerald Obsidian Backgrounds
@@ -42,8 +44,8 @@ export const THEME = {
     divider: 'rgba(255, 255, 255, 0.08)',
   },
   typography: {
-    fontSerif: 'Georgia',
-    fontMono: 'Courier',
+    fontSerif: Platform.OS === 'ios' ? 'Georgia' : 'serif',
+    fontMono: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   spacing: {
     xs: 4,

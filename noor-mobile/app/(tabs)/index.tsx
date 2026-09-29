@@ -58,13 +58,20 @@ export default function HomeScreen() {
   const [isDailyAyahPlaying, setIsDailyAyahPlaying] = useState(false);
 
   const toggleDailyAyahAudio = () => {
-    if (isDailyAyahPlaying) {
-      ayahPlayer.pause();
+    try {
+      if (isDailyAyahPlaying) {
+        ayahPlayer.pause();
+        setIsDailyAyahPlaying(false);
+      } else {
+        if (dailyAyah?.audioUrl) {
+          ayahPlayer.replace(dailyAyah.audioUrl);
+          ayahPlayer.play();
+          setIsDailyAyahPlaying(true);
+        }
+      }
+    } catch (err) {
+      console.warn('Daily Ayah audio playback error handled safely:', err);
       setIsDailyAyahPlaying(false);
-    } else {
-      ayahPlayer.replace(dailyAyah.audioUrl);
-      ayahPlayer.play();
-      setIsDailyAyahPlaying(true);
     }
   };
 
