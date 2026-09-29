@@ -105,9 +105,9 @@ export const CalendarSection: React.FC = () => {
                 </span>
               </div>
 
-              <h4 className="text-lg font-bold text-white mb-2">
+              <h3 className="text-lg font-bold text-white mb-2">
                 {event.title}
-              </h4>
+              </h3>
 
               <p className="text-xs text-emerald-100/80 leading-relaxed font-sans">
                 {event.description}

@@ -322,12 +322,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <span className="text-[10px] sm:text-[11px] font-black text-amber-400 uppercase tracking-widest block">
                     {t('upcomingSalaah')}
                   </span>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white flex items-center gap-2 mt-0.5 truncate">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white flex items-center gap-2 mt-0.5 truncate">
                     {nextPrayer ? (t(nextPrayer.id) || nextPrayer.name) : t('maghrib')}
                     <span className="text-lg sm:text-xl text-amber-300 font-normal font-serif">
                       ({nextPrayer?.arabicName || 'المغرب'})
                     </span>
-                  </h3>
+                  </h2>
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-xl sm:text-2xl md:text-3xl font-black text-amber-300 font-mono tracking-tight block">
@@ -382,6 +382,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="flex items-center gap-3">
                 <button
                   onClick={toggleAzan}
+                  aria-label={isPlayingAzan ? (t('stopAdhan') || 'Stop Adhan') : (t('listenAdhanMakkah') || 'Listen to Adhan from Makkah')}
                   className={`flex-1 py-3 px-5 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs transition-all border cursor-pointer ${
                     isPlayingAzan
                       ? 'bg-red-500/25 border-red-400/60 text-red-200 animate-pulse'
@@ -475,9 +476,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <span className="text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30 inline-block mb-1">
                   {item.badge}
                 </span>
-                <h4 className="text-xs sm:text-sm font-black text-white group-hover:text-amber-300 transition-colors line-clamp-1">
+                <h3 className="text-xs sm:text-sm font-black text-white group-hover:text-amber-300 transition-colors line-clamp-1">
                   {item.label}
-                </h4>
+                </h3>
                 <p className="text-[9px] sm:text-[10px] text-emerald-200/80 font-medium line-clamp-1">
                   {item.desc}
                 </p>

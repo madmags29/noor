@@ -144,15 +144,16 @@ export const DuasSection: React.FC = () => {
                     onClick={() => handleCopyDua(dua)}
                     className="p-1.5 text-emerald-400 hover:text-amber-300 transition-colors"
                     title="Copy Dua"
+                    aria-label={`Copy Dua: ${getDuaTitle(dua)}`}
                   >
                     {copiedId === dua.id ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Share2 className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
 
-              <h4 className="text-sm font-bold text-white mb-4 line-clamp-2">
+              <h3 className="text-sm font-bold text-white mb-4 line-clamp-2">
                 {getDuaTitle(dua)}
-              </h4>
+              </h3>
 
               {/* Arabic */}
               <p className="arabic-text text-xl text-amber-200 font-bold mb-4 text-right leading-[2]">

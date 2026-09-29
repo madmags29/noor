@@ -125,9 +125,9 @@ export const QuranSection: React.FC = () => {
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
+                <h3 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
                   {surah.englishName}
-                </h4>
+                </h3>
                 <p className="text-[11px] text-emerald-300/70">
                   {surah.englishNameTranslation} • {surah.numberOfAyahs} {t('ayahsCount')}
                 </p>

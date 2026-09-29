@@ -414,6 +414,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
               onClick={() => setShowSearchModal(true)}
               className="p-1.5 rounded-lg text-emerald-300/70 hover:text-amber-300 hover:bg-white/5 transition-colors flex items-center gap-1.5"
               title="Search (⌘K)"
+              aria-label="Search"
             >
               <Search className="w-4 h-4" />
               <span className="hidden xl:inline text-xs text-emerald-200/60 font-mono">⌘K</span>
@@ -428,6 +429,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                 onClick={() => setShowLocationDropdown(!showLocationDropdown)}
                 className="flex items-center gap-1 py-1 px-2 rounded-lg text-xs text-emerald-200/80 hover:text-white hover:bg-white/5 transition-colors whitespace-nowrap"
                 title="Change Location"
+                aria-label={`Change Location: current is ${activeLocation.city}`}
               >
                 <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                 <span className="max-w-[70px] sm:max-w-[85px] truncate text-[11px] font-medium hidden sm:inline">
@@ -513,6 +515,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
               <div className="relative" ref={userRef}>
                 <button
                   onClick={() => setShowUserDropdown(!showUserDropdown)}
+                  aria-label="User Account Menu"
                   className="flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-colors cursor-pointer"
                 >
                   {currentUser.picture ? (
@@ -577,6 +580,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
+                aria-label="Sign in"
                 className="px-3 py-1 rounded-full text-xs font-semibold text-amber-300 border border-amber-400/40 hover:bg-amber-400/10 hover:border-amber-400 transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
               >
                 <User className="w-3.5 h-3.5" />

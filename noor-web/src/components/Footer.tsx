@@ -17,6 +17,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="w-full bg-[#010e0a] border-t border-white/10 pt-16 pb-12 px-4 lg:px-8 mt-16 text-xs text-emerald-300/70">
+      <h2 className="sr-only">Footer Navigation</h2>
       {/* Brand Header Banner */}
       <div className="max-w-7xl mx-auto pb-10 mb-10 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2">
@@ -56,10 +57,10 @@ export const Footer: React.FC = () => {
         
         {/* Column 1: Worship */}
         <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🕌</span>
             <span>Worship</span>
-          </h4>
+          </h3>
           <ul className="space-y-2.5">
             <li>
               <Link href="/prayer-times" className="hover:text-amber-300 transition-colors">
@@ -91,10 +92,10 @@ export const Footer: React.FC = () => {
 
         {/* Column 2: Learn */}
         <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>📖</span>
             <span>Learn</span>
-          </h4>
+          </h3>
           <ul className="space-y-2.5">
             <li>
               <Link href="/duas" className="hover:text-amber-300 transition-colors">
@@ -126,10 +127,10 @@ export const Footer: React.FC = () => {
 
         {/* Column 3: Discover */}
         <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🏛️</span>
             <span>Discover</span>
-          </h4>
+          </h3>
           <ul className="space-y-2.5">
             <li>
               <Link href="/ziyarat" className="hover:text-amber-300 transition-colors">
@@ -161,10 +162,10 @@ export const Footer: React.FC = () => {
 
         {/* Column 4: Life */}
         <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🌿</span>
             <span>Life</span>
-          </h4>
+          </h3>
           <ul className="space-y-2.5">
             <li>
               <Link href="/zakat" className="hover:text-amber-300 transition-colors">
@@ -201,10 +202,10 @@ export const Footer: React.FC = () => {
 
         {/* Column 5: NOOR Platform */}
         <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold uppercase tracking-widest mb-3.5 text-amber-400 flex items-center gap-1.5">
             <span>🛡️</span>
             <span>NOOR</span>
-          </h4>
+          </h3>
           <ul className="space-y-2.5">
             <li>
               <Link href="/sources" className="hover:text-amber-300 transition-colors text-amber-300 font-semibold">

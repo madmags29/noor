@@ -104,7 +104,7 @@ export const DailyAyahSection: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">{t('verseOfTheDay')}</span>
+                <h2 className="text-xs font-bold text-amber-400 uppercase tracking-widest">{t('verseOfTheDay')}</h2>
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[10px] font-mono text-amber-300 font-bold">
                   <Calendar className="w-2.5 h-2.5" />
                   {formattedDateLabel}
@@ -124,6 +124,7 @@ export const DailyAyahSection: React.FC = () => {
                 onClick={() => handleDateChange(dayOffset - 1)}
                 className="p-1.5 text-emerald-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
                 title="Previous Day's Verse"
+                aria-label="Previous Day's Verse"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -132,6 +133,7 @@ export const DailyAyahSection: React.FC = () => {
                   onClick={() => handleDateChange(0)}
                   className="px-2 py-1 text-[11px] font-bold text-amber-300 hover:text-amber-200 transition-colors cursor-pointer"
                   title="Return to Today"
+                  aria-label="Return to Today's Verse"
                 >
                   Today
                 </button>
@@ -144,6 +146,7 @@ export const DailyAyahSection: React.FC = () => {
                 onClick={() => handleDateChange(dayOffset + 1)}
                 className="p-1.5 text-emerald-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
                 title="Next Day's Verse"
+                aria-label="Next Day's Verse"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -156,6 +159,7 @@ export const DailyAyahSection: React.FC = () => {
                   ? 'bg-amber-500 text-emerald-950 border-amber-400 font-bold'
                   : 'bg-emerald-950/60 border-emerald-700/40 text-emerald-200 hover:text-amber-300'
               }`}
+              aria-label={showUrdu ? (language === 'hi' ? 'Switch to Hindi translation' : 'Switch to English translation') : 'Switch to Urdu translation'}
             >
               {showUrdu ? (language === 'hi' ? t('showHindi') : t('showEnglish')) : 'اردو ترجمہ'}
             </button>
@@ -168,6 +172,7 @@ export const DailyAyahSection: React.FC = () => {
                   : 'bg-emerald-950/60 border-emerald-700/40 text-emerald-300 hover:text-amber-300'
               }`}
               title={isPlaying ? t('pauseRecitation') : t('listenRecitation')}
+              aria-label={isPlaying ? 'Pause Recitation' : 'Listen to Recitation'}
             >
               {isPlaying ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
             </button>
@@ -176,6 +181,7 @@ export const DailyAyahSection: React.FC = () => {
               onClick={handleCopy}
               className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 hover:text-amber-300 transition-all cursor-pointer"
               title={t('copyVerse')}
+              aria-label="Copy verse to clipboard"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
             </button>
@@ -188,6 +194,7 @@ export const DailyAyahSection: React.FC = () => {
                   : 'bg-emerald-950/60 border-emerald-700/40 text-emerald-300 hover:text-amber-300'
               }`}
               title={t('bookmarkVerse')}
+              aria-label="Bookmark verse"
             >
               <Bookmark className="w-4 h-4" />
             </button>
@@ -196,6 +203,7 @@ export const DailyAyahSection: React.FC = () => {
               onClick={() => setShowTafsir(!showTafsir)}
               className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 hover:text-amber-300 transition-all cursor-pointer"
               title={t('readTafsir')}
+              aria-label="Read Tafsir"
             >
               <Info className="w-4 h-4" />
             </button>
@@ -215,7 +223,7 @@ export const DailyAyahSection: React.FC = () => {
         </div>
 
         {/* Translation */}
-        <div className="bg-[#031c15]/80 rounded-2xl p-6 border border-emerald-800/40 max-w-4xl mx-auto text-center">
+        <div className="bg-[#031c15]/80 rounded-2xl p-4 sm:p-6 border border-emerald-800/40 max-w-4xl mx-auto text-center">
           <p className={`text-base sm:text-lg text-emerald-50 leading-relaxed ${showUrdu ? 'arabic-text text-xl font-medium text-emerald-200' : ''}`}>
             {currentTranslation}
           </p>
@@ -224,10 +232,10 @@ export const DailyAyahSection: React.FC = () => {
         {/* Tafsir Ibn Kathir Accordion */}
         {showTafsir && (
           <div className="mt-6 p-5 rounded-2xl bg-[#06241b] border border-amber-500/30 text-xs text-emerald-100/90 leading-relaxed max-w-4xl mx-auto">
-            <h4 className="font-bold text-amber-300 mb-2 flex items-center gap-1.5 text-sm">
+            <h3 className="font-bold text-amber-300 mb-2 flex items-center gap-1.5 text-sm">
               <Info className="w-4 h-4" />
               {t('tafsirTitle')}
-            </h4>
+            </h3>
             <p>
               {t('tafsirBody')}
             </p>
