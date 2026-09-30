@@ -21,7 +21,7 @@ import { AiAssistantModal } from '../../src/components/AiAssistantModal';
 import { MobileMenuModal } from '../../src/components/MobileMenuModal';
 import { useLanguage } from '../../src/context/LanguageContext';
 import { THEME } from '../../src/theme';
-import { useAudioPlayer } from 'expo-audio';
+import { createAudioPlayer, AudioPlayer } from 'expo-audio';
 
 import {
   SURAHS_LIST,
@@ -76,14 +76,34 @@ export default function QuranScreen() {
   const [bookmarkedSurahs, setBookmarkedSurahs] = useState<number[]>([1, 18, 36, 67]);
   const [lastRead, setLastRead] = useState<{ surahNumber: number; surahName: string; ayah: number } | null>(null);
 
-  // Audio players
-  const currentSurahAudioUrl = selectedSurah
-    ? getSurahAudioUrl(selectedSurah.number, selectedReciter.id)
-    : getSurahAudioUrl(1, selectedReciter.id);
-  const surahPlayer = useAudioPlayer(currentSurahAudioUrl);
-
+  // Lazy audio players — only created when user taps play (avoids native crash on tab mount)
+  const surahPlayerRef = useRef<AudioPlayer | null>(null);
+  const ayahPlayerRef = useRef<AudioPlayer | null>(null);
   const [currentAyahAudioUrl, setCurrentAyahAudioUrl] = useState<string>(getAyahAudioUrl(1, 1));
-  const ayahPlayer = useAudioPlayer(currentAyahAudioUrl);
+
+  // Cleanup audio players on unmount
+  useEffect(() => {
+    return () => {
+      try { surahPlayerRef.current?.remove(); } catch (_) {}
+      try { ayahPlayerRef.current?.remove(); } catch (_) {}
+      surahPlayerRef.current = null;
+      ayahPlayerRef.current = null;
+    };
+  }, []);
+
+  const getOrCreateSurahPlayer = (url: string): AudioPlayer => {
+    if (!surahPlayerRef.current) {
+      surahPlayerRef.current = createAudioPlayer(url);
+    }
+    return surahPlayerRef.current;
+  };
+
+  const getOrCreateAyahPlayer = (url: string): AudioPlayer => {
+    if (!ayahPlayerRef.current) {
+      ayahPlayerRef.current = createAudioPlayer(url);
+    }
+    return ayahPlayerRef.current;
+  };
 
   // Popular Surah numbers
   const POPULAR_NUMBERS = [1, 2, 18, 24, 36, 44, 48, 55, 56, 67, 78, 112, 113, 114];
@@ -165,8 +185,8 @@ export default function QuranScreen() {
 
   const stopAllAudio = () => {
     try {
-      surahPlayer.pause();
-      ayahPlayer.pause();
+      surahPlayerRef.current?.pause();
+      ayahPlayerRef.current?.pause();
     } catch {}
     setIsPlayingSurah(false);
     setPlayingAyahNum(null);
@@ -176,19 +196,20 @@ export default function QuranScreen() {
     if (!selectedSurah) return;
     try {
       if (isPlayingSurah) {
-        surahPlayer.pause();
+        surahPlayerRef.current?.pause();
         setIsPlayingSurah(false);
       } else {
         if (playingAyahNum) {
           try {
-            ayahPlayer.pause();
+            ayahPlayerRef.current?.pause();
           } catch (_) {}
           setPlayingAyahNum(null);
         }
         const url = getSurahAudioUrl(selectedSurah.number, selectedReciter.id);
         if (url) {
-          surahPlayer.replace(url);
-          surahPlayer.play();
+          const player = getOrCreateSurahPlayer(url);
+          player.replace(url);
+          player.play();
           setIsPlayingSurah(true);
         }
       }
@@ -202,20 +223,21 @@ export default function QuranScreen() {
     if (!selectedSurah) return;
     try {
       if (playingAyahNum === ayahNumber) {
-        ayahPlayer.pause();
+        ayahPlayerRef.current?.pause();
         setPlayingAyahNum(null);
       } else {
         if (isPlayingSurah) {
           try {
-            surahPlayer.pause();
+            surahPlayerRef.current?.pause();
           } catch (_) {}
           setIsPlayingSurah(false);
         }
         const url = getAyahAudioUrl(selectedSurah.number, ayahNumber);
         if (url) {
           setCurrentAyahAudioUrl(url);
-          ayahPlayer.replace(url);
-          ayahPlayer.play();
+          const player = getOrCreateAyahPlayer(url);
+          player.replace(url);
+          player.play();
           setPlayingAyahNum(ayahNumber);
         }
       }

@@ -3035,22 +3035,33 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         return;
       }
 
-      // 2. Auto-detect via fast IP geolocation
-      const res = await fetch('https://ipwho.is/', { cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && data.country) {
-          const autoLang = resolveNativeLanguage(data.country, data.region || data.city || '');
-          setLanguageState(autoLang);
-          setDetectedLocation({
-            country: data.country,
-            region: data.region || data.city,
-            isAutoDetected: true,
-          });
+      // 2. Auto-detect via fast IP geolocation (with 5s timeout to prevent blocking)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      try {
+        const res = await fetch('https://ipwho.is/', {
+          cache: 'no-store',
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.country) {
+            const autoLang = resolveNativeLanguage(data.country, data.region || data.city || '');
+            setLanguageState(autoLang);
+            setDetectedLocation({
+              country: data.country,
+              region: data.region || data.city,
+              isAutoDetected: true,
+            });
+          }
         }
+      } catch {
+        clearTimeout(timeoutId);
+        // Network failure or timeout — silently fall back to English
       }
     } catch {
-      // ignore
+      // ignore — defaults to English
     }
   };
 

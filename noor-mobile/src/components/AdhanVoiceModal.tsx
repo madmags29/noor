@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   View,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { createAudioPlayer, AudioPlayer } from 'expo-audio';
 import { THEME } from '../theme';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -122,20 +122,29 @@ export const AdhanVoiceModal: React.FC<AdhanVoiceModalProps> = ({
 }) => {
   const { t } = useLanguage();
   const [playingId, setPlayingId] = useState<string | null>(null);
-  const [currentUrl, setCurrentUrl] = useState<string>(ADHAN_VOICES[0].audioUrl);
+  const playerRef = useRef<AudioPlayer | null>(null);
 
-  const player = useAudioPlayer(currentUrl);
-  const status = useAudioPlayerStatus(player);
+  // Cleanup audio player on unmount or when modal is closed
+  useEffect(() => {
+    return () => {
+      try { playerRef.current?.remove(); } catch (_) {}
+      playerRef.current = null;
+    };
+  }, []);
 
   const handleTogglePlay = (item: AdhanVoice) => {
     try {
       if (playingId === item.id) {
-        player.pause();
+        playerRef.current?.pause();
         setPlayingId(null);
       } else {
-        setCurrentUrl(item.audioUrl);
-        player.replace(item.audioUrl);
-        player.play();
+        // Lazily create the player on first interaction
+        if (!playerRef.current) {
+          playerRef.current = createAudioPlayer(item.audioUrl);
+        } else {
+          playerRef.current.replace(item.audioUrl);
+        }
+        playerRef.current.play();
         setPlayingId(item.id);
       }
     } catch (err) {
@@ -146,7 +155,7 @@ export const AdhanVoiceModal: React.FC<AdhanVoiceModalProps> = ({
 
   const handleStopAndClose = () => {
     try {
-      player.pause();
+      playerRef.current?.pause();
     } catch (_) {}
     setPlayingId(null);
     onClose();
@@ -175,7 +184,7 @@ export const AdhanVoiceModal: React.FC<AdhanVoiceModalProps> = ({
         <ScrollView contentContainerStyle={styles.scrollList} showsVerticalScrollIndicator={false}>
           {ADHAN_VOICES.map(adhan => {
             const isSelected = activeAdhanId === adhan.id;
-            const isPlaying = playingId === adhan.id && status.playing;
+            const isPlaying = playingId === adhan.id;
 
             return (
               <View

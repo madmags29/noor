@@ -22,9 +22,23 @@ import { useLanguage } from '../src/context/LanguageContext';
 
 function ActiveVideoPlayer({ videoUrl }: { videoUrl: string }) {
   const player = useVideoPlayer(videoUrl, p => {
-    p.loop = true;
-    p.play();
+    try {
+      p.loop = true;
+      p.play();
+    } catch (_) {
+      // Silently handle video init errors to prevent crash
+    }
   });
+
+  if (!player) {
+    return (
+      <View style={styles.nativeVideoPlayer}>
+        <Text style={{ color: '#fff', textAlign: 'center', padding: 20 }}>
+          Unable to load video player
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <VideoView

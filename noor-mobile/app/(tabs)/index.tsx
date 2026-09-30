@@ -24,7 +24,7 @@ import { useLanguage } from '../../src/context/LanguageContext';
 import { LanguageModal } from '../../src/components/LanguageModal';
 import { SearchModal } from '../../src/components/SearchModal';
 import { getDailyAyah, DailyAyahItem } from '../../src/data/quranData';
-import { useAudioPlayer } from 'expo-audio';
+import { createAudioPlayer, AudioPlayer } from 'expo-audio';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -54,18 +54,36 @@ export default function HomeScreen() {
     return d;
   }, [dayOffset]);
   const dailyAyah: DailyAyahItem = React.useMemo(() => getDailyAyah(displayedDate), [displayedDate]);
-  const ayahPlayer = useAudioPlayer(dailyAyah.audioUrl);
+  // Lazy audio player — only created when user taps play (avoids native crash on startup)
+  const ayahPlayerRef = React.useRef<AudioPlayer | null>(null);
   const [isDailyAyahPlaying, setIsDailyAyahPlaying] = useState(false);
+
+  // Cleanup audio player on unmount
+  React.useEffect(() => {
+    return () => {
+      try {
+        if (ayahPlayerRef.current) {
+          ayahPlayerRef.current.remove();
+          ayahPlayerRef.current = null;
+        }
+      } catch (_) {}
+    };
+  }, []);
 
   const toggleDailyAyahAudio = () => {
     try {
       if (isDailyAyahPlaying) {
-        ayahPlayer.pause();
+        ayahPlayerRef.current?.pause();
         setIsDailyAyahPlaying(false);
       } else {
         if (dailyAyah?.audioUrl) {
-          ayahPlayer.replace(dailyAyah.audioUrl);
-          ayahPlayer.play();
+          // Lazily create the player on first interaction
+          if (!ayahPlayerRef.current) {
+            ayahPlayerRef.current = createAudioPlayer(dailyAyah.audioUrl);
+          } else {
+            ayahPlayerRef.current.replace(dailyAyah.audioUrl);
+          }
+          ayahPlayerRef.current.play();
           setIsDailyAyahPlaying(true);
         }
       }
