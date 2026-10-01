@@ -13,9 +13,15 @@ import 'l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
 
 import 'services/notification_service.dart';
+import 'services/crash_reporting_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Global Crash Sentry & Exception Reporting
+  try {
+    await crashReportingService.initialize();
+  } catch (_) {}
 
   // Initialize Push Notifications & FCM Engine
   try {

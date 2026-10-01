@@ -75,6 +75,7 @@ import {
 import { GoogleLogo, AuthUser } from '../../components/AuthModal';
 import { AppControlModule } from '../../components/admin/AppControlModule';
 import { AppAnalyticsModule } from '../../components/admin/AppAnalyticsModule';
+import { AppCrashReportModule } from '../../components/admin/AppCrashReportModule';
 
 export default function SuperAdminPage() {
   // High-Security Super Admin Authentication State
@@ -90,7 +91,7 @@ export default function SuperAdminPage() {
   const [adminUser, setAdminUser] = useState<{ email: string; name: string } | null>(null);
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<'appControl' | 'notifications' | 'appAnalytics' | 'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('appControl');
+  const [activeTab, setActiveTab] = useState<'appControl' | 'notifications' | 'crashes' | 'appAnalytics' | 'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('appControl');
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
 
   // Registered Users Directory State
@@ -797,6 +798,23 @@ export default function SuperAdminPage() {
             </button>
 
             <button
+              onClick={() => { setActiveTab('crashes'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all text-left cursor-pointer ${
+                activeTab === 'crashes'
+                  ? 'bg-gradient-to-r from-red-500 via-red-600 to-amber-500 text-white font-black shadow-lg shadow-red-500/25'
+                  : 'text-red-300/90 hover:text-white hover:bg-white/5 border border-red-500/20 bg-red-500/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Flame className="w-4 h-4 text-red-400 shrink-0" />
+                <span className="truncate">App Crash Reports & Sentry</span>
+              </div>
+              <span className="text-[9px] px-1.5 py-0.5 rounded font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">
+                Live
+              </span>
+            </button>
+
+            <button
               onClick={() => { setActiveTab('appAnalytics'); setMobileNavOpen(false); }}
               className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all text-left cursor-pointer ${
                 activeTab === 'appAnalytics'
@@ -982,6 +1000,7 @@ export default function SuperAdminPage() {
               <h2 className="text-sm sm:text-base font-black text-white flex items-center gap-2">
                 {activeTab === 'appControl' && 'Mobile App Feature Control & Force Update'}
                 {activeTab === 'notifications' && 'Live Push Notifications Broadcast Center'}
+                {activeTab === 'crashes' && 'Mobile App Crash Reports & Exception Telemetry'}
                 {activeTab === 'appAnalytics' && 'Real-Time Mobile Behavior & Telemetry'}
                 {activeTab === 'users' && 'Registered Users Directory & Settings'}
                 {activeTab === 'traffic' && 'Real-Time Global Traffic & Insights'}
@@ -1029,6 +1048,13 @@ export default function SuperAdminPage() {
            ==================================================== */}
         {activeTab === 'notifications' && (
           <AppControlModule />
+        )}
+
+        {/* ====================================================
+            TAB: APP CRASH REPORTS & SENTRY TELEMETRY
+           ==================================================== */}
+        {activeTab === 'crashes' && (
+          <AppCrashReportModule />
         )}
 
         {/* ====================================================
