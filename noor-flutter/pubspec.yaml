@@ -1,0 +1,78 @@
+name: noor_e_ilahi
+description: "Noor-e-ilahi: Daily Islamic App — Precision prayer times, Noble Quran, Qibla compass, Ziyarat, Duas & more."
+publish_to: 'none'
+version: 1.0.0+6
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Navigation
+  go_router: ^14.6.2
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+
+  # Storage
+  shared_preferences: ^2.3.3
+
+  # Audio
+  just_audio: ^0.9.42
+  audio_session: ^0.1.21
+
+  # Video
+  video_player: ^2.9.2
+
+  # Location & Sensors
+  geolocator: ^13.0.2
+  flutter_compass: ^0.8.0
+
+  # HTTP & Networking
+  http: ^1.2.2
+  google_sign_in: ^6.2.2
+
+
+  # Utilities
+  intl: ^0.20.3
+  uuid: ^4.5.1
+  url_launcher: ^6.3.1
+  share_plus: ^10.1.2
+
+  # Assets / Images
+  flutter_svg: ^2.0.10+1
+  cached_network_image: ^3.4.1
+
+  # UI
+  cupertino_icons: ^1.0.8
+  firebase_core: ^4.15.0
+  firebase_messaging: ^16.7.0
+  flutter_local_notifications: ^22.3.1
+  timezone: ^0.11.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#02120D"
+  adaptive_icon_foreground: "assets/icon.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icon.png
+    - assets/adaptive-icon.png
+    - assets/feature-graphic.png
+    - assets/og-image.png

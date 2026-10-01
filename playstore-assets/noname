@@ -1,0 +1,60 @@
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=namhodmc-com.20251104.gappssmtp.com; s=20251104; t=1790760987; x=1791365787; darn=aloftsingapore.com;
+        h=content-language:thread-index:content-type:mime-version:message-id
+         :date:subject:in-reply-to:references:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OuxCkhRakFhheOIFMzwJjC6R3BhdIRrVXmwva2DavGo=;
+        b=qYn9XHP+RrhvNDAhmFOr4TVb9cfSdPBMhPZ64IRvKAqJhGSyHP2ZZNQoZLOtZPsW1x
+         kW6/zB508GG+t9FWu9rRYsxBj0DcPNwNHE/xx3ec5V/X8JeWf72RZjtJacVhFbp0DgSy
+         TecRmLgSeTuyriIT19DlafBV+2LS6X0NLus3gGpmFMrNhREyRaoCiuAInZrQB2oYPBPg
+         SdqzAMBZvcu4ySH5sY2dGr0TlDaOwDhxrYvEbGfNRMhKrmiJq1rZcL3OMhCeRqNpy+ya
+         to8iBDY+JhQCEzJCRStAumnh1GGO5U0XlfJWBVENkO526Ld3ZEIrKs1SLdcNAgb4Rck6
+         o/bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790760987; x=1791365787;
+        h=content-language:thread-index:content-type:mime-version:message-id
+         :date:subject:in-reply-to:references:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OuxCkhRakFhheOIFMzwJjC6R3BhdIRrVXmwva2DavGo=;
+        b=rw2bd2lvQj7Aa40c7esf9HN8e+M2wJiyIr/d2ZEQJMQgmYmjq78jSvNHCOuU9GApoq
+         B8jFp/1elwQ59RvFpOuG7yogjNYErLFcfLJyyHZEctgMwB/Q8lRvsWgIsnjTtcTy0AgG
+         uPMEYwluaHmBXd98JlrxqsgrqLN1wDtFdMrlhOIUgQT/aGpdhP2Du2OVjPFXa8ibgPRb
+         tDJXucJVUubqZc9PMxR4lOU0xfV/MakNdn7A4iR9im2EmaBdNBKiPNWymjCw/Ad4O6a0
+         5hd9yzg1/ONsjT6iZRrr4V4N2JIusBycX+MW7asY1lW6ypGw1syokgykrqXA3tYJPwps
+         EaNw==
+X-Gm-Message-State: AFq9FYL+v3DhRlHYs3xBwfwq3o0kbWdRwEqEwbIOdcFOm41VIj+FVsFd
+	MJl0TMoWG7E8JMzq6G0lLQlBVahzKjWkQFkgQ7732yyB2xq2C62o1Lm+k2Gw1AVA7CM=
+X-Gm-Gg: AYBFou3sjRXWUvtZk09vDmqGuv49uwA/3DT42FbSykNIGRzGl6uXuR0VZB9LaSnuPbq
+	hK4Aym1o8KLA3pmoNis1bkw75Y9P8/cLbDzPlDRXz2o7uDOVW7iuE4Kufz7ZpiJNFUXUCxIMUn5
+	kVCdinyMimjPiXZpwNPEx09MklIwdAR+COSr9cGh4dXvUXEw9YuNm+wA/+lkW6Hm4LipRdDAxSC
+	BJQ74T+QQ/VTcAPIu0/olztoskq+9Woe8MDU01O6037qeH5bQlcEm6uAcHqqFAcMDmXzBneLzli
+	DX2GoyOFtU1AZuuCUzcfWsaVC63EyxHm4L2LUcnTdtZWrDk7meNf4l2UX5liiZ5sorUyKlUfq2W
+	OkVjnvuHoEDSr9pSoRN2zdj9tK7RSc0ntjoiiYHx3QqL5GEKZaECqtnetmSoHeGM82s5mJdNbpU
+	9JJaVsbSxNVSYck4nOCZOE3yvOfk+FtUOB3lTyoBtUTWjEMEOsUzjj/+1hf0WInRSesWcwhZPrT
+	nfF
+X-Received: by 2002:a17:90b:4c4c:b0:3a2:a576:f67a with SMTP id 98e67ed59e1d1-3a4d1b8a28fmr578856a91.52.1790760986637;
+        Wed, 30 Sep 2026 02:36:26 -0700 (PDT)
+Return-Path: <sancia@namhodmc.com>
+Received: from LENOVO ([103.178.62.220])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4cb1919ecsm2620408a91.1.2026.09.30.02.36.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Sep 2026 02:36:25 -0700 (PDT)
+From: "Sancia " <sancia@namhodmc.com>
+To: "'Lisa Ros'" <lisa.ros@aloftsingapore.com>
+Cc: "'Nam Ho - Kay'" <kay@namhodmc.com>,
+	"'Bansari'" <bansari@namhodmc.com>,
+	"'Reservations'" <reservations@aloftsingapore.com>,
+	"'Namrata Gupta'" <namrata@namhodmc.com>
+References: <014001dd4f4e$259aac80$70d00580$@namhodmc.com> <JH0PR02MB6516222AD4B7C7EAEFC9E58CF58D2@JH0PR02MB6516.apcprd02.prod.outlook.com> <3d99028808b1401f9efb862e637bfe22@aloftsingapore.com> <18a1040730f345bd972f45fbd37d46c8@aloftsingapore.com> <05ce01dd50aa$5e91aa90$1bb4ffb0$@namhodmc.com> <7101fd475dbb41108d6574dc5f68248b@aloftsingapore.com>
+In-Reply-To: <7101fd475dbb41108d6574dc5f68248b@aloftsingapore.com>
+Subject: RE: 426604/ISB1/INTRADEL | RAJASHEKAR REDDY CHOWDAPPA
+Date: Wed, 30 Sep 2026 15:06:21 +0530
+Message-ID: <010101dd50bf$28dd24a0$7a976de0$@namhodmc.com>
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_NextPart_000_0102_01DD50ED.42995840"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQLOaEd11pKanWiTfMImXAmhH+gJ2gHCWabEAVuS594CYh6YRwMKMW8eAXaNmuS0tKau8A==
+Content-Language: en-in
+

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "802292970181",
+    "project_id": "noor-e-ilahi-app",
+    "storage_bucket": "noor-e-ilahi-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802292970181:android:543b2a7c1e6021290436ac",
+        "android_client_info": {
+          "package_name": "com.noor_e_ilahi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB80cnL8O5N5KXtnDO_z-LocgXV1_CCLWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

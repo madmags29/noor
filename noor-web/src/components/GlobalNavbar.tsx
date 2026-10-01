@@ -516,7 +516,7 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                 <button
                   onClick={() => setShowUserDropdown(!showUserDropdown)}
                   aria-label="User Account Menu"
-                  className="flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 py-1 px-2 sm:px-2.5 rounded-full text-xs text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-colors cursor-pointer"
                 >
                   {currentUser.picture ? (
                     <img
@@ -531,10 +531,10 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                       {currentUser.name.charAt(0).toUpperCase()}
                     </div>
                   )}
-                  <span className="max-w-[70px] truncate text-[11px] font-semibold hidden md:inline">
+                  <span className="max-w-[70px] truncate text-[11px] font-semibold hidden sm:inline">
                     {currentUser.name.split(' ')[0]}
                   </span>
-                  <ChevronDown className="w-3 h-3 text-emerald-400/70" />
+                  <ChevronDown className="w-3 h-3 text-emerald-400/70 hidden sm:inline" />
                 </button>
 
                 {/* Profile Dropdown */}
@@ -567,6 +567,15 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                       </div>
                     )}
 
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setShowUserDropdown(false)}
+                      className="w-full py-1.5 px-2.5 rounded-lg hover:bg-white/10 text-emerald-100 hover:text-white text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer text-left mb-1"
+                    >
+                      <User className="w-3.5 h-3.5 text-amber-400" />
+                      <span>{t('profileSettings') || 'Dashboard & Profile'}</span>
+                    </Link>
+
                     <button
                       onClick={handleSignOut}
                       className="w-full py-1.5 px-2.5 rounded-lg hover:bg-red-500/15 text-red-300 hover:text-red-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer text-left"
@@ -581,10 +590,10 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
               <button
                 onClick={() => setShowAuthModal(true)}
                 aria-label="Sign in"
-                className="px-3 py-1 rounded-full text-xs font-semibold text-amber-300 border border-amber-400/40 hover:bg-amber-400/10 hover:border-amber-400 transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+                className="px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold text-amber-300 bg-amber-500/10 border border-amber-400/40 hover:bg-amber-400/20 hover:border-amber-400 transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
               >
-                <User className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Sign In</span>
+                <User className="w-3.5 h-3.5 text-amber-400" />
+                <span>{t('login') || 'Sign In'}</span>
               </button>
             )}
 
@@ -599,9 +608,11 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
           </div>
         </div>
 
-        {/* Clean, Organized Mobile Drawer with 3D Icons */}
+        {/* Clean, Organized Mobile Drawer with 3D Icons & Dedicated Login Card */}
         {mobileMenuOpen && (
           <div className="lg:hidden absolute top-[52px] left-0 right-0 bg-[#021711]/98 border-b border-white/10 p-4 shadow-2xl backdrop-blur-2xl z-[100] max-h-[calc(100dvh-54px)] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
+            
+            {/* Header Info */}
             <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10 text-xs">
               <span className="text-amber-300 font-bold flex items-center gap-1.5">
                 <MuslimLogo size={22} showText={false} />
@@ -611,6 +622,79 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
                 📍 {activeLocation.city}
               </span>
             </div>
+
+            {/* Dedicated Mobile User Account Hero Card */}
+            {currentUser ? (
+              <div className="mb-3.5 p-3 rounded-2xl bg-gradient-to-br from-emerald-900/40 via-emerald-950/70 to-black/90 border border-emerald-500/35 shadow-lg">
+                <div className="flex items-center justify-between gap-2.5">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {currentUser.picture ? (
+                      <img
+                        src={currentUser.picture}
+                        alt={currentUser.name}
+                        width={34}
+                        height={34}
+                        className="w-8.5 h-8.5 rounded-full object-cover border border-amber-400/60 shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8.5 h-8.5 rounded-full bg-gradient-to-br from-amber-400 to-emerald-700 text-emerald-950 font-bold flex items-center justify-center text-xs shrink-0 shadow">
+                        {currentUser.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <div className="text-xs font-bold text-white truncate flex items-center gap-1.5">
+                        <span>{currentUser.name}</span>
+                        {currentUser.provider === 'google' && <GoogleLogo className="w-3 h-3 shrink-0" />}
+                      </div>
+                      <div className="text-[10px] text-emerald-300/70 truncate">{currentUser.email}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-2.5 py-1.5 rounded-xl bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-semibold flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Dashboard</span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleSignOut();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="p-1.5 rounded-xl bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition-colors cursor-pointer"
+                      title="Sign Out"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="mb-3.5 p-3 rounded-2xl bg-gradient-to-br from-amber-500/15 via-emerald-950/60 to-black/90 border border-amber-400/30 shadow-lg">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-md shrink-0">
+                      <GoogleLogo className="w-4.5 h-4.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-xs font-bold text-white">{t('login') || 'Sign In'} with Google</div>
+                      <div className="text-[10px] text-emerald-300/70 truncate">Sync prayers, bookmarks & habits</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setShowAuthModal(true);
+                    }}
+                    className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 font-black text-xs shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5 shrink-0 cursor-pointer"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span>{t('login') || 'Sign In'}</span>
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Section 1: Core Staples with 3D Icons */}
             <div className="mb-3">
@@ -670,56 +754,18 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
               </div>
             </div>
 
-            {/* Quick Actions in Mobile Drawer */}
-            <div className="pt-2 border-t border-white/10 flex items-center gap-2">
+            {/* Quick Search in Mobile Drawer */}
+            <div className="pt-2 border-t border-white/10">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   setShowSearchModal(true);
                 }}
-                className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 border border-white/10 text-xs font-semibold flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 border border-white/10 text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Search className="w-3.5 h-3.5 text-amber-400" />
-                <span>{t('search')}</span>
+                <span>{t('search')} (Quran, Hadith, Mosques...)</span>
               </button>
-              {currentUser ? (
-                <div className="flex-1 p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                  <div className="flex items-center gap-2 min-w-0">
-                    {currentUser.picture ? (
-                      <img src={currentUser.picture} alt={currentUser.name} width={24} height={24} className="w-6 h-6 rounded-full object-cover" />
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-amber-500 text-emerald-950 font-bold flex items-center justify-center text-[10px]">
-                        {currentUser.name.charAt(0).toUpperCase()}
-                      </div>
-                    )}
-                    <div className="truncate text-left">
-                      <div className="text-[11px] font-bold text-white truncate">{currentUser.name}</div>
-                      <div className="text-[9px] text-emerald-300/70 truncate flex items-center gap-1">
-                        {currentUser.provider === 'google' && <GoogleLogo className="w-2.5 h-2.5 inline" />}
-                        <span>{currentUser.email}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="p-1.5 text-red-400 hover:text-red-300 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
-                    title="Sign Out"
-                  >
-                    <LogOut className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setShowAuthModal(true);
-                  }}
-                  className="flex-1 py-2 px-3 rounded-xl bg-amber-400/15 text-amber-300 border border-amber-400/30 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <User className="w-3.5 h-3.5" />
-                  <span>{t('login')}</span>
-                </button>
-              )}
             </div>
           </div>
         )}

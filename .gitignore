@@ -64,7 +64,25 @@ lerna-debug.log*
 .vercel
 .turbo
 
+# Flutter & Android Keystores
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+noor-flutter/build/
+noor-flutter/.dart_tool/
+noor-flutter/android/.gradle/
+noor-flutter/android/local.properties
+noor-flutter/android/key.properties
+*.jks
+*.keystore
+*.der
+*.aab
+*.apk
+*.pem
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
 .env*
+
