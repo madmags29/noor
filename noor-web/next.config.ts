@@ -1,6 +1,11 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  env: {
+    SUPER_ADMIN_EMAIL: 'noor@nooreilahi.com',
+    SUPER_ADMIN_PASSWORD: 'Majid5426!@#',
+    SUPER_ADMIN_JWT_SECRET: 'noor_super_admin_ultra_secure_secret_2026_majid_khan_786',
+  },
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
