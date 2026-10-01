@@ -14,20 +14,6 @@ export async function POST(req: NextRequest) {
       req.headers.get('x-real-ip') ||
       '127.0.0.1';
 
-    // 1. Check Rate Limit
-    const rateLimit = checkRateLimit(ip);
-    if (!rateLimit.allowed) {
-      return NextResponse.json(
-        {
-          error: `High-Security Lockout: Too many failed login attempts. Please wait ${Math.ceil(
-            rateLimit.lockoutRemainingSeconds / 60
-          )} minutes before retrying.`,
-          lockoutRemainingSeconds: rateLimit.lockoutRemainingSeconds,
-        },
-        { status: 429 }
-      );
-    }
-
     const body = await req.json();
     const { email, password } = body || {};
 
@@ -38,10 +24,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Validate Credentials
+    // 1. Validate Credentials
     const isValid = verifySuperAdminCredentials(email, password);
 
     if (!isValid) {
+      // 2. Check Rate Limit on failed attempts
+      const rateLimit = checkRateLimit(ip);
+      if (!rateLimit.allowed) {
+        return NextResponse.json(
+          {
+            error: `High-Security Lockout: Too many failed login attempts. Please wait ${Math.ceil(
+              rateLimit.lockoutRemainingSeconds / 60
+            )} minutes before retrying.`,
+            lockoutRemainingSeconds: rateLimit.lockoutRemainingSeconds,
+          },
+          { status: 429 }
+        );
+      }
+
       const failed = recordFailedAttempt(ip);
       const isLocked = failed.remainingAttempts <= 0;
 
