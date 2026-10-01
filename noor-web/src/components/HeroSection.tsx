@@ -151,23 +151,47 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const formattedDate = currentTime.toLocaleDateString(activeLocale, {
     weekday: 'long',
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric'
   });
 
-  let hijriDate = '17 Rabi al-Thani 1448 AH';
-  try {
-    hijriDate = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format(currentTime);
-  } catch {
-    hijriDate = '17 Rabi al-Thani 1448 AH';
-  }
+  // Clean, Standard Islamic Hijri Date Formatter (avoids awkward browser transliterations like "Rabiʻ II")
+  const getFormattedHijriDate = (date: Date): string => {
+    try {
+      const hijriMonths = [
+        'Muharram',
+        'Safar',
+        'Rabi al-Awwal',
+        'Rabi al-Thani',
+        'Jumada al-Ula',
+        'Jumada al-Akhirah',
+        'Rajab',
+        'Sha’ban',
+        'Ramadan',
+        'Shawwal',
+        'Dhu al-Qi’dah',
+        'Dhu al-Hijjah'
+      ];
+      const formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      });
+      const parts = formatter.formatToParts(date);
+      const day = parts.find(p => p.type === 'day')?.value || '20';
+      const monthNum = parseInt(parts.find(p => p.type === 'month')?.value || '4', 10);
+      const year = parts.find(p => p.type === 'year')?.value || '1448';
+      const monthName = hijriMonths[Math.max(0, Math.min(11, monthNum - 1))] || 'Rabi al-Thani';
+      return `${day} ${monthName} ${year} AH`;
+    } catch {
+      return '20 Rabi al-Thani 1448 AH';
+    }
+  };
+
+  const hijriDate = getFormattedHijriDate(currentTime);
 
   return (
-    <section className="relative w-full overflow-hidden pt-6 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8">
+    <section className="relative w-full overflow-hidden pt-4 sm:pt-6 pb-14 sm:pb-20 px-3 sm:px-6 lg:px-8">
       {/* 1. Cinematic Ambient Background Video with Dark Emerald Fluid Mask */}
       <div className="absolute inset-0 -z-20 overflow-hidden pointer-events-none">
         {/* Responsive picture: lightweight optimized image on mobile for instant LCP, ambient video on desktop */}
@@ -205,15 +229,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div className="max-w-7xl mx-auto">
         {/* Top Badges Row: Hijri Date, Rating Pill, Location */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-            <span className="liquid-pill px-3.5 py-1.5 rounded-full text-xs font-bold text-amber-300 flex items-center gap-1.5 sm:gap-2 shadow-sm border border-amber-500/30" title="Dates may vary by one day depending on local moon sighting or calendar methodology">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-5 sm:mb-8">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className="liquid-pill px-3 py-1.5 rounded-full text-xs font-bold text-amber-300 flex items-center gap-1.5 shadow-sm border border-amber-500/30"
+              title="Islamic Hijri Lunar Calendar 1448 AH (Anno Hegirae). Local moon sighting may vary ±1 day."
+            >
               <Calendar className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>{hijriDate}</span>
-              <span className="text-[10px] text-amber-400/80 font-normal hidden md:inline">(Local sighting may vary ±1d)</span>
             </span>
-            <span className="text-xs text-emerald-300/60 hidden sm:inline">•</span>
-            <span className="text-xs text-emerald-200/80 font-medium hidden sm:inline">{formattedDate}</span>
+            <span className="liquid-pill px-3 py-1.5 rounded-full text-xs text-emerald-200/90 font-medium border border-white/10 flex items-center gap-1">
+              <span>{formattedDate}</span>
+            </span>
           </div>
 
           <div className="flex items-center gap-2 self-start sm:self-auto">
