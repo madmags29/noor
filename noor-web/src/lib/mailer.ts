@@ -218,3 +218,178 @@ export async function sendContactInquiryEmails(params: SendContactEmailParams): 
 
   return { adminSent, userSent };
 }
+
+// ============================================================
+// NOOR Sentry — Automated Crash Alert Dispatcher
+// Sends formatted crash diagnostics & stack trace to noor@nooreilahi.com
+// ============================================================
+export interface CrashAlertParams {
+  id: string;
+  errorName: string;
+  errorMessage: string;
+  errorType: 'fatal' | 'non_fatal' | 'anr' | 'network' | string;
+  stackTrace: string;
+  platform: 'android' | 'ios' | 'web' | string;
+  deviceModel: string;
+  osVersion: string;
+  appVersion: string;
+  buildNumber: number;
+  breadcrumbs?: Array<{ timestamp: string; category: string; message: string }>;
+  userId?: string;
+  userEmail?: string;
+  city?: string;
+  country?: string;
+  lastSeenAt: string;
+}
+
+export async function sendCrashAlertEmail(crash: CrashAlertParams): Promise<{ sent: boolean; error?: string }> {
+  const targetEmail = 'noor@nooreilahi.com';
+  const mailer = getTransporter();
+
+  const isFatal = crash.errorType === 'fatal';
+  const severityBadge = isFatal ? '🔴 FATAL UNHANDLED EXCEPTION' : `🟡 ${crash.errorType.toUpperCase()} EXCEPTION`;
+  const subject = `🚨 [APP CRASH ALERT] ${crash.errorName} (${crash.platform.toUpperCase()} • ${crash.deviceModel})`;
+
+  const breadcrumbsList = (crash.breadcrumbs || []).map((b) => `
+    <div style="margin-bottom: 6px; font-size: 12px; color: #ecfdf5;">
+      <span style="color: #f59e0b; font-family: monospace;">[${new Date(b.timestamp).toLocaleTimeString()}]</span>
+      <span style="font-weight: bold; text-transform: uppercase; color: #6ee7b7; margin: 0 4px;">${b.category}:</span>
+      <span>${b.message}</span>
+    </div>
+  `).join('');
+
+  const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #02120d; color: #ffffff; margin: 0; padding: 24px; }
+    .card { background-color: #031c15; border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 16px; padding: 28px; max-width: 680px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+    .header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 18px; margin-bottom: 20px; }
+    .title { color: #ffffff; font-size: 20px; font-weight: 900; margin: 0; }
+    .badge { display: inline-block; background: ${isFatal ? 'rgba(239, 68, 68, 0.2)' : 'rgba(245, 158, 11, 0.2)'}; border: 1px solid ${isFatal ? '#ef4444' : '#f59e0b'}; color: ${isFatal ? '#fca5a5' : '#fde68a'}; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; margin-top: 8px; }
+    .grid { display: table; width: 100%; margin-bottom: 16px; }
+    .col { display: table-cell; width: 50%; padding: 4px 8px 4px 0; vertical-align: top; }
+    .field-label { color: #6ee7b7; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+    .field-value { color: #ffffff; font-size: 14px; margin-top: 2px; font-family: monospace; }
+    .error-box { background: rgba(127, 29, 29, 0.3); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 10px; padding: 14px; color: #fecaca; font-family: monospace; font-size: 13px; line-height: 1.5; margin: 12px 0; }
+    .stack-box { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 14px; color: #a7f3d0; font-family: monospace; font-size: 11px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto; max-height: 280px; }
+    .breadcrumbs-box { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 12px; margin: 12px 0; }
+    .btn { display: inline-block; background: #f59e0b; color: #021711; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-size: 13px; margin-top: 16px; }
+    .footer { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 14px; margin-top: 24px; font-size: 11px; color: rgba(110, 231, 183, 0.7); text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="badge">${severityBadge}</div>
+      <h1 class="title" style="margin-top: 8px;">${crash.errorName}</h1>
+      <p style="color: #a7f3d0; font-size: 12px; margin: 4px 0 0 0;">NOOR Automated Sentry Exception Alert</p>
+    </div>
+
+    <div class="error-box">
+      <strong>Error:</strong> ${crash.errorMessage}
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <div class="field-label">Platform & Device</div>
+        <div class="field-value">${crash.platform.toUpperCase()} • ${crash.deviceModel}</div>
+      </div>
+      <div class="col">
+        <div class="field-label">OS Version</div>
+        <div class="field-value">${crash.osVersion}</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <div class="field-label">App Release Version</div>
+        <div class="field-value">v${crash.appVersion} (Build ${crash.buildNumber})</div>
+      </div>
+      <div class="col">
+        <div class="field-label">Timestamp</div>
+        <div class="field-value">${new Date(crash.lastSeenAt).toUTCString()}</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <div class="field-label">User / Session ID</div>
+        <div class="field-value">${crash.userEmail || crash.userId || 'Anonymous Client'}</div>
+      </div>
+      <div class="col">
+        <div class="field-label">Location</div>
+        <div class="field-value">${crash.city || 'Edge Node'}, ${crash.country || 'Global'}</div>
+      </div>
+    </div>
+
+    ${crash.breadcrumbs && crash.breadcrumbs.length > 0 ? `
+    <div style="margin-top: 14px;">
+      <div class="field-label">User Action Breadcrumbs (Leading up to crash)</div>
+      <div class="breadcrumbs-box">
+        ${breadcrumbsList}
+      </div>
+    </div>` : ''}
+
+    <div style="margin-top: 14px;">
+      <div class="field-label">Full Stack Trace</div>
+      <div class="stack-box">${crash.stackTrace}</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="https://www.nooreilahi.com/super-admin?unlock=true" class="btn">
+        Open Super Admin Control Center →
+      </a>
+    </div>
+
+    <div class="footer">
+      NOOR Real-Time Telemetry & Exception Guard • Sent automatically to <strong>noor@nooreilahi.com</strong>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+
+  const plainText = `[CRITICAL APP CRASH] NOOR Mobile Exception Alert
+==================================================
+Error: ${crash.errorName}
+Message: ${crash.errorMessage}
+Severity: ${crash.errorType.toUpperCase()}
+Platform: ${crash.platform.toUpperCase()}
+Device: ${crash.deviceModel} (${crash.osVersion})
+App Version: v${crash.appVersion}+b${crash.buildNumber}
+Timestamp: ${new Date(crash.lastSeenAt).toUTCString()}
+User: ${crash.userEmail || crash.userId || 'Anonymous Client'}
+Location: ${crash.city || 'Edge'}, ${crash.country || 'Global'}
+
+--- FULL STACK TRACE ---
+${crash.stackTrace}
+
+---
+Inspect in Super Admin: https://www.nooreilahi.com/super-admin?unlock=true
+Delivered to: noor@nooreilahi.com
+`;
+
+  if (!mailer) {
+    console.warn(`[CRASH ALERT] SMTP not configured. Crash details queued for noor@nooreilahi.com:\n`, plainText);
+    return { sent: false, error: 'SMTP transporter not configured in server environment' };
+  }
+
+  try {
+    await mailer.sendMail({
+      from: SMTP_FROM,
+      to: targetEmail,
+      subject,
+      html: htmlContent,
+      text: plainText,
+    });
+    console.log(`[SMTP SUCCESS] Crash alert email delivered to ${targetEmail} for ${crash.id}`);
+    return { sent: true };
+  } catch (err: any) {
+    console.error(`[SMTP ERROR] Failed to deliver crash alert email to ${targetEmail}:`, err.message);
+    return { sent: false, error: err.message };
+  }
+}
+

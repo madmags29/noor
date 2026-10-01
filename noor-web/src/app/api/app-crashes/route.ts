@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { sendCrashAlertEmail } from '@/lib/mailer';
 
 export interface CrashBreadcrumb {
   timestamp: string;
@@ -330,10 +331,16 @@ export async function POST(request: Request) {
       crashesStore.pop();
     }
 
+    // Trigger instant email alert with full crash log to noor@nooreilahi.com
+    sendCrashAlertEmail(newCrash).catch((mailErr) => {
+      console.error('[CRASH EMAIL NOTIFICATION ERROR]:', mailErr?.message || mailErr);
+    });
+
     return NextResponse.json({
       success: true,
-      message: 'Crash telemetry ingested successfully',
-      crash: newCrash
+      message: 'Crash telemetry ingested & alert email triggered to noor@nooreilahi.com',
+      crash: newCrash,
+      emailTriggeredTo: 'noor@nooreilahi.com'
     }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -343,10 +350,10 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { id, status } = body;
+    const { id, status, sendEmail } = body;
 
-    if (!id || !status) {
-      return NextResponse.json({ success: false, error: 'Crash ID and status are required' }, { status: 400 });
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Crash ID is required' }, { status: 400 });
     }
 
     const crash = crashesStore.find(c => c.id === id);
@@ -354,12 +361,22 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ success: false, error: 'Crash report not found' }, { status: 404 });
     }
 
-    crash.status = status;
+    if (status) {
+      crash.status = status;
+    }
+
+    let emailResult = null;
+    if (sendEmail) {
+      emailResult = await sendCrashAlertEmail(crash);
+    }
 
     return NextResponse.json({
       success: true,
-      message: `Crash ${id} status updated to ${status}`,
-      crash
+      message: sendEmail 
+        ? `Crash report & diagnostics emailed to noor@nooreilahi.com` 
+        : `Crash ${id} status updated to ${status}`,
+      crash,
+      emailSent: emailResult?.sent || false
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

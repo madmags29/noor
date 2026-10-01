@@ -27,7 +27,8 @@ import {
   Layers,
   ArrowUpRight,
   Zap,
-  Trash2
+  Trash2,
+  Mail
 } from 'lucide-react';
 import { CrashReport } from '../../app/api/app-crashes/route';
 
@@ -36,6 +37,7 @@ export function AppCrashReportModule() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [sendingEmail, setSendingEmail] = useState<boolean>(false);
   const [selectedCrash, setSelectedCrash] = useState<CrashReport | null>(null);
   const [copiedTrace, setCopiedTrace] = useState<boolean>(false);
   const [actionSuccess, setActionSuccess] = useState<string>('');
@@ -116,6 +118,27 @@ export function AppCrashReportModule() {
       }
     } catch (e) {
       console.error('Error updating crash status', e);
+    }
+  };
+
+  // Explicitly dispatch crash report email to noor@nooreilahi.com
+  const handleSendCrashEmail = async (id: string) => {
+    setSendingEmail(true);
+    try {
+      const res = await fetch('/api/app-crashes', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, sendEmail: true })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setActionSuccess('📧 Full diagnostic log & stack trace dispatched to noor@nooreilahi.com');
+        setTimeout(() => setActionSuccess(''), 4500);
+      }
+    } catch (e) {
+      console.error('Error sending crash email', e);
+    } finally {
+      setSendingEmail(false);
     }
   };
 
@@ -744,13 +767,25 @@ export function AppCrashReportModule() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-white/10 bg-[#031d16] flex items-center justify-between">
-              <button
-                onClick={() => setSelectedCrash(null)}
-                className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-bold transition-colors cursor-pointer"
-              >
-                Close View
-              </button>
+            <div className="p-4 border-t border-white/10 bg-[#031d16] flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setSelectedCrash(null)}
+                  className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-bold transition-colors cursor-pointer"
+                >
+                  Close View
+                </button>
+
+                <button
+                  onClick={() => handleSendCrashEmail(selectedCrash.id)}
+                  disabled={sendingEmail}
+                  className="px-3.5 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-300 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  title="Dispatch email notification to noor@nooreilahi.com"
+                >
+                  <Mail className={`w-3.5 h-3.5 ${sendingEmail ? 'animate-pulse' : ''}`} />
+                  <span>{sendingEmail ? 'Sending Email...' : 'Email Log to noor@nooreilahi.com'}</span>
+                </button>
+              </div>
 
               <button
                 onClick={() => {
