@@ -89,7 +89,7 @@ export default function SuperAdminPage() {
   const [adminUser, setAdminUser] = useState<{ email: string; name: string } | null>(null);
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<'appControl' | 'appAnalytics' | 'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('appControl');
+  const [activeTab, setActiveTab] = useState<'appControl' | 'notifications' | 'appAnalytics' | 'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('appControl');
 
   // Registered Users Directory State
   const [usersList, setUsersList] = useState<RegisteredUser[]>([]);
@@ -723,6 +723,18 @@ export default function SuperAdminPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab('notifications')}
+            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'notifications'
+                ? 'bg-amber-500 text-emerald-950 font-black shadow'
+                : 'text-emerald-300 hover:text-white bg-emerald-500/10 border border-emerald-500/20'
+            }`}
+          >
+            <Radio className="w-3.5 h-3.5 text-amber-400" />
+            <span>📢 Send Push Notifications</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('appAnalytics')}
             className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'appAnalytics'
@@ -866,6 +878,13 @@ export default function SuperAdminPage() {
             TAB: MOBILE APP FEATURE CONTROL & FORCE UPDATE
            ==================================================== */}
         {activeTab === 'appControl' && (
+          <AppControlModule />
+        )}
+
+        {/* ====================================================
+            TAB: PUSH NOTIFICATIONS & TEST BROADCAST
+           ==================================================== */}
+        {activeTab === 'notifications' && (
           <AppControlModule />
         )}
 
