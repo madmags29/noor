@@ -1,16 +1,35 @@
 // ============================================================
 // NOOR — Main Shell (Bottom Tab Navigator)
-// Exact port of noor-mobile/app/(tabs)/_layout.tsx
+// Remote Config & Force Update Verification Engine
 // ============================================================
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
+import '../force_update_dialog.dart';
 
-class MainShell extends StatelessWidget {
+class MainShell extends StatefulWidget {
   final Widget child;
 
   const MainShell({super.key, required this.child});
+
+  @override
+  State<MainShell> createState() => _MainShellState();
+}
+
+class _MainShellState extends State<MainShell> {
+  bool _checkedUpdate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_checkedUpdate) {
+        _checkedUpdate = true;
+        ForceUpdateDialog.checkAndShow(context);
+      }
+    });
+  }
 
   int _currentIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
@@ -48,7 +67,7 @@ class MainShell extends StatelessWidget {
     final currentIndex = _currentIndex(context);
 
     return Scaffold(
-      body: child,
+      body: widget.child,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(

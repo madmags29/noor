@@ -72,6 +72,8 @@ import {
   saveCurrentUser,
 } from '../../lib/userDataService';
 import { GoogleLogo, AuthUser } from '../../components/AuthModal';
+import { AppControlModule } from '../../components/admin/AppControlModule';
+import { AppAnalyticsModule } from '../../components/admin/AppAnalyticsModule';
 
 export default function SuperAdminPage() {
   // High-Security Super Admin Authentication State
@@ -87,7 +89,7 @@ export default function SuperAdminPage() {
   const [adminUser, setAdminUser] = useState<{ email: string; name: string } | null>(null);
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('users');
+  const [activeTab, setActiveTab] = useState<'appControl' | 'appAnalytics' | 'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('appControl');
 
   // Registered Users Directory State
   const [usersList, setUsersList] = useState<RegisteredUser[]>([]);
@@ -646,7 +648,32 @@ export default function SuperAdminPage() {
         )}
 
         {/* Tab Switcher Pills */}
-        <div className="flex items-center bg-black/50 p-1 rounded-full border border-white/10 text-xs font-semibold overflow-x-auto max-w-full">
+        <div className="flex items-center bg-black/50 p-1 rounded-full border border-white/10 text-xs font-semibold overflow-x-auto max-w-full gap-1">
+          <button
+            onClick={() => setActiveTab('appControl')}
+            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'appControl'
+                ? 'bg-amber-500 text-emerald-950 font-black shadow'
+                : 'text-amber-300 hover:text-white bg-amber-500/10 border border-amber-500/20'
+            }`}
+          >
+            <Smartphone className="w-3.5 h-3.5" />
+            <span>App Feature Control & Force Update</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('appAnalytics')}
+            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'appAnalytics'
+                ? 'bg-amber-500 text-emerald-950 font-black shadow'
+                : 'text-emerald-300 hover:text-white bg-emerald-500/10 border border-emerald-500/20'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5" />
+            <span>Mobile Behavior & Analytics</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
+          </button>
+
           <button
             onClick={() => setActiveTab('users')}
             className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
@@ -773,6 +800,20 @@ export default function SuperAdminPage() {
 
       {/* Main Admin Content Body */}
       <main className="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-8 space-y-6">
+
+        {/* ====================================================
+            TAB: MOBILE APP FEATURE CONTROL & FORCE UPDATE
+           ==================================================== */}
+        {activeTab === 'appControl' && (
+          <AppControlModule />
+        )}
+
+        {/* ====================================================
+            TAB: REAL-TIME MOBILE BEHAVIOR & TELEMETRY
+           ==================================================== */}
+        {activeTab === 'appAnalytics' && (
+          <AppAnalyticsModule />
+        )}
 
         {/* ====================================================
             TAB 1: REGISTERED USERS DIRECTORY & SETTINGS EDITOR
