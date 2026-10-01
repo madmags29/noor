@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
     _mainController.forward();
 
     // Smooth navigation to main app
-    Timer(const Duration(milliseconds: 2600), () {
+    Timer(const Duration(milliseconds: 3200), () {
       if (mounted) {
         context.go('/');
       }

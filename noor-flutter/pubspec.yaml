@@ -59,14 +59,26 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^4.0.0
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.8
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
   image_path: "assets/icon.png"
   min_sdk_android: 21
   adaptive_icon_background: "#02120D"
   adaptive_icon_foreground: "assets/icon.png"
+
+flutter_native_splash:
+  color: "#02120D"
+  image: "assets/icon.png"
+  color_dark: "#02120D"
+  image_dark: "assets/icon.png"
+  android_12:
+    image: "assets/icon.png"
+    icon_background_color: "#02120D"
+    color: "#02120D"
+  fullscreen: true
 
 flutter:
   uses-material-design: true
