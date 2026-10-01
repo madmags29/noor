@@ -52,8 +52,42 @@ export const AppControlModule: React.FC = () => {
   const [featureSearch, setFeatureSearch] = useState('');
   const [featureCategory, setFeatureCategory] = useState<'all' | 'core' | 'spiritual' | 'guidance' | 'community'>('all');
 
+  // Push Notification Dispatcher State
+  const [testNotifTitle, setTestNotifTitle] = useState('🕌 Noor-e-ilahi: Adhan & Prayer Alert');
+  const [testNotifBody, setTestNotifBody] = useState('Allāhu Akbar, Allāhu Akbar — Prayer time has arrived. Come to success and remembrance of Allāh.');
+  const [testNotifTarget, setTestNotifTarget] = useState<'all' | 'android' | 'ios' | 'web'>('all');
+  const [testNotifChannel, setTestNotifChannel] = useState<'adhan' | 'daily_reflection' | 'announcement' | 'custom'>('adhan');
+  const [sendingNotif, setSendingNotif] = useState(false);
+  const [notifSuccessMsg, setNotifSuccessMsg] = useState('');
+
   // Local state for adding release notes
   const [newReleaseNote, setNewReleaseNote] = useState('');
+
+  const handleSendTestNotification = async () => {
+    setSendingNotif(true);
+    setNotifSuccessMsg('');
+    try {
+      const res = await fetch('/api/notifications/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: testNotifTitle,
+          body: testNotifBody,
+          target: testNotifTarget,
+          channel: testNotifChannel,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setNotifSuccessMsg(data.message || '✨ Test notification sent successfully to all active users!');
+        setTimeout(() => setNotifSuccessMsg(''), 5000);
+      }
+    } catch {
+      setErrorMsg('Failed to send notification.');
+    } finally {
+      setSendingNotif(false);
+    }
+  };
 
   // Fetch remote config on load
   const fetchConfig = async () => {
@@ -797,6 +831,171 @@ export const AppControlModule: React.FC = () => {
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Section 3: Live Push Notification & Test Broadcast Hub */}
+      <div className="bg-[#021812] p-6 rounded-3xl border border-white/10 shadow-xl space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-400/30">
+              <Radio className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-black text-white">Live Push Notification & Broadcast Dispatcher</h3>
+              <p className="text-[11px] text-emerald-300/70">
+                Send instant push notification alerts, Adhan reminders, or custom test messages to mobile and web users.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={handleSendTestNotification}
+            disabled={sendingNotif}
+            className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs shadow-lg shadow-emerald-500/25 active:scale-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          >
+            <Bell className="w-4 h-4" />
+            <span>{sendingNotif ? 'Dispatching Alert...' : '🚀 Send Test Notification to Users'}</span>
+          </button>
+        </div>
+
+        {notifSuccessMsg && (
+          <div className="p-3.5 rounded-2xl bg-emerald-500/20 border border-emerald-400 text-emerald-200 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>{notifSuccessMsg}</span>
+          </div>
+        )}
+
+        {/* Quick Presets */}
+        <div className="space-y-2">
+          <label className="text-[11px] font-bold text-emerald-300 block">Quick Notification Presets</label>
+          <div className="flex flex-wrap gap-2">
+            {[
+              {
+                label: '🕌 Adhan Reminder',
+                title: '🕌 Noor-e-ilahi: Adhan & Prayer Alert',
+                body: 'Allāhu Akbar, Allāhu Akbar — Prayer time has arrived. Come to success and remembrance of Allāh.',
+                channel: 'adhan',
+              },
+              {
+                label: '📖 Daily Quran Reflection',
+                title: '📖 Verse of the Day (Surah Ash-Sharh)',
+                body: '“Indeed, with hardship comes ease.” (94:6) — Start your morning with holy reflection.',
+                channel: 'daily_reflection',
+              },
+              {
+                label: '⭐ Jummah Mubarak Alert',
+                title: '⭐ Blessed Friday (Jummah Mubarak)',
+                body: 'Recite Surah Al-Kahf and send abundant Durood upon our Beloved Prophet Muhammad ﷺ.',
+                channel: 'announcement',
+              },
+              {
+                label: '⚡ System Update Notification',
+                title: '⚡ Noor-e-ilahi Update Ready',
+                body: 'A fresh update with improved prayer precision and audio reciters is now live!',
+                channel: 'custom',
+              },
+            ].map((preset, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  setTestNotifTitle(preset.title);
+                  setTestNotifBody(preset.body);
+                  setTestNotifChannel(preset.channel as any);
+                }}
+                className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-emerald-200 text-xs font-bold transition-all cursor-pointer"
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Notification Form & Live Status Bar Preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 pt-2">
+          <div className="lg:col-span-7 space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-[10px] font-bold text-emerald-300 block mb-1">Target Audience</label>
+                <select
+                  value={testNotifTarget}
+                  onChange={(e) => setTestNotifTarget(e.target.value as any)}
+                  className="w-full px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-amber-400"
+                >
+                  <option value="all">All Users (Android + iOS + Web)</option>
+                  <option value="android">Android Devices Only</option>
+                  <option value="ios">iOS Devices Only</option>
+                  <option value="web">Web Browser Subscribers</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-emerald-300 block mb-1">Notification Sound Channel</label>
+                <select
+                  value={testNotifChannel}
+                  onChange={(e) => setTestNotifChannel(e.target.value as any)}
+                  className="w-full px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-amber-400"
+                >
+                  <option value="adhan">High-Priority Adhan Alarm (Sound & Vibrate)</option>
+                  <option value="daily_reflection">Gentle Spiritual Chime</option>
+                  <option value="announcement">Standard System Chime</option>
+                  <option value="custom">Silent Status Bar Alert</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-emerald-300 block mb-1">Notification Title</label>
+              <input
+                type="text"
+                value={testNotifTitle}
+                onChange={(e) => setTestNotifTitle(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-amber-400 font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-emerald-300 block mb-1">Notification Body / Message</label>
+              <textarea
+                rows={3}
+                value={testNotifBody}
+                onChange={(e) => setTestNotifBody(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs outline-none focus:border-amber-400 resize-none"
+              />
+            </div>
+          </div>
+
+          {/* Live Mobile Status Bar Preview Mockup */}
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-black/80 to-[#02120D] border border-amber-400/30 shadow-2xl space-y-2 relative overflow-hidden">
+              <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest flex items-center justify-between border-b border-white/10 pb-1.5">
+                <span>Device Notification Preview</span>
+                <span className="text-emerald-400 font-bold">Now</span>
+              </div>
+
+              <div className="flex items-start gap-3 pt-1">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-emerald-950 font-black shadow-md shrink-0 border border-amber-300">
+                  <span className="text-lg">🕌</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black text-white truncate block">{testNotifTitle}</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-300 mt-1 line-clamp-2 leading-relaxed">
+                    {testNotifBody}
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 pt-1 border-t border-white/5">
+                    <span className="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">
+                      {testNotifChannel.toUpperCase()}
+                    </span>
+                    <span className="text-[9px] text-zinc-400">
+                      Target: {testNotifTarget.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
