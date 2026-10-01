@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   AlertTriangle,
   Flame,
@@ -45,26 +45,45 @@ export function AppCrashReportModule() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'open' | 'investigating' | 'resolved'>('all');
   const [severityFilter, setSeverityFilter] = useState<'all' | 'fatal' | 'non_fatal' | 'anr' | 'network'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [debouncedSearch, setDebouncedSearch] = useState<string>('');
 
-  // Fetch crashes from API
+  const isInitialMount = useRef<boolean>(true);
+  const selectedCrashIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    selectedCrashIdRef.current = selectedCrash?.id || null;
+  }, [selectedCrash]);
+
+  // Debounce search input to prevent rapid refetches
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 250);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  // Stable Fetch crashes from API without re-render loop
   const fetchCrashes = useCallback(async (isSilent = false) => {
-    if (!isSilent) setLoading(true);
-    else setRefreshing(true);
+    if (isInitialMount.current && !isSilent) {
+      setLoading(true);
+    } else {
+      setRefreshing(true);
+    }
     try {
       const params = new URLSearchParams();
       if (platformFilter !== 'all') params.append('platform', platformFilter);
       if (statusFilter !== 'all') params.append('status', statusFilter);
       if (severityFilter !== 'all') params.append('severity', severityFilter);
-      if (searchQuery.trim()) params.append('search', searchQuery.trim());
+      if (debouncedSearch.trim()) params.append('search', debouncedSearch.trim());
 
       const res = await fetch(`/api/app-crashes?${params.toString()}`);
       const data = await res.json();
       if (data.success) {
         setCrashes(data.crashes || []);
         setStats(data.stats || null);
-        // If an open crash modal is open, refresh its data
-        if (selectedCrash) {
-          const updated = (data.crashes || []).find((c: CrashReport) => c.id === selectedCrash.id);
+        // Refresh modal data if open, without infinite loop
+        if (selectedCrashIdRef.current) {
+          const updated = (data.crashes || []).find((c: CrashReport) => c.id === selectedCrashIdRef.current);
           if (updated) setSelectedCrash(updated);
         }
       }
@@ -73,8 +92,9 @@ export function AppCrashReportModule() {
     } finally {
       setLoading(false);
       setRefreshing(false);
+      isInitialMount.current = false;
     }
-  }, [platformFilter, statusFilter, severityFilter, searchQuery, selectedCrash]);
+  }, [platformFilter, statusFilter, severityFilter, debouncedSearch]);
 
   useEffect(() => {
     fetchCrashes();
