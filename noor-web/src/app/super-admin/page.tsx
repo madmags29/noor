@@ -57,7 +57,8 @@ import {
   Filter,
   ArrowUpRight,
   ChevronDown,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Menu
 } from 'lucide-react';
 import {
   RegisteredUser,
@@ -90,6 +91,7 @@ export default function SuperAdminPage() {
 
   // Active navigation tab
   const [activeTab, setActiveTab] = useState<'appControl' | 'notifications' | 'appAnalytics' | 'users' | 'traffic' | 'tracking' | 'flows' | 'heatmap' | 'appearance' | 'cms' | 'exports'>('appControl');
+  const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
 
   // Registered Users Directory State
   const [usersList, setUsersList] = useState<RegisteredUser[]>([]);
@@ -673,206 +675,347 @@ export default function SuperAdminPage() {
   // VIEW B: AUTHENTICATED SUPER ADMIN CONTROL CENTER
   // ============================================================
   return (
-    <div className="min-h-screen bg-[#02120d] text-white flex flex-col selection:bg-amber-500 selection:text-black">
-      {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-[#021711]/95 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-300 hover:text-white transition-colors"
-            title="Return to Noor Platform"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 flex items-center justify-center font-black text-emerald-950 shadow-md">
-            <ShieldCheck className="w-5 h-5 text-emerald-950" />
+    <div className="min-h-screen bg-[#02120d] text-white flex flex-col md:flex-row selection:bg-amber-500 selection:text-black">
+      {/* Mobile Top Navbar (Small Screens Only) */}
+      <div className="md:hidden sticky top-0 z-50 bg-[#021711] border-b border-white/10 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 flex items-center justify-center font-black text-emerald-950 shadow-md">
+            <ShieldCheck className="w-4 h-4 text-emerald-950" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-base sm:text-lg font-black text-white">NOOR Super Admin</h1>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
-                MASTER PORTAL
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-sm font-black text-white">NOOR Admin</h1>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
+                MASTER
               </span>
             </div>
-            <p className="text-[11px] text-emerald-300/70">
-              Logged in as <strong className="text-white">Majid Khan (Owner)</strong> • Real-Time Systems Online
-            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => setMobileNavOpen(!mobileNavOpen)}
+          className="p-2 rounded-xl bg-white/5 border border-white/10 text-emerald-300 hover:text-white transition-colors"
+          aria-label="Toggle Navigation Menu"
+        >
+          {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* Backdrop for Mobile Nav */}
+      {mobileNavOpen && (
+        <div
+          onClick={() => setMobileNavOpen(false)}
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 md:hidden animate-in fade-in"
+        />
+      )}
+
+      {/* Left Sidebar Navigation */}
+      <aside
+        className={`fixed md:sticky top-0 left-0 bottom-0 h-screen w-72 md:w-80 shrink-0 bg-[#021711]/98 backdrop-blur-2xl border-r border-white/10 flex flex-col justify-between z-40 transition-transform duration-300 ease-in-out ${
+          mobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}
+      >
+        {/* Sidebar Top: Branding & Identity */}
+        <div className="p-5 border-b border-white/10">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-300 to-emerald-600 flex items-center justify-center font-black text-emerald-950 shadow-lg shadow-amber-500/20">
+                <ShieldCheck className="w-6 h-6 text-emerald-950" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <h1 className="text-base font-black text-white tracking-wide">NOOR</h1>
+                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-extrabold border border-amber-500/40 tracking-wider">
+                    MASTER
+                  </span>
+                </div>
+                <p className="text-[11px] text-emerald-400/80 font-medium">Super Admin Control Center</p>
+              </div>
+            </div>
+
+            <Link
+              href="/"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-300 hover:text-white transition-colors"
+              title="Return to Noor Platform"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* User Session Identity Pill */}
+          <div className="mt-4 p-3 rounded-xl bg-black/40 border border-emerald-500/20 flex items-center gap-3">
+            <div className="relative">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-900 border border-emerald-400/40 flex items-center justify-center text-xs font-bold text-amber-300">
+                MK
+              </div>
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#021711] animate-pulse" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold text-white truncate">{adminUser?.name || 'Majid Khan (Owner)'}</p>
+              <p className="text-[10px] font-mono text-emerald-300/60 truncate">{adminUser?.email || 'noor@nooreilahi.com'}</p>
+            </div>
           </div>
         </div>
 
-        {/* Global Save Notice Feedback */}
-        {saveSuccessMsg && (
-          <div className="px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-xs font-bold flex items-center gap-2 animate-in fade-in">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>{saveSuccessMsg}</span>
+        {/* Sidebar Nav Items (Scrollable List) */}
+        <div className="flex-1 overflow-y-auto px-3.5 py-4 space-y-6">
+          {/* Group 1: Mobile App & Cloud Control */}
+          <div className="space-y-1">
+            <div className="px-3 pb-1 text-[10px] font-extrabold tracking-wider text-amber-400/90 uppercase">
+              App & Cloud Control
+            </div>
+
+            <button
+              onClick={() => { setActiveTab('appControl'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all text-left cursor-pointer ${
+                activeTab === 'appControl'
+                  ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-amber-300/90 hover:text-white hover:bg-white/5 border border-amber-500/20 bg-amber-500/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Smartphone className="w-4 h-4 shrink-0" />
+                <span className="truncate">App Control & Force Update</span>
+              </div>
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold shrink-0 ${activeTab === 'appControl' ? 'bg-emerald-950/30 text-emerald-950' : 'bg-amber-500/20 text-amber-300'}`}>
+                v2.1.0
+              </span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('notifications'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all text-left cursor-pointer ${
+                activeTab === 'notifications'
+                  ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-300/90 hover:text-white hover:bg-white/5 border border-emerald-500/20 bg-emerald-500/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Radio className="w-4 h-4 text-amber-400 shrink-0" />
+                <span className="truncate">Live Push Notifications</span>
+              </div>
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping shrink-0" />
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('appAnalytics'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all text-left cursor-pointer ${
+                activeTab === 'appAnalytics'
+                  ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-300/90 hover:text-white hover:bg-white/5 border border-emerald-500/20 bg-emerald-500/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Activity className="w-4 h-4 shrink-0" />
+                <span className="truncate">Mobile Telemetry</span>
+              </div>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            </button>
           </div>
-        )}
 
-        {/* Tab Switcher Pills */}
-        <div className="flex items-center bg-black/50 p-1 rounded-full border border-white/10 text-xs font-semibold overflow-x-auto max-w-full gap-1">
-          <button
-            onClick={() => setActiveTab('appControl')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'appControl'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-amber-300 hover:text-white bg-amber-500/10 border border-amber-500/20'
-            }`}
-          >
-            <Smartphone className="w-3.5 h-3.5" />
-            <span>App Feature Control & Force Update</span>
-          </button>
+          {/* Group 2: Audience & Real-time Traffic */}
+          <div className="space-y-1">
+            <div className="px-3 pb-1 text-[10px] font-extrabold tracking-wider text-emerald-400/90 uppercase">
+              Audience & Visitors
+            </div>
 
-          <button
-            onClick={() => setActiveTab('notifications')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'notifications'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-300 hover:text-white bg-emerald-500/10 border border-emerald-500/20'
-            }`}
-          >
-            <Radio className="w-3.5 h-3.5 text-amber-400" />
-            <span>📢 Send Push Notifications</span>
-          </button>
+            <button
+              onClick={() => { setActiveTab('users'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'users'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Users className="w-4 h-4 shrink-0" />
+                <span>Registered Users</span>
+              </div>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold shrink-0 ${activeTab === 'users' ? 'bg-emerald-950/30 text-emerald-950' : 'bg-black/40 text-emerald-300'}`}>
+                {usersList.length}
+              </span>
+            </button>
 
-          <button
-            onClick={() => setActiveTab('appAnalytics')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'appAnalytics'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-300 hover:text-white bg-emerald-500/10 border border-emerald-500/20'
-            }`}
-          >
-            <Activity className="w-3.5 h-3.5" />
-            <span>Mobile Behavior & Analytics</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-          </button>
+            <button
+              onClick={() => { setActiveTab('tracking'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'tracking'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </div>
+                <span>Live Tracking</span>
+              </div>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold shrink-0 ${activeTab === 'tracking' ? 'bg-emerald-950/30 text-emerald-950' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}`}>
+                {realtimeActiveUsers.toLocaleString()}
+              </span>
+            </button>
 
-          <button
-            onClick={() => setActiveTab('users')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'users'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <Users className="w-3.5 h-3.5" />
-            <span>Registered Users ({usersList.length})</span>
-          </button>
+            <button
+              onClick={() => { setActiveTab('traffic'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'traffic'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <BarChart3 className="w-4 h-4 shrink-0" />
+                <span>Traffic Overview</span>
+              </div>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            </button>
 
-          <button
-            onClick={() => setActiveTab('traffic')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'traffic'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <Activity className="w-3.5 h-3.5" />
-            <span>Traffic Overview</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-          </button>
+            <button
+              onClick={() => { setActiveTab('flows'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'flows'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <GitFork className="w-4 h-4 shrink-0" />
+                <span>User Flows & Funnels</span>
+              </div>
+            </button>
 
-          <button
-            onClick={() => setActiveTab('tracking')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'tracking'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span>Live Tracking ({realtimeActiveUsers.toLocaleString()})</span>
-          </button>
+            <button
+              onClick={() => { setActiveTab('heatmap'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'heatmap'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <MousePointerClick className="w-4 h-4 shrink-0" />
+                <span>Click & Scroll Heatmap</span>
+              </div>
+            </button>
+          </div>
 
-          <button
-            onClick={() => setActiveTab('flows')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'flows'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <GitFork className="w-3.5 h-3.5" />
-            <span>User Flows & Funnels</span>
-          </button>
+          {/* Group 3: Content & Platform */}
+          <div className="space-y-1">
+            <div className="px-3 pb-1 text-[10px] font-extrabold tracking-wider text-emerald-400/90 uppercase">
+              Platform & Content
+            </div>
 
-          <button
-            onClick={() => setActiveTab('heatmap')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'heatmap'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <MousePointerClick className="w-3.5 h-3.5" />
-            <span>Click & Scroll Heatmap</span>
-          </button>
+            <button
+              onClick={() => { setActiveTab('appearance'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'appearance'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Palette className="w-4 h-4 shrink-0" />
+                <span>Appearance & Theme</span>
+              </div>
+            </button>
 
-          <button
-            onClick={() => setActiveTab('appearance')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'appearance'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <Palette className="w-3.5 h-3.5" />
-            <span>Appearance</span>
-          </button>
+            <button
+              onClick={() => { setActiveTab('cms'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'cms'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <FileText className="w-4 h-4 shrink-0" />
+                <span>Articles & CMS</span>
+              </div>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold shrink-0 ${activeTab === 'cms' ? 'bg-emerald-950/30 text-emerald-950' : 'bg-black/40 text-emerald-300'}`}>
+                {articles.length}
+              </span>
+            </button>
 
-          <button
-            onClick={() => setActiveTab('cms')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'cms'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Articles & CMS</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('exports')}
-            className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'exports'
-                ? 'bg-amber-500 text-emerald-950 font-black shadow'
-                : 'text-emerald-200 hover:text-white'
-            }`}
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Export Data</span>
-          </button>
+            <button
+              onClick={() => { setActiveTab('exports'); setMobileNavOpen(false); }}
+              className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-semibold transition-all text-left cursor-pointer ${
+                activeTab === 'exports'
+                  ? 'bg-amber-500 text-emerald-950 font-black shadow-lg shadow-amber-500/20'
+                  : 'text-emerald-200/90 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Download className="w-4 h-4 shrink-0" />
+                <span>Export & Backups</span>
+              </div>
+            </button>
+          </div>
         </div>
 
-        {/* Super Admin Session Badge & Sign Out */}
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-[11px]">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-mono text-emerald-200">
-              {adminUser?.email || 'noor@nooreilahi.com'}
-            </span>
-            <span className="text-amber-400 font-bold bg-amber-400/10 px-1.5 py-0.5 rounded text-[10px]">
-              SUPER ADMIN
-            </span>
-          </div>
+        {/* Sidebar Footer */}
+        <div className="p-4 border-t border-white/10 bg-black/20 space-y-2">
+          <Link
+            href="/"
+            className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-300 hover:text-white transition-colors flex items-center justify-center gap-2 text-xs font-semibold"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Return to Noor Web</span>
+          </Link>
 
           <button
             onClick={handleAdminLogout}
-            className="px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-200 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+            className="w-full py-2.5 px-3 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-200 hover:text-white transition-colors flex items-center justify-center gap-2 text-xs font-bold cursor-pointer"
             title="Sign Out of Super Admin and Lock Session"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out & Lock</span>
           </button>
         </div>
-      </header>
+      </aside>
 
-      {/* Main Admin Content Body */}
-      <main className="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-8 space-y-6">
+      {/* Main Content Area */}
+      <div className="flex-1 min-w-0 flex flex-col min-h-screen">
+        {/* Top Header Bar inside Main Area */}
+        <header className="sticky top-0 z-30 bg-[#021711]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div>
+              <h2 className="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                {activeTab === 'appControl' && 'Mobile App Feature Control & Force Update'}
+                {activeTab === 'notifications' && 'Live Push Notifications Broadcast Center'}
+                {activeTab === 'appAnalytics' && 'Real-Time Mobile Behavior & Telemetry'}
+                {activeTab === 'users' && 'Registered Users Directory & Settings'}
+                {activeTab === 'traffic' && 'Real-Time Global Traffic & Insights'}
+                {activeTab === 'tracking' && 'Live Global Pilgrim Session Tracking'}
+                {activeTab === 'flows' && 'User Conversion Flows & Funnels'}
+                {activeTab === 'heatmap' && 'Click & Scroll Heatmap Visualizer'}
+                {activeTab === 'appearance' && 'Visual Theme & Glassmorphism Design'}
+                {activeTab === 'cms' && 'Spiritual Guidance & Article CMS'}
+                {activeTab === 'exports' && 'Data Exports & Complete System Backups'}
+              </h2>
+              <p className="text-[11px] text-emerald-300/70">
+                NOOR Islamic Operating System • Connected to Global Edge Nodes ({realtimeEdgePing}ms)
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Global Save Notice Feedback */}
+            {saveSuccessMsg && (
+              <div className="px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>{saveSuccessMsg}</span>
+              </div>
+            )}
+
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-[11px]">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-emerald-300 font-mono text-[10px]">Edge Online</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Admin Content Body */}
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-8 space-y-6">
 
         {/* ====================================================
             TAB: MOBILE APP FEATURE CONTROL & FORCE UPDATE
@@ -3035,7 +3178,8 @@ export default function SuperAdminPage() {
             </div>
           </div>
         )}
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
