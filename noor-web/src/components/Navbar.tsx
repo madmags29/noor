@@ -56,6 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [citySearch, setCitySearch] = useState('');
 
   const locationRef = useRef<HTMLDivElement>(null);
+  const mobileLocationRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
   const exploreTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -76,7 +77,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (locationRef.current && !locationRef.current.contains(event.target as Node)) {
+      if (
+        locationRef.current &&
+        !locationRef.current.contains(event.target as Node) &&
+        (!mobileLocationRef.current || !mobileLocationRef.current.contains(event.target as Node))
+      ) {
         setShowLocationDropdown(false);
       }
       if (exploreRef.current && !exploreRef.current.contains(event.target as Node)) {
@@ -196,8 +201,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isSecondaryActive = secondaryNavLinks.some((link) => pathname === link.href);
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[52px] bg-[#02120d]/85 backdrop-blur-xl border-b border-emerald-900/25 transition-all overflow-visible">
-      <div className="max-w-7xl mx-auto h-full px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3 sm:gap-4">
+    <header className="sticky top-0 z-50 w-full bg-[#02120d]/90 backdrop-blur-xl border-b border-emerald-900/25 transition-all overflow-visible">
+      <div className="max-w-7xl mx-auto h-[52px] px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3 sm:gap-4">
         
         {/* 1. Left: Single-Line Luxury Logo */}
         <div className="flex items-center shrink-0">
@@ -333,10 +338,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* 3. Right: Sleek, Minimalist Utilities */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {/* Quick Search Trigger */}
+          {/* Desktop Quick Search Trigger */}
           <button
             onClick={onOpenSearch}
-            className="p-1.5 rounded-lg text-emerald-300/70 hover:text-amber-300 hover:bg-white/5 transition-colors flex items-center gap-1.5"
+            className="hidden lg:flex p-1.5 rounded-lg text-emerald-300/70 hover:text-amber-300 hover:bg-white/5 transition-colors items-center gap-1.5 cursor-pointer"
             title="Search (⌘K)"
             aria-label="Search"
           >
@@ -347,16 +352,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Native Language Switcher */}
           <LanguageSwitcher compact={true} />
 
-          {/* Clean Location Selector */}
-          <div className="relative" ref={locationRef}>
+          {/* Desktop Location Selector */}
+          <div className="hidden lg:block relative" ref={locationRef}>
             <button
               onClick={() => setShowLocationDropdown(!showLocationDropdown)}
-              className="flex items-center gap-1 py-1 px-2 rounded-lg text-xs text-emerald-200/80 hover:text-white hover:bg-white/5 transition-colors whitespace-nowrap"
+              className="flex items-center gap-1 py-1 px-2.5 rounded-lg text-xs text-emerald-200/80 hover:text-white hover:bg-white/5 transition-colors whitespace-nowrap cursor-pointer"
               title="Change Location"
               aria-label={`Change Location: current is ${currentLocation.city}`}
             >
               <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span className="max-w-[70px] sm:max-w-[85px] truncate text-[11px] font-medium hidden sm:inline">
+              <span className="max-w-[85px] truncate text-[11px] font-medium">
                 {currentLocation.city}
               </span>
               <ChevronDown className="w-3 h-3 text-emerald-400/60" />
@@ -420,16 +425,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       </button>
                     );
                   })}
-                  {POPULAR_CITIES.filter(
-                    loc =>
-                      !citySearch ||
-                      loc.city.toLowerCase().includes(citySearch.toLowerCase()) ||
-                      loc.country.toLowerCase().includes(citySearch.toLowerCase())
-                  ).length === 0 && (
-                    <div className="py-4 text-center text-zinc-400 text-[11px]">
-                      No matching cities found.
-                    </div>
-                  )}
                 </div>
               </div>
             )}
@@ -538,9 +533,104 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
+      {/* Mobile Responsive Subheader: Search & Location directly below the header */}
+      <div className="lg:hidden w-full px-3 py-2 bg-[#021711]/95 border-t border-emerald-900/30 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto flex items-center gap-2">
+          {/* Mobile Tap-to-Search Bar */}
+          <button
+            onClick={onOpenSearch}
+            className="flex-1 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/45 hover:bg-black/60 border border-white/10 hover:border-amber-400/40 text-emerald-300/80 text-xs transition-all shadow-inner group text-left cursor-pointer"
+            aria-label="Search"
+          >
+            <Search className="w-3.5 h-3.5 text-amber-400 shrink-0 group-hover:scale-110 transition-transform" />
+            <span className="truncate text-[11px] text-zinc-400">
+              {t('searchPlaceholder') || 'Search Quran, Duas, Mosques...'}
+            </span>
+          </button>
+
+          {/* Mobile Location Selector Pill */}
+          <div className="relative shrink-0" ref={mobileLocationRef}>
+            <button
+              onClick={() => setShowLocationDropdown(!showLocationDropdown)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-950/70 hover:bg-emerald-900/60 border border-emerald-700/40 hover:border-amber-400/50 text-xs text-emerald-100 transition-all cursor-pointer shadow-sm"
+              title="Change Location"
+              aria-label={`Change Location: current is ${currentLocation.city}`}
+            >
+              <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="max-w-[85px] sm:max-w-[120px] truncate text-[11px] font-semibold text-emerald-100">
+                {currentLocation.city}
+              </span>
+              <ChevronDown className={`w-3 h-3 text-emerald-400/70 transition-transform ${showLocationDropdown ? 'rotate-180' : ''}`} />
+            </button>
+
+            {showLocationDropdown && (
+              <div className="absolute right-0 mt-2 w-[calc(100vw-24px)] sm:w-80 max-w-sm rounded-2xl bg-[#031d16]/98 border border-white/15 backdrop-blur-2xl shadow-2xl p-3 z-[150] text-xs animate-in fade-in zoom-in-95">
+                <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+                  <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
+                    <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                    <span>{t('selectCountryCity')}</span>
+                  </span>
+                  <button
+                    onClick={handleAutoDetect}
+                    disabled={detecting}
+                    className="flex items-center gap-1 text-[10px] text-amber-400 hover:text-amber-300 font-bold disabled:opacity-50 cursor-pointer"
+                  >
+                    <LocateFixed className={`w-3.5 h-3.5 ${detecting ? 'animate-spin' : ''}`} />
+                    <span>{detecting ? t('detecting') : t('autoDetect')}</span>
+                  </button>
+                </div>
+
+                {/* Instant Search Bar */}
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    value={citySearch}
+                    onChange={(e) => setCitySearch(e.target.value)}
+                    placeholder="Search city or country (e.g. Makkah, Delhi)..."
+                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-zinc-500 text-xs outline-none focus:border-amber-400/60"
+                  />
+                </div>
+
+                <div className="max-h-56 overflow-y-auto space-y-0.5 custom-scrollbar">
+                  {POPULAR_CITIES.filter(
+                    loc =>
+                      !citySearch ||
+                      loc.city.toLowerCase().includes(citySearch.toLowerCase()) ||
+                      loc.country.toLowerCase().includes(citySearch.toLowerCase()) ||
+                      loc.region.toLowerCase().includes(citySearch.toLowerCase())
+                  ).map((loc) => {
+                    const isSelected = loc.city === currentLocation.city;
+                    return (
+                      <button
+                        key={`${loc.city}-${loc.country}`}
+                        onClick={() => {
+                          onLocationChange(loc);
+                          setShowLocationDropdown(false);
+                          setCitySearch('');
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-xl flex items-center justify-between transition-colors ${
+                          isSelected
+                            ? 'bg-amber-400/20 text-amber-300 font-bold border border-amber-400/30'
+                            : 'text-emerald-100 hover:bg-white/5'
+                        }`}
+                      >
+                        <span className="text-xs">
+                          {loc.city}, <span className="opacity-60 text-[10px]">{loc.country}</span>
+                        </span>
+                        <span className="text-[9px] text-emerald-400/60 font-mono">{loc.region}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Clean, Organized Mobile Drawer with 3D Icons & Dedicated Login Card */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-[52px] left-0 right-0 bg-[#021711]/98 border-b border-white/10 p-4 shadow-2xl backdrop-blur-2xl z-[100] max-h-[calc(100dvh-54px)] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-[#021711]/98 border-b border-white/10 p-4 shadow-2xl backdrop-blur-2xl z-[100] max-h-[calc(100dvh-100px)] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
           
           {/* Header Info */}
           <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10 text-xs">
