@@ -26,6 +26,7 @@ import '../../data/quran_data.dart';
 import '../../data/calendar_data.dart';
 import '../../services/prayer_service.dart';
 import '../../services/location_service.dart';
+import '../../services/remote_config_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -126,9 +127,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String _getHijriDate() {
     try {
       final h = getHijriDate(DateTime.now());
-      return '${h.formatted} (Local sighting ±1d)';
+      return '${h.monthNameEn} ${h.day}, ${h.year} AH • (Local sighting may vary ±1d)';
     } catch (_) {
-      return '17 Rabi al-Thani 1448 AH (Local sighting ±1d)';
+      return 'Rabiʻ II 20, 1448 AH • (Local sighting may vary ±1d)';
     }
   }
 
@@ -146,6 +147,86 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
     return months[m - 1];
+  }
+
+  Widget _buildAnnouncementBanner(BuildContext context) {
+    final ann = remoteConfig.announcement;
+    if (ann == null || !ann.enabled || ann.title.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final isJummah = ann.type == 'jummah';
+    final isAlert = ann.type == 'alert';
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: isAlert
+              ? [const Color(0xFF7F1D1D), const Color(0xFF450A0A)]
+              : isJummah
+                  ? [const Color(0xFF065F46), const Color(0xFF022C22)]
+                  : [const Color(0xFF78350F), const Color(0xFF451A03)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: isAlert ? const Color(0xFFF87171) : const Color(0xFFF59E0B),
+          width: 1.2,
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 10,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.25),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              isAlert ? Icons.warning_amber_rounded : isJummah ? Icons.mosque_rounded : Icons.auto_awesome,
+              color: isAlert ? const Color(0xFFFCA5A5) : const Color(0xFFFBBF24),
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  ann.title,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  ann.message,
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: Colors.white.withValues(alpha: 0.9),
+                    height: 1.35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -169,6 +250,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const SizedBox(height: 12),
                 _buildSearchBarWithLocation(context, t, currentCity),
                 const SizedBox(height: 14),
+                _buildAnnouncementBanner(context),
                 _buildDateBar(context, t),
                 const SizedBox(height: 16),
                 _buildHeroCard(context, t, currentCity, prayers, nextPrayer),
@@ -188,14 +270,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
 
-          // Floating AI Button
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: FloatingAiButton(
-              onPressed: () => setState(() => _showAiModal = true),
+          // Floating AI Button (Remotely Controllable)
+          if (remoteConfig.isFeatureEnabled('enableAiAssistant'))
+            Positioned(
+              bottom: 16,
+              right: 16,
+              child: FloatingAiButton(
+                onPressed: () => setState(() => _showAiModal = true),
+              ),
             ),
-          ),
 
           // Modals
           if (_showLocationModal)
