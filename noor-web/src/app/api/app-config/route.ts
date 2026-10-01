@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 
-// Default App Remote Configuration
+// Complete Executive Mobile App Remote Configuration
 export interface AppRemoteConfig {
   forceUpdate: {
     enabled: boolean;
     minRequiredVersion: string; // e.g., "1.0.0"
     minRequiredBuildNumber: number; // e.g., 6
-    latestVersion: string; // e.g., "1.0.1"
-    latestBuildNumber: number; // e.g., 7
+    latestVersion: string; // e.g., "1.0.0"
+    latestBuildNumber: number; // e.g., 6
     title: string;
     message: string;
     releaseNotes: string[];
@@ -20,18 +20,6 @@ export interface AppRemoteConfig {
     message: string;
     estimatedEndTime?: string;
   };
-  features: {
-    enableQuranAudio: boolean;
-    enableAiAssistant: boolean;
-    enablePushNotifications: boolean;
-    enableZiyaratAudioGuides: boolean;
-    enableDonations: boolean;
-    enableLiveMedia: boolean;
-    enableFatwaSearch: boolean;
-    enableAdhanAlarms: boolean;
-    enableCommunityDuas: boolean;
-    enableTravelMode: boolean;
-  };
   announcement: {
     enabled: boolean;
     id: string;
@@ -40,6 +28,38 @@ export interface AppRemoteConfig {
     actionLabel?: string;
     actionUrl?: string;
     type: 'info' | 'ramadan' | 'jummah' | 'alert';
+  };
+  features: {
+    enableQuranAudio: boolean;
+    enableQuranTafsir: boolean;
+    enablePrayerCalculations: boolean;
+    enableQiblaCompass: boolean;
+    enableAdhanAlarms: boolean;
+    enablePushNotifications: boolean;
+    enableAiAssistant: boolean;
+    enableZiyaratAudioGuides: boolean;
+    enableLiveMedia: boolean;
+    enableZakatCalculator: boolean;
+    enableDonations: boolean;
+    enableCommunityDuas: boolean;
+    enableTravelMode: boolean;
+    enableJanazahGuide: boolean;
+    enableNikahGuide: boolean;
+    enableNamesOfAllah: boolean;
+    enableHijriCalendar: boolean;
+    enableKidsCorner: boolean;
+    enableSunnahEtiquette: boolean;
+    enableMediaLibrary: boolean;
+    enableMultiLanguage: boolean;
+    enableSacredThemeCustomizer: boolean;
+    enableOfflineCaching: boolean;
+    enableScholarDesk: boolean;
+  };
+  deviceSettings: {
+    enableLowDataMode: boolean;
+    highAccuracyGPS: boolean;
+    batterySaverPolling: boolean;
+    allowOfflineDownloads: boolean;
   };
   updatedAt: string;
 }
@@ -55,9 +75,10 @@ let globalAppConfig: AppRemoteConfig = {
     title: 'New Update Available',
     message: 'A critical update of Noor-E-Ilahi is ready with improved prayer accuracy, high-quality recitations, and bug fixes.',
     releaseNotes: [
-      'Enhanced prayer times calculation accuracy',
+      'Enhanced prayer times calculation accuracy with Great-Circle solar positioning',
       'Google Sign-in and cross-platform profile synchronization',
-      'Instant Qibla compass calibration',
+      'Instant Qibla compass auto-calibration engine',
+      'High-speed streaming for Sheikh Mishary Alafasy and Sheikh Sudais',
       'Performance and battery optimizations'
     ],
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.noor_e_ilahi',
@@ -69,18 +90,6 @@ let globalAppConfig: AppRemoteConfig = {
     message: 'We are currently upgrading the Islamic cloud infrastructure to serve you better. Noor-E-Ilahi will be back shortly.',
     estimatedEndTime: '',
   },
-  features: {
-    enableQuranAudio: true,
-    enableAiAssistant: true,
-    enablePushNotifications: true,
-    enableZiyaratAudioGuides: true,
-    enableDonations: true,
-    enableLiveMedia: true,
-    enableFatwaSearch: true,
-    enableAdhanAlarms: true,
-    enableCommunityDuas: true,
-    enableTravelMode: true,
-  },
   announcement: {
     enabled: false,
     id: 'announcement-1',
@@ -89,6 +98,38 @@ let globalAppConfig: AppRemoteConfig = {
     actionLabel: 'Read Surah Kahf',
     actionUrl: '/quran/18',
     type: 'jummah',
+  },
+  features: {
+    enableQuranAudio: true,
+    enableQuranTafsir: true,
+    enablePrayerCalculations: true,
+    enableQiblaCompass: true,
+    enableAdhanAlarms: true,
+    enablePushNotifications: true,
+    enableAiAssistant: true,
+    enableZiyaratAudioGuides: true,
+    enableLiveMedia: true,
+    enableZakatCalculator: true,
+    enableDonations: true,
+    enableCommunityDuas: true,
+    enableTravelMode: true,
+    enableJanazahGuide: true,
+    enableNikahGuide: true,
+    enableNamesOfAllah: true,
+    enableHijriCalendar: true,
+    enableKidsCorner: true,
+    enableSunnahEtiquette: true,
+    enableMediaLibrary: true,
+    enableMultiLanguage: true,
+    enableSacredThemeCustomizer: true,
+    enableOfflineCaching: true,
+    enableScholarDesk: true,
+  },
+  deviceSettings: {
+    enableLowDataMode: false,
+    highAccuracyGPS: true,
+    batterySaverPolling: false,
+    allowOfflineDownloads: true,
   },
   updatedAt: new Date().toISOString(),
 };
@@ -126,6 +167,9 @@ export async function POST(req: Request) {
     }
     if (body.announcement) {
       globalAppConfig.announcement = { ...globalAppConfig.announcement, ...body.announcement };
+    }
+    if (body.deviceSettings) {
+      globalAppConfig.deviceSettings = { ...globalAppConfig.deviceSettings, ...body.deviceSettings };
     }
 
     globalAppConfig.updatedAt = new Date().toISOString();
