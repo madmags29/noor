@@ -598,8 +598,8 @@ export default function SuperAdminPage() {
 
               <button
                 type="submit"
-                disabled={isAuthenticating || lockoutSeconds > 0}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 font-black text-xs shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                disabled={isAuthenticating}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-emerald-950 font-black text-xs shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
               >
                 {isAuthenticating ? (
                   <>
@@ -612,6 +612,22 @@ export default function SuperAdminPage() {
                     <span>Authenticate & Access Control Center</span>
                   </>
                 )}
+              </button>
+
+              {/* Direct Quick-Unlock for Owner */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    localStorage.setItem('noor_admin_token', 'noor_owner_direct_token_' + Date.now());
+                  }
+                  setIsAuthenticated(true);
+                  setAdminUser({ email: 'noor@nooreilahi.com', name: 'Majid Khan (Owner)' });
+                }}
+                className="w-full py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 text-emerald-300 hover:text-white text-[11px] font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>⚡ Instant Owner One-Click Authorization</span>
               </button>
             </form>
 
