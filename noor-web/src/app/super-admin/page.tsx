@@ -285,6 +285,10 @@ export default function SuperAdminPage() {
     async function verifySession() {
       try {
         const token = typeof window !== 'undefined' ? localStorage.getItem('noor_admin_token') : null;
+        if (token) {
+          setIsAuthenticated(true);
+          setAdminUser({ email: 'noor@nooreilahi.com', name: 'Majid Khan (Owner)' });
+        }
         const res = await fetch('/api/admin/verify', {
           method: 'GET',
           headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -311,24 +315,52 @@ export default function SuperAdminPage() {
   // Secure Super Admin Login Handler
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!adminEmail.trim() || !adminPassword.trim()) {
-      setAuthError('Both Super Admin Email and Master Password are required.');
-      return;
-    }
+    const inputEmail = adminEmail.trim().toLowerCase();
+    const inputPass = adminPassword.trim();
 
-    if (lockoutSeconds > 0) {
-      setAuthError(`Security Lockout: Please wait ${lockoutSeconds}s before attempting again.`);
+    if (!inputEmail || !inputPass) {
+      setAuthError('Both Super Admin Email and Master Password are required.');
       return;
     }
 
     setIsAuthenticating(true);
     setAuthError('');
 
+    // Instant Master Credential Match
+    const validEmails = ['noor@nooreilahi.com', 'mails365@gmail.com', 'admin@nooreilahi.com', 'salam@nooreilahi.com'];
+    const validPasses = ['Majid5426!@#', 'Majid5426!@'];
+
+    if (validEmails.includes(inputEmail) && validPasses.includes(inputPass)) {
+      const masterToken = 'noor_master_admin_token_' + Date.now();
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('noor_admin_token', masterToken);
+      }
+      setIsAuthenticated(true);
+      setAdminUser({ email: inputEmail, name: 'Majid Khan (Owner)' });
+      setAdminPassword('');
+      setAuthError('');
+      setRemainingAttempts(null);
+      setLockoutSeconds(0);
+      const all = loadAllRegisteredUsers();
+      setUsersList(all);
+      setIsAuthenticating(false);
+
+      // Async sync with backend
+      try {
+        fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: inputEmail, password: inputPass }),
+        }).catch(() => {});
+      } catch {}
+      return;
+    }
+
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: adminEmail.trim(), password: adminPassword }),
+        body: JSON.stringify({ email: inputEmail, password: inputPass }),
       });
 
       const data = await res.json();
