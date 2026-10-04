@@ -1,0 +1,13 @@
+noor-flutter/
+noor-mobile/
+playstore-assets/
+*.apk
+*.aab
+*.pem
+*.jks
+*.keystore
+.gradle/
+android/
+ios/
+.git
+.github
