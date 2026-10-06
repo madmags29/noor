@@ -47,8 +47,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
       <div className="bg-[#031c15] border border-emerald-700/50 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden">
         {/* Search Input Box */}
         <div className="p-4 sm:p-5 border-b border-emerald-800/50 flex items-center gap-3">
+          <label htmlFor="global-site-search" className="sr-only">Search</label>
           <Search className="w-5 h-5 text-amber-400" />
           <input
+            id="global-site-search"
+            name="siteSearch"
+            aria-label="Search Islam, Quran, Duas, Hadith, Guides, Ziyarat"
             type="text"
             autoFocus
             placeholder={t('searchPlaceholderFull') || "Search Islam — Qur'an, Duas, Hadith, Guides, Ziyarat..."}

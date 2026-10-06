@@ -225,7 +225,11 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({ isOpen, onCl
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
             className="flex items-center gap-2"
           >
+            <label htmlFor="ai-assistant-prompt-input" className="sr-only">Ask AI Islamic Question</label>
             <input
+              id="ai-assistant-prompt-input"
+              name="aiPrompt"
+              aria-label="Ask Noor AI an Islamic question"
               type="text"
               placeholder="Ask a question (e.g. verses about patience, Friday sunnahs, dua for travel)..."
               value={input}

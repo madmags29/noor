@@ -462,7 +462,11 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
 
                   {/* Instant Search Bar */}
                   <div className="mb-2">
+                    <label htmlFor="navbar-city-search-desktop" className="sr-only">Search city or country</label>
                     <input
+                      id="navbar-city-search-desktop"
+                      name="citySearchDesktop"
+                      aria-label="Search city or country for prayer times"
                       type="text"
                       value={citySearch}
                       onChange={(e) => setCitySearch(e.target.value)}
@@ -652,7 +656,11 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
 
                   {/* Instant Search Bar */}
                   <div className="mb-2">
+                    <label htmlFor="navbar-city-search-mobile" className="sr-only">Search city or country</label>
                     <input
+                      id="navbar-city-search-mobile"
+                      name="citySearchMobile"
+                      aria-label="Search city or country for prayer times"
                       type="text"
                       value={citySearch}
                       onChange={(e) => setCitySearch(e.target.value)}

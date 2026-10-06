@@ -305,10 +305,13 @@ export default function QiblaPage() {
           {/* Gyroscope Simulator Slider */}
           <div className="w-full max-w-xs liquid-glass rounded-2xl p-3 border border-white/10 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-amber-400 font-bold">Gyroscope Angle Slider:</span>
+              <label htmlFor="qibla-gyroscope-slider" className="text-amber-400 font-bold cursor-pointer">Gyroscope Angle Slider:</label>
               <span className="font-mono font-bold text-white">{deviceHeading}°</span>
             </div>
             <input
+              id="qibla-gyroscope-slider"
+              name="gyroscopeAngle"
+              aria-label="Gyroscope Compass Angle Slider"
               type="range"
               min="0"
               max="360"

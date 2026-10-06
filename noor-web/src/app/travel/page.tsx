@@ -90,10 +90,13 @@ export default function TravelModePage() {
           </div>
 
           <div className="space-y-4">
-            <label className="block text-xs text-zinc-300 font-medium">
+            <label htmlFor="travel-distance-slider" className="block text-xs text-zinc-300 font-medium cursor-pointer">
               One-Way Travel Distance from City Border ({distanceKm} km / {(distanceKm * 0.621371).toFixed(1)} miles)
             </label>
             <input
+              id="travel-distance-slider"
+              name="travelDistance"
+              aria-label="One-Way Travel Distance from City Border Slider"
               type="range"
               min="10"
               max="1000"

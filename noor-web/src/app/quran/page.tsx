@@ -484,7 +484,11 @@ export default function QuranPage() {
 
                 {/* Audio Progress Scrubber */}
                 <div className="flex items-center gap-2 flex-1 min-w-[140px]">
+                  <label htmlFor="quran-audio-progress-slider" className="sr-only">Quran Audio Progress</label>
                   <input
+                    id="quran-audio-progress-slider"
+                    name="quranAudioProgress"
+                    aria-label="Quran Audio Recitation Progress Scrubber"
                     type="range"
                     min="0"
                     max="100"

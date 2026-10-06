@@ -1409,15 +1409,18 @@ export default function AppPreviewPage() {
                       {/* Gyroscope Simulator & Rotation Control Deck */}
                       <div className="p-2 rounded-xl bg-black/40 border border-white/10 text-left space-y-1.5">
                         <div className="flex items-center justify-between text-[8px]">
-                          <span className="font-bold text-amber-300 flex items-center gap-1">
+                          <label htmlFor="preview-gyroscope-slider" className="font-bold text-amber-300 flex items-center gap-1 cursor-pointer">
                             <span>🧭</span>
                             <span>Gyroscope Device Angle Slider:</span>
-                          </span>
+                          </label>
                           <span className="font-mono text-white font-bold">{simulatedHeading}° ({getCardinalName(simulatedHeading)})</span>
                         </div>
 
                         {/* Interactive Range Slider */}
                         <input
+                          id="preview-gyroscope-slider"
+                          name="previewGyroscopeSlider"
+                          aria-label="Simulated Gyroscope Device Angle Slider"
                           type="range"
                           min="0"
                           max="360"

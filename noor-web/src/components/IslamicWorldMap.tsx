@@ -304,8 +304,12 @@ export const IslamicWorldMap: React.FC<IslamicWorldMapProps> = ({ initialPointId
           {/* Search & Location Bar */}
           <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#021711]/95 border border-white/15 backdrop-blur-xl shadow-2xl">
             <div className="relative flex-1 flex items-center">
+              <label htmlFor="islamic-map-search" className="sr-only">Search locations on map</label>
               <Search className="w-4 h-4 text-emerald-400/80 absolute left-3 pointer-events-none" />
               <input
+                id="islamic-map-search"
+                name="mapSearchQuery"
+                aria-label="Search dargahs, mosques, or cities on Islamic map"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

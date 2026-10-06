@@ -291,10 +291,13 @@ export const QiblaSection: React.FC<QiblaSectionProps> = ({ currentLocation }) =
             {!hasGyro && (
               <div className="w-full max-w-xs mt-4 p-3 rounded-2xl bg-[#031c15] border border-emerald-800/40 text-center space-y-1.5">
                 <div className="flex items-center justify-between text-[11px] font-semibold text-emerald-300/80">
-                  <span>Interactive Heading:</span>
+                  <label htmlFor="qibla-interactive-heading" className="cursor-pointer">Interactive Heading:</label>
                   <span className="font-mono text-amber-300 font-bold">{deviceHeading}°</span>
                 </div>
                 <input
+                  id="qibla-interactive-heading"
+                  name="qiblaInteractiveHeading"
+                  aria-label="Interactive Compass Heading Angle Slider"
                   type="range"
                   min="0"
                   max="359"

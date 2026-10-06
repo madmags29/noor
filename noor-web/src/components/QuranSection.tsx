@@ -66,8 +66,12 @@ export const QuranSection: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full md:w-auto">
           {/* Search Box */}
           <div className="relative flex-1 sm:flex-initial min-w-[180px]">
+            <label htmlFor="quran-surah-search" className="sr-only">Search Surah</label>
             <Search className="w-4 h-4 text-emerald-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
+              id="quran-surah-search"
+              name="surahSearch"
+              aria-label="Search Surah by name, translation or number"
               type="text"
               placeholder={t('searchSurahPlaceholder')}
               value={searchTerm}

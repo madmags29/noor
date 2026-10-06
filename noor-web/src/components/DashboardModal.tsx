@@ -541,10 +541,13 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
                   {/* Volume Slider */}
                   <div>
                     <div className="flex items-center justify-between text-xs font-semibold text-emerald-200 mb-1">
-                      <span>Adhan Volume</span>
+                      <label htmlFor="adhan-volume-slider" className="cursor-pointer">Adhan Volume</label>
                       <span className="text-amber-300 font-mono">{userSettings.adhanVolume}%</span>
                     </div>
                     <input
+                      id="adhan-volume-slider"
+                      name="adhanVolume"
+                      aria-label="Adhan Audio Volume Percentage"
                       type="range"
                       min="0"
                       max="100"
