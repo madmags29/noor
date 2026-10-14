@@ -51,13 +51,13 @@ const server = http.createServer((req, res) => {
   const urlPath = decodeURIComponent(req.url.split('?')[0]);
 
   // Direct APK download or alias
-  if (urlPath === `/${APK_NAME}` || urlPath === '/noor-release.apk' || urlPath === '/download' || urlPath === '/apk') {
-    return serveFile(req, res, APK_PATH, APK_NAME, 'application/vnd.android.package-archive');
+  if (urlPath === `/${APK_NAME}` || urlPath === '/noor-release.apk' || urlPath === '/noor-e-ilahi-v1.0.0+10.apk' || urlPath === '/download' || urlPath === '/apk') {
+    return serveFile(req, res, path.join(ROOT_DIR, 'noor-e-ilahi-v1.0.0+10.apk'), 'noor-e-ilahi-v1.0.0+10.apk', 'application/vnd.android.package-archive');
   }
 
   // Direct AAB download or alias
-  if (urlPath === `/${AAB_NAME}` || urlPath === '/noor-release.aab' || urlPath === '/aab' || urlPath === '/download-aab') {
-    return serveFile(req, res, AAB_PATH, AAB_NAME, 'application/octet-stream');
+  if (urlPath === `/${AAB_NAME}` || urlPath === '/noor-release.aab' || urlPath === '/noor-e-ilahi-v1.0.0+10.aab' || urlPath === '/aab' || urlPath === '/download-aab') {
+    return serveFile(req, res, path.join(ROOT_DIR, 'noor-e-ilahi-v1.0.0+10.aab'), 'noor-e-ilahi-v1.0.0+10.aab', 'application/octet-stream');
   }
 
   // Beautiful mobile-friendly download page
@@ -194,7 +194,7 @@ const server = http.createServer((req, res) => {
     </a>
 
     <div class="details">
-      <span>Version: 1.0.0+9 (Release)</span>
+      <span>Version: 1.0.0+10 (Closed Testing Release)</span>
       <span>APK: ${apkSizeMb}</span>
       <span>AAB: ${aabSizeMb}</span>
     </div>
