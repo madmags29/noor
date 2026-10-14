@@ -145,6 +145,237 @@ class AnalyticsService {
       // Fail silently without disrupting user experience
     }
   }
+
+  // ── APP EXIT / ENGAGEMENT EVENTS ─────────────────────────────
+  Future<void> trackAppExitPrompt() async {
+    await trackEvent('app_exit_prompt', {
+      'screen': 'home',
+      'action': 'exit_bottom_sheet_shown',
+    });
+    await trackBehavior(
+      eventType: 'app_exit_prompt',
+      screen: 'home',
+      featureName: 'Exit Confirmation Prompt Shown',
+    );
+  }
+
+  Future<void> trackAppExitConfirmed() async {
+    await trackEvent('app_exit_confirmed', {
+      'screen': 'home',
+      'action': 'user_exited_app',
+    });
+    await trackBehavior(
+      eventType: 'app_exit_confirmed',
+      screen: 'home',
+      featureName: 'User Confirmed App Exit',
+    );
+  }
+
+  Future<void> trackAppExitCancelled() async {
+    await trackEvent('app_exit_cancelled', {
+      'screen': 'home',
+      'action': 'user_stayed_in_app',
+    });
+    await trackBehavior(
+      eventType: 'app_exit_cancelled',
+      screen: 'home',
+      featureName: 'User Dismissed Exit / Stayed in App',
+    );
+  }
+
+  // ── SALAWAT PULSE EVENT ──────────────────────────────────────
+  Future<void> trackSalawatContributed({
+    int totalCount = 0,
+    int userContribution = 1,
+  }) async {
+    await trackEvent('salawat_contributed', {
+      'user_contribution': userContribution,
+      'total_count': totalCount,
+    });
+    await trackBehavior(
+      eventType: 'feature_click',
+      screen: 'home',
+      featureName: 'Salawat Pulse Contribution (+1)',
+      metadata: {'totalCount': totalCount, 'userContribution': userContribution},
+    );
+  }
+
+  // ── MOSQUE / MAP DIRECTIONS EVENT ───────────────────────────
+  Future<void> trackMosqueNavigation({
+    required String mosqueName,
+    required double distanceKm,
+  }) async {
+    await trackEvent('mosque_navigation_click', {
+      'mosque_name': mosqueName,
+      'distance_km': distanceKm,
+    });
+    await trackBehavior(
+      eventType: 'feature_click',
+      screen: 'home',
+      featureName: 'Nearest Mosque Navigation: $mosqueName',
+      metadata: {'mosqueName': mosqueName, 'distanceKm': distanceKm},
+    );
+  }
+
+  // ── PRAYER CHECK & METHOD EVENT ──────────────────────────────
+  Future<void> trackPrayerCheck({
+    required String prayerName,
+    String? city,
+  }) async {
+    await trackEvent('prayer_check', {
+      'prayer_name': prayerName,
+      'city': city ?? 'Current Location',
+    });
+    await trackBehavior(
+      eventType: 'prayer_alarm',
+      screen: 'prayer_times',
+      featureName: 'Prayer Checked: $prayerName',
+      city: city,
+      metadata: {'prayer': prayerName},
+    );
+  }
+
+  // ── QURAN SURAH & AYAH EVENTS ────────────────────────────────
+  Future<void> trackQuranSurahOpen({
+    required int surahNumber,
+    required String surahName,
+  }) async {
+    await trackEvent('quran_surah_open', {
+      'surah_number': surahNumber,
+      'surah_name': surahName,
+    });
+    await trackBehavior(
+      eventType: 'quran_recite',
+      screen: 'quran_surah_$surahNumber',
+      featureName: 'Surah $surahName (#$surahNumber)',
+      metadata: {'surahNumber': surahNumber, 'surahName': surahName},
+    );
+  }
+
+  Future<void> trackAyahAudioPlay({
+    required int surahNumber,
+    required int ayahNumber,
+    String? reciter,
+  }) async {
+    await trackEvent('quran_audio_play', {
+      'surah_number': surahNumber,
+      'ayah_number': ayahNumber,
+      'reciter': reciter ?? 'Alafasy',
+    });
+    await trackBehavior(
+      eventType: 'quran_recite',
+      screen: 'quran_surah_$surahNumber',
+      featureName: 'Tilawat Play: Surah $surahNumber Ayah $ayahNumber ($reciter)',
+      metadata: {
+        'surahNumber': surahNumber,
+        'ayahNumber': ayahNumber,
+        'reciter': reciter,
+      },
+    );
+  }
+
+  // ── ZIYARAT VIEW EVENT ───────────────────────────────────────
+  Future<void> trackZiyaratView({
+    required String sanctuaryName,
+    required String city,
+    required String country,
+  }) async {
+    await trackEvent('ziyarat_view', {
+      'sanctuary': sanctuaryName,
+      'city': city,
+      'country': country,
+    });
+    await trackBehavior(
+      eventType: 'ziyarat_view',
+      screen: 'ziyarat_detail',
+      featureName: 'Ziyarat: $sanctuaryName ($city, $country)',
+      city: city,
+      country: country,
+      metadata: {'sanctuary': sanctuaryName},
+    );
+  }
+
+  // ── KIDS STORY READ EVENT ────────────────────────────────────
+  Future<void> trackKidsStoryRead({
+    required String storyId,
+    required String storyTitle,
+  }) async {
+    await trackEvent('kids_story_read', {
+      'story_id': storyId,
+      'story_title': storyTitle,
+    });
+    await trackBehavior(
+      eventType: 'feature_click',
+      screen: 'kids_stories',
+      featureName: 'Kids Story: $storyTitle',
+      metadata: {'storyId': storyId, 'storyTitle': storyTitle},
+    );
+  }
+
+  // ── TASBIH COUNTER EVENT ─────────────────────────────────────
+  Future<void> trackTasbihTap({
+    required int count,
+    String? dhikr,
+  }) async {
+    await trackEvent('tasbih_tap', {
+      'count': count,
+      'dhikr': dhikr ?? 'SubhanAllah',
+    });
+    await trackBehavior(
+      eventType: 'feature_click',
+      screen: 'duas_tasbih',
+      featureName: 'Tasbih Count: $count ($dhikr)',
+      metadata: {'count': count, 'dhikr': dhikr},
+    );
+  }
+
+  // ── DUA READ EVENT ───────────────────────────────────────────
+  Future<void> trackDuaRead({
+    required String duaTitle,
+    String? category,
+  }) async {
+    await trackEvent('dua_read', {
+      'dua_title': duaTitle,
+      'category': category ?? 'Daily',
+    });
+    await trackBehavior(
+      eventType: 'dua_read',
+      screen: 'duas_screen',
+      featureName: 'Dua Read: $duaTitle',
+      metadata: {'duaTitle': duaTitle, 'category': category},
+    );
+  }
+
+  // ── FESTIVAL VIEW EVENT ──────────────────────────────────────
+  Future<void> trackFestivalView({required String festivalTitle}) async {
+    await trackEvent('festival_view', {
+      'festival_title': festivalTitle,
+    });
+    await trackBehavior(
+      eventType: 'feature_click',
+      screen: 'home_festivals',
+      featureName: 'Festival Viewed: $festivalTitle',
+    );
+  }
+
+  // ── GENERIC FEATURE CLICK EVENT ──────────────────────────────
+  Future<void> trackFeatureClick({
+    required String featureName,
+    String? screen,
+    Map<String, dynamic>? metadata,
+  }) async {
+    await trackEvent('feature_click', {
+      'feature_name': featureName,
+      'screen': screen ?? 'app',
+      ...?metadata,
+    });
+    await trackBehavior(
+      eventType: 'feature_click',
+      screen: screen ?? 'app',
+      featureName: featureName,
+      metadata: metadata,
+    );
+  }
 }
 
 // Singleton

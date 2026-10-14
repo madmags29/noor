@@ -58,6 +58,7 @@ class AuthUser {
 
 class AuthNotifier extends AsyncNotifier<AuthUser?> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: _kGoogleClientId,
     scopes: ['email', 'profile'],
   );
 

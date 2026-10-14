@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../theme/app_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../data/duas_data.dart';
+import '../../services/analytics_service.dart';
 
 class DuasScreen extends StatefulWidget {
   const DuasScreen({super.key});
@@ -36,6 +37,12 @@ class _DuasScreenState extends State<DuasScreen> with SingleTickerProviderStateM
         _tasbihCount = 0;
       }
     });
+    try {
+      analytics.trackTasbihTap(
+        count: _tasbihCount,
+        dhikr: _activeTasbihDua?.title ?? 'SubhanAllah',
+      );
+    } catch (_) {}
   }
 
   void _resetTasbih() {
@@ -52,6 +59,12 @@ class _DuasScreenState extends State<DuasScreen> with SingleTickerProviderStateM
       _tasbihTarget = dua.targetCount > 0 ? dua.targetCount : 33;
       _tasbihCount = 0;
     });
+    try {
+      analytics.trackDuaRead(
+        duaTitle: dua.title,
+        category: dua.category,
+      );
+    } catch (_) {}
   }
 
   void _copyDua(DuaItem dua) {

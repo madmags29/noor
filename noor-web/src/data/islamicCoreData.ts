@@ -1108,6 +1108,38 @@ export const PROPHET_STORIES: ProphetStory[] = [
     title: 'The Mercy to All the Worlds',
     moralLesson: 'Kindness, honesty, and forgiveness are the most powerful ways to change the world.',
     kidStory: 'Prophet Muhammad ﷺ was known as Al-Ameen (The Trustworthy) even before receiving the Quran in Cave Hira through Angel Jibril. He loved children, smiled often, helped orphans, and fed the hungry. When he conquered Makkah peacefully, he forgave all who had wronged him, showing the entire world what true divine mercy looks like.'
+  },
+  {
+    id: 'musa',
+    name: 'Prophet Musa',
+    arabicName: 'مُوسَى عَلَيْهِ السَّلَام',
+    title: 'The Parting of the Red Sea & Unshakable Courage',
+    moralLesson: 'Never panic in tough times. When you trust in Allah, doors open even through crashing waves.',
+    kidStory: 'Prophet Musa stood brave before Pharaoh, inviting him to justice and kindness. When trapped between Pharaoh\'s army and the crashing waves of the Red Sea, Musa declared: "Indeed with me is my Lord; He will guide me!" Allah commanded him to strike the sea with his staff, splitting the water into towering pathways for all believers to cross safely.'
+  },
+  {
+    id: 'yusuf',
+    name: 'Prophet Yusuf',
+    arabicName: 'يُوسُف عَلَيْهِ السَّلَام',
+    title: 'From the Well to Kingdom & The Supreme Forgiveness',
+    moralLesson: 'Never repay cruelty with anger. Forgiving those who hurt you brings honor and peace.',
+    kidStory: 'Thrown into a deep desert well by jealous brothers, young Yusuf kept complete faith in Allah through years of patience and tests in Egypt. When he rose to become the royal treasurer and his starving brothers stood before him in fear, Yusuf forgave them completely with tears of mercy: "No blame upon you today; Allah will forgive you."'
+  },
+  {
+    id: 'sulayman',
+    name: 'Prophet Sulayman',
+    arabicName: 'سُلَيْمَان عَلَيْهِ السَّلَام',
+    title: 'The Great King Who Listened to the Little Ant',
+    moralLesson: 'True greatness is being gentle to the small and weak, and thanking Allah for every blessing.',
+    kidStory: 'Prophet Sulayman commanded armies, winds, and birds. Yet marching with thousands of soldiers, he heard a tiny queen ant tell her colony to take cover so they would not be crushed. Sulayman smiled with wonder, halted his mighty army, and praised Allah for enabling him to protect the smallest creatures.'
+  },
+  {
+    id: 'abdul-qadir',
+    name: 'Young Abdul Qadir Gilani',
+    arabicName: 'الشَّيْخ عَبْدُ الْقَادِرِ الْجِيلَانِيّ',
+    title: 'The Forty Gold Coins & Mother\'s Promise of Truth',
+    moralLesson: 'Always speak the truth, even when afraid. Honesty has a miraculous power to inspire goodness.',
+    kidStory: 'Traveling to seek sacred knowledge, young Abdul Qadir carried 40 gold coins sewn in his coat with a solemn promise to his mother never to tell a lie. When highway bandits ambushed the caravan, he truthfully admitted having the coins. Amazed by his devotion to truth, the bandit chief wept and repented along with his entire gang.'
   }
 ];
 

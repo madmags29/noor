@@ -8,6 +8,9 @@ import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
 import '../force_update_dialog.dart';
 
+import 'package:flutter/services.dart';
+import '../exit_app_bottom_sheet.dart';
+
 class MainShell extends StatefulWidget {
   final Widget child;
 
@@ -61,13 +64,31 @@ class _MainShellState extends State<MainShell> {
     }
   }
 
+  Future<void> _handleBackPress() async {
+    final location = GoRouterState.of(context).uri.path;
+    if (location != '/') {
+      context.go('/');
+    } else {
+      final shouldExit = await ExitAppBottomSheet.show(context);
+      if (shouldExit == true) {
+        SystemNavigator.pop();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final currentIndex = _currentIndex(context);
 
-    return Scaffold(
-      body: widget.child,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _handleBackPress();
+      },
+      child: Scaffold(
+        body: widget.child,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(
@@ -122,6 +143,7 @@ class _MainShellState extends State<MainShell> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

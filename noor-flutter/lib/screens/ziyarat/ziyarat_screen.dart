@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../theme/app_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../data/ziyarat_data.dart';
+import '../../services/analytics_service.dart';
 
 class ZiyaratScreen extends StatefulWidget {
   const ZiyaratScreen({super.key});
@@ -19,7 +20,16 @@ class _ZiyaratScreenState extends State<ZiyaratScreen> {
   String _searchQuery = '';
   String _selectedRegion = 'All';
 
-  final List<String> _regions = ['All', 'Saudi Arabia / Hijaz', 'Levant / Palestine', 'Iraq / Mesopotamia', 'South Asia / India'];
+  final List<String> _regions = [
+    'All',
+    'Saudi Arabia / Hijaz',
+    'Levant / Palestine',
+    'Iraq / Mesopotamia',
+    'South Asia',
+    'Turkey & Central Asia',
+    'North Africa & Egypt',
+    'Iran',
+  ];
 
   Future<void> _launchMaps(double lat, double lng) async {
     final uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
@@ -29,6 +39,13 @@ class _ZiyaratScreenState extends State<ZiyaratScreen> {
   }
 
   void _showSanctuaryDetails(SanctuaryItem sanctuary) {
+    try {
+      analytics.trackZiyaratView(
+        sanctuaryName: sanctuary.name,
+        city: sanctuary.city,
+        country: sanctuary.country,
+      );
+    } catch (_) {}
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -364,10 +381,16 @@ class _ZiyaratScreenState extends State<ZiyaratScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: AppColors.emeraldPrimary.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppColors.emeraldPrimary.withValues(alpha: 0.3)),
+                      ),
                       child: Text(
-                        s.name,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.textWhite),
+                        s.region,
+                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.goldLight),
                       ),
                     ),
                     Text(
@@ -375,6 +398,11 @@ class _ZiyaratScreenState extends State<ZiyaratScreen> {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.goldLight),
                     ),
                   ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  s.name,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.textWhite),
                 ),
                 const SizedBox(height: 6),
                 Text(
@@ -402,14 +430,14 @@ class _ZiyaratScreenState extends State<ZiyaratScreen> {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       children: [
                         Text(
                           'View Guide',
                           style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.goldPrimary),
                         ),
-                        const SizedBox(width: 4),
-                        const Icon(Icons.arrow_forward, size: 14, color: AppColors.goldPrimary),
+                        SizedBox(width: 4),
+                        Icon(Icons.arrow_forward, size: 14, color: AppColors.goldPrimary),
                       ],
                     ),
                   ],

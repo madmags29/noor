@@ -6,6 +6,8 @@ class MuslimLogo extends StatelessWidget {
   final bool showText;
   final bool compactText;
   final bool showSubtitle;
+  final String? customTitle;
+  final String? customSubtitle;
 
   const MuslimLogo({
     super.key,
@@ -13,10 +15,15 @@ class MuslimLogo extends StatelessWidget {
     this.showText = true,
     this.compactText = false,
     this.showSubtitle = true,
+    this.customTitle,
+    this.customSubtitle,
   });
 
   @override
   Widget build(BuildContext context) {
+    final title = customTitle ?? (compactText ? "SALAM" : "NOOR-E-ILAHI");
+    final subtitle = customSubtitle ?? (compactText ? "سلام" : "نور إلهي");
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,13 +36,13 @@ class MuslimLogo extends StatelessWidget {
             borderRadius: BorderRadius.circular(size * 0.28),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFF59E0B).withOpacity(0.35),
+                color: const Color(0xFFF59E0B).withValues(alpha: 0.35),
                 blurRadius: size * 0.3,
                 spreadRadius: 0.5,
               ),
             ],
             border: Border.all(
-              color: const Color(0xFFF59E0B).withOpacity(0.6),
+              color: const Color(0xFFF59E0B).withValues(alpha: 0.6),
               width: 1.2,
             ),
           ),
@@ -71,7 +78,7 @@ class MuslimLogo extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                compactText ? "NOOR" : "NOOR-E-ILAHI",
+                title,
                 style: TextStyle(
                   fontSize: compactText ? (size * 0.48).clamp(13.0, 16.0) : (size * 0.42).clamp(12.0, 15.0),
                   fontWeight: FontWeight.w900,
@@ -81,9 +88,9 @@ class MuslimLogo extends StatelessWidget {
                 ),
               ),
               if (showSubtitle && !compactText)
-                const Text(
-                  "نور إلهي",
-                  style: TextStyle(
+                Text(
+                  subtitle,
+                  style: const TextStyle(
                     fontSize: 11,
                     color: AppColors.goldLight,
                     fontWeight: FontWeight.w700,
@@ -92,9 +99,9 @@ class MuslimLogo extends StatelessWidget {
                   ),
                 )
               else if (compactText)
-                const Text(
-                  "نور إلهي",
-                  style: TextStyle(
+                Text(
+                  subtitle,
+                  style: const TextStyle(
                     fontSize: 9.5,
                     color: AppColors.goldLight,
                     fontWeight: FontWeight.w600,

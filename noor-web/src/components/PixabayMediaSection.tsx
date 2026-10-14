@@ -25,11 +25,6 @@ export const PixabayMediaSection: React.FC = () => {
   const [previewItem, setPreviewItem] = useState<PixabayImageItem | PixabayVideoItem | null>(null);
 
   useEffect(() => {
-    // Skip initial network fetch if using default photos query (FALLBACK_IMAGES already loaded)
-    if (mediaType === 'photos' && searchQuery === 'islamic architecture') {
-      return;
-    }
-
     let isMounted = true;
     setLoading(true);
 
@@ -54,7 +49,7 @@ export const PixabayMediaSection: React.FC = () => {
     return () => { isMounted = false; };
   }, [mediaType, searchQuery]);
 
-  const presetQueries = ['Makkah', 'Madinah', 'Holy Quran', 'Mosque', 'Islamic Geometric Pattern', 'Calligraphy'];
+  const presetQueries = ['Makkah', 'Madinah', 'Holy Quran', 'Mosque', 'Islamic Architecture', 'Calligraphy', 'Ramadan Crescent'];
 
   return (
     <section id="media-gallery" className="w-full py-16 px-4 lg:px-8 max-w-7xl mx-auto">

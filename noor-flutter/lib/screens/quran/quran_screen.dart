@@ -13,6 +13,7 @@ import '../../theme/app_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/language_provider.dart';
 import '../../data/quran_data.dart';
+import '../../services/analytics_service.dart';
 
 class QuranScreen extends ConsumerStatefulWidget {
   const QuranScreen({super.key});
@@ -75,6 +76,13 @@ class _QuranScreenState extends ConsumerState<QuranScreen> with SingleTickerProv
       _playingAyahNumber = null;
     });
 
+    try {
+      analytics.trackQuranSurahOpen(
+        surahNumber: surah.number,
+        surahName: surah.englishName,
+      );
+    } catch (_) {}
+
     final verses = await fetchSurahVerses(surah.number);
     if (mounted) {
       setState(() {
@@ -109,6 +117,14 @@ class _QuranScreenState extends ConsumerState<QuranScreen> with SingleTickerProv
         _playingAyahNumber = ayah.number;
         _isPlaying = true;
       });
+
+      try {
+        analytics.trackAyahAudioPlay(
+          surahNumber: _activeSurah!.number,
+          ayahNumber: ayah.number,
+          reciter: _selectedReciter,
+        );
+      } catch (_) {}
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -133,6 +149,14 @@ class _QuranScreenState extends ConsumerState<QuranScreen> with SingleTickerProv
         _playingAyahNumber = null;
         _isPlaying = true;
       });
+
+      try {
+        analytics.trackAyahAudioPlay(
+          surahNumber: _activeSurah!.number,
+          ayahNumber: 1,
+          reciter: _selectedReciter,
+        );
+      } catch (_) {}
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -467,7 +491,13 @@ class _QuranScreenState extends ConsumerState<QuranScreen> with SingleTickerProv
     final surah = _activeSurah!;
     final currentLang = _getEffectiveLangCode();
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        _closeSurah();
+      },
+      child: Scaffold(
       backgroundColor: AppColors.bgDark,
       appBar: AppBar(
         backgroundColor: AppColors.bgCard,
@@ -532,8 +562,9 @@ class _QuranScreenState extends ConsumerState<QuranScreen> with SingleTickerProv
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildLanguageRibbon(String currentLang) {
     final languages = [

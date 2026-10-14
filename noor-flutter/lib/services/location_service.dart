@@ -132,9 +132,57 @@ class LocationService {
               timeLimit: Duration(seconds: 4),
             ),
           );
+
+          String areaName = 'Current Location';
+          String countryName = 'Auto-Detected';
+
+          // Fast reverse-geocoding for exact user area / city
+          try {
+            final geoUri = Uri.parse(
+              'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.latitude}&longitude=${pos.longitude}&localityLanguage=en',
+            );
+            final geoRes = await http.get(geoUri).timeout(const Duration(seconds: 3));
+            if (geoRes.statusCode == 200) {
+              final geoData = jsonDecode(geoRes.body);
+              final locality = geoData['locality']?.toString();
+              final city = geoData['city']?.toString();
+              final principalSub = geoData['principalSubdivision']?.toString();
+              final country = geoData['countryName']?.toString();
+
+              if (locality != null && locality.trim().isNotEmpty) {
+                areaName = locality.trim();
+              } else if (city != null && city.trim().isNotEmpty) {
+                areaName = city.trim();
+              } else if (principalSub != null && principalSub.trim().isNotEmpty) {
+                areaName = principalSub.trim();
+              }
+
+              if (country != null && country.trim().isNotEmpty) {
+                countryName = country.trim();
+              }
+            }
+          } catch (_) {}
+
+          // Fallback to nearest world city if areaName not resolved
+          if (areaName == 'Current Location') {
+            MobileCity? closest;
+            double minDist = double.infinity;
+            for (final c in kWorldCities) {
+              final d = Geolocator.distanceBetween(pos.latitude, pos.longitude, c.lat, c.lng);
+              if (d < minDist) {
+                minDist = d;
+                closest = c;
+              }
+            }
+            if (closest != null && minDist < 60000) {
+              areaName = closest.city;
+              countryName = closest.country;
+            }
+          }
+
           final detected = MobileCity(
-            city: 'My Location',
-            country: 'GPS Detected',
+            city: areaName,
+            country: countryName,
             lat: pos.latitude,
             lng: pos.longitude,
             isAutoDetected: true,
@@ -154,8 +202,8 @@ class LocationService {
         final data = jsonDecode(res.body);
         if (data['success'] == true && data['latitude'] != null) {
           final detected = MobileCity(
-            city: data['city'] ?? 'Current City',
-            country: data['country'] ?? 'Detected',
+            city: (data['city'] ?? data['region'] ?? 'Current Location').toString(),
+            country: (data['country'] ?? 'Detected').toString(),
             lat: (data['latitude'] as num).toDouble(),
             lng: (data['longitude'] as num).toDouble(),
             utcOffset: data['timezone']?['offset'] != null

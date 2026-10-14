@@ -14,6 +14,7 @@ import 'providers/language_provider.dart';
 
 import 'services/notification_service.dart';
 import 'services/crash_reporting_service.dart';
+import 'widgets/islamic_preloader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,14 +68,7 @@ class NoorApp extends ConsumerWidget {
     return languageAsync.when(
       loading: () => const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          backgroundColor: Color(0xFF02120D),
-          body: Center(
-            child: CircularProgressIndicator(
-              color: Color(0xFFF59E0B),
-            ),
-          ),
-        ),
+        home: IslamicPreloader.fullScreen(),
       ),
       error: (_, __) => const MaterialApp(
         debugShowCheckedModeBanner: false,

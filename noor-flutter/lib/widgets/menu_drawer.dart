@@ -12,6 +12,8 @@ import '../theme/app_theme.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/muslim_logo.dart';
 import '../providers/auth_provider.dart';
+import 'package:flutter/services.dart';
+import 'exit_app_bottom_sheet.dart';
 
 class MenuDrawer extends ConsumerWidget {
   final VoidCallback onClose;
@@ -193,6 +195,12 @@ class MenuDrawer extends ConsumerWidget {
                           _navItem(context, "✉️", Icons.email_outlined, t.contact, "/contact"),
                           _navItem(context, "🔒", Icons.security_outlined, t.privacyPolicy, "/privacy"),
                           _navItem(context, "📄", Icons.description_outlined, t.termsOfService, "/terms"),
+                          _actionItem("🚪", Icons.exit_to_app_rounded, t.t('exitApp', 'Exit App'), () async {
+                            final shouldExit = await ExitAppBottomSheet.show(context);
+                            if (shouldExit == true) {
+                              SystemNavigator.pop();
+                            }
+                          }),
 
                           const SizedBox(height: 24),
                         ],
